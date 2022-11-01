@@ -20,12 +20,15 @@ PALETTE = [
     (188, 233, 49),
     ]
 
+
 def latex_template_path():
     from pathlib import Path
     return str((Path(__file__).parent / "../latex/template.tex").resolve())
 
+
 with open(latex_template_path(), 'r') as f:
     LATEX_TEMPLATE = f.read()
+
 
 def rgb(components):
     return r"{{rgb,1:red,{};green,{};blue,{}}}".format(
