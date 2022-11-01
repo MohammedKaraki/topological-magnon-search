@@ -24,7 +24,7 @@ def find_latticetype(msg_number):
 
         from pathlib import Path
         filename = str((Path(__file__).parent
-                        / "../../simple-tables/latticetype-spacegroupnumber.txt"
+                        / "../../data/latticetype-spacegroupnumber.txt"
                         ).resolve())
         with open(filename, 'r') as f:
             for line in f.readlines():

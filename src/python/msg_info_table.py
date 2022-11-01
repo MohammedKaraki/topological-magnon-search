@@ -8,7 +8,7 @@ def create_msg_info_table():
     from pathlib import Path
     TABLE_FILEPATH = \
         str((Path(__file__).parent
-             / "../../simple-tables/msgnumber_label_si_genpos.txt").resolve())
+             / "../../data/msgnumber_label_si_genpos.txt").resolve())
 
     result = {}
 
