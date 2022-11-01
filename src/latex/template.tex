@@ -1,0 +1,7 @@
+\documentclass{standalone} \usepackage{amsmath} \usepackage{amssymb, dsfont} \usepackage{mathtools} \usepackage{microtype} \usepackage{bm} \usepackage{xcolor} \usepackage{tikz} \pgfdeclarelayer{edgelayer} \pgfdeclarelayer{nodelayer} \pgfsetlayers{edgelayer,nodelayer,main}
+STYLE-CODE
+\begin{document} \tikzset{ single/.style args={#1 #2}{[ draw, line width=#2, #1, ]} } \tikzset{ dot/.style args={#1}{draw, draw opacity=.4, circle, minimum size=#1, inner sep=0, outer sep=0pt}, } \tikzset{ triple/.style args={#1 #2}{[ draw, line width=#2/5, #1, preaction={draw, line width=#2*3/5, white, preaction={draw, line width=#2, #1 }}]} } \tikzset{ quadruple/.style args={#1 #2}{[ draw, line width=#2/7, white, preaction={draw, line width=#2*3/7,#1, preaction={draw, line width=#2*5/7, white, preaction={draw, line width=#2,#1 }}}]} } \tikzset{ double/.style args={#1 #2}{[ draw, line width=#2/3, white, preaction={draw, line width=#2,#1, }]} } \begin{tikzpicture}[] \begin{pgfonlayer}{nodelayer}
+    NODE-LAYER-CODE
+  \end{pgfonlayer} \begin{pgfonlayer}{edgelayer}
+    EDGE-LAYER-CODE
+  \end{pgfonlayer} \end{tikzpicture} \end{document}

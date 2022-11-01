@@ -20,6 +20,12 @@ PALETTE = [
     (188, 233, 49),
     ]
 
+def latex_template_path():
+    from pathlib import Path
+    return str((Path(__file__).parent / "../latex/template.tex").resolve())
+
+with open(latex_template_path(), 'r') as f:
+    LATEX_TEMPLATE = f.read()
 
 def rgb(components):
     return r"{{rgb,1:red,{};green,{};blue,{}}}".format(
@@ -44,86 +50,20 @@ class LatexBoilerplate:
     def dump(style_code,
              nodes_code,
              edges_code):
-        print(
-r"""\documentclass{standalone}
-
-\usepackage{amsmath}
-\usepackage{amssymb, dsfont}
-\usepackage{mathtools}
-\usepackage{microtype}
-\usepackage{bm}
-\usepackage{xcolor}
-\usepackage{tikz}
-
-\pgfdeclarelayer{edgelayer}
-\pgfdeclarelayer{nodelayer}
-\pgfsetlayers{edgelayer,nodelayer,main}
-
-\tikzstyle{green}=[fill=green, draw={rgb,255: red,0; green,129; blue,0}, shape=circle, scale=.5]
-STYLE-CODE
-
-\begin{document}
-\tikzset{
-  single/.style args={#1 #2}{[
-    draw, line width=#2, #1,
-    ]}
-  }
-
-\tikzset{
-dot/.style args={#1}{draw, draw opacity=.4, circle, minimum size=#1,
-              inner sep=0, outer sep=0pt},
-}
-
-\tikzset{
-  triple/.style args={#1 #2}{[
-    draw, line width=#2/5, #1,
-    preaction={draw, line width=#2*3/5, white,
-    preaction={draw, line width=#2, #1
-    }}]}
-  }
-
-\tikzset{
-  quadruple/.style args={#1 #2}{[
-    draw, line width=#2/7, white,
-    preaction={draw, line width=#2*3/7,#1,
-    preaction={draw, line width=#2*5/7, white,
-    preaction={draw, line width=#2,#1
-    }}}]}
-  }
-
-\tikzset{
-  double/.style args={#1 #2}{[
-    draw, line width=#2/3, white,
-    preaction={draw, line width=#2,#1,
-    }]}
-  }
-
-  \centering
-  \begin{tikzpicture}[]
-  \begin{pgfonlayer}{nodelayer}
-    NODE-LAYER-CODE
-	\end{pgfonlayer}
-	\begin{pgfonlayer}{edgelayer}
-    %\draw[] (0,0) grid (15, 15);
-    % \draw[quadruple={red, 5}] [rounded corners](3,0) --  (4,0);
-    EDGE-LAYER-CODE
-	\end{pgfonlayer}
-\end{tikzpicture}
-\end{document}
-""" \
-    .replace(
-        r'STYLE-CODE',
-        "\n".join(style_code)
-        ) \
-    .replace(
-        r'EDGE-LAYER-CODE',
-        "\n".join(edges_code)
-        ) \
-    .replace(
-        r'NODE-LAYER-CODE',
-        "\n".join(nodes_code)
-        ) \
-    )
+        print(LATEX_TEMPLATE
+              .replace(
+                  r'STYLE-CODE',
+                  "\n".join(style_code)
+                  )
+              .replace(
+                  r'EDGE-LAYER-CODE',
+                  "\n".join(edges_code)
+                  )
+              .replace(
+                  r'NODE-LAYER-CODE',
+                  "\n".join(nodes_code)
+                  )
+              )
 
 
 class SuperMode:
