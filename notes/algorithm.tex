@@ -1,0 +1,571 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb,dsfont}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools}
+\usepackage[parfill]{parskip}
+\usepackage{siunitx}
+\usepackage{lipsum}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage[section]{placeins}
+
+\newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}}
+
+\begin{document}
+\title{Algorithmic Search for Type-I Topological Magnons}
+\maketitle
+
+\section{Ingredients}
+\section{Group-subgroup relations}
+Let $G$ and $G'\subset G$ be two magnetic space groups. In their corresponding standard settings, denote the conventional lattice vectors and the choice of origin by
+\begin{equation}
+  \{\bm{a}, \bm{b},\bm{c}; \bm{o}\}
+\end{equation} 
+and
+\begin{equation}
+  \{\bm{a}', \bm{b}',\bm{c}'; \bm{o}'\},
+\end{equation} 
+respectively. Additionally, define the 4\texttimes4 matrix
+\begin{equation}\label{sfMblocks}
+  \mathsf{M}=
+  \left(
+  \begin{array}{@{}c|c@{}}
+    \begin{matrix}
+      \phantom{0}&& \\
+      &M& \\
+      \phantom{0}&& 
+    \end{matrix}&\bm{\delta}\\
+    \hline
+    \begin{matrix}
+      0&0&0
+    \end{matrix}&1
+  \end{array}
+  \right)
+\end{equation} 
+that maps the standard setting of the group to that of the subgroup. More precisely, $\mathsf{M}$ is defined by the relation
+\begin{equation}\label{subgroupToGroupTranslations}
+  \left(
+  \begin{array}{@{}ccc|c@{}}
+    \bm{a}'&\bm{b}'&\bm{c}' &\bm{o}' \\
+    \hline
+      0&0&0&1
+  \end{array}
+  \right)
+  =
+  \left(
+  \begin{array}{@{}ccc|c@{}}
+      \bm{a}&\bm{b}&\bm{c}&\bm{o}\\
+    \hline
+      0&0&0&1
+  \end{array}
+  \right)
+  \mathsf{M}.
+\end{equation} 
+Therefore, for a general point expressed as
+\begin{align}
+  \bm{r} &= r_1\bm{a}+r_2\bm{b}+r_3\bm{c}+\bm{o}\\
+         &= r_1'\bm{a}'+r_2'\bm{b}'+r_3'\bm{c}'+\bm{o}',
+\end{align} 
+the mapping between the group and subgroup standard coordinates reads
+\begin{equation}
+  \begin{pmatrix}
+    r_1\\
+    r_2\\
+    r_3\\
+    1
+  \end{pmatrix}
+ =
+  \mathsf{M}
+  \begin{pmatrix}
+    r'_1\\
+    r'_2\\
+    r'_3\\
+    1
+  \end{pmatrix},
+\end{equation} 
+or equivalently,
+\begin{equation}
+  \begin{pmatrix}
+    r_1\\
+    r_2\\
+    r_3
+  \end{pmatrix}
+  =
+  M
+  \begin{pmatrix}
+    r'_1\\
+    r'_2\\
+    r'_3
+  \end{pmatrix}
+  +
+  \begin{pmatrix}
+    \delta_1\\
+    \delta_2\\
+    \delta_3
+  \end{pmatrix}.
+\end{equation} 
+
+Since the group (standard) reciprocal translation vectors ($\bm{a}^\star$, $\bm{b}^\star$, $\bm{c}^\star$) are defined by
+\begin{equation}
+  {\begin{pmatrix}
+    \bm{a}^\star& \bm{b}^\star & \bm{c}^\star\\
+  \end{pmatrix}}^{T}
+  \begin{pmatrix}
+    \bm{a}& \bm{b} & \bm{c}\\
+  \end{pmatrix}
+  =
+  \mathds{1}
+\end{equation} 
+(and similarly for the subgroup vectors), 
+the mapping of the reciprocal translation vectors from the group to the subgroup is obtained with
+\begin{equation}
+  \begin{pmatrix}
+    \bm{a}^{\star\prime}& \bm{b}^{\star\prime}& \bm{c}^{\star\prime}\\
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    \bm{a}^{\star}& \bm{b}^{\star}& \bm{c}^{\star}\\
+  \end{pmatrix}
+  {M^{-1}}^{T},
+\end{equation} 
+where $M$ is given in Eq.~\ref{sfMblocks}.
+
+Therefore, for any $k$-point
+\begin{align}
+  \bm{k}&=k_1\bm{a}^{\star}+k_2\bm{b}^{\star}+k_3\bm{c}^{\star}\\
+  &=k'_1\bm{a}^{\star\prime}+k'_2\bm{b}^{\star\prime}+k'_3\bm{c}^{\star\prime},
+\end{align} 
+the coordinates are mapped with
+\begin{equation}
+  \begin{pmatrix}
+    k_1\\
+    k_2\\
+    k_3
+  \end{pmatrix}
+  =
+  {M^{-1}}^{T}
+  \begin{pmatrix}
+    k'_1\\
+    k'_2\\
+    k'_3
+  \end{pmatrix}.
+\end{equation} 
+
+\subsection{Band representations: from the group to the subgroup}
+For a magnetic space group, a band representation can be specified by the counts of the little group irreducible representations arising at (eight or fewer) maximal high symmetry points in reciprocal space. Given a band representation of a magnetic space group $G$, we seek to the derive the band representation of a subgroup $G'\subset G$.
+
+To this end, it suffices to obtain a decomposition of the irreps of the little groups of $G$ into irreps of the little groups of $G'$, at the maximal $k$-points of $G'$. It is important to note that such a decomposition depends on the \emph{concrete} subgroup $G'$, and not only on its multiplication table. That is, two subgroups $G'_1,G'_2\subset G$ sharing the same magnetic space group number but having different \emph{standard} lattice translation vectors (as specified by $\mathsf{M}$ in Eq.~\ref{subgroupToGroupTranslations}) will generally have distinct decomposition tables. For example, the symmetry of a solid initially described by the magnetic space group symmetry $Pmmm~(47.249)$ will be to reduced to a subgroup labelled $P2/m~(10.42)$ upon the application of an external magnetic field along one of the \emph{inequivalent} directions $[100]$, $[010]$ and $[001]$. Despite having the same magnetic space group number, the three subgroups are in fact distinct groups, each with a different high symmetry axis and a distinct decomposition of the original group irreps.
+
+\subsection{Algorithm}
+\begin{itemize}
+  \item Input: Group $G$, Wyckoff Site $W$.
+  \item Algorithm:
+    \begin{enumerate}
+      \item for each maximal $\bm{k}$-vector of $G$, find the multiset $\mathtt{irreps}({\bm{k}})=\{\rho_{i,\bm{k}}\}$ consisting of the magnon band structure irreps at $\bm{k}$.
+      \item for each $G'\subset G$:
+        \begin{enumerate}
+          \item find a band structure basis $\{\bm{b}\}$ and the symmetry indicators $\{\mathrm{si}\}$ of $G'$.
+          \item find $d(\bm{k}'):\bm{k}'\mapsto{\{(\rho_{i,\bm{k}},{\{\rho'_{j,\bm{k}'}\}})\}}$, a map from a subgroup maximal vector $\bm{k}'$ to a set of superirreps at the corresponding supergroup maximal vector $\bm{k}$ and their decomposition at $\bm{k}'$.
+          \item for each $s\in S(\mathtt{irreps}(\bm{k}_{1}))\times S(\mathtt{irreps}(\bm{k}_{2}))\times\cdots$, where $S(\mathtt{irreps}(\bm{k}))$ is the set of all permutation sequences of magnon irreps at $\bm{k}$, do the following:
+            \begin{enumerate}
+              % \item Split $s$ into the sequence $\sigma_1,\sigma_2,\cdots$, where each $\sigma_i$ is composed of connected bands satisfying the compatibility relations
+              \item for each subgroup-maximal $\bm{k}'$
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\end{itemize}
+
+
+\subsection{Mapping $k$-labels from the subgroup to original group}
+A vector in reciprocal space can be written as
+\begin{equation}
+  \bm{k} =
+  \begin{pmatrix}
+    k^x\\
+    k^y\\
+    k^z
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    \bm{a}^\star&
+    \bm{b}^\star&
+    \bm{c}^\star
+  \end{pmatrix}
+  \begin{pmatrix}
+    k_1\\
+    k_2\\
+    k_3
+  \end{pmatrix}
+\end{equation} 
+where $(k^x,k^y,k^z)$ are Cartesian coordinates, and $(k_1,k_2,k_3)$ are coordinates in the basis of conventional reciprocal translations $(\bm{a}^\star,\bm{b}^\star,\bm{c}^\star)$. The latter are defined in terms of the conventional direct-space lattice translations $(\bm{a},\bm{b},\bm{c})$ as
+\begin{equation}
+  \begin{pmatrix}
+\bm{a}^\star&\bm{b}^\star&\bm{c}^\star
+  \end{pmatrix}
+={{\begin{pmatrix}
+    \bm{a}&\bm{b}&\bm{c}
+    \end{pmatrix}}^{-1} }^{T}.
+\end{equation}
+
+Under a rotation, the conventional coordinates $(k_1,k_2,k_3)$ generally transform by a non-orthogonal matrix, since $\bm{a}^\star,\bm{b}^\star$ and $\bm{c}^\star$ are not orthonormal, in general.
+
+
+Let $G$ and $G'$ be two magnetic space groups where $G'\subset G$, and denote by $(\bm{a},\bm{b},\bm{c})$ and $(\bm{a}',\bm{b}',\bm{c}')$ the corresponding conventional translations. The relation between the two sets of translation vectors is given by the 3\texttimes3 matrix $M$ defined by
+\begin{equation}
+  \begin{pmatrix}
+    \bm{a}'&\bm{b}'&\bm{c}'
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    \bm{a}&\bm{b}&\bm{c}
+  \end{pmatrix}
+  M.
+\end{equation} 
+\begin{equation}
+  \left(
+  \begin{array}{@{}c|c@{}}
+    \begin{matrix}
+      \phantom{0}&& \\
+      \bm{a}'&\bm{b}'&\bm{c}' \\
+      \phantom{0}&& 
+    \end{matrix}&\bm{o}'\\
+    \hline
+    \begin{matrix}
+      0&0&0
+    \end{matrix}&1
+  \end{array}
+  \right)
+  =
+  \left(
+  \begin{array}{@{}c|c@{}}
+    \begin{matrix}
+      \phantom{0}&& \\
+      \bm{a}&\bm{b}&\bm{c} \\
+      \phantom{0}&& 
+    \end{matrix}&\bm{o}\\
+    \hline
+    \begin{matrix}
+      0&0&0
+    \end{matrix}&1
+  \end{array}
+  \right)
+  \left(
+  \begin{array}{@{}c|c@{}}
+    \begin{matrix}
+      \phantom{0}&& \\
+      &M& \\
+      \phantom{0}&& 
+    \end{matrix}&\bm{\Delta}\\
+    \hline
+    \begin{matrix}
+      0&0&0
+    \end{matrix}&1
+  \end{array}
+  \right)
+\end{equation} 
+The reciprocal vectors of the original group and the subgroup are therefore related by
+\begin{equation}
+  \begin{pmatrix}
+    \bm{a}^{\star\prime}&\bm{b}^{\star\prime}&\bm{c}^{\star\prime}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    \bm{a}^\star&\bm{b}^\star&\bm{c}^\star
+  \end{pmatrix}
+  {M^{-1}}^{T}.
+\end{equation} 
+
+Using a conventional setting with translation vectors $(\bm{a},\bm{b},\bm{c})$ and origin $\bm{o}$, a site $\bm{r}=(r^x,r^y,r^z)$  reads
+\begin{equation}
+  \bm{r}=r_1 \bm{a}+r_2 \bm{b}+r_3 \bm{c}+\bm{o},
+\end{equation} 
+or, equivalently,
+\begin{equation}
+  \begin{pmatrix}
+    \bm{r}\\
+    1
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    r^x\\
+    r^y\\
+    r^z\\
+    1
+  \end{pmatrix}
+  =
+  \left(
+  \begin{array}{@{}ccc|c@{}}
+    \phantom{0}&&&\\
+    \bm{a}&
+    \bm{b}&
+    \bm{c}&
+    \bm{o}\\
+    \phantom{0}&&&\\
+    \hline
+    0&0&0&1
+  \end{array}
+  \right)
+  \begin{pmatrix}
+    r_1\\
+    r_2\\
+    r_3\\
+    1
+  \end{pmatrix},
+\end{equation} 
+a notation which can be more convenient for our purposes. For a crystal symmetry $g\in G$, the coordinates transform by
+\begin{equation}
+  g:\quad
+  \begin{pmatrix}
+    r_1\\
+    r_2\\
+    r_3\\
+    1
+  \end{pmatrix}
+  \mapsto
+  \left(
+  \begin{array}{@{}c|c@{}}
+    \begin{matrix}
+      \phantom{0} \\
+      R_g \\
+      \phantom{0} 
+    \end{matrix}&\bm{\delta}_g\\
+    \hline
+    \begin{matrix}
+      0&0&0
+    \end{matrix}&1
+  \end{array}
+  \right)
+  \begin{pmatrix}
+    r_1\\
+    r_2\\
+    r_3\\
+    1
+  \end{pmatrix}
+\end{equation}
+On the other hand, the subgroup coordinates $(r_1',r_2',r_3')$ transform by
+\begin{equation}
+  g:\quad
+  \begin{pmatrix}
+    r_1'\\
+    r_2'\\
+    r_3'\\
+    1
+  \end{pmatrix}
+  \mapsto
+  \left(
+  \begin{array}{@{}c|c@{}}
+    \begin{matrix}
+      \phantom{0} \\
+      R_g' \\
+      \phantom{0} 
+    \end{matrix}&\bm{\delta}'_g\\
+    \hline
+    \begin{matrix}
+      0&0&0
+    \end{matrix}&1
+  \end{array}
+  \right)
+  \begin{pmatrix}
+    r_1'\\
+    r_2'\\
+    r_3'\\
+    1
+  \end{pmatrix}
+\end{equation}
+where
+\begin{equation}
+  R'_g=M^{-1}R_g M.
+\end{equation} 
+Thus, the action of a symmetry element $g$ on $\bm{k}'$ with components written in the conventional basis of the subgroup reads
+\begin{equation}
+  g:\bm{k}'\mapsto{{(M^{-1}R_{g}M)}^{-1}}^{T}\bm{k}'
+\end{equation} 
+where $R_{g}$ is \emph{the} 3\texttimes3 matrix implementing the action of $g$ in \emph{direct space} in the conventional basis of the \emph{original} group.
+
+{\bf{\color{red}N\color{orange}o\color{green}t\color{blue}e\color{violet}:}}
+\begin{equation}
+  {\left(
+  \begin{array}{@{}c|c@{}}
+    \begin{matrix}
+      \phantom{0} \\
+      R \\
+      \phantom{0} 
+    \end{matrix}&\bm{\delta}\\
+    \hline
+    \begin{matrix}
+      0&0&0
+    \end{matrix}&1
+  \end{array}
+  \right)}^{-1}
+  =
+  \left(
+  \begin{array}{@{}c|c@{}}
+    \begin{matrix}
+      \phantom{0} \\
+      R^{-1} \\
+      \phantom{0} 
+    \end{matrix}&-R^{-1}\bm{\delta}\\
+    \hline
+    \begin{matrix}
+      0&0&0
+    \end{matrix}&1
+  \end{array}
+  \right)
+\end{equation}
+
+\subsection{Summary}
+
+\begin{equation}
+  \begin{pmatrix}
+    \bm{a}' & \bm{b}' & \bm{c}'
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    \bm{a} & \bm{b} & \bm{c}
+  \end{pmatrix}
+  M
+\end{equation} 
+
+\begin{equation}
+  \begin{pmatrix}
+    r_1\\
+    r_2\\
+    r_3
+  \end{pmatrix}
+  = M
+  \begin{pmatrix}
+    r'_1\\
+    r'_2\\
+    r'_3
+  \end{pmatrix}
+\end{equation} 
+\begin{equation}
+  \begin{pmatrix}
+    \bm{a}^{\star\prime} & \bm{b}^{\star\prime} & \bm{c}^{\star\prime}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    \bm{a}^{\star} & \bm{b}^{\star} & \bm{c}^{\star}
+  \end{pmatrix}
+  {M^{-1}}^{T}
+\end{equation} 
+
+\begin{equation}
+\begin{equation}
+  \begin{pmatrix}
+    k_1\\
+    k_2\\
+    k_3
+  \end{pmatrix}
+  = {M^{-1}}^{T}
+  \begin{pmatrix}
+    k'_1\\
+    k'_2\\
+    k'_3
+  \end{pmatrix}
+\end{equation} 
+
+\begin{equation}
+  g:\quad
+  \begin{pmatrix}
+    r_1\\
+    r_2\\
+    r_3
+  \end{pmatrix}
+  \mapsto R_{g}
+  \begin{pmatrix}
+    r_1\\
+    r_2\\
+    r_3
+  \end{pmatrix}
+\end{equation} 
+
+\begin{equation}
+  g:\quad
+  \begin{pmatrix}
+    r'_1\\
+    r'_2\\
+    r'_3
+  \end{pmatrix}
+  \mapsto M^{-1}R_{g}M
+  \begin{pmatrix}
+    r'_1\\
+    r'_2\\
+    r'_3
+  \end{pmatrix}
+\end{equation} 
+
+\begin{equation}
+  g:\quad
+  \begin{pmatrix}
+    k_1\\
+    k_2\\
+    k_3
+  \end{pmatrix}
+  \mapsto {{(R_{g})}^{-1}}^{T}
+  \begin{pmatrix}
+    k_1\\
+    k_2\\
+    k_3
+  \end{pmatrix}
+\end{equation} 
+
+\begin{equation}
+  g:\quad
+  \begin{pmatrix}
+    k'_1\\
+    k'_2\\
+    k'_3
+  \end{pmatrix}
+  \mapsto {{(M^{-1}R_{g}M)}^{-1}}^{T}
+  \begin{pmatrix}
+    k'_1\\
+    k'_2\\
+    k'_3
+  \end{pmatrix}
+\end{equation} 
+
+\subsection{Magnetic Space Group}
+\subsection{Example: TbFeO$_3$}
+\subsubsection{No perturbation}
+Without any perturbation, the magnetic space group is $Pn'ma'~(62.448)$ and the Wyckoff site is $4b$.
+\subsubsection{$\vec{B}\parallel[001]$}
+The group is reduced to $P2_1'/c'~(14.79)$ with real space translations
+\begin{equation}
+  \begin{pmatrix}
+    \pvec{a}'\\\pvec{b}'\\\pvec{c}'
+  \end{pmatrix}
+  =\begin{pmatrix}
+    &&1\\
+    1&&\\
+    &1&-1
+  \end{pmatrix}
+  \begin{pmatrix}
+    \vec{a}\\\vec{b}\\\vec{c}
+  \end{pmatrix}
+\end{equation} 
+and reciprocal space translations
+\begin{equation}
+  \begin{pmatrix}
+    \pvec{a}^{\star'}\\\pvec{b}^{\star'}\\\pvec{c}^{\star'}
+  \end{pmatrix}
+  =\begin{pmatrix}
+    &&1\\
+    1&&\\
+    &1&-1
+  \end{pmatrix}
+  \begin{pmatrix}
+    \pvec{a}^\star\\\pvec{b}^\star\\\pvec{c}^\star
+  \end{pmatrix}
+\end{equation} 
+\end{document}
