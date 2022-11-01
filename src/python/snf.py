@@ -25,5 +25,4 @@ def snf(mat, session=None):
 
     assert np.all(intinv(p) @ Sigma @ intinv(q) == mat)
 
-    # session.terminate()
     return p, Sigma, q
