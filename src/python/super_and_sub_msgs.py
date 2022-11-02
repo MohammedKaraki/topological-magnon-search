@@ -40,8 +40,9 @@ class SuperAndSubMsgs:
     def super_to_sub(self):
         return self._super_to_sub
 
-    def _superunitarygs_and_superk_from_subk(self, subkvector):
-        assert subkvector in self.sub_msg.kvectors
+
+    def subkvec_to_gs_and_superkvec(self, subkvec):
+        assert subkvec in self.sub_msg.kvectors
 
         super_primvecsmat = self.super_msg.primvecsmat
         def is_zero_mod_K(vec3):
@@ -49,7 +50,7 @@ class SuperAndSubMsgs:
                                   1.0), 0.0)
 
         subk_in_super_coords = \
-            np.linalg.inv(self.super_to_sub[:3, :3].T) @ subkvector.coords
+            np.linalg.inv(self.super_to_sub[:3, :3].T) @ subkvec.coords
         superunitaryg_and_superk_matches = [
             (superunitaryg, superk)
             for superk in self.super_msg.kvectors
@@ -69,14 +70,14 @@ class SuperAndSubMsgs:
         assert len(superk_matches) == 1
         return superunitaryg_matches, superk_matches[0]
 
-    def _irrep_decomp(self, subk):
-        superunitarygs, superk = self._superunitarygs_and_superk_from_subk(subk)
+    def _irrep_decomp(self, subkvec):
+        superunitarygs, superk = self.subkvec_to_gs_and_superkvec(subkvec)
 
         logger.warning("Arbitrary choice here")
         superg = superunitarygs[0]
 
         char_rows = []
-        for gprime in self.sub_msg.char_table(subk).unitary_gs:
+        for gprime in self.sub_msg.char_table(subkvec).unitary_gs:
             g = UnitaryGenpos(
                 self.super_to_sub
                 @ gprime.mat4x4
@@ -94,10 +95,10 @@ class SuperAndSubMsgs:
 
 
         supermat = np.array(char_rows)
-        submat = self.sub_msg.char_table(subk).char_matrix
+        submat = self.sub_msg.char_table(subkvec).char_matrix
 
         super_labels = self.super_msg.char_table(superk).irrep_labels
-        sub_labels = self.sub_msg.char_table(subk).irrep_labels
+        sub_labels = self.sub_msg.char_table(subkvec).irrep_labels
 
         def inv_diagonal(diag_mat):
             assert np.allclose(np.diag(np.diag(diag_mat)), diag_mat)
@@ -134,8 +135,7 @@ class SuperAndSubMsgs:
         self._subkvec_to_superirrep_to_subirreps = {}
 
         for subkvec in self.sub_msg.kvectors:
-            _, superkvec = self._superunitarygs_and_superk_from_subk(
-                subkvec)
+            _, superkvec = self.subkvec_to_gs_and_superkvec(subkvec)
 
             if subkvec not in self._subkvec_to_superirrep_to_subirreps:
                 self._subkvec_to_superirrep_to_subirreps[subkvec] = {}
