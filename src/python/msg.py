@@ -125,7 +125,6 @@ class Msg:
 
         Uinv, sigma, V = snf(ebrs_matrix, session)
         U = intinv(Uinv)
-        print(sigma)
 
         num_bs = len([1 for x in np.diag(sigma) if x != 0])
         assert np.all(np.diag(sigma)[:num_bs] >= 1)
