@@ -124,8 +124,9 @@ class LittleIrrep:
         return hash(tuple(sorted(self.__dict__.items())))
 
     def __repr__(self):
-        return r'({}, dim: {}, k: {})'.format(
-            self.label, self.dim, self.ksymbol)
+        return self.as_str()
+        # return r'({}, dim: {}, k: {})'.format(
+        #     self.label, self.dim, self.ksymbol)
 
     def __str__(self):
         return self.__repr__()
