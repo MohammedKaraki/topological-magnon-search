@@ -20,9 +20,13 @@ def snf(mat, session=None):
 
     # logger.debug(mat)
     # session = WolframLanguageSession(kernel="/usr/local/bin/WolframKernel")
+    if not session.started:
+        session.start()
+
     p, Sigma, q = [np.array(x, dtype=int)
                    for x in session.evaluate(wl.SmithDecomposition(mat.tolist()))]
 
     assert np.all(intinv(p) @ Sigma @ intinv(q) == mat)
 
+    session.terminate()
     return p, Sigma, q
