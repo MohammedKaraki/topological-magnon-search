@@ -2,6 +2,7 @@ from msg import Msg
 from genpos import UnitaryGenpos
 from identify_group import identify_group
 import numpy as np
+from br import LittleIrrep
 
 import log
 logger = log.create_logger(__name__)
@@ -24,6 +25,9 @@ class SuperAndSubMsgs:
                     UnitaryGenpos.from_gstr(gstr)), \
                     gstr
 
+        self._superkvec_to_superirrep_to_subirreps = None
+        self._subkvec_to_superirrep_to_subirreps = None
+
     @property
     def super_msg(self):
         return self._super_msg
@@ -36,7 +40,7 @@ class SuperAndSubMsgs:
     def super_to_sub(self):
         return self._super_to_sub
 
-    def superunitarygs_and_superk_from_subk(self, subkvector):
+    def _superunitarygs_and_superk_from_subk(self, subkvector):
         assert subkvector in self.sub_msg.kvectors
 
         super_primvecsmat = self.super_msg.primvecsmat
@@ -65,8 +69,8 @@ class SuperAndSubMsgs:
         assert len(superk_matches) == 1
         return superunitaryg_matches, superk_matches[0]
 
-    def irrep_decomp(self, subk):
-        superunitarygs, superk = self.superunitarygs_and_superk_from_subk(subk)
+    def _irrep_decomp(self, subk):
+        superunitarygs, superk = self._superunitarygs_and_superk_from_subk(subk)
 
         logger.warning("Arbitrary choice here")
         superg = superunitarygs[0]
@@ -109,11 +113,61 @@ class SuperAndSubMsgs:
             supermat.T.conj() @ submat @ normalizer
             )
         result = [
-            (super_label,
-             [(sub_label, count) for sub_label, count in zip(sub_labels, count_row)
-              if count > 0]
+            (LittleIrrep(super_label),
+             [x for xs in
+              [[LittleIrrep(sub_label)] * count
+               for sub_label, count in zip(sub_labels, count_row)
+               ]
+              for x in xs
+              ]
              )
             for count_row, super_label in zip(decomp_mat, super_labels)
             ]
 
         return result
+
+    def _load_kvec_to_superirrep_to_subirreps(self):
+        assert self._superkvec_to_superirrep_to_subirreps is None
+        assert self._subkvec_to_superirrep_to_subirreps is None
+
+        self._superkvec_to_superirrep_to_subirreps = {}
+        self._subkvec_to_superirrep_to_subirreps = {}
+
+        for subkvec in self.sub_msg.kvectors:
+            _, superkvec = self._superunitarygs_and_superk_from_subk(
+                subkvec)
+
+            if subkvec not in self._subkvec_to_superirrep_to_subirreps:
+                self._subkvec_to_superirrep_to_subirreps[subkvec] = {}
+            if superkvec not in self._superkvec_to_superirrep_to_subirreps:
+                self._superkvec_to_superirrep_to_subirreps[superkvec] = {}
+
+
+            for superirrep, subirreps in self._irrep_decomp(subkvec):
+                assert sorted(subirreps) == subirreps
+
+                assert (superirrep not in
+                        self._subkvec_to_superirrep_to_subirreps[subkvec]
+                        )
+                self._subkvec_to_superirrep_to_subirreps[
+                    subkvec][superirrep] = subirreps
+
+                if superirrep not in \
+                        self._superkvec_to_superirrep_to_subirreps[superkvec]:
+                    self._superkvec_to_superirrep_to_subirreps[
+                        superkvec][superirrep] = []
+                self._superkvec_to_superirrep_to_subirreps[
+                    superkvec][superirrep].extend(
+                    subirreps)
+
+    @property
+    def superkvec_to_superirrep_to_subirreps(self):
+        if self._superkvec_to_superirrep_to_subirreps is None:
+            self._load_kvec_to_superirrep_to_subirreps()
+        return self._superkvec_to_superirrep_to_subirreps
+
+    @property
+    def subkvec_to_superirrep_to_subirreps(self):
+        if self._subkvec_to_superirrep_to_subirreps is None:
+            self._load_kvec_to_superirrep_to_subirreps()
+        return self._subkvec_to_superirrep_to_subirreps
