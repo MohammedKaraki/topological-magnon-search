@@ -69,8 +69,8 @@ def comp_rels(group_number, ksymbol):
                 .replace('flecha', '[to]')
                 .replace('oplus', '[oplus]')
                 )
-
             lhs, rhs = rel.split('[to]')
+            lhs = LittleIrrep(lhs)
 
             rhs_irreps = []
             for x in rhs.split('[oplus]'):
@@ -83,20 +83,20 @@ def comp_rels(group_number, ksymbol):
                     count = int(count_str)
                     assert count >= 2
 
-                rhs_irreps.extend([label] * count)
+                rhs_irreps.extend([LittleIrrep(label)] * count)
 
             # This assertion is really not important, and it might fail.
             # I put it here just for curiosity.
             assert rhs_irreps == sorted(rhs_irreps)
 
-            lhs_dim = dim_from_label(lhs)
-            rhs_dim = sum([dim_from_label(x) for x in rhs_irreps])
+            lhs_dim = lhs.dim
+            rhs_dim = sum([x.dim for x in rhs_irreps])
 
             assert lhs_dim >= 1
             assert lhs_dim == rhs_dim
 
             rhs_ksymbol_list = list(
-                set([LittleIrrep(x).ksymbol for x in rhs_irreps])
+                set([x.ksymbol for x in rhs_irreps])
                 )
             assert len(rhs_ksymbol_list) == 1
             rhs_ksymbol = rhs_ksymbol_list[0]
