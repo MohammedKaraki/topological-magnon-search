@@ -7,7 +7,7 @@ import log
 logger = log.create_logger(__name__)
 
 
-class SuperAndSub:
+class SuperAndSubMsgs:
 
     def __init__(self, super_msg, sub_msg_gstrs):
         assert isinstance(super_msg, Msg)
