@@ -1,7 +1,7 @@
 import numpy as np
 from latticetype import find_latticetype
 from re import fullmatch
-from mbandrep import kvectors_and_ebrs, fetch_wyckoff_br
+from mbandrep import kvectors_and_ebrs
 from genpos import UnitaryGenpos, fetch_unitary_gs, unitary_gstr_to_mat4x4
 from char_table import CharTable
 from kvector import KVector
@@ -436,10 +436,6 @@ class Msg:
         assert isinstance(self._tr_partners, dict)
 
         return self._tr_partners
-
-    def get_br(self, wyckoff_label, wyckoffirrep_label):
-        logger.warning("Should cache this")
-        return fetch_wyckoff_br(self.number, wyckoff_label, wyckoffirrep_label)
 
     def band_bs(self, band):
         assert isinstance(band, Band)

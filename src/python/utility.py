@@ -13,6 +13,16 @@ def find_unique(tag, subtag_name, attrs):
     return subtags[0]
 
 
+def cleanup_pointgroup_html(html):
+    return html \
+        .replace(r'<font style="text-decoration:overline;">', '[overline]') \
+        .replace(r'</font>', '') \
+        .replace(r'<sub>', '_{') \
+        .replace(r'</sub>', '}') \
+        .replace(r'<sup>', '^{') \
+        .replace(r'</sup>', '}')
+
+
 def cleanup_ebr_html(html):
     return html \
         .replace(r'<font size="5">↑</font>', '[uparrow]') \

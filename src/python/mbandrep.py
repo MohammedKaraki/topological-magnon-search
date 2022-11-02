@@ -1,8 +1,9 @@
 from cached_requests import cached_post
 from utility import contents_as_str, find_unique, cleanup_ebr_html
 from bs4 import BeautifulSoup as bs
-from re import fullmatch
-from utility import list_transpose, list_flatten_one_level
+from re import fullmatch, search
+from utility import list_transpose, list_flatten_one_level, \
+    cleanup_pointgroup_html
 from kvector import KVector
 from br import Br
 import numpy as np
@@ -123,6 +124,12 @@ def wyckoff_brs_parsed(group_number, wyckoff):
     html = wyckoff_brs_html(group_number, wyckoff)
     soup = bs(html, 'html5lib')
 
+    point_group = cleanup_pointgroup_html(search(
+        r'Magnetic point group isomorphic to the site-symmetry group of the '
+        'Wyckoff position: (.+)<br>\s+and unitary subgroup', html).group(1)
+                                          ) \
+        .replace('[overline]', '-')
+
     table = find_unique(soup,
                         'table',
                         attrs={'frame': 'box',
@@ -138,7 +145,7 @@ def wyckoff_brs_parsed(group_number, wyckoff):
 
     assert all(len(x) == len(rows[0]) for x in rows)
 
-    return rows
+    return point_group, rows
 
 
 class Wyckoff:
@@ -258,11 +265,12 @@ def kvectors_and_ebrs(group_number):
     return kvectors, ebrs_dict
 
 
-def fetch_wyckoff_br(group_number, wyckoff_label, wyckoffirrep_label):
+def fetch_wp_point_group_and_br(group_number, wyckoff_label):
     """Returns a dictionary from site irrep to br."""
 
+    point_group, rows = wyckoff_brs_parsed(group_number, wyckoff_label)
     table_rows = [x
-                 for x in wyckoff_brs_parsed(group_number, wyckoff_label)
+                 for x in rows
                  if x[0] in ("Data", "Header:Band-rep.")]
     assert len(table_rows) > 1
     assert table_rows[0][0] == "Header:Band-rep.", table_rows[0][0]
@@ -275,14 +283,14 @@ def fetch_wyckoff_br(group_number, wyckoff_label, wyckoffirrep_label):
     assert kpoints[0] == "GM:(0,0,0)"
     assert all(matches_momentum_label(x) for x in kpoints)
 
-    result = {}
+    brs = {}
     for row in table_cols[2:]:
         key = remove_uparrowG(row[0])
-        assert key not in result
+        assert key not in brs
 
-        result[key] = Br([LittleIrrep(label) for label in
+        brs[key] = Br([LittleIrrep(label) for label in
                           list_flatten_one_level(row[1:])])
 
-    assert all(type(br) is Br for br in result.values())
+    assert all(type(br) is Br for br in brs.values())
 
-    return result[wyckoffirrep_label]
+    return point_group, brs
