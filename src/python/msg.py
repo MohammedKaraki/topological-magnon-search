@@ -20,8 +20,6 @@ logger = log.create_logger(__name__)
 
 MSG_NUMBER_PATTERN = r'[0-9]+\.[0-9]+'
 
-from wolframclient.evaluation import WolframLanguageSession
-session = WolframLanguageSession()
 
 def is_valid_msg_number(val):
     return fullmatch(MSG_NUMBER_PATTERN, val) is not None
@@ -123,7 +121,7 @@ class Msg:
             for ebr in self.ebrs[wp].values()
             ]).T
 
-        Uinv, sigma, V = snf(ebrs_matrix, session)
+        Uinv, sigma, V = snf(ebrs_matrix)
         U = intinv(Uinv)
 
         num_bs = len([1 for x in np.diag(sigma) if x != 0])

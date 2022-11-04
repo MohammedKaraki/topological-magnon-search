@@ -1,6 +1,7 @@
-# from wolframclient.evaluation import WolframLanguageSession
+from wolframclient.evaluation import WolframLanguageSession
 from wolframclient.language import wl
 import numpy as np
+from joblib import Memory
 
 import log
 logger = log.create_logger(__name__)
@@ -15,13 +16,12 @@ def intinv(mat):
     return invmat
 
 
-def snf(mat, session=None):
+memory = Memory("/tmp")
+@memory.cache
+def snf(mat):
     assert mat.dtype == int
 
-    # logger.debug(mat)
-    # session = WolframLanguageSession(kernel="/usr/local/bin/WolframKernel")
-    if not session.started:
-        session.start()
+    session = WolframLanguageSession()
 
     p, Sigma, q = [np.array(x, dtype=int)
                    for x in session.evaluate(wl.SmithDecomposition(mat.tolist()))]
