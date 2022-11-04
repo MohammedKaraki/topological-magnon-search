@@ -53,3 +53,7 @@ class KVector:
     def __str__(self):
         return "{}:({},{},{})".format(self.symbol,
                                       *self.coords)
+
+    def as_tuple(self):
+        return (self.symbol,
+                "(" + ",".join([str(x) for x in self.coords]) + ")")
