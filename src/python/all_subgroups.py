@@ -17,7 +17,7 @@ def gstrs_and_presc_of_subgroups(msg):
     result = []
     for line in output.split('\n'):
         m = fullmatch(r'\?([^?]+)\? \?([^?]+)\?', line)
-        assert m is not None
+        assert m is not None, line
         result.append(m.groups())
 
     return result
