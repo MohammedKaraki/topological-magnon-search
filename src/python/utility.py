@@ -20,7 +20,9 @@ def cleanup_pointgroup_html(html):
         .replace(r'<sub>', '_{') \
         .replace(r'</sub>', '}') \
         .replace(r'<sup>', '^{') \
-        .replace(r'</sup>', '}')
+        .replace(r'</sup>', '}') \
+        .replace(r'<i>', '') \
+        .replace(r'</i>', '')
 
 
 def cleanup_ebr_html(html):
