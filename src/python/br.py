@@ -128,6 +128,9 @@ class LittleIrrep:
         # return r'({}, dim: {}, k: {})'.format(
         #     self.label, self.dim, self.ksymbol)
 
+    def as_tuple(self):
+        return (self.ksymbol, self.label, self.dim)
+
     def __str__(self):
         return self.__repr__()
 
