@@ -193,6 +193,48 @@ def unitary_gstr_to_mat4x4(input_str):
     return mat
 
 
+def antiunitary_gstr_to_mat4x4(input_str):
+    components = input_str.split(',')
+    assert len(components) == 4, components
+    assert components[3] == '-1', components[3]
+
+    l = [str_to_vec4(x) for x in components[:-1]]
+    l.append(np.array([Fraction(0),
+                       Fraction(0),
+                       Fraction(0),
+                       Fraction(1)
+                       ]))
+
+    mat = np.array(l)
+    assert input_str == mat4x4_to_antiunitary_gstr(mat)
+
+    return mat
+
+
+def is_antiunitary_gstr(gstr):
+    components = gstr.split(',')
+    assert len(components) == 4, components
+
+    if components[3] == '-1':
+        return True
+
+    assert components[3] == '+1'
+    return False
+
+
+def mat4x4_to_antiunitary_gstr(mat):
+    assert mat.shape == (4, 4)
+    assert np.all(mat[3] == np.array([Fraction(0),
+                                      Fraction(0),
+                                      Fraction(0),
+                                      Fraction(1)
+                                      ]))
+
+    parts = [vec4_to_str(v) for v in mat[:-1]]
+    parts.append('-1')
+    return ','.join(parts)
+
+
 def mat4x4_to_unitary_gstr(mat):
     assert mat.shape == (4, 4)
     assert np.all(mat[3] == np.array([Fraction(0),
