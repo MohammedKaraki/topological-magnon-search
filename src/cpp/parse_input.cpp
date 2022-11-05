@@ -9,6 +9,7 @@
 #include <Eigen/Core>
 
 #include "spectrum_data.hpp"
+#include "entities.hpp"
 
 using json = nlohmann::json;
 
@@ -70,11 +71,13 @@ static void from_json(const json& j, SpectrumData& data)
   j["super_msg_number"].get_to(data.super_msg.number);
   j["super_msg_irreps"].get_to(data.super_msg.irreps);
   j["superirrep_to_dim"].get_to(data.super_msg.irrep_to_dim);
+  j["superirrep_to_k"].get_to(data.super_msg.irrep_to_k);
 
   j["sub_msg_label"].get_to(data.sub_msg.label);
   j["sub_msg_number"].get_to(data.sub_msg.number);
   j["sub_msg_irreps"].get_to(data.sub_msg.irreps);
   j["subirrep_to_dim"].get_to(data.sub_msg.irrep_to_dim);
+  j["subirrep_to_k"].get_to(data.sub_msg.irrep_to_k);
 
   j["super_msg_ks"].get_to(data.super_msg.ks);
   j["sub_msg_ks"].get_to(data.sub_msg.ks);
