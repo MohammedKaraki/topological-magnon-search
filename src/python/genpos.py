@@ -132,13 +132,13 @@ def letter_to_vec4(letter):
     return vec4
 
 
-def str_to_vec4(input):
+def str_to_vec4(input_str):
     PART_PATTERN = r'([-+])([0-9]+)?([xyz])?(/([0-9]+))?'
     FULL_PATTERN = r'(([-+])((([0-9]+)?([xyz])(/([0-9]+))?)' \
         + r'|(([0-9]+)(/([0-9]+))?)))+'
 
-    s = input
-    assert len(input) > 0
+    s = input_str
+    assert len(input_str) > 0
     if s[0] != '-':
         s = '+' + s
     assert fullmatch(FULL_PATTERN, s) is not None, s
@@ -170,13 +170,13 @@ def str_to_vec4(input):
 
         vec4_result += vec4_term
 
-    reproduced_input = vec4_to_str(vec4_result)
-    assert reproduced_input == input, (input, reproduced_input)
+    reproduced_input_str = vec4_to_str(vec4_result)
+    assert reproduced_input_str == input_str, (input_str, reproduced_input_str)
     return vec4_result
 
 
-def unitary_gstr_to_mat4x4(input):
-    components = input.split(',')
+def unitary_gstr_to_mat4x4(input_str):
+    components = input_str.split(',')
     assert len(components) == 4, components
     assert components[3] == '+1', components[3]
 
@@ -188,7 +188,7 @@ def unitary_gstr_to_mat4x4(input):
                        ]))
 
     mat = np.array(l)
-    assert input == mat4x4_to_unitary_gstr(mat)
+    assert input_str == mat4x4_to_unitary_gstr(mat)
 
     return mat
 
