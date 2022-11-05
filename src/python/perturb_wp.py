@@ -81,10 +81,18 @@ def main():
         irrep.label: irrep.dim
         for irrep in [LittleIrrep(x) for x in msgs.super_msg.irrep_labels]
         }
+    output["superirrep_to_k"] = {
+        irrep.label: irrep.ksymbol
+        for irrep in [LittleIrrep(x) for x in msgs.super_msg.irrep_labels]
+        }
     output["sub_msg_irreps"] = [LittleIrrep(x).label
                                 for x in msgs.sub_msg.irrep_labels]
     output["subirrep_to_dim"] = {
         irrep.label: irrep.dim
+        for irrep in [LittleIrrep(x) for x in msgs.sub_msg.irrep_labels]
+        }
+    output["subirrep_to_k"] = {
+        irrep.label: irrep.ksymbol
         for irrep in [LittleIrrep(x) for x in msgs.sub_msg.irrep_labels]
         }
 
