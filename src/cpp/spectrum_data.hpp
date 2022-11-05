@@ -11,6 +11,7 @@
 
 namespace TopoMagnon {
 
+class Bag;
 
 using IntMatrix = Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic>;
 
@@ -48,15 +49,24 @@ struct SpectrumData {
   IntMatrix comp_rels_matrix;
   std::vector<int> si_orders;
   IntMatrix si_matrix;
-
   std::map<std::string,
     std::map<std::string, std::vector<std::string>>>
       subk_to_superirrep_to_subirreps;
 
   std::map<std::string, std::vector<std::string>> superirrep_to_all_subirreps;
+
+  std::vector<Bag> unique_bags;
+
+public:
+
+  int bag_to_idx(const Bag& bag) const;
+  // {
+  //   return Utility::find_unique_index(unique_bags, bag);
+  // }
+
 };
 
-}
+} // namespace TopoMagnon
 
 std::istream& operator>>(std::istream& in, TopoMagnon::SpectrumData& s);
 
