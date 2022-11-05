@@ -237,7 +237,7 @@ class Msg:
 
         for h in self.unitary_gs:
             if (np.all(h.mat4x4[:3, :3] == g.mat4x4[:3, :3])
-                    and np.all(np.fmod(
+                    and np.all(np.mod(
                         primvecsmat_inv
                         @ (h.mat4x4[:3, 3]-g.mat4x4[:3, 3]).astype(float),
                         1.0) == 0.0)):
@@ -316,7 +316,7 @@ class Msg:
         def unitaryg_and_trkvector():
 
             def is_zero_mod_K(vec3):
-                return np.allclose(np.fmod(self.primvecsmat.T
+                return np.allclose(np.mod(self.primvecsmat.T
                                            @ vec3.astype(float),
                                            1.0), 0.0)
 
