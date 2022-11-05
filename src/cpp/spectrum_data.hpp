@@ -7,8 +7,10 @@
 #include <map>
 #include <Eigen/Core>
 
+#include "utility.hpp"
 
 namespace TopoMagnon {
+
 
 using IntMatrix = Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic>;
 
@@ -31,6 +33,15 @@ struct SpectrumData {
 
     IntMatrix make_br_vec(const std::vector<std::string>& br_irreps);
     int sum_dim(const std::vector<std::string>& irreps);
+
+  public:
+    int irrep_to_idx(const std::string irrep) const {
+      return Utility::find_unique_index(irreps, irrep);
+    }
+
+    int k_to_idx(const std::string k) const {
+      return Utility::find_unique_index(ks, k);
+    }
   } super_msg, sub_msg;
 
   std::vector<std::string> band_super_irreps, band_sub_irreps;
