@@ -3,7 +3,6 @@
 #include <string>
 #include <utility>
 #include <cassert>
-#include <fmt/format.h>
 
 #include "spectrum_data.hpp"
 #include "entities.hpp"
@@ -30,16 +29,16 @@ const Bag& Supermode::get_bag(const SpectrumData& data) const
 Superband::Superband(const std::vector<std::string>& superirreps,
                      const SpectrumData& data)
 {
-  fixedk_supermodes.resize(data.super_msg.ks.size());
+  k_idx_to_e_idx_to_supermodes.resize(data.super_msg.ks.size());
 
   for (const auto& superirrep : superirreps) {
     const auto k = data.super_msg.irrep_to_k.at(superirrep);
     const auto k_idx = data.super_msg.k_to_idx(k);
-    fixedk_supermodes[k_idx].energy_idx_to_supermode.push_back(
-      Supermode(superirrep, data)
-      );
-    std::sort(fixedk_supermodes[k_idx].energy_idx_to_supermode.begin(),
-              fixedk_supermodes[k_idx].energy_idx_to_supermode.end()
+
+    k_idx_to_e_idx_to_supermodes[k_idx].push_back(Supermode(superirrep, data));
+
+    std::sort(k_idx_to_e_idx_to_supermodes[k_idx].begin(),
+              k_idx_to_e_idx_to_supermodes[k_idx].end()
              );
   }
 }
@@ -47,11 +46,6 @@ Superband::Superband(const std::vector<std::string>& superirreps,
 std::ostream& operator<<(std::ostream& out, const Bag& b)
 {
   return out << b.as_sorted_vector();
-}
-
-std::ostream& operator<<(std::ostream& out, const FixedkSupermodes& f)
-{
-  return out << f.energy_idx_to_supermode;
 }
 
 } // namespace TopoMagnon

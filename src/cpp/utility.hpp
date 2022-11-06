@@ -23,7 +23,20 @@ std::size_t find_unique_index(const std::vector<T>& elems,
   return std::distance(elems.begin(), it);
 }
 
+template<typename Vecs>
+bool cartesian_permute(Vecs& vecs)
+{
+  for (auto& vec : vecs)
+  {
+    if (std::next_permutation(vec.begin(), vec.end())) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 } // namespace Utility
 } // namespace TopoMagnon
 
-#endif // OSTREAM_UTILITY_HPP
+#endif // UTILITY_HPP
