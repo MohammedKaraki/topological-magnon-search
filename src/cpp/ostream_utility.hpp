@@ -14,6 +14,12 @@ struct SpectrumData;
 
 std::ostream& print_indent(std::ostream& out, int N);
 
+template<typename A, typename B>
+std::ostream& operator<<(std::ostream& out, const std::pair<A, B>& pair)
+{
+  return out << '(' << pair.first << ", " << pair.second << ')';
+}
+
 template<typename T>
 std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
 {
@@ -21,7 +27,6 @@ std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
   if (v.empty()) {
     return out << ']';
   }
-
 
   out << v.front();
 
@@ -35,7 +40,6 @@ std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
 
   return out << ']';
 }
-
 
 template<typename T>
 std::ostream& print(std::ostream& out,

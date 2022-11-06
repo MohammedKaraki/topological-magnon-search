@@ -12,13 +12,32 @@
 
 namespace TopoMagnon {
 
+
+Bag::Bag(const std::string& superirrep, const SpectrumData& data)
+{
+  const auto& subirreps = data.superirrep_to_all_subirreps.at(superirrep);
+
+  for (const auto& subirrep : subirreps) {
+
+    const auto subk = data.sub_msg.irrep_to_k.at(subirrep);
+    const auto subk_idx = data.sub_msg.k_to_idx(subk);
+    const auto subirrep_idx = data.sub_msg.irrep_to_idx(subirrep);
+
+    subk_idx_and_subirrep_idx_pairs.emplace_back(
+      std::pair{subk_idx, subirrep_idx}
+      );
+  }
+
+  std::sort(subk_idx_and_subirrep_idx_pairs.begin(),
+            subk_idx_and_subirrep_idx_pairs.end()
+           );
+}
+
 Supermode::Supermode(const std::string& superirrep,
                      const SpectrumData& data)
 {
   superirrep_idx = data.super_msg.irrep_to_idx(superirrep);
-  bag_idx = data.bag_to_idx(
-    Bag(data.superirrep_to_all_subirreps.at(superirrep))
-    );
+  bag_idx = data.bag_to_idx(Bag(superirrep, data));
 }
 
 const Bag& Supermode::get_bag(const SpectrumData& data) const
@@ -45,7 +64,7 @@ Superband::Superband(const std::vector<std::string>& superirreps,
 
 std::ostream& operator<<(std::ostream& out, const Bag& b)
 {
-  return out << b.as_sorted_vector();
+  return out << b.subk_idx_and_subirrep_idx_pairs;
 }
 
 } // namespace TopoMagnon

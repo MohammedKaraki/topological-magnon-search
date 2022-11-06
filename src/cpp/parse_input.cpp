@@ -126,9 +126,7 @@ static void from_json(const json& j, SpectrumData& data)
   }
 
   for (const auto& [superirrep, subirreps] : data.superirrep_to_all_subirreps) {
-    data.unique_bags.emplace_back(
-      data.superirrep_to_all_subirreps.at(superirrep)
-      );
+    data.unique_bags.emplace_back(superirrep, data);
   }
   std::sort(data.unique_bags.begin(),
             data.unique_bags.end());

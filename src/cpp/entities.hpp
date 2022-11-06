@@ -16,47 +16,21 @@ namespace TopoMagnon {
 
 struct SpectrumData;
 
-// An irrep of subgroup
-class Cluster {
-public:
-  Cluster(std::string label) : label{std::move(label)}
-  { }
-
-  auto operator<=>(const Cluster& rhs) const = default;
-
-  friend std::ostream& operator<<(std::ostream& out, const Cluster& c)
-  {
-    return out << c.label;
-  }
-
-private:
-  std::string label;
-};
 
 // Decomposition of an irrep of supergroup into irreps of subgroup at all
 // subgroup-distinct momenta belonging to the supergroup momentum star
 class Bag {
 public:
-  Bag(const std::vector<std::string>& subirreps)
-  {
-    for (const auto& subirrep : subirreps) {
-      clusters.insert(subirrep);
-    }
-  }
+
+  Bag(const std::string& superirrep,
+      const SpectrumData& data);
 
   auto operator<=>(const Bag& rhs) const = default;
 
-  std::vector<Cluster> as_sorted_vector() const
-  {
-    auto result = std::vector(clusters.begin(), clusters.end());
-    assert(std::is_sorted(result.begin(), result.end()));
-    return result;
-  }
-
   friend std::ostream& operator<<(std::ostream& out, const Bag& b);
 
-private:
-  std::multiset<Cluster> clusters;
+public:
+  std::vector<std::pair<int, int>> subk_idx_and_subirrep_idx_pairs;
 };
 
 // Use integer *references* to superirrep and bag, rather than the objects
@@ -86,7 +60,8 @@ public:
 
 private:
   int superirrep_idx;
-  int bag_idx;
+  int bag_idx; // Can be inferred from superirrep_idx, but used here
+               // to speed up operator<() which lives in a tight loop
 };
 
 
