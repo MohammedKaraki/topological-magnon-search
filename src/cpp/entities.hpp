@@ -7,6 +7,10 @@
 #include <utility>
 #include <cassert>
 #include <fmt/format.h>
+#include <span>
+
+#include "ostream_utility.hpp"
+#include "utility.hpp"
 
 namespace TopoMagnon {
 
@@ -85,20 +89,22 @@ private:
   int bag_idx;
 };
 
-class FixedkSupermodes {
-public:
+// class FixedkSupermodes {
+// public:
+//
+//   friend std::ostream& operator<<(std::ostream& out, const FixedkSupermodes& f);
+//
+//   bool permute()
+//   {
+//     return std::next_permutation(energy_idx_to_supermode.begin(),
+//                                  energy_idx_to_supermode.end());
+//   }
+//
+// public:
+//   std::vector<Supermode> energy_idx_to_supermode;
+// };
 
-  friend std::ostream& operator<<(std::ostream& out, const FixedkSupermodes& f);
 
-  bool permute()
-  {
-    return std::next_permutation(energy_idx_to_supermode.begin(),
-                                 energy_idx_to_supermode.end());
-  }
-
-public:
-  std::vector<Supermode> energy_idx_to_supermode;
-};
 
 class Superband {
 
@@ -109,28 +115,16 @@ public:
 
   friend std::ostream& operator<<(std::ostream& out, const Superband& b)
   {
-    for (const auto& supermodes : b.fixedk_supermodes) {
-      out << supermodes << '\n';
-    }
-    return out;
+    return out << b.k_idx_to_e_idx_to_supermodes;
   }
 
   bool cartesian_permute()
   {
-    for (auto it = fixedk_supermodes.begin();
-         it != fixedk_supermodes.end();
-         ++it)
-    {
-      if (it->permute()) {
-        return true;
-      }
-    }
-
-    return false;
+    return Utility::cartesian_permute(k_idx_to_e_idx_to_supermodes);
   }
 
 public:
-  std::vector<FixedkSupermodes> fixedk_supermodes;
+  std::vector<std::vector<Supermode>> k_idx_to_e_idx_to_supermodes;
 };
 
 } // namespace TopoMagnon
