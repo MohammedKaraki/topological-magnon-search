@@ -91,7 +91,6 @@ private:
 
 
 class Superband {
-
 public:
 
   Superband(const std::vector<std::string>& superirreps,
@@ -99,16 +98,16 @@ public:
 
   friend std::ostream& operator<<(std::ostream& out, const Superband& b)
   {
-    return out << b.k_idx_to_e_idx_to_supermodes;
+    return out << b.k_idx_to_e_idx_to_supermode;
   }
 
   bool cartesian_permute()
   {
-    return Utility::cartesian_permute(k_idx_to_e_idx_to_supermodes);
+    return Utility::cartesian_permute(k_idx_to_e_idx_to_supermode);
   }
 
 public:
-  std::vector<std::vector<Supermode>> k_idx_to_e_idx_to_supermodes;
+  std::vector<std::vector<Supermode>> k_idx_to_e_idx_to_supermode;
 };
 
 } // namespace TopoMagnon

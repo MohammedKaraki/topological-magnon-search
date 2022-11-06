@@ -29,16 +29,16 @@ const Bag& Supermode::get_bag(const SpectrumData& data) const
 Superband::Superband(const std::vector<std::string>& superirreps,
                      const SpectrumData& data)
 {
-  k_idx_to_e_idx_to_supermodes.resize(data.super_msg.ks.size());
+  k_idx_to_e_idx_to_supermode.resize(data.super_msg.ks.size());
 
   for (const auto& superirrep : superirreps) {
     const auto k = data.super_msg.irrep_to_k.at(superirrep);
     const auto k_idx = data.super_msg.k_to_idx(k);
 
-    k_idx_to_e_idx_to_supermodes[k_idx].push_back(Supermode(superirrep, data));
+    k_idx_to_e_idx_to_supermode[k_idx].push_back(Supermode(superirrep, data));
 
-    std::sort(k_idx_to_e_idx_to_supermodes[k_idx].begin(),
-              k_idx_to_e_idx_to_supermodes[k_idx].end()
+    std::sort(k_idx_to_e_idx_to_supermode[k_idx].begin(),
+              k_idx_to_e_idx_to_supermode[k_idx].end()
              );
   }
 }
