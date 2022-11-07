@@ -58,12 +58,43 @@ public:
                              );
   }
 
-private:
+public:
   int superirrep_idx;
   int bag_idx; // Can be inferred from superirrep_idx, but used here
                // to speed up operator<() which lives in a tight loop
 };
 
+class Submode {
+public:
+  Submode(int subirrep_idx) : subirrep_idx{subirrep_idx}
+  { }
+
+  auto operator<=>(const Submode& rhs) const = default;
+
+  friend std::ostream& operator<<(std::ostream& out, const Submode& submode)
+  {
+    return out << fmt::format("(sub: {})", submode.subirrep_idx);
+  }
+
+public:
+  int subirrep_idx;
+};
+
+class Subband {
+public:
+
+  Vector4<Vector8<int>> dimvalid_e_idxs(const SpectrumData& data);
+
+  Vector32<short> make_br(
+    const Vector8<int>& e_idxs_beg,
+    const Vector8<int>& e_idxs_end,
+    const SpectrumData& data
+    );
+
+public:
+  Vector8<Vector16<Submode>> subk_idx_to_e_idx_to_submode;
+  Vector16<std::span<Submode>> all_submode_spans;
+};
 
 class Superband {
 public:
@@ -80,6 +111,8 @@ public:
   {
     return Utility::cartesian_permute(k_idx_to_e_idx_to_supermode);
   }
+
+  void populate_subband(Subband& subband, const SpectrumData& data);
 
 public:
   std::vector<std::vector<Supermode>> k_idx_to_e_idx_to_supermode;

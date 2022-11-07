@@ -2,12 +2,14 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <tuple>
+#include <numeric>
 #include <cassert>
 
+#include "utility.hpp"
 #include "spectrum_data.hpp"
 #include "entities.hpp"
 #include "ostream_utility.hpp"
-
 
 
 namespace TopoMagnon {
@@ -62,9 +64,132 @@ Superband::Superband(const std::vector<std::string>& superirreps,
   }
 }
 
+void Superband::populate_subband(Subband& subband, const SpectrumData& data)
+{
+  subband.subk_idx_to_e_idx_to_submode.resize(data.sub_msg.ks.size());
+
+  for (auto& e_idx_to_submode : subband.subk_idx_to_e_idx_to_submode) {
+    e_idx_to_submode.clear();
+  }
+
+  Vector8<Vector16<int>> subk_idx_to_span_sizes( data.sub_msg.ks.size());
+
+  for (const auto& e_idx_to_supermode : this->k_idx_to_e_idx_to_supermode) {
+    for (const auto& supermode : e_idx_to_supermode) {
+      const auto bag_idx = supermode.bag_idx;
+      const auto& bag = data.unique_bags[bag_idx];
+
+      for (auto& span_sizes : subk_idx_to_span_sizes)
+      {
+        span_sizes.push_back(0);
+      }
+
+      for (const auto& [subk_idx, subirrep_idx]
+           : bag.subk_idx_and_subirrep_idx_pairs)
+      {
+        subband.subk_idx_to_e_idx_to_submode[subk_idx].emplace_back(
+          subirrep_idx);
+
+        ++subk_idx_to_span_sizes[subk_idx].back();
+      }
+
+      for (auto& span_sizes : subk_idx_to_span_sizes)
+      {
+        if (span_sizes.back() == 0) {
+          span_sizes.pop_back();
+        }
+      }
+
+    }
+  }
+
+  subband.all_submode_spans.clear();
+
+  for (int subk_idx = 0;
+       subk_idx < static_cast<int>(subk_idx_to_span_sizes.size());
+       ++subk_idx)
+  {
+    auto next_begin_it = subband.subk_idx_to_e_idx_to_submode[subk_idx].begin();
+    for (const int span_size : subk_idx_to_span_sizes[subk_idx]) {
+      assert(span_size >= 1);
+
+      auto next_end_it = next_begin_it + span_size;
+      if (span_size >= 2) {
+        subband.all_submode_spans.push_back(std::span(next_begin_it,
+                                                      next_end_it
+                                                     )
+                                           );
+      }
+      next_begin_it = next_end_it;
+    }
+  }
+}
+
+
+Vector32<short> Subband::make_br(
+  const Vector8<int>& e_idxs_beg,
+  const Vector8<int>& e_idxs_end,
+  const SpectrumData& data
+  )
+{
+  Vector32<short> result(data.sub_msg.irreps.size(), 0);
+
+  for (unsigned i = 0; i < e_idxs_beg.size(); ++i) {
+    for (int j = e_idxs_beg[i]; j < e_idxs_end[i]; ++j) {
+      ++result[subk_idx_to_e_idx_to_submode[i][j].subirrep_idx];
+    }
+  }
+
+  return result;
+}
+
+
+Vector4<Vector8<int>>
+Subband::dimvalid_e_idxs(const SpectrumData& data)
+{
+  Vector4<Vector8<int>> result;
+
+  const auto num_ks = subk_idx_to_e_idx_to_submode.size();
+
+  Vector8<int> k_idx_to_accum(num_ks, 0);
+  Vector8<int> k_idx_to_cur_e_idx(num_ks, 0);
+
+  result.push_back(k_idx_to_cur_e_idx);
+
+  auto min_accum_it = k_idx_to_accum.begin();
+  auto max_accum_it = min_accum_it;
+  int min_accum_k_idx = 0;
+
+  while (k_idx_to_cur_e_idx[min_accum_k_idx]
+         < subk_idx_to_e_idx_to_submode[min_accum_k_idx].size()
+        )
+  {
+    *min_accum_it += data.sub_msg.dims[
+        subk_idx_to_e_idx_to_submode[
+          min_accum_k_idx][
+            k_idx_to_cur_e_idx[min_accum_k_idx]++
+          ].subirrep_idx
+    ];
+
+    std::tie(min_accum_it, max_accum_it) = std::minmax_element(
+      k_idx_to_accum.begin(),
+      k_idx_to_accum.end()
+      );
+    min_accum_k_idx = std::distance(k_idx_to_accum.begin(), min_accum_it);
+
+    if (*min_accum_it == *max_accum_it) {
+      result.push_back(k_idx_to_cur_e_idx);
+    }
+  }
+
+  return result;
+}
+
+
 std::ostream& operator<<(std::ostream& out, const Bag& b)
 {
   return out << b.subk_idx_and_subirrep_idx_pairs;
 }
+
 
 } // namespace TopoMagnon

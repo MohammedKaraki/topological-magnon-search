@@ -22,6 +22,7 @@ struct SpectrumData {
     std::vector<std::string> irreps;
     std::map<std::string, std::string> irrep_to_k;
     std::map<std::string, int> irrep_to_dim;
+    std::vector<int> dims;
 
     std::vector<std::string> ks;
     std::map<std::string, std::string> k_to_coords;
@@ -43,6 +44,8 @@ struct SpectrumData {
     int k_to_idx(const std::string k) const {
       return Utility::find_unique_index(ks, k);
     }
+
+    void populate_irrep_dims();
   } super_msg, sub_msg;
 
   std::vector<std::string> band_super_irreps, band_sub_irreps;

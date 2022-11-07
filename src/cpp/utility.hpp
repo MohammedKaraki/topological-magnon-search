@@ -4,8 +4,27 @@
 #include <vector>
 #include <algorithm>
 
+#include <llvm/ADT/SmallVector.h>
+
+template<typename T>
+using Vector2 = llvm::SmallVector<T, 2>;
+
+template<typename T>
+using Vector4 = llvm::SmallVector<T, 4>;
+
+template<typename T>
+using Vector8 = llvm::SmallVector<T, 8>;
+
+template<typename T>
+using Vector16 = llvm::SmallVector<T, 16>;
+
+template<typename T>
+using Vector32 = llvm::SmallVector<T, 32>;
+
+
 namespace TopoMagnon {
 namespace Utility {
+
 
 template<typename T>
 std::size_t find_unique_index(const std::vector<T>& elems,
@@ -23,8 +42,8 @@ std::size_t find_unique_index(const std::vector<T>& elems,
   return std::distance(elems.begin(), it);
 }
 
-template<typename Vecs>
-bool cartesian_permute(Vecs& vecs)
+template<typename VeclikeOfVeclikes>
+bool cartesian_permute(VeclikeOfVeclikes& vecs)
 {
   for (auto& vec : vecs)
   {

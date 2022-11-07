@@ -4,13 +4,15 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <span>
 #include <string>
 #include <algorithm>
 #include <numeric>
 
+#include <llvm/ADT/SmallVector.h>
+
 namespace TopoMagnon {
 
-struct SpectrumData;
 
 std::ostream& print_indent(std::ostream& out, int N);
 
@@ -20,8 +22,39 @@ std::ostream& operator<<(std::ostream& out, const std::pair<A, B>& pair)
   return out << '(' << pair.first << ", " << pair.second << ')';
 }
 
+
+namespace TypeTraits {
+
 template<typename T>
-std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
+struct is_vector_like {
+  static constexpr auto value = false;
+};
+
+template<typename T>
+struct is_vector_like<std::vector<T>> {
+  static constexpr auto value = true;
+};
+
+template<typename T>
+struct is_vector_like<std::span<T>> {
+  static constexpr auto value = true;
+};
+
+template<typename T, unsigned N>
+struct is_vector_like<std::array<T, N>> {
+  static constexpr auto value = true;
+};
+
+template<typename T, unsigned N>
+struct is_vector_like<llvm::SmallVector<T, N>> {
+  static constexpr auto value = true;
+};
+
+}
+
+template<typename VectorLike>
+requires TypeTraits::is_vector_like<VectorLike>::value
+std::ostream& operator<<(std::ostream& out, const VectorLike& v)
 {
   out << '[';
   if (v.empty()) {
@@ -34,12 +67,13 @@ std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
        it != v.end();
        ++it)
   {
-    out << ", ";
+    out << " ";
     out << *it;
   }
 
   return out << ']';
 }
+
 
 template<typename T>
 std::ostream& print(std::ostream& out,
@@ -95,6 +129,9 @@ std::ostream& operator<<(std::ostream& out, const std::map<Key, Val>& map)
 {
   return print(out, map, 0, 0);
 }
+
+
+struct SpectrumData;
 
 std::ostream& operator<<(std::ostream& out, const SpectrumData& data);
 
