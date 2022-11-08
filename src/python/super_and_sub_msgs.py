@@ -144,7 +144,8 @@ class SuperAndSubMsgs:
 
 
             for superirrep, subirreps in self._irrep_decomp(subkvec):
-                assert sorted(subirreps) == subirreps
+                subirreps.sort()
+                assert sorted(subirreps) == subirreps, subirreps
 
                 assert (superirrep not in
                         self._subkvec_to_superirrep_to_subirreps[subkvec]
