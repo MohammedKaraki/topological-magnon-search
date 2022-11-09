@@ -46,7 +46,7 @@ class SuperAndSubMsgs:
 
         super_primvecsmat = self.super_msg.primvecsmat
         def is_zero_mod_K(vec3):
-            return np.allclose(np.mod(super_primvecsmat.T @ vec3.astype(float),
+            return np.allclose(np.fmod(super_primvecsmat.T @ vec3.astype(float),
                                   1.0), 0.0)
 
         subk_in_super_coords = \
@@ -66,7 +66,7 @@ class SuperAndSubMsgs:
         superk_matches = list(set(
             (x[1] for x in superunitaryg_and_superk_matches)))
 
-        assert len(superunitaryg_matches) >= 1
+        assert len(superunitaryg_matches) >= 2
         assert len(superk_matches) == 1
         return superunitaryg_matches, superk_matches[0]
 

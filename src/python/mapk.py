@@ -41,7 +41,7 @@ def map_klabels(group_number,
                 Rg = unitary_gstr_to_mat4x4(unitary['str'])[:3,:3].astype(float)
                 diff = (np.linalg.inv(Rg.T)@vec3_from_klabel(group_klabel)
                         - np.linalg.inv(M.T)@vec3_from_klabel(subgroup_klabel))
-                if is_zero(np.mod(diff@direct_vecs, 1.0)):
+                if is_zero(np.fmod(diff@direct_vecs, 1.0)):
 
                     if subgroup_klabel in subgroupklabel_to_groupklabel:
                         assert (group_klabel ==

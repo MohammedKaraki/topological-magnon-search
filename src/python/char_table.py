@@ -66,7 +66,7 @@ class CharTable:
         assert np.allclose(dr_correct, (g.mat4x4[:3, 3]-h.mat4x4[:3, 3]))
 
         assert np.allclose(
-            np.mod(
+            np.fmod(
                 (np.linalg.inv(self.msg.primvecsmat)@dr_correct).astype(float),
                 1.0),
             0.0)
