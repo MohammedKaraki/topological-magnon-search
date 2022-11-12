@@ -66,10 +66,30 @@ def main():
 
     gstrs, presc = gstrs_and_presc_of_subgroups(msg)[subgroup_id]
     msgs = SuperAndSubMsgs(msg, gstrs.split(';'))
+
+    subksymbol_to_g_and_superksymbol = {}
+    for subkvec in msgs.sub_msg.kvectors:
+        gs, superkvec = msgs.subkvec_to_gs_and_superkvec(subkvec)
+        g = gs[0]
+        assert subkvec.symbol not in subksymbol_to_g_and_superksymbol
+        subksymbol_to_g_and_superksymbol[subkvec.symbol] = (str(g),
+                                                            superkvec.symbol)
+    output["subk_to_g_and_superk"] = subksymbol_to_g_and_superksymbol
+
+    superksymbols_having_maximal_subks = set([])
+    for subksymbol, g_and_superksymbol in \
+            subksymbol_to_g_and_superksymbol.items():
+        superksymbols_having_maximal_subks.add(g_and_superksymbol[1])
+
+
     output["band_super_irreps"] = [x.label
-                                         for x in magnon_irreps_from_msg_and_wp(
-                                             msg_number, wp_label)
-                                         ]
+                                   for x in magnon_irreps_from_msg_and_wp(
+                                       msg_number, wp_label)
+                                   if x.ksymbol
+                                   in superksymbols_having_maximal_subks
+                                   ]
+
+
     output["super_msg_label"] = msgs.super_msg.label
     output["super_msg_number"] = msgs.super_msg.number
     output["sub_msg_label"] = msgs.sub_msg.label
@@ -106,14 +126,6 @@ def main():
                                     for x in msgs.super_msg.kvectors]
     output["sub_msg_ks"] = [x.symbol
                                   for x in msgs.sub_msg.kvectors]
-    subksymbol_to_g_and_superksymbol = {}
-    for subkvec in msgs.sub_msg.kvectors:
-        gs, superkvec = msgs.subkvec_to_gs_and_superkvec(subkvec)
-        g = gs[0]
-        assert subkvec.symbol not in subksymbol_to_g_and_superksymbol
-        subksymbol_to_g_and_superksymbol[subkvec.symbol] = (str(g),
-                                                            superkvec.symbol)
-    output["subk_to_g_and_superk"] = subksymbol_to_g_and_superksymbol
 
     output["super_k1_to_k2_to_irrep_to_lineirreps"] = \
         k1_to_k2_to_irrep_to_lineirreps(msgs.super_msg)
