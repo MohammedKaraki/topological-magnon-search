@@ -1,6 +1,6 @@
 from cached_requests import cached_post
 from bs4 import BeautifulSoup as bs
-from re import fullmatch
+from re import fullmatch, findall
 from br import LittleIrrep
 
 import log
@@ -34,6 +34,22 @@ def comp_rels(group_number, ksymbol):
     src = str(input.attrs['value'])
     assert src.startswith(ksymbol)
     assert src[-1] == ')'
+
+    klines = findall(r'((?:[A-Z]+)\$\([^)]+\))zzz', src)
+    klines = [x.replace('$', ':') for x in klines]
+    # logger.debug(klines)
+    assert len(klines) >= 1
+
+    def klinesymbol_to_kline(symbol):
+        result = None
+        for kline in klines:
+            if kline.startswith(symbol + ":"):
+                assert result is None
+                # if result is not None:
+                    # logger.error((symbol, klines))
+                result = kline
+        assert result is not None
+        return result
 
     lines = (
         src
@@ -96,11 +112,13 @@ def comp_rels(group_number, ksymbol):
             assert lhs_dim == rhs_dim
 
             rhs_ksymbol_list = list(
-                set([x.ksymbol for x in rhs_irreps])
+                set([klinesymbol_to_kline(x.ksymbol) for x in rhs_irreps])
                 )
             assert len(rhs_ksymbol_list) == 1
             rhs_ksymbol = rhs_ksymbol_list[0]
 
             result.append((lhs, rhs_ksymbol, rhs_irreps))
+
+    # logger.debug((ksymbol, result))
 
     return result

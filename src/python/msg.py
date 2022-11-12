@@ -274,7 +274,7 @@ class Msg:
         comp_rels1 = self.comp_rels_at_ksymbol(ksymbol1)
         comp_rels2 = self.comp_rels_at_ksymbol(ksymbol2)
 
-        assert comp_rels1[-1][1] == comp_rels2[-1][1] == 'GP'
+        assert comp_rels1[-1][1] == comp_rels2[-1][1] == 'GP:(u,v,w)'
 
         first_line_ksymbol = None
 
@@ -300,7 +300,6 @@ class Msg:
 
         for lhs, line, rhs in comp_rels2:
             if line == first_line_ksymbol:
-                assert lhs not in comp_rel_dict
                 comp_rel_dict[lhs] = rhs
 
         return comp_rel_dict
