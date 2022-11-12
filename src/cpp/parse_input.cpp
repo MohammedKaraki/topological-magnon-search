@@ -84,6 +84,8 @@ static void from_json(const json& j, SpectrumData& data)
   j["super_msg_ks"].get_to(data.super_msg.ks);
   j["sub_msg_ks"].get_to(data.sub_msg.ks);
 
+  j["subk_to_g_and_superk"].get_to(data.subk_to_g_and_superk);
+
   {
     std::vector<std::vector<int>> tmp;
     j["comp_rels_matrix"].get_to(tmp);

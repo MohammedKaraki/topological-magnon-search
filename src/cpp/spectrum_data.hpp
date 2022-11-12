@@ -8,6 +8,7 @@
 #include <Eigen/Core>
 
 #include "utility.hpp"
+#include "ostream_utility.hpp"
 
 namespace TopoMagnon {
 
@@ -37,11 +38,13 @@ struct SpectrumData {
     int sum_dim(const std::vector<std::string>& irreps);
 
   public:
-    int irrep_to_idx(const std::string irrep) const {
+    int irrep_to_idx(const std::string irrep) const
+    {
       return Utility::find_unique_index(irreps, irrep);
     }
 
-    int k_to_idx(const std::string k) const {
+    int k_to_idx(const std::string k) const
+    {
       return Utility::find_unique_index(ks, k);
     }
 
@@ -58,14 +61,23 @@ struct SpectrumData {
 
   std::map<std::string, std::vector<std::string>> superirrep_to_all_subirreps;
 
+  std::map<std::string, std::pair<std::string, std::string>>
+    subk_to_g_and_superk;
+
   std::vector<Bag> unique_bags;
 
 public:
+    int subk_idx_to_superk_idx(int subk_idx) const
+    {
+      const auto subk = sub_msg.ks[subk_idx];
+      const auto first_superirrep =
+        subk_to_superirrep_to_subirreps.at(subk).begin()->first;
+      const auto superk = super_msg.irrep_to_k.at(first_superirrep);
+      return super_msg.k_to_idx(superk);
+    }
+
 
   int bag_to_idx(const Bag& bag) const;
-  // {
-  //   return Utility::find_unique_index(unique_bags, bag);
-  // }
 
 };
 
