@@ -13,6 +13,12 @@ def logfile_path():
     return str((Path(__file__).parent / "../../logs/tests.log").resolve())
 
 
+def json_output_dir():
+    from pathlib import Path
+    return str((Path(__file__).parent
+                / "../../json_output").resolve())
+
+
 def read_args():
     import sys
 
@@ -152,7 +158,15 @@ def main():
          for subkvec, superirrep_to_subirreps
          in msgs.subkvec_to_superirrep_to_subirreps.items()
          }
-    print(json.dumps(output))
+
+    out_filename = r"{}-{}-{}.json".format(
+        msg_number,
+        wp_label,
+        subgroup_id
+        )
+
+    with open(json_output_dir() + "/" + out_filename, 'w') as f:
+        json.dump(output, f)
 
 
 if __name__ == "__main__":
