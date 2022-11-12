@@ -16,7 +16,7 @@ def intinv(mat):
     return invmat
 
 
-memory = Memory("~/Dropbox/tmp")
+memory = Memory("~/Dropbox/tmp", verbose=0)
 @memory.cache
 def snf(mat):
     assert mat.dtype == int
