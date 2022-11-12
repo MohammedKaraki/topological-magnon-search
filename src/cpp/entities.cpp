@@ -160,8 +160,8 @@ Subband::dimvalid_e_idxs(const SpectrumData& data)
   auto max_accum_it = min_accum_it;
   int min_accum_k_idx = 0;
 
-  while (k_idx_to_cur_e_idx[min_accum_k_idx]
-         < subk_idx_to_e_idx_to_submode[min_accum_k_idx].size()
+  while (k_idx_to_cur_e_idx[min_accum_k_idx] < static_cast<int>(
+      subk_idx_to_e_idx_to_submode[min_accum_k_idx].size())
         )
   {
     *min_accum_it += data.sub_msg.dims[
