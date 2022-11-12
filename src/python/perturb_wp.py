@@ -42,14 +42,14 @@ def k1_to_k2_to_irrep_to_lineirreps(msg):
         result[k1] = {}
 
         for kvec2 in msg.kvectors:
-            if kvec2 == kvec1:
-                continue
 
             k2 = kvec2.symbol
             assert k2 not in result[k1]
 
             result[k1][k2] = {irrep.label:
-                              [line_irrep.label for line_irrep in line_irreps]
+                              ["{}({})".format(line_irrep.label, line_irrep.dim)
+                               for line_irrep in line_irreps
+                               ]
                               for irrep, line_irreps
                               in msg.common_comp_rels_dict(k1, k2).items()
                               }
