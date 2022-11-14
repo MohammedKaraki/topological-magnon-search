@@ -5,6 +5,7 @@
 #include <tuple>
 #include <numeric>
 #include <cassert>
+#include <fmt/core.h>
 
 #include "utility.hpp"
 #include "spectrum_data.hpp"
@@ -191,5 +192,28 @@ std::ostream& operator<<(std::ostream& out, const Bag& b)
   return out << b.subk_idx_and_subirrep_idx_pairs;
 }
 
+
+std::ostream& operator<<(std::ostream& out, const Supermode& supermode)
+{
+  return out << fmt::format("({}, {})",
+                            supermode.superirrep_idx,
+                            supermode.bag_idx
+                           );
+}
+
+std::ostream& operator<<(std::ostream& out, const Submode& submode)
+{
+  return out << fmt::format("(sub: {})", submode.subirrep_idx);
+}
+
+std::ostream& operator<<(std::ostream& out, const Superband& b)
+{
+  return out << b.k_idx_to_e_idx_to_supermode;
+}
+
+bool Superband::cartesian_permute()
+{
+  return Utility::cartesian_permute(k_idx_to_e_idx_to_supermode);
+}
 
 } // namespace TopoMagnon

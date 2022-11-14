@@ -2,14 +2,10 @@
 #define ENTITIES_HPP
 
 #include <vector>
-#include <set>
 #include <string>
 #include <utility>
-#include <cassert>
-#include <fmt/format.h>
 #include <span>
 
-#include "ostream_utility.hpp"
 #include "utility.hpp"
 
 namespace TopoMagnon {
@@ -40,23 +36,17 @@ public:
 class Supermode {
 public:
 
-  bool operator<(const Supermode& rhs) {
-    return this->bag_idx < rhs.bag_idx;
-  }
-
   Supermode(const std::string& superirrep,
             const SpectrumData& data);
 
   const Bag& get_bag(const SpectrumData& data) const;
 
-
-  friend std::ostream& operator<<(std::ostream& out, const Supermode& supermode)
-  {
-    return out << fmt::format("({}, {})",
-                              supermode.superirrep_idx,
-                              supermode.bag_idx
-                             );
+  bool operator<(const Supermode& rhs) {
+    return this->bag_idx < rhs.bag_idx;
   }
+
+  friend std::ostream& operator<<(std::ostream& out,
+                                  const Supermode& supermode);
 
 public:
   int superirrep_idx;
@@ -71,14 +61,12 @@ public:
 
   auto operator<=>(const Submode& rhs) const = default;
 
-  friend std::ostream& operator<<(std::ostream& out, const Submode& submode)
-  {
-    return out << fmt::format("(sub: {})", submode.subirrep_idx);
-  }
+  friend std::ostream& operator<<(std::ostream& out, const Submode& submode);
 
 public:
   int subirrep_idx;
 };
+
 
 class Subband {
 public:
@@ -102,15 +90,8 @@ public:
   Superband(const std::vector<std::string>& superirreps,
             const SpectrumData& data);
 
-  friend std::ostream& operator<<(std::ostream& out, const Superband& b)
-  {
-    return out << b.k_idx_to_e_idx_to_supermode;
-  }
-
-  bool cartesian_permute()
-  {
-    return Utility::cartesian_permute(k_idx_to_e_idx_to_supermode);
-  }
+  friend std::ostream& operator<<(std::ostream& out, const Superband& b);
+  bool cartesian_permute();
 
   void populate_subband(Subband& subband, const SpectrumData& data);
 
