@@ -31,7 +31,10 @@ R"(\documentclass{standalone}
 \pgfdeclarelayer{nodelayer}
 \pgfsetlayers{edgelayer,nodelayer,main}
 \usetikzlibrary{arrows.meta}
-STYLE-CODE
+
+\newcommand{\debug}{
+DEBUG-CODE
+}
 
 \begin{document}
 
@@ -42,6 +45,7 @@ minimum size=#1,inner sep=0,outer sep=0pt},}
 
 \begin{pgfonlayer}{nodelayer}
 NODE-LAYER-CODE
+\debug{}
 \end{pgfonlayer}
 
 \begin{pgfonlayer}{edgelayer}
@@ -195,7 +199,7 @@ static void draw_cluster(double x,
   }
 }
 
-std::string mathify_label(const std::string& label)
+static std::string mathify_label(const std::string& label)
 {
   return
     "$" + std::regex_replace(label, std::regex(R"(GM)"), R"(\Gamma)") + "$";
@@ -321,7 +325,6 @@ Visualize::Visualize(std::vector<int> drawn_subk_idxs,
       return std::max(l, static_cast<int>(r.size()));
     }
     );
-  std::cerr << "MAX SUPERIRREPS: " << max_superirreps_at_fixed_k << "\n";
   superband_height = 2.5 * (max_superirreps_at_fixed_k-1);
   subband_height = 1.3 * superband_height;
 
@@ -347,7 +350,7 @@ static void draw_perturbation_label(const std::string& label,
 
 void Visualize::dump(const std::string& output_path)
 {
-  std::ostringstream style_code;
+  std::ostringstream debug_code;
   std::ostringstream node_code;
   std::ostringstream line_code;
 
@@ -368,6 +371,15 @@ void Visualize::dump(const std::string& output_path)
                             center_x, center_y + 1.5,
                             center_x, center_y - 1.25,
                             line_code);
+
+
+    // debug_code << fmt::format(
+    //   R"(\node [label=AAAA] )"
+    //   R"(at ({:3.3f}cm, {:3.3f}cm) {{}};)" "\n",
+    //   center_x,
+    //   2.0 * center_y
+    //   );
+    //
   }
 
   for (int x_idx = 0;
@@ -385,8 +397,8 @@ void Visualize::dump(const std::string& output_path)
   std::string output = latex_template;
 
   output = std::regex_replace(output,
-                              std::regex(R"(STYLE-CODE)"),
-                              style_code.str()
+                              std::regex(R"(DEBUG-CODE)"),
+                              debug_code.str()
                              );
   output = std::regex_replace(output,
                               std::regex(R"(EDGE-LAYER-CODE)"),
