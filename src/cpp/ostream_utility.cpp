@@ -23,11 +23,8 @@ std::ostream& operator<<(std::ostream& out, const SpectrumData& data)
   out << "si_matrix:\n";
   out << data.si_matrix << "\n\n";
 
-  out << "band_super_irreps:\n";
-  out << data.band_super_irreps << "\n\n";
-
-  out << "band_sub_irreps:\n";
-  out << data.band_sub_irreps << "\n\n";
+  out << "super_irrep12wp_decomps_of_magnon:\n";
+  out << data.super_irrep12wp_decomps_of_sxsy << "\n\n";
 
   out << "sub_k1_to_k2_to_irrep_to_lineirreps:\n";
   out << data.sub_msg.k1_to_k2_to_irrep_to_lineirreps << '\n';

@@ -6,8 +6,6 @@
 #include <map>
 #include <span>
 #include <string>
-#include <algorithm>
-#include <numeric>
 
 #include <llvm/ADT/SmallVector.h>
 

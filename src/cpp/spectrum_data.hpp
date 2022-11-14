@@ -1,14 +1,11 @@
 #ifndef SPECTRUM_DATA_HPP
 #define SPECTRUM_DATA_HPP
 
-#include <iostream>
 #include <string>
 #include <vector>
 #include <map>
 #include <Eigen/Core>
 
-#include "utility.hpp"
-#include "ostream_utility.hpp"
 
 namespace TopoMagnon {
 
@@ -34,24 +31,21 @@ struct SpectrumData {
           std::vector<std::string>>>>
             k1_to_k2_to_irrep_to_lineirreps;
 
+
     IntMatrix make_br_vec(const std::vector<std::string>& br_irreps);
     int sum_dim(const std::vector<std::string>& irreps);
-
-  public:
-    int irrep_to_idx(const std::string irrep) const
-    {
-      return Utility::find_unique_index(irreps, irrep);
-    }
-
-    int k_to_idx(const std::string k) const
-    {
-      return Utility::find_unique_index(ks, k);
-    }
-
+    int irrep_to_idx(const std::string irrep) const;
+    int k_to_idx(const std::string k) const;
     void populate_irrep_dims();
   } super_msg, sub_msg;
 
-  std::vector<std::string> band_super_irreps, band_sub_irreps;
+  std::string wp;
+  std::pair<std::string, std::string> magnon_site_irreps;
+
+  std::vector<std::vector<std::string>> super_irrep12wp_decomps_of_sxsy;
+  std::map<std::string, std::vector<std::string>> super_irrep1wp_to_irreps;
+  std::vector<std::vector<std::string>> super_to_sub;
+
   IntMatrix comp_rels_matrix;
   std::vector<int> si_orders;
   IntMatrix si_matrix;
@@ -66,19 +60,9 @@ struct SpectrumData {
 
   std::vector<Bag> unique_bags;
 
-public:
-    int subk_idx_to_superk_idx(int subk_idx) const
-    {
-      const auto subk = sub_msg.ks[subk_idx];
-      const auto first_superirrep =
-        subk_to_superirrep_to_subirreps.at(subk).begin()->first;
-      const auto superk = super_msg.irrep_to_k.at(first_superirrep);
-      return super_msg.k_to_idx(superk);
-    }
-
-
+  std::string make_br_label() const;
+  int subk_idx_to_superk_idx(int subk_idx) const;
   int bag_to_idx(const Bag& bag) const;
-
 };
 
 } // namespace TopoMagnon

@@ -7,7 +7,6 @@
 #include <map>
 #include <utility>
 #include <string>
-#include <sstream>
 
 namespace TopoMagnon {
 
