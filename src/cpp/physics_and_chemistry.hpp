@@ -2,8 +2,10 @@
 #define PHYSICS_AND_CHEMISTRY_HPP
 
 #include <set>
+#include <vector>
 #include "spectrum_data.hpp"
-#include "latexify.hpp"
+#include "irreps.hpp"
+
 
 namespace TopoMagnon {
 
