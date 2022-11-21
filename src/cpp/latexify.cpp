@@ -1,6 +1,7 @@
 #include <regex>
 #include <sstream>
 #include <cassert>
+#include <fstream>
 #include <fmt/core.h>
 
 #include "latexify.hpp"
@@ -91,8 +92,8 @@ std::string LittleirrepDecomp::latexify() const
   int terms_counter = 1;
 
   for (auto it = littleirrep_comps.begin(); it != littleirrep_comps.end(); ) {
-    if (terms_counter % 9 == 0) {
-      result << R"(\\)" "\n" R"(&\quad )";
+    if (terms_counter % 6 == 0) {
+      result << R"(\nonumber\\)" "\n" R"(&\quad\quad )";
     }
 
     if (terms_counter != 1) {
@@ -119,15 +120,15 @@ std::string latexify_greeks(const std::string& label)
     std::regex_replace(label, std::regex(R"(GM)"), R"(\Gamma)");
 }
 
-std::string latexify_row(const IntMatrix& ints,
-                         const std::vector<std::string>& strs)
+static std::string latexify_row(const IntMatrix& ints,
+                                const std::vector<std::string>& strs)
 {
   assert(ints.size() == static_cast<int>(strs.size()));
   assert(ints.size() > 0);
 
   bool nonzero_factor_found = false;
 
-  std::ostringstream result;
+  std::ostringstream out;
 
   for (int i = 0; i < ints.size(); ++i)
   {
@@ -140,45 +141,83 @@ std::string latexify_row(const IntMatrix& ints,
       nonzero_factor_found = true;
 
       if (x == 1) {
-        result << '+' << s;
+        out << '+' << s;
       }
       else if (x == -1) {
-        result << '-' << s;
+        out << '-' << s;
       }
       else {
         if (x > 0) {
-          result << '+';
+          out << '+';
         }
-        result << x << s;
+        out << x << s;
       }
     }
   }
 
   assert(nonzero_factor_found);
-
-  return result.str();
+  auto result = out.str();
+  if (result[0] == '+') {
+    return result.substr(1);
+  }
+  else {
+    assert(result[0] == '-');
+    return result.substr(0);
+  }
 }
 
-std::string latexify_matrix(const IntMatrix& matrix,
-                            const std::vector<std::string>& strs,
-                            bool sis)
+
+std::string latexify_sis(const SpectrumData& data)
 {
   std::ostringstream result;
 
   result << R"(\begin{align})" << '\n';
 
-  for (int i = 0; i < matrix.rows(); ++i) {
-    if (sis) {
-      result << fmt::format(R"(z_{{{}}} &= {})",
-                            i + 1,
-                            latexify_row(matrix.row(i), strs)
-                           );
-    }
-    else {
-      result << "&" << latexify_row(matrix.row(i), strs) << R"(=0)";
+  for (int i = 0; i < data.si_matrix.rows(); ++i) {
+    result << fmt::format(R"(z_{{{}}} &= {})",
+                          i + 1,
+                          latexify_row(data.si_matrix.row(i),
+                                       data.sub_msg.irreps)
+                         )
+      << R"( \bmod )" << data.si_orders[i];
+
+    if (i + 1 < data.si_matrix.rows()) {
+      result << R"(\\)";
     }
 
-    if (i + 1 < matrix.rows()) {
+    result << '\n';
+  }
+  result << R"(\end{align})";
+
+  return result.str();
+}
+
+std::string latexify_comp_rels(const SpectrumData& data)
+{
+  std::ostringstream result;
+
+  result << R"(\begin{align})" << '\n';
+
+  auto first_nonzero_is_positive = [](const auto& row) {
+    for (int i = 0; i < row.size(); ++i) {
+      if (row(i) != 0) {
+        return row(i) > 0;
+      }
+    }
+    assert(false);
+  };
+
+  for (int i = 0; i < data.comp_rels_matrix.rows(); ++i) {
+    IntMatrix row_copy = data.comp_rels_matrix.row(i);
+    if (!first_nonzero_is_positive(row_copy)) {
+      row_copy *= -1;
+    }
+    assert(first_nonzero_is_positive(row_copy));
+
+    result << "&" << latexify_row(row_copy,
+                                  data.sub_msg.irreps) << R"(=0)";
+
+    if (i + 1 < data.comp_rels_matrix.rows()) {
       result << R"(\\)";
     }
 
@@ -197,12 +236,18 @@ std::string latexify_supercond_chemistries(
 {
   std::ostringstream result;
 
-  result << "\n" R"(\begin{align*})" "\n"
+  result << R"(\begin{align})" "\n"
     R"((S^x,S^y)_{)" << data.wp << "}\n";
-  for (const auto& supercond_chemistry : supercond_chemistries) {
-    result << "&= " << supercond_chemistry.latexify() << "\\\\\n";
+  for (auto it = supercond_chemistries.begin();
+       it != supercond_chemistries.end();
+       ++it)
+  {
+    result << "&= " << it->latexify();
+    if (std::next(it) != supercond_chemistries.end()) {
+      result << "\\\\\n";
+    }
   }
-  result << R"(\end{align*})" "\n";
+  result << R"(\end{align})";
 
   return result.str();
 }
@@ -213,21 +258,40 @@ std::string latexify_physics_and_chemistries_pairs(
 {
   std::ostringstream result;
 
-  result << "\n" R"(\begin{align*})" "\n";
-  int b_counter = 0;
-  for (const auto& [physics, chemistries] : pairs) {
-    ++b_counter;
-    result << "b_{" << b_counter << "}\n";
-    for (const auto& chemistry : chemistries) {
-      result << "&= " << chemistry.latexify() << "\\\\\n";
+  result << R"(\begin{align})" "\n";
+  for (int i = 0; i < static_cast<int>(pairs.size()); ++i) {
+    const auto& [physics, chemistries] = pairs[i];
+    if (i > 0) {
+      result << R"(\\)" "\n";
     }
-    result << "&= " << physics.latexify() << "\\\\\n";
-    result << "\\\\\n";
+    if (pairs.size() == 1) {
+      result << "b\n";
+    } else {
+      result << "b_{" << i + 1 << "}\n";
+    }
+    for (const auto& chemistry : chemistries) {
+      result << "&= " << chemistry.latexify() << R"(\\)" "\n";
+    }
+    result << "&= " << physics.latexify() << "\n";
   }
-  result << R"(\end{align*})" "\n";
+  result << R"(\end{align})";
 
 
   return result.str();
+}
+
+void LatexDoc::dump(const std::string& filename)
+{
+  auto out = std::ofstream(filename);
+  out <<
+    R"(\documentclass{article})" "\n"
+    R"(\usepackage{amsmath,amssymb,dsfont})" "\n"
+    R"(\usepackage{mathtools,microtype,bm,xcolor})" "\n"
+    R"(\usepackage[margin=1in]{geometry})" "\n"
+    R"()" "\n"
+    R"(\begin{document})" "\n"
+    << code.str() << "\n"
+    R"(\end{document})";
 }
 
 } // namespace TopoMagnon

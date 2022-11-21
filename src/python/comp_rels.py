@@ -101,9 +101,6 @@ def comp_rels(group_number, ksymbol):
 
                 rhs_irreps.extend([LittleIrrep(label)] * count)
 
-            # This assertion is really not important, and it might fail.
-            # I put it here just for curiosity.
-            assert rhs_irreps == sorted(rhs_irreps)
 
             lhs_dim = lhs.dim
             rhs_dim = sum([x.dim for x in rhs_irreps])

@@ -33,7 +33,7 @@ public:
             const Subband& subband,
             const SpectrumData& data);
 
-  void dump(const std::string& output_path);
+  void dump(const std::string& filename);
 
 private:
   void visualize_x_idx(int x_idx, std::ostringstream& output);
@@ -64,9 +64,9 @@ private:
 
   double superband_height;
   double subband_height;
-  double band_band_separation = 6.0;
+  double band_band_separation = 4.5;
   double subk_min_dist = 2.9;
-  double broken_min_dist = .9;
+  double broken_min_dist = .8;
 };
 
 

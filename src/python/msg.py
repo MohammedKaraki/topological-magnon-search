@@ -34,6 +34,37 @@ def dim_from_irreplabel(label):
     return result
 
 
+def _decompose_vec_into_complex_ebr_titles_helper(paired_vec,
+                                                  curr_decomp,
+                                                  memo,
+                                                  wp_and_irrep_to_paired_vec):
+
+    if tuple(paired_vec) in memo:
+        return memo[tuple(paired_vec)]
+
+    if np.any(paired_vec < 0):
+        return []
+
+    if np.all(paired_vec == 0):
+        new_decomp = sorted(curr_decomp)
+        return [new_decomp]
+
+    result = []
+    for wp_and_irrep, vec in wp_and_irrep_to_paired_vec.items():
+
+        for new in _decompose_vec_into_complex_ebr_titles_helper(
+            paired_vec - vec,
+            curr_decomp + [wp_and_irrep],
+            memo,
+            wp_and_irrep_to_paired_vec,
+                ):
+            if new not in result:
+                result.append(new)
+
+    memo[tuple(paired_vec)] = result
+    return result
+
+
 class Msg:
 
     def __init__(self, number):
@@ -120,6 +151,7 @@ class Msg:
             for wp in self.ebrs
             for ebr in self.ebrs[wp].values()
             ]).T
+        print("},{".join([",".join(str(x)for x in row) for row in ebrs_matrix]))
 
         Uinv, sigma, V = snf(ebrs_matrix)
         U = intinv(Uinv)
@@ -215,7 +247,6 @@ class Msg:
         assert self._ebrs is not None
         return self._ebrs
 
-    # @property
     def char_table(self, kvector):
         if kvector not in self._kvector_to_char_table:
             self._load_char_table(kvector)
@@ -399,9 +430,10 @@ class Msg:
         for orig in result:
             tr = result[orig]
             assert dim_from_irreplabel(orig) == dim_from_irreplabel(tr)
-            # assert orig == result[tr]
 
-        return result
+        return {LittleIrrep(x).as_str(): LittleIrrep(y).as_str()
+                       for x, y in result.items()
+                       }
 
     def _load_tr_parners(self):
         assert self._tr_partners == None
@@ -471,3 +503,76 @@ class Msg:
 
         assert sum(subbands) == band
         return subbands
+
+    def make_irrep1wp_to_irreps(self):
+        result = {}
+
+        wp_to_irrep_to_ebr = self.ebrs
+
+        for wp, irrep_to_ebr in wp_to_irrep_to_ebr.items():
+            for irrep in irrep_to_ebr:
+
+                ebr1 = irrep_to_ebr[irrep]
+
+                irrep1wp = "({},{})".format(
+                    irrep,
+                    wp.label
+                    )
+                result[irrep1wp] = [str(x) for x in ebr1.irreps]
+
+        return result
+
+    def make_irrep12wp_to_paired_vec(self):
+        result = {}
+
+        wp_to_irrep_to_ebr = self.ebrs
+
+        for wp, irrep_to_ebr in wp_to_irrep_to_ebr.items():
+            for irrep in irrep_to_ebr:
+                irrep2 = irrep.tr_partner()
+
+                ebr1 = irrep_to_ebr[irrep]
+                ebr2 = irrep_to_ebr[irrep2]
+
+                def sanity_check():
+                    ebr1_irreps = sorted([x.as_str() for x in ebr1.irreps])
+                    ebr2_irreps = sorted([x.as_str() for x in ebr2.irreps])
+
+                    ebr1_irreps_c = sorted([self.tr_partners[x]
+                                            for x in ebr1_irreps])
+                    ebr2_irreps_c = sorted([self.tr_partners[x]
+                                            for x in ebr2_irreps])
+
+                    assert ebr1_irreps == ebr2_irreps_c
+                    assert ebr1_irreps_c == ebr2_irreps
+                sanity_check()
+
+                vec = np.array(self.irreps_to_vec((ebr1 + ebr2).irreps))
+                assert vec.dtype == int
+
+                irrep12wp = "({},{},{})".format(
+                    irrep,
+                    irrep2,
+                    wp.label
+                    )
+                result[irrep12wp] = vec
+
+        return result
+
+    def decompose_vec_into_irrep12wps(self, paired_vec):
+        assert paired_vec.dtype == int
+
+        wp_and_irrep_to_paired_vec = self.make_irrep12wp_to_paired_vec()
+        curr_decomp = []
+        memo = {}
+
+        return _decompose_vec_into_complex_ebr_titles_helper(
+            paired_vec,
+            curr_decomp,
+            memo,
+            wp_and_irrep_to_paired_vec,
+            )
+
+    def decompose_irreps_into_irrep12wps(self, irreps):
+        vec = self.irreps_to_vec(irreps)
+        return self.decompose_vec_into_irrep12wps(vec)

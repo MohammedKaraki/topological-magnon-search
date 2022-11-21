@@ -106,8 +106,10 @@ class SuperAndSubMsgs:
         normalizer = inv_diagonal(submat.T.conj() @ submat)
 
         def mat_as_int(mat):
-            result = mat.real.astype(int)
-            assert np.allclose(result,  mat), mat
+            # result = mat.real.astype(int)
+            result = mat.real.round(15).astype(int)
+            assert np.allclose(result,  mat), (mat-result)
+            assert np.allclose(result-mat, 0), (mat-result)
             return result
 
         decomp_mat = mat_as_int(

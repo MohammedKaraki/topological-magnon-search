@@ -25,6 +25,9 @@ struct SpectrumData {
     std::vector<std::string> ks;
     std::map<std::string, std::string> k_to_coords;
 
+    std::vector<std::tuple<int, int, std::map<int, int>>>
+      k1idx_k2idx_irrep1idxtoirrep2idx_tuples;
+
     std::map<std::string,
       std::map<std::string,
         std::map<std::string,
@@ -60,6 +63,7 @@ struct SpectrumData {
 
   std::vector<Bag> unique_bags;
 
+  std::string site_irreps_as_str() const;
   std::string make_br_label() const;
   int subk_idx_to_superk_idx(int subk_idx) const;
   int bag_to_idx(const Bag& bag) const;

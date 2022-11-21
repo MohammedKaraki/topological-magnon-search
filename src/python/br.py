@@ -69,7 +69,7 @@ class LittleIrrep:
                 assert dim >= 1
                 return k1symbol, irreplabel, dim
 
-            assert False, s
+            assert False, "'" + s + "'"
 
         if '[overline]' in irreplabel_with_dim:
             self._ksymbol, self._label, self._dim = [

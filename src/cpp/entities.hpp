@@ -4,8 +4,12 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <tuple>
 #include <span>
+#include <map>
+#include <Eigen/Core>
 
+#include "spectrum_data.hpp"
 #include "utility.hpp"
 
 namespace TopoMagnon {
@@ -68,6 +72,10 @@ public:
 };
 
 
+using Span = std::span<Submode>;
+using Spans = Vector<std::span<Submode>>;
+
+
 class Subband {
 public:
 
@@ -79,10 +87,25 @@ public:
     const SpectrumData& data
     );
 
+  std::map<int, std::pair<bool, IntMatrix>>
+    calc_gap_sis(const SpectrumData& data);
+
+  bool next_energetics();
+  bool satisfies_antiunit_rels(const SpectrumData& data) const;
+
+  int get_num_bands() const { assert(num_bands >= 1); return num_bands; };
+
 public:
   Vector8<Vector16<Submode>> subk_idx_to_e_idx_to_submode;
-  Vector16<std::span<Submode>> all_submode_spans;
+
+  Vector<std::tuple<Vector<int>, Vector<Span>, bool>>
+    gaps_allspanstopermute_done_tuples;
+
+private:
+  int num_bands = -1;
+  friend class Superband;
 };
+
 
 class Superband {
 public:
@@ -92,6 +115,7 @@ public:
 
   friend std::ostream& operator<<(std::ostream& out, const Superband& b);
   bool cartesian_permute();
+  bool satisfies_antiunit_rels(const SpectrumData& data) const;
 
   void populate_subband(Subband& subband, const SpectrumData& data);
 

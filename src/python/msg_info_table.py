@@ -3,8 +3,6 @@ logger = log.create_logger(__name__)
 
 
 def create_msg_info_table():
-    logger.warning("Creating MSG basic info table into memory")
-
     from pathlib import Path
     TABLE_FILEPATH = \
         str((Path(__file__).parent

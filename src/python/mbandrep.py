@@ -214,10 +214,16 @@ class WyckoffIrrep:
         if self.is_real():
             return self
 
+        tr_dict_1 = {
+            "^{1}E^{2}E": "^{1}E^{2}E"
+            }
+        if self.label in tr_dict_1:
+            return WyckoffIrrep(tr_dict_1[self.label])
+
         first, last = self.label[:4], self.label[4:]
-        tr_dict = {'^{1}': '^{2}',
-                   '^{2}': '^{1}'}
-        return WyckoffIrrep(tr_dict[first] + last)
+        tr_dict_2 = {'^{1}': '^{2}',
+                     '^{2}': '^{1}'}
+        return WyckoffIrrep(tr_dict_2[first] + last)
 
 
 def remove_uparrowG(text):

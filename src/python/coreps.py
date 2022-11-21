@@ -6,6 +6,7 @@ from re import fullmatch, sub
 from genpos import mat3x4_to_unitary_gstr, UnitaryGenpos
 import numpy as np
 from fractions import Fraction
+from joblib import Memory
 
 import log
 logger = log.create_logger(__name__)
@@ -109,6 +110,9 @@ def tabletag_to_trace(table_tag):
     return np.round(trace, ROUND_DECIMALS)
 
 
+
+memory = Memory("~/Dropbox/tmp/char_table_cache", verbose=1)
+@memory.cache
 def char_table_info(msg_number, ksymbol):
     html = fetch_corep_html(msg_number, ksymbol)
     soup = bs(html, 'html5lib')
@@ -171,7 +175,7 @@ def char_table_info(msg_number, ksymbol):
                        inner_prods)
     assert np.allclose(inner_prods.imag, 0), inner_prods.imag
     assert np.all(
-        np.abs(inner_prods.real.astype(int) - inner_prods.real) <= 1e-8
+        np.abs(inner_prods.real.round(7).astype(int) - inner_prods.real) <= 1e-8
         )
 
     def as_positive_int(x):

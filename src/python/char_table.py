@@ -67,9 +67,9 @@ class CharTable:
 
         assert np.allclose(
             np.fmod(
-                (np.linalg.inv(self.msg.primvecsmat)@dr_correct).astype(float),
+                (np.linalg.inv(self.msg.primvecsmat)@dr_correct).astype(float).round(14),
                 1.0),
-            0.0)
+            0.0), (np.linalg.inv(self.msg.primvecsmat)@dr_correct).astype(float)
 
         return (
             phase_correct_1 * self.char_matrix[h_row_idx, :]

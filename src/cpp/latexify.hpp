@@ -10,11 +10,8 @@
 namespace TopoMagnon {
 
 std::string latexify_greeks(const std::string& label);
-std::string latexify_row(const IntMatrix& ints,
-                         const std::vector<std::string>& strs);
-std::string latexify_matrix(const IntMatrix& matrix,
-                            const std::vector<std::string>& strs,
-                            bool sis);
+std::string latexify_sis(const SpectrumData& data);
+std::string latexify_comp_rels(const SpectrumData& data);
 
 std::string latexify_supercond_chemistries(
   const SpectrumData& data,
@@ -24,6 +21,18 @@ std::string latexify_physics_and_chemistries_pairs(
   const std::vector<std::pair<Physics, Chemistries>>& pairs
   );
 
+class LatexDoc {
+public:
+  LatexDoc& operator<<(const std::string& code_str) {
+    code << code_str;
+    return *this;
+  }
+
+  void dump(const std::string& filename);
+
+private:
+  std::ostringstream code;
+};
 
 } // namespace TopoMagnon
 

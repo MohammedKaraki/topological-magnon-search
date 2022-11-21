@@ -23,7 +23,7 @@ namespace TopoMagnon {
 using std::numbers::pi;
 
 
-const std::string latex_template =
+const std::string latex_figure_template =
 R"(\documentclass{standalone}
 \usepackage{amsmath,amssymb,dsfont,mathtools,microtype,bm,xcolor,tikz}
 
@@ -100,16 +100,28 @@ std::string Rgb::to_latex() const
                     );
 }
 
-static double scale_idx(int idx, int N)
+static double scale_idx(int idx, const std::vector<double>& weights)
 {
-  assert(N >= 1);
-  assert(idx < N);
-
-  if (N == 1) {
+  if (weights.size() == 1) {
+    assert(idx == 0);
     return 0.5;
   }
 
-  return static_cast<double>(idx) / (N - 1);
+  double upstairs = 0.0;
+  double downstairs = 0.0;
+  for (int i = 0; i < static_cast<int>(weights.size()); ++i) {
+    if (i < idx) {
+      upstairs += static_cast<double>(weights.at(i));
+    }
+    downstairs += static_cast<double>(weights.at(i));
+  }
+
+  upstairs += static_cast<double>(weights.at(idx)) / 2.0;
+
+  const double min = static_cast<double>(weights.front()) / 2.0;
+  const double max = downstairs - static_cast<double>(weights.back()) / 2.0;
+
+  return static_cast<double>(upstairs-min) / static_cast<double>(max - min);
 }
 
 
@@ -325,8 +337,8 @@ Visualize::Visualize(std::vector<int> drawn_subk_idxs,
       return std::max(l, static_cast<int>(r.size()));
     }
     );
-  superband_height = 2.5 * (max_superirreps_at_fixed_k-1);
-  subband_height = 1.3 * superband_height;
+  superband_height = 2.4 * (max_superirreps_at_fixed_k-1);
+  subband_height = 1.2 * superband_height;
 
 }
 
@@ -344,11 +356,11 @@ static void draw_perturbation_label(const std::string& label,
     x2, y2,
     label,
     0.5*(x1 + x2),
-    (6.0*y1 + 5.0*y2) / 11.0
+    0.5*(y1 + y2)
     );
 }
 
-void Visualize::dump(const std::string& output_path)
+void Visualize::dump(const std::string& filename)
 {
   std::ostringstream debug_code;
   std::ostringstream node_code;
@@ -368,18 +380,10 @@ void Visualize::dump(const std::string& output_path)
       );
 
     draw_perturbation_label(perturbation_label,
-                            center_x, center_y + 1.5,
-                            center_x, center_y - 1.25,
+                            center_x, center_y + 1.75,
+                            center_x, center_y - 1.00,
                             line_code);
 
-
-    // debug_code << fmt::format(
-    //   R"(\node [label=AAAA] )"
-    //   R"(at ({:3.3f}cm, {:3.3f}cm) {{}};)" "\n",
-    //   center_x,
-    //   2.0 * center_y
-    //   );
-    //
   }
 
   for (int x_idx = 0;
@@ -394,22 +398,51 @@ void Visualize::dump(const std::string& output_path)
     }
   }
 
-  std::string output = latex_template;
+  if (!superband.satisfies_antiunit_rels(data)) {
+    const auto left = 0.0;
+    const auto right = left + subk_min_dist * (drawn_subk_idxs.size() - 1);
+    const auto bottom = subband_height + band_band_separation;
+    const auto top = bottom + superband_height;
 
-  output = std::regex_replace(output,
+    node_code << fmt::format(
+      R"(\draw [line width=4, red] ({0}cm,{1}cm) -- ({2}cm, {3}cm);)" "\n"
+      R"(\draw [line width=4, red] ({0}cm,{3}cm) -- ({2}cm, {1}cm);)" "\n",
+      left, top + 0.1*superband_height,
+      right, bottom - 0.1*superband_height
+      );
+  }
+
+  if (!subband.satisfies_antiunit_rels(data)) {
+    const auto left = 0.0;
+    const auto right = left + subk_min_dist * (drawn_subk_idxs.size() - 1);
+    const auto bottom = 0.0;
+    const auto top = bottom + subband_height;
+
+    node_code << fmt::format(
+      R"(\draw [line width=4, red] ({0}cm,{1}cm) -- ({2}cm, {3}cm);)" "\n"
+      R"(\draw [line width=4, red] ({0}cm,{3}cm) -- ({2}cm, {1}cm);)" "\n",
+      left, top + 0.1*subband_height,
+      right, bottom - 0.1*subband_height
+      );
+  }
+
+  std::string result = latex_figure_template;
+
+  result = std::regex_replace(result,
                               std::regex(R"(DEBUG-CODE)"),
                               debug_code.str()
                              );
-  output = std::regex_replace(output,
+  result = std::regex_replace(result,
                               std::regex(R"(EDGE-LAYER-CODE)"),
                               line_code.str()
                              );
-  output = std::regex_replace(output,
+  result = std::regex_replace(result,
                               std::regex(R"(NODE-LAYER-CODE)"),
                               node_code.str()
                              );
 
-  std::ofstream(output_path) << output;
+  auto out = std::ofstream(filename);
+  out << result;
 }
 
 void Visualize::visualize_x_idx(int x_idx, std::ostringstream& output)
@@ -465,6 +498,12 @@ void Visualize::supervisualize_at_x_idx(int x_idx, std::ostringstream& output)
     submodes,
     data
     );
+  auto supermode_weights = std::vector<double>{};
+  for (const auto& broken_supermode : broken_supermodes) {
+    supermode_weights.push_back(
+      std::sqrt(static_cast<double>(broken_supermode.subirrep_idxs.size()))
+      );
+  }
 
   for (int e_idx = 0;
        e_idx < static_cast<int>(broken_supermodes.size());
@@ -476,7 +515,8 @@ void Visualize::supervisualize_at_x_idx(int x_idx, std::ostringstream& output)
     double supermode_y =
       subband_height
       + band_band_separation
-      + superband_height * scale_idx(e_idx, supermodes.size());
+      // + superband_height * scale_idx(e_idx, supermodes.size());
+      + superband_height * scale_idx(e_idx, supermode_weights);
 
     draw_superirrep(
       supermode_x,
@@ -537,6 +577,13 @@ void Visualize::subvisualize_at_x_idx(int x_idx, std::ostringstream& output)
     submodes,
     data
     );
+  auto supermode_weights = std::vector<double>{};
+  for (const auto& broken_supermode : broken_supermodes) {
+    supermode_weights.push_back(
+      // std::sqrt(static_cast<double>(broken_supermode.subirrep_idxs.size()))
+      std::pow(static_cast<double>(broken_supermode.subirrep_idxs.size()), 0.5)
+      );
+  }
 
   for (int e_idx = 0;
        e_idx < static_cast<int>(broken_supermodes.size());
@@ -544,7 +591,9 @@ void Visualize::subvisualize_at_x_idx(int x_idx, std::ostringstream& output)
   {
     const auto& broken_supermode = broken_supermodes[e_idx];
     double supermode_x = x_from_x_idx(x_idx);
-    double supermode_y = subband_height * scale_idx(e_idx, supermodes.size());
+    // double supermode_y = subband_height * scale_idx(e_idx, supermodes.size());
+    double supermode_y =
+      subband_height * scale_idx(e_idx, supermode_weights);
 
     const int num_subirreps = broken_supermode.subirrep_idxs.size();
 

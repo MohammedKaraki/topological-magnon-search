@@ -22,6 +22,22 @@ int SpectrumData::Msg::k_to_idx(const std::string k) const
   return Utility::find_unique_index(ks, k);
 }
 
+std::string SpectrumData::site_irreps_as_str() const
+{
+  std::ostringstream result;
+
+  const auto& [site_irrep1, site_irrep2] = magnon_site_irreps;
+
+  if (site_irrep1 == site_irrep2) {
+    result << "2" <<  site_irrep1;
+  }
+  else {
+    result << site_irrep1 + R"(\oplus )" + site_irrep2;
+  }
+
+  return result.str();
+}
+
 std::string SpectrumData::make_br_label() const
 {
   std::ostringstream result;
@@ -175,6 +191,45 @@ static void from_json(const json& j, SpectrumData& data)
     data.super_msg.k1_to_k2_to_irrep_to_lineirreps);
   j["sub_k1_to_k2_to_irrep_to_lineirreps"].get_to(
     data.sub_msg.k1_to_k2_to_irrep_to_lineirreps);
+
+
+  auto fill_helper_1 = [&j](const std::string& src_key, auto& target_msg) {
+    std::vector<
+      std::tuple<
+      std::string,
+      std::string,
+      std::vector<std::pair<std::string, std::string>>>>
+        k1_k2_irrep1irrep2pairs_tuples;
+    j[src_key].get_to(
+      k1_k2_irrep1irrep2pairs_tuples
+      );
+    for (const auto& [k1, k2, irrep1irrep2pairs]
+         : k1_k2_irrep1irrep2pairs_tuples)
+    {
+      const auto k1_idx = target_msg.k_to_idx(k1);
+      const auto k2_idx = target_msg.k_to_idx(k2);
+
+      std::map<int, int> irrep1idx_to_irrep2idx;
+      for (const auto& [irrep1, irrep2] : irrep1irrep2pairs) {
+        const auto& irrep1_idx = target_msg.irrep_to_idx(irrep1);
+        const auto& irrep2_idx = target_msg.irrep_to_idx(irrep2);
+
+        // irrep1_idx should be used only once as a key
+        assert(!irrep1idx_to_irrep2idx.contains(irrep1_idx));
+
+        irrep1idx_to_irrep2idx[irrep1_idx] = irrep2_idx;
+
+        // irrep2_idx should never appear on the left hand side of the map
+        assert(!irrep1idx_to_irrep2idx.contains(irrep2_idx));
+      }
+
+      target_msg.k1idx_k2idx_irrep1idxtoirrep2idx_tuples.emplace_back(
+        k1_idx, k2_idx, irrep1idx_to_irrep2idx
+        );
+    }
+  };
+  fill_helper_1("k1_k2_irrep1irrep2pairs_tuples_of_supermsg", data.super_msg);
+  fill_helper_1("k1_k2_irrep1irrep2pairs_tuples_of_submsg", data.sub_msg);
 
   // j["band_super_irreps"].get_to(data.band_super_irreps);
   // for (const auto& superirrep : data.band_super_irreps) {

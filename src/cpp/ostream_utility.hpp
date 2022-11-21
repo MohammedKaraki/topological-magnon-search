@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <span>
+#include <set>
 #include <string>
 
 #include <llvm/ADT/SmallVector.h>
@@ -29,12 +30,22 @@ struct is_vector_like {
 };
 
 template<typename T>
+struct is_set_like {
+  static constexpr auto value = false;
+};
+
+template<typename T>
 struct is_vector_like<std::vector<T>> {
   static constexpr auto value = true;
 };
 
 template<typename T>
 struct is_vector_like<std::span<T>> {
+  static constexpr auto value = true;
+};
+
+template<typename T>
+struct is_set_like<std::set<T>> {
   static constexpr auto value = true;
 };
 
@@ -72,6 +83,20 @@ std::ostream& operator<<(std::ostream& out, const VectorLike& v)
   return out << ']';
 }
 
+template<typename SetLike>
+requires TypeTraits::is_set_like<SetLike>::value
+std::ostream& operator<<(std::ostream& out, const SetLike& v)
+{
+  out << "Set: [";
+  for (auto it = v.begin(); it != v.end(); ++it)
+  {
+    out << " ";
+    out << *it;
+  }
+
+  return out << ']';
+}
+
 
 template<typename T>
 std::ostream& print(std::ostream& out,
@@ -83,12 +108,16 @@ std::ostream& print(std::ostream& out,
   return print_indent(out, total_indent - consumed_indent) << t;
 }
 
+template<typename T>
+concept StringLike = requires(T t) { t.substr(1); };
+
 template<typename Key, typename Val>
 std::ostream& print(std::ostream& out,
                     const std::map<Key, Val>& map,
                     const int total_indent,
                     int consumed_indent
                    )
+  requires StringLike<Key>
 {
   auto key_size = [](const auto& keyval_pair) {
     return keyval_pair.first.size();
@@ -122,10 +151,21 @@ std::ostream& print(std::ostream& out,
   return out;
 }
 
+
 template<typename Key, typename Val>
 std::ostream& operator<<(std::ostream& out, const std::map<Key, Val>& map)
 {
   return print(out, map, 0, 0);
+}
+
+template<typename Val>
+std::ostream& operator<<(std::ostream& out, const std::map<int, Val>& map)
+{
+  for (const auto& [key, val] : map) {
+    out << key << ":\t" << val << '\n';
+  }
+
+  return out;
 }
 
 

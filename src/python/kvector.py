@@ -10,7 +10,7 @@ def klabel_to_symbol_and_coords(klabel):
     KLABEL_PATTERN = r'([A-Z]+):\(([^,]+),([^,]+),([^,]+)\)'
 
     m = fullmatch(KLABEL_PATTERN, klabel)
-    assert m is not None
+    assert m is not None, klabel
 
     symbol = m.groups()[0]
     coords = np.array([Fraction(x) for x in m.groups()[1:]])

@@ -35,11 +35,12 @@ def create_root_logger(filename):
 
     file_handler = logging.FileHandler(filename)
     file_handler.setFormatter(logging.Formatter(FORMAT))
-    file_handler.setLevel(logging.INFO)
+    file_handler.setLevel(logging.DEBUG)
     logger.addHandler(file_handler)
 
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(ColoredFormatter())
+    console_handler.setLevel(logging.DEBUG)
     logger.addHandler(console_handler)
 
     return logger

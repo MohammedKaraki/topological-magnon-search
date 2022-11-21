@@ -24,7 +24,7 @@ def _process_pr_to_irreps_table(raw_table):
     return result
 
 
-def magnon_irreps_from_pg(point_group):
+def sxsy_irreps_from_pg(point_group):
     result = _process_pr_to_irreps_table(RAW_PG_TO_IRREPS)[point_group]
     assert result is not None
     return result
