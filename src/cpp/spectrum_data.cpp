@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <sstream>
+#include <regex>
 #include <nlohmann/json.hpp>
 
 #include "spectrum_data.hpp"
@@ -35,6 +36,15 @@ std::string SpectrumData::site_irreps_as_str() const
     result << site_irrep1 + R"(\oplus )" + site_irrep2;
   }
 
+  return result.str();
+}
+std::string SpectrumData::firstsiteirrep_and_wp_as_strkey() const
+{
+  std::ostringstream result;
+
+  const auto& [site_irrep1, _] = magnon_site_irreps;
+
+    result << '(' << site_irrep1 << ',' << wp << ')';
   return result.str();
 }
 
@@ -148,11 +158,17 @@ static void from_json(const json& j, SpectrumData& data)
   j["wp"].get_to(data.wp);
   j["magnon_site_irreps"].get_to(data.magnon_site_irreps);
 
+  j["posbrsiteirrep"].get_to(data.pos_neg_siteirreps.first);
+  j["posbrirreps"].get_to(data.pos_neg_magnonirreps.first);
+  j["negbrsiteirrep"].get_to(data.pos_neg_siteirreps.second);
+  j["negbrirreps"].get_to(data.pos_neg_magnonirreps.second);
+
   j["super_msg_label"].get_to(data.super_msg.label);
   j["super_msg_number"].get_to(data.super_msg.number);
   j["super_msg_irreps"].get_to(data.super_msg.irreps);
   j["superirrep_to_dim"].get_to(data.super_msg.irrep_to_dim);
   j["superirrep_to_k"].get_to(data.super_msg.irrep_to_k);
+  j["super_msg_kcoords"].get_to(data.super_msg.kcoords);
   data.super_msg.populate_irrep_dims();
 
   j["sub_msg_label"].get_to(data.sub_msg.label);
@@ -160,7 +176,26 @@ static void from_json(const json& j, SpectrumData& data)
   j["sub_msg_irreps"].get_to(data.sub_msg.irreps);
   j["subirrep_to_dim"].get_to(data.sub_msg.irrep_to_dim);
   j["subirrep_to_k"].get_to(data.sub_msg.irrep_to_k);
+  j["sub_msg_kcoords"].get_to(data.sub_msg.kcoords);
   data.sub_msg.populate_irrep_dims();
+
+
+  {
+    std::string presc_str;
+    j["presc"].get_to(presc_str);
+    presc_str = std::regex_replace(presc_str,
+                                   std::regex(R"(generic)"),
+                                   R"(low-symmetry)"
+                                  );
+
+    size_t last = 0;
+    size_t next;
+    while ((next = presc_str.find(";", last)) != std::string::npos) {
+      data.presc.push_back(presc_str.substr(last, next-last));
+      last = next + 1;
+    }
+    data.presc.push_back(presc_str.substr(last));
+  }
 
   j["super_msg_ks"].get_to(data.super_msg.ks);
   j["sub_msg_ks"].get_to(data.sub_msg.ks);
@@ -265,6 +300,46 @@ static void from_json(const json& j, SpectrumData& data)
                          data.unique_bags.end()
                         );
 
+
+  auto fill_helper_2 = [](auto& msg) {
+    for (int i = 0; i < static_cast<int>(msg.irreps.size()); ++i) {
+      const auto& k = msg.irrep_to_k.at(msg.irreps[i]);
+      const auto k_idx = msg.k_to_idx(k);
+      msg.irrepidx_to_kidx.push_back(k_idx);
+    }
+  };
+  fill_helper_2(data.sub_msg);
+  fill_helper_2(data.super_msg);
+}
+
+std::string SpectrumData::si_orders_to_latex() const
+{
+  std::ostringstream result;
+
+  std::multiset<int> orders;
+  for (const auto& x : si_orders) {
+    orders.insert(x);
+  }
+
+  for (auto it = orders.begin();
+       it != orders.end();
+      )
+  {
+    const auto cnt = orders.count(*it);
+
+    if (it != orders.begin()) {
+      result << R"(\times )";
+    }
+
+    result << R"({\mathbb{Z}}_{)" << *it << "}";
+    if (cnt > 1) {
+      result << "^{" << cnt << "}";
+    }
+
+    std::advance(it, cnt);
+  }
+
+  return result.str();
 }
 
 } // namespace TopoMagnon

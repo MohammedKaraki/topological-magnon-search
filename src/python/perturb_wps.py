@@ -24,12 +24,16 @@ def read_args():
     import sys
 
     try:
-        _, msg_number, wp_label, subgroup_id = sys.argv
-        subgroup_id = int(subgroup_id)
+        msg_number = sys.argv[1]
+        wp_labels = sorted(sys.argv[2:-1])
+        subgroup_id = int(sys.argv[-1])
+        if len(wp_labels) == 0:
+            raise ValueError("Invalid input arguments.")
+
     except:
         raise ValueError("Invalid input arguments.")
 
-    return msg_number, wp_label, subgroup_id
+    return msg_number, wp_labels, subgroup_id
 
 
 def sxsy_irreps_from_msg_and_wp(msg_number, wp_label):
@@ -68,14 +72,22 @@ def k1_to_k2_to_irrep_to_lineirreps(msg):
 
 
 def main():
-    msg_number, wp_label, subgroup_id = read_args()
+    msg_number, wp_labels, subgroup_id = read_args()
 
-    output = {'wp': wp_label}
+    output = {'wp': "+".join(wp_labels)}
 
     msg = Msg(msg_number)
 
-    magnon_site_irreps, magnon_band_irreps = sxsy_irreps_from_msg_and_wp(
-        msg_number, wp_label)
+    magnon_site_irreps, magnon_band_irreps = [[], []], []
+    for wp_label in wp_labels:
+        l_magnon_site_irreps, l_magnon_band_irreps = sxsy_irreps_from_msg_and_wp(
+            msg_number, wp_label)
+        magnon_site_irreps[0].append(l_magnon_site_irreps[0])
+        magnon_site_irreps[1].append(l_magnon_site_irreps[1])
+        magnon_band_irreps.extend(l_magnon_band_irreps)
+    magnon_site_irreps[0] = "AND".join(magnon_site_irreps[0])
+    magnon_site_irreps[1] = "AND".join(magnon_site_irreps[1])
+    magnon_band_irreps.sort()
 
     output['super_irrep12wp_decomps_of_sxsy'] \
         = msg.decompose_irreps_into_irrep12wps(
@@ -84,8 +96,20 @@ def main():
     output['super_irrep1wp_to_irreps'] = msg.make_irrep1wp_to_irreps()
     output['magnon_site_irreps'] = magnon_site_irreps
 
-    posbrirrep, posbr, negbrirrep, negbr = \
-        posirrep_posbr_negirrep_negbr(msg_number, wp_label)
+    posbrirrep, posbr, negbrirrep, negbr = [], [], [], []
+    for wp_label in wp_labels:
+        l_posbrirrep, l_posbr, l_negbrirrep, l_negbr = \
+            posirrep_posbr_negirrep_negbr(msg_number, wp_label)
+        posbrirrep.append(l_posbrirrep)
+        posbr.extend(l_posbr)
+        negbrirrep.append(l_negbrirrep)
+        negbr.extend(l_negbr)
+    posbrirrep = "AND".join(posbrirrep)
+    posbr.sort()
+    negbrirrep = "AND".join(negbrirrep)
+    negbr.sort()
+
+
 
     output['posbrsiteirrep'] = posbrirrep
     output['posbrirreps'] = [x.label for x in posbr]
@@ -202,7 +226,7 @@ def main():
     print(output['super_to_sub'])
     out_filename = r"{}-{}-{}.json".format(
         msg_number,
-        wp_label,
+        "+".join(wp_labels),
         subgroup_id
         )
 

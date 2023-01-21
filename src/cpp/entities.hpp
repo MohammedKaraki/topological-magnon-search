@@ -29,6 +29,7 @@ public:
 
   friend std::ostream& operator<<(std::ostream& out, const Bag& b);
 
+  enum {invalid_idx = -1};
 public:
   std::vector<std::pair<int, int>> subk_idx_and_subirrep_idx_pairs;
 };
@@ -78,8 +79,12 @@ using Spans = Vector<std::span<Submode>>;
 
 class Subband {
 public:
+  Subband(const SpectrumData& data) : data{data}
+  {
+  }
 
-  Vector4<Vector8<int>> dimvalid_e_idxs(const SpectrumData& data);
+public:
+  Vector4<Vector8<int>> dimvalid_e_idxs();
 
   Vector32<short> make_br(
     const Vector8<int>& e_idxs_beg,
@@ -88,10 +93,11 @@ public:
     );
 
   std::map<int, std::pair<bool, IntMatrix>>
-    calc_gap_sis(const SpectrumData& data);
+    calc_gap_sis() const;
 
   bool next_energetics();
-  bool satisfies_antiunit_rels(const SpectrumData& data) const;
+  bool satisfies_antiunit_rels() const;
+  void fix_antiunit_rels();
 
   int get_num_bands() const { assert(num_bands >= 1); return num_bands; };
 
@@ -101,7 +107,9 @@ public:
   Vector<std::tuple<Vector<int>, Vector<Span>, bool>>
     gaps_allspanstopermute_done_tuples;
 
+  Vector<int> all_possible_gaps;
 private:
+  const SpectrumData& data;
   int num_bands = -1;
   friend class Superband;
 };
@@ -115,12 +123,14 @@ public:
 
   friend std::ostream& operator<<(std::ostream& out, const Superband& b);
   bool cartesian_permute();
-  bool satisfies_antiunit_rels(const SpectrumData& data) const;
+  bool satisfies_antiunit_rels() const;
+  void fix_antiunit_rels();
 
-  void populate_subband(Subband& subband, const SpectrumData& data);
+  Subband make_subband() const;
 
 public:
   std::vector<std::vector<Supermode>> k_idx_to_e_idx_to_supermode;
+  const SpectrumData& data;
 };
 
 } // namespace TopoMagnon

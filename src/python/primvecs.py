@@ -38,7 +38,25 @@ def find_primvecsmat_method1(msg_number):
     else:
         assert False
 
-    return np.array([vec1, vec2, vec3]).T
+    result = np.array([vec1, vec2, vec3]).T
+    det = np.linalg.det(result.astype(float))
+
+    if latticetype == 'P':
+        assert det == 1.0
+    elif latticetype == 'A':
+        assert det == 1.0 / 2.0
+    elif latticetype == 'C':
+        assert det == 1.0 / 2.0
+    elif latticetype == 'I':
+        assert det == 1.0 / 2.0
+    elif latticetype == 'R':
+        assert det == 1.0 / 3.0
+    elif latticetype == 'F':
+        assert det == 1.0 / 4.0
+    else:
+        assert False
+
+    return result
 
 
 def find_primvecsmat_method2(msg_number):

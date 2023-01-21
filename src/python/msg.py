@@ -151,11 +151,26 @@ class Msg:
             for wp in self.ebrs
             for ebr in self.ebrs[wp].values()
             ]).T
-        print("},{".join([",".join(str(x)for x in row) for row in ebrs_matrix]))
+        # print(ebrs_matrix)
+        # print("},{".join([",".join(str(x)for x in row) for row in ebrs_matrix]))
 
         Uinv, sigma, V = snf(ebrs_matrix)
         U = intinv(Uinv)
 
+        def vec_to_str(vec):
+            return " + ".join(str(count) + irreplabel
+                              for count, irreplabel in zip(vec, self.irrep_labels)
+                              if count != 0
+                              )
+        siggg = np.diag(sigma)
+        siggg = siggg[siggg != 0]
+        # for vec in ebrs_matrix.T:
+        #     si = 1
+        #     print(si, ":\n", vec_to_str(vec))
+        # for si, vec in zip(siggg, U[:,:len(siggg)].T):
+        #     if si != 1:
+        #         print(si, ":\n", vec_to_str(vec))
+        # print(self.kvectors)
         num_bs = len([1 for x in np.diag(sigma) if x != 0])
         assert np.all(np.diag(sigma)[:num_bs] >= 1)
 

@@ -66,7 +66,16 @@ class SuperAndSubMsgs:
         superk_matches = list(set(
             (x[1] for x in superunitaryg_and_superk_matches)))
 
-        assert len(superunitaryg_matches) >= 2
+        # import sys
+        # print("{}".format(str(superunitaryg_matches)), flush=True, file=sys.stderr)
+
+        assert len(superunitaryg_matches) >= 1, \
+            "{} {} {} {}".format(
+                str(superunitaryg_matches),
+                str(subkvec),
+                str(superk_matches),
+                str(self.super_msg.unitary_gs),
+                )
         assert len(superk_matches) == 1
         return superunitaryg_matches, superk_matches[0]
 

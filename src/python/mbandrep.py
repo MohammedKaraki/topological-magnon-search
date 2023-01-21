@@ -242,13 +242,17 @@ def kvectors_and_ebrs(group_number):
 
     data_rows = [x for x in parsed if x[0]=="Data"]
     assert len(data_rows) > 1
-    assert data_rows[0][1] == "GM:(0,0,0)", data_rows[0][1]
+    assert data_rows[0][1] == "GM:(0,0,0)" \
+        or data_rows[0][1] == "A:(0,0,1/2)", data_rows[0][1]
 
     data_cols = list_transpose(data_rows)
     kvectors = [KVector(x) for x in data_cols[1]]
     ebrs_unflattened = data_cols[2:]
-    assert kvectors[0].symbol == "GM"
-    assert np.all(kvectors[0].coords == np.array([0, 0, 0]))
+    assert kvectors[0].symbol == "GM" \
+        or kvectors[0].symbol == "A" \
+
+    assert np.all(kvectors[0].coords == np.array([0, 0, 0])) \
+        or np.all(kvectors[0].coords == np.array([0, 0, 0.5]))
 
     ebrs = [
         Br([LittleIrrep(y) for y in list_flatten_one_level(x)]) for x in ebrs_unflattened]
@@ -280,13 +284,15 @@ def fetch_wp_point_group_and_br(group_number, wyckoff_label):
                  if x[0] in ("Data", "Header:Band-rep.")]
     assert len(table_rows) > 1
     assert table_rows[0][0] == "Header:Band-rep.", table_rows[0][0]
-    assert table_rows[1][1] == "GM:(0,0,0)", table_rows[0][1]
+    assert table_rows[1][1] == "GM:(0,0,0)" \
+        or table_rows[1][1] == "A:(0,0,1/2)" , table_rows[1][1]
     assert table_rows[2][0] == "Data"
 
     table_cols = list_transpose(table_rows)
 
     kpoints = table_cols[1][1:]
-    assert kpoints[0] == "GM:(0,0,0)"
+    assert kpoints[0] == "GM:(0,0,0)" \
+        or kpoints[0] == "A:(0,0,1/2)"
     assert all(matches_momentum_label(x) for x in kpoints)
 
     brs = {}

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <array>
 #include <cassert>
 #include <numeric>
@@ -8,6 +9,7 @@
 #include <fstream>
 #include <numbers>
 #include <queue>
+#include <stdexcept>
 
 #include <fmt/core.h>
 #include <llvm/ADT/ArrayRef.h>
@@ -15,6 +17,7 @@
 #include "visualize.hpp"
 #include "spectrum_data.hpp"
 #include "entities.hpp"
+#include "latexify.hpp"
 
 
 
@@ -32,8 +35,8 @@ R"(\documentclass{standalone}
 \pgfsetlayers{edgelayer,nodelayer,main}
 \usetikzlibrary{arrows.meta}
 
-\newcommand{\debug}{
-DEBUG-CODE
+\newcommand{\siscode}{
+SIS-CODE
 }
 
 \begin{document}
@@ -45,7 +48,7 @@ minimum size=#1,inner sep=0,outer sep=0pt},}
 
 \begin{pgfonlayer}{nodelayer}
 NODE-LAYER-CODE
-\debug{}
+\siscode{}
 \end{pgfonlayer}
 
 \begin{pgfonlayer}{edgelayer}
@@ -56,7 +59,6 @@ EDGE-LAYER-CODE
 
 \end{document})";
 
-
 constexpr std::array palette = {
   Rgb{ 15, 181, 174},
   Rgb{222,  61, 130},
@@ -66,24 +68,38 @@ constexpr std::array palette = {
   Rgb{114, 224, 106},
   Rgb{ 20, 122, 243},
   Rgb{115,  38, 211},
-  Rgb{232, 198,   0},
+  // Rgb{232, 198,   0},
+  Rgb{255, 200,   0},
   Rgb{203,  93,   0},
   Rgb{  0, 143,  93},
-  Rgb{188, 233,  49}
+  Rgb{188, 233,  49},
+
+  // Rgb{230,  25,  75},
+  // Rgb{229, 104, 103},
+  // Rgb{221, 242,  31},
+  // Rgb{245,  93, 165},
+  // Rgb{0, 100, 255},
+  // Rgb{100, 0, 255},
+
+  // Rgb{255, 0, 100},
+  // Rgb{0, 200, 255},
+  // Rgb{255, 200, 0},
+  // Rgb{200, 0, 255},
+  // Rgb{255, 100, 0},
 };
 
 
-static Rgb idx_to_rgb(int idx)
+Rgb Visualize::idx_to_rgb(int idx)
 {
-  return palette[idx % palette.size()];
+  return palette[(idx+spec.skip_color) % palette.size()];
 }
 
-static Rgb idxs_to_rgb(const std::vector<int>& idxs)
+Rgb Visualize::idxs_to_rgb(const std::vector<int>& idxs)
 {
   int N = idxs.size();
   int rsq = 0, gsq = 0, bsq = 0;
   for (auto idx : idxs) {
-    auto rgb = palette[idx % palette.size()];
+    auto rgb = idx_to_rgb(idx); //palette[idx % palette.size()];
 
     rsq += std::pow(rgb.r, 2) / N;
     gsq += std::pow(rgb.g, 2) / N;
@@ -140,11 +156,9 @@ struct LineMode {
   }
 };
 
-enum class LabelPosition {
-  NoLabel, Above, Right, Below, Left
-};
 
-LabelPosition sublabel_position(int sub_e_idx, int num_sub_irreps)
+LabelPosition
+Visualize::sublabel_position(int sub_e_idx, int num_sub_irreps) const
 {
   assert(sub_e_idx < num_sub_irreps);
   assert(num_sub_irreps >= 1);
@@ -188,14 +202,13 @@ std::vector<std::pair<double, double>> make_orbit(int N,
 }
 
 
-static void draw_cluster(double x,
-                         double y,
-                         double dot_diameter,
-                         double theta_shift,
-                         int subirrep_idx,
-                         const SpectrumData& data,
-                         std::ostringstream& output
-                        )
+void Visualize::draw_cluster(double x,
+                             double y,
+                             double dot_diameter,
+                             double theta_shift,
+                             int subirrep_idx,
+                             std::ostringstream& output
+                            )
 {
   for (const auto& [dx, dy]
        : make_orbit(data.sub_msg.dims[subirrep_idx], theta_shift))
@@ -211,24 +224,17 @@ static void draw_cluster(double x,
   }
 }
 
-static std::string mathify_label(const std::string& label)
-{
-  return
-    "$" + std::regex_replace(label, std::regex(R"(GM)"), R"(\Gamma)") + "$";
-}
-
-static void draw_subirrep(double x,
-                          double y,
-                          int subirrep_idx,
-                          LabelPosition label_position,
-                          const SpectrumData& data,
-                          std::ostringstream& output
-                         )
+void Visualize::draw_subirrep(double x,
+                              double y,
+                              int subirrep_idx,
+                              LabelPosition label_position,
+                              std::ostringstream& output
+                             )
 {
   std::string label, label_position_code;
 
   if (label_position != LabelPosition::NoLabel) {
-    label = mathify_label(data.sub_msg.irreps[subirrep_idx]);
+      label = "$" + latexify_korirrep(data.sub_msg.irreps[subirrep_idx]) + "$";
 
     switch (label_position) {
       case LabelPosition::Above: label_position_code = "above"; break;
@@ -240,32 +246,49 @@ static void draw_subirrep(double x,
   }
 
 
-  draw_cluster(x, y, .4, 0.0, subirrep_idx, data, output);
+  draw_cluster(x, y, 0.4, 0.0, subirrep_idx, output);
 
   output << fmt::format(
-    R"(\node [label={}:\huge\;{}] )"
+    R"(\node [label={}:{}\;{}] )"
     R"(at ({:3.3f}cm, {:3.3f}cm) {{}};)" "\n",
     label_position_code,
+    mode == VisMode::Normal ? R"(\huge)" : R"(\huge)",
     label,
     x,
     y
     );
 }
 
-static void draw_superirrep(double x,
-                            double y,
-                            int superirrep_idx,
-                            bool show_irrep_label,
-                            const std::vector<int>& subirrep_idxs,
-                            const SpectrumData& data,
-                            std::ostringstream& output
-                           )
+void Visualize::draw_superirrep(double x,
+                                double y,
+                                LabelPosition label_pos,
+                                int superirrep_idx,
+                                bool show_irrep_label,
+                                const std::vector<int>& subirrep_idxs,
+                                std::ostringstream& output
+                               )
 {
-  std::string label = mathify_label(data.super_msg.irreps[superirrep_idx]);
+  std::string label =
+    "$" + latexify_korirrep(data.super_msg.irreps[superirrep_idx]) + "$";
+
+  std::string label_position_code;
+  if (label_pos != LabelPosition::NoLabel) {
+
+    switch (label_pos) {
+      case LabelPosition::Above: label_position_code = "above"; break;
+      case LabelPosition::Right: label_position_code = "right"; break;
+      case LabelPosition::Below: label_position_code = "below"; break;
+      case LabelPosition::Left: label_position_code = "left"; break;
+      case LabelPosition::NoLabel: assert(false);
+    }
+  }
 
   output << fmt::format(
-    R"(\node[minimum size=1.2cm,label=above:\huge{}, circle,)"
+    R"(\node[minimum size=1.2cm,label={{[xshift=0mm,yshift={}mm]{}:{}{}}}, circle,)"
     R"(line width=0.1cm,color={},fill={},draw] at ({}cm,{}cm) {{}};)" "\n",
+    label_position_code == "above" ? -1 : 0,
+    label_position_code,
+    mode == VisMode::Normal ? R"(\huge)" : R"(\huge)",
     show_irrep_label ? label : "",
     idxs_to_rgb(subirrep_idxs).to_latex(),
     Rgb({240, 245, 250}).to_latex(),
@@ -323,11 +346,15 @@ std::vector<BrokenSupermode> make_broken_supermodes(
 Visualize::Visualize(std::vector<int> drawn_subk_idxs,
           const Superband& superband,
           const Subband& subband,
-          const SpectrumData& data)
+          const SpectrumData& data,
+          VisMode mode,
+          VisSpec spec)
   : drawn_subk_idxs{std::move(drawn_subk_idxs)},
   superband{superband},
   subband{subband},
-  data{data}
+  data{data},
+  mode{mode},
+  spec{spec}
 {
   const int max_superirreps_at_fixed_k = std::accumulate(
     superband.k_idx_to_e_idx_to_supermode.begin(),
@@ -337,71 +364,55 @@ Visualize::Visualize(std::vector<int> drawn_subk_idxs,
       return std::max(l, static_cast<int>(r.size()));
     }
     );
-  superband_height = 2.4 * (max_superirreps_at_fixed_k-1);
-  subband_height = 1.2 * superband_height;
+  superband_height = spec.supermode_separation * (max_superirreps_at_fixed_k-1);
+  subband_height = spec.subband_superband_ratio * superband_height;
 
 }
 
-static void draw_perturbation_label(const std::string& label,
-                                    double x1, double y1,
-                                    double x2, double y2,
-                                    std::ostringstream& out)
-{
-  out << fmt::format(
-    R"(\draw [line width=4pt,arrows={{-Latex[width=20pt,length=20pt]}}])"
-    R"(({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)"
-    R"(\node [label=left:\huge {}] at ({:3.3f}cm, {:3.3f}cm) {{}};)"
-    "\n",
-    x1, y1,
-    x2, y2,
-    label,
-    0.5*(x1 + x2),
-    0.5*(y1 + y2)
-    );
-}
 
 void Visualize::dump(const std::string& filename)
 {
-  std::ostringstream debug_code;
+  std::ostringstream sis_code;
   std::ostringstream node_code;
   std::ostringstream line_code;
 
+  for (int x_idx = 0;
+       x_idx < static_cast<int>(drawn_subk_idxs.size());
+       ++x_idx)
   {
-    double center_x = subk_min_dist * (drawn_subk_idxs.size()-1) / 2.0;
-    double center_y = subband_height + 0.5*band_band_separation;
-
-
-    const std::string perturbation_label = fmt::format(
-      R"($\underset{{({})}}{{{}}}\longrightarrow\underset{{({})}}{{{}}}\;$)",
-      data.super_msg.number,
-      data.super_msg.label,
-      data.sub_msg.number,
-      data.sub_msg.label
-      );
-
-    draw_perturbation_label(perturbation_label,
-                            center_x, center_y + 1.75,
-                            center_x, center_y - 1.00,
-                            line_code);
-
+    subvisualize_at_x_idx(x_idx, node_code);
   }
 
   for (int x_idx = 0;
        x_idx < static_cast<int>(drawn_subk_idxs.size());
        ++x_idx)
   {
-    visualize_x_idx(x_idx, node_code);
-
-    if (x_idx > 0) {
-      visualize_superlines(x_idx-1, x_idx, line_code);
-      visualize_sublines(x_idx-1, x_idx, line_code);
-    }
+    supervisualize_at_x_idx(x_idx, node_code);
   }
 
-  if (!superband.satisfies_antiunit_rels(data)) {
+  for (int x_idx = 0;
+       x_idx < static_cast<int>(drawn_subk_idxs.size());
+       ++x_idx)
+  {
+    annotate(x_idx, node_code);
+  }
+
+  visualize_separation(line_code);
+
+  for (int x_idx = 1;
+       x_idx < static_cast<int>(drawn_subk_idxs.size());
+       ++x_idx)
+  {
+    if (mode != VisMode::Compact) {
+      visualize_superlines(x_idx-1, x_idx, line_code);
+    }
+    visualize_sublines(x_idx-1, x_idx, line_code);
+  }
+
+  if (!superband.satisfies_antiunit_rels()) {
     const auto left = 0.0;
-    const auto right = left + subk_min_dist * (drawn_subk_idxs.size() - 1);
-    const auto bottom = subband_height + band_band_separation;
+    const auto right = left + spec.subk_min_dist * (drawn_subk_idxs.size() - 1);
+    const auto bottom = subband_y_max + spec.band_band_separation;
     const auto top = bottom + superband_height;
 
     node_code << fmt::format(
@@ -412,9 +423,9 @@ void Visualize::dump(const std::string& filename)
       );
   }
 
-  if (!subband.satisfies_antiunit_rels(data)) {
+  if (!subband.satisfies_antiunit_rels()) {
     const auto left = 0.0;
-    const auto right = left + subk_min_dist * (drawn_subk_idxs.size() - 1);
+    const auto right = left + spec.subk_min_dist * (drawn_subk_idxs.size() - 1);
     const auto bottom = 0.0;
     const auto top = bottom + subband_height;
 
@@ -426,11 +437,67 @@ void Visualize::dump(const std::string& filename)
       );
   }
 
+  for (const auto& [gap, isgapped_and_si] : subband.calc_gap_sis()) {
+    if (gap == subband.get_num_bands()) {
+      break;
+    }
+    const auto& [isgapped, si] = isgapped_and_si;
+    if (isgapped) {
+      const auto x_idx = 0;
+      const auto k_idx = drawn_subk_idxs[x_idx];
+      const auto& submodes = subband.subk_idx_to_e_idx_to_submode[k_idx];
+      int dim = 0;
+      int e_idx = 0;
+      while (dim < gap) {
+        const int subirrep_dim
+          = data.sub_msg.dims.at(submodes[e_idx].subirrep_idx);
+        dim += subirrep_dim;
+        ++e_idx;
+      }
+      assert(dim == gap);
+      assert(e_idx > 0);
+
+      const auto to_str = [](const IntMatrix& si) {
+        std::ostringstream result;
+        for (int i = 0; i < si.size(); ++i) {
+          result << si(i);
+        }
+        return result.str();
+      };
+
+      IrrepPoint p1 = x_idx_to_subirrep_points[x_idx][e_idx-1];
+      IrrepPoint p2 = x_idx_to_subirrep_points[x_idx][e_idx];
+
+      const double x1 = 0.5 * (p1.x + p2.x) - 0.2;
+      const double y1 = 0.5 * (p1.y + p2.y);
+      const double x2 = 0.5 * (p1.x + p2.x) - 0.9;
+      const double y2 = 0.5 * (p1.y + p2.y);
+
+      const char* color = si.isZero() ? "black" : "red";
+
+      sis_code << fmt::format(
+        R"(\draw[-{{Latex[length=3mm,width=2.25mm]}},line width=.95pt,{},)"
+        R"(rounded corners]({}cm,{}cm))"
+        R"(--({}cm,{}cm)--({}cm,{}cm);)" "\n",
+        color,
+        x2, y2+0.25,
+        x2, y2,
+        x1, y1
+        );
+      sis_code << fmt::format(
+        R"(\node[{},above]at({}cm,{}cm){{\Large\bf{{{}}}}};)" "\n",
+        color,
+        x2, y2+.22,
+        to_str(si)
+        );
+    }
+  }
+
   std::string result = latex_figure_template;
 
   result = std::regex_replace(result,
-                              std::regex(R"(DEBUG-CODE)"),
-                              debug_code.str()
+                              std::regex(R"(SIS-CODE)"),
+                              sis_code.str()
                              );
   result = std::regex_replace(result,
                               std::regex(R"(EDGE-LAYER-CODE)"),
@@ -445,40 +512,175 @@ void Visualize::dump(const std::string& filename)
   out << result;
 }
 
-void Visualize::visualize_x_idx(int x_idx, std::ostringstream& output)
+
+void Visualize::visualize_separation(std::ostringstream& out)
 {
-  supervisualize_at_x_idx(x_idx, output);
-  subvisualize_at_x_idx(x_idx, output);
+
+  const double xmax = spec.subk_min_dist * (drawn_subk_idxs.size() - 1);
+  double ycenter = subband_y_max + 0.45*spec.band_band_separation;
+
+  if (mode == VisMode::Compact) {
+    ycenter = subband_y_max + 3.25;
+  }
 
 
+  std::string label1 = fmt::format(
+    R"({{$\underset{{\textrm{{WP: }}{}}}{{{}~\scriptstyle{{({})}}}})"
+    R"(\rightarrow\underset{{\textrm{{SI: }}{}}}{{{}~\scriptstyle{{({})}}}}\;\;$}})",
+    data.wp,
+    data.super_msg.label,
+    data.super_msg.number,
+    data.si_orders_to_latex(),
+    data.sub_msg.label,
+    data.sub_msg.number
+    );
+  std::string label2 = fmt::format(
+    R"({{${}$}})",
+    latexify_super_to_sub(data)
+    );
+
+  double y1 = ycenter + 0.35*spec.band_band_separation;
+  double y2 = ycenter - 0.3*spec.band_band_separation;
+
+  std::string size1 = "huge";
+  std::string size2 = "Large";
+
+  if (drawn_subk_idxs.size() < 8) {
+    size1 = "LARGE";
+    size2 = "Large";
+
+    label1 = label1 + R"(\;\;\;\;\;)";
+  }
+
+  out << fmt::format(
+    R"(\node [label=center:\{} {{{}}}] at ({:3.3f}cm, {:3.3f}cm) {{}};)"
+    "\n",
+    size1,
+    label1,
+    xmax/4.0, 0.5*(y1 + y2)
+    );
+  out << fmt::format(
+    R"(\node [label=center:\{} {{{}}}] at ({:3.3f}cm, {:3.3f}cm) {{}};)"
+    "\n",
+    size2,
+    label2,
+    3.0*xmax/4.0, 0.5*(y1 + y2)
+    );
+
+  double downarrow_x = xmax / 2.0;
+  if (drawn_subk_idxs.size() % 2 == 1) {
+    downarrow_x += 0.5 * spec.subk_min_dist;
+  }
+
+  if (mode == VisMode::Normal) {
+    out << fmt::format(
+      R"(\draw [line width=4pt,arrows={{-Latex[width=20pt,length=20pt]}}])"
+      R"(({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)" "\n",
+      downarrow_x, y1,
+      downarrow_x, y2
+      );
+  }
+
+
+}
+
+void Visualize::annotate(int x_idx, std::ostringstream& output)
+{
   const int subk_idx = x_idx_to_subk_idx(x_idx);
   const int superk_idx = x_idx_to_superk_idx(x_idx);
 
   const std::string subk = data.sub_msg.ks[subk_idx];
+  std::string subkcoords = data.sub_msg.kcoords[subk_idx];
   const std::string superk = data.super_msg.ks[superk_idx];
+  std::string superkcoords = data.super_msg.kcoords[superk_idx];
 
   std::string gk_code;
 
   std::string g = data.subk_to_g_and_superk.at(subk).first;
 
-  if (g != R"({1|0})") {
-    g = std::regex_replace(g,
-                           std::regex(R"(([0-9])/([0-9]))"),
-                           R"(\frac{$1}{$2})"
-                          );
-    gk_code = fmt::format(
-      R"(label=\Large {{$\{{{}\}}{{\bm{{k}}}}_{{{}}}$}})",
-      g.substr(1, g.size()-2),
-      superk
-      );
+  g = std::regex_replace(g,
+                         std::regex(R"(([0-9])/([0-9]))"),
+                         R"(\frac{$1}{$2})"
+                        );
+  subkcoords = std::regex_replace(subkcoords,
+                         std::regex(R"(([0-9])/([0-9]))"),
+                         R"(\frac{$1}{$2})"
+                        );
+  superkcoords = std::regex_replace(superkcoords,
+                         std::regex(R"(([0-9])/([0-9]))"),
+                         R"(\frac{$1}{$2})"
+                        );
 
+  if (g == R"({1|0})") {
+    g = "";
+    gk_code = fmt::format(
+      R"(\Large {{${}({})$}})",
+      latexify_korirrep(superk),
+      superkcoords
+      );
+  } else {
+    gk_code = fmt::format(
+      R"(\Large {{$\{{{}\}}{{\bm{{k}}}}_{{{}}}$}})",
+      std::regex_replace(g.substr(1, g.size()-2),
+                         std::regex(R"(-([0-9]))"),
+                         R"(\bar{$1})"),
+      latexify_korirrep(superk)
+      );
   }
 
+  if (mode == VisMode::Normal) {
+    output << fmt::format(
+      R"(\node[]at({:3.3f}cm,{:3.3f}cm){{{}}};)" "\n",
+      x_from_x_idx(x_idx),
+      subband_y_max + superband_height + spec.band_band_separation + 1.95,
+      gk_code
+      );
+    if (x_idx == 0) {
+      output << fmt::format(
+        R"(\draw[]({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)" "\n",
+        -1.0,
+        subband_y_max+superband_height+spec.band_band_separation+1.95-0.4,
+        +1.0+x_from_x_idx(drawn_subk_idxs.size()-1),
+        subband_y_max+superband_height+spec.band_band_separation+1.95-0.4
+        );
+      output << fmt::format(
+        R"(\draw[]({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)" "\n",
+        -1.0,
+        subband_y_min-0.8+0.4,
+        +1.0+x_from_x_idx(drawn_subk_idxs.size()-1),
+        subband_y_min-0.8+0.4
+        );
+    }
+  } else if (mode == VisMode::Compact) {
+    output << fmt::format(
+      R"(\node[]at({:3.3f}cm,{:3.3f}cm){{{}}};)" "\n",
+      x_from_x_idx(x_idx),
+      subband_y_max+1.0,
+      gk_code
+      );
+    if (x_idx == 0) {
+      // output << fmt::format(
+      //   R"(\draw[]({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)" "\n",
+      //   -1.0, subband_y_max+1.95+0.4,
+      //   +1.0+x_from_x_idx(drawn_subk_idxs.size()-1), subband_y_max+1.95+0.4);
+      output << fmt::format(
+        R"(\draw[]({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)" "\n",
+        -1.0, subband_y_max+1.5-0.4,
+        +1.0+x_from_x_idx(drawn_subk_idxs.size()-1), subband_y_max+1.5-0.4);
+      output << fmt::format(
+        R"(\draw[]({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)" "\n",
+        -1.0,
+        subband_y_min-0.8+0.4,
+        +1.0+x_from_x_idx(drawn_subk_idxs.size()-1),
+        subband_y_min-0.8+0.4
+        );
+    }
+  }
   output << fmt::format(
-    R"(\node[{}]at({:3.3f}cm,{:3.3f}cm){{}};)" "\n",
-    gk_code,
+    R"(\node[]at({:3.3f}cm,{:3.3f}cm){{\Large ${}$}};)" "\n",
     x_from_x_idx(x_idx),
-    subband_height + superband_height + band_band_separation + 1
+    subband_y_min-0.8,
+    latexify_korirrep(subk) + "(" + subkcoords + ")"
     );
 }
 
@@ -505,28 +707,24 @@ void Visualize::supervisualize_at_x_idx(int x_idx, std::ostringstream& output)
       );
   }
 
+  bool all_right = true;
   for (int e_idx = 0;
        e_idx < static_cast<int>(broken_supermodes.size());
        ++e_idx)
   {
     const auto& broken_supermode = broken_supermodes[e_idx];
 
-    double supermode_x = x_from_x_idx(x_idx);
-    double supermode_y =
-      subband_height
-      + band_band_separation
-      // + superband_height * scale_idx(e_idx, supermodes.size());
-      + superband_height * scale_idx(e_idx, supermode_weights);
-
-    draw_superirrep(
-      supermode_x,
-      supermode_y,
-      broken_supermode.superirrep_idx,
-      g == R"({1|0})",
-      broken_supermode.subirrep_idxs,
-      data,
-      output
-      );
+    auto calc_y = [this, &supermode_weights](int idx) {
+      return subband_y_max
+        + spec.band_band_separation
+        + superband_height * scale_idx(idx, supermode_weights);
+    };
+    const double supermode_x = x_from_x_idx(x_idx);
+    const double supermode_y = calc_y(e_idx);
+    const double room_above =
+      (e_idx+1 == static_cast<int>(broken_supermodes.size()))
+      ? 1000.0
+      : calc_y(e_idx+1) - calc_y(e_idx);
 
     x_idx_to_superirrep_points[x_idx].push_back(
       {supermode_x,
@@ -534,15 +732,46 @@ void Visualize::supervisualize_at_x_idx(int x_idx, std::ostringstream& output)
         data.super_msg.irreps[broken_supermode.superirrep_idx]
       }
       );
+    auto label_pos = LabelPosition::Right;
+
+    if (room_above > 2.05) {
+      if (e_idx + 1 != static_cast<int>(supermodes.size())
+          || e_idx == 0
+          || !all_right)
+      {
+        label_pos = LabelPosition::Above;
+        all_right = false;
+      }
+    }
+
+    if (mode == VisMode::Compact) {
+      continue;
+    }
+
+    draw_superirrep(
+      supermode_x,
+      supermode_y,
+      label_pos,
+      broken_supermode.superirrep_idx,
+      g == R"({1|0})",
+      broken_supermode.subirrep_idxs,
+      output
+      );
 
     const int num_subirreps = broken_supermode.subirrep_idxs.size();
     const auto orbit = make_orbit(num_subirreps, pi/2);
+
+    auto sorted_subirrep_idxs = [&broken_supermode]() {
+      std::vector<int> result = broken_supermode.subirrep_idxs;
+      std::sort(result.begin(), result.end());
+      return result;
+    } ();
 
     for (int sub_e_idx = 0;
          sub_e_idx < num_subirreps;
          ++sub_e_idx)
     {
-      const int subirrep_idx = broken_supermode.subirrep_idxs[sub_e_idx];
+      const int subirrep_idx = sorted_subirrep_idxs[sub_e_idx];
 
       const auto diameter = 0.3;
       double orbit_scale = 1.0;
@@ -559,7 +788,6 @@ void Visualize::supervisualize_at_x_idx(int x_idx, std::ostringstream& output)
                    diameter,
                    theta_shift,
                    subirrep_idx,
-                   data,
                    output);
     }
   }
@@ -585,15 +813,19 @@ void Visualize::subvisualize_at_x_idx(int x_idx, std::ostringstream& output)
       );
   }
 
+  double prev_y = -1000.0;
+  bool all_right = true;
   for (int e_idx = 0;
        e_idx < static_cast<int>(broken_supermodes.size());
        ++e_idx)
   {
     const auto& broken_supermode = broken_supermodes[e_idx];
+
+    auto calc_supery = [this, supermode_weights](int e_idx) {
+      return subband_height * scale_idx(e_idx, supermode_weights);
+    };
     double supermode_x = x_from_x_idx(x_idx);
-    // double supermode_y = subband_height * scale_idx(e_idx, supermodes.size());
-    double supermode_y =
-      subband_height * scale_idx(e_idx, supermode_weights);
+    double supermode_y = calc_supery(e_idx);
 
     const int num_subirreps = broken_supermode.subirrep_idxs.size();
 
@@ -605,7 +837,7 @@ void Visualize::subvisualize_at_x_idx(int x_idx, std::ostringstream& output)
         supermode_x,
         supermode_y,
         0.60,
-        broken_min_dist * (num_subirreps-1+2) * .5
+        spec.broken_min_dist * (num_subirreps-1+1.5) * 0.5
         );
     }
 
@@ -615,16 +847,52 @@ void Visualize::subvisualize_at_x_idx(int x_idx, std::ostringstream& output)
     {
       const int subirrep_idx = broken_supermode.subirrep_idxs[sub_e_idx];
 
-
+      auto calc_y = [this, supermode_y, num_subirreps](int sub_e_idx) {
+        return supermode_y
+          + spec.broken_min_dist*(sub_e_idx-(num_subirreps-1)*0.5);
+      };
       const double submode_x{supermode_x};
-      double submode_y{supermode_y
-        + broken_min_dist*(sub_e_idx-(num_subirreps-1)*0.5)};
+      const double submode_y{calc_y(sub_e_idx)};
 
+      const double room_below = 0.5*(submode_y - prev_y);
+      prev_y = submode_y;
+      const double room_above =
+        (e_idx + 1 == static_cast<int>(supermodes.size()))
+        ? 1000.0
+        : 0.5 * (calc_supery(e_idx+1) - calc_supery(e_idx)
+                 - (broken_supermodes[e_idx+1].subirrep_idxs.size() - 1
+                    + num_subirreps - 1
+                   ) * 0.5 * spec.broken_min_dist
+          );
+
+      auto label_pos = sublabel_position(sub_e_idx, num_subirreps);
+      subband_y_max = std::max(subband_y_max, submode_y);
+      if (label_pos == LabelPosition::Below && e_idx == 0 && sub_e_idx == 0) {
+        subband_y_min = std::min(subband_y_min, submode_y - 0.75);
+      } else {
+        subband_y_min = std::min(subband_y_min, submode_y);
+      }
+      if (e_idx + 1 == static_cast<int>(supermodes.size())
+          && sub_e_idx + 1 == num_subirreps
+         )
+      {
+        if (e_idx + sub_e_idx > 0 && all_right) {
+          label_pos = LabelPosition::Right;
+        }
+      }
+      if (label_pos == LabelPosition::Below && room_below < 0.95) {
+        label_pos = LabelPosition::Right;
+      }
+      if (label_pos == LabelPosition::Above && room_above < 0.95) {
+        label_pos = LabelPosition::Right;
+      }
+      if (label_pos != LabelPosition::Right) {
+        all_right = false;
+      }
       draw_subirrep(submode_x,
                     submode_y,
                     subirrep_idx,
-                    sublabel_position(sub_e_idx, num_subirreps),
-                    data,
+                    label_pos,
                     output
                    );
       x_idx_to_subirrep_points[x_idx].push_back(
@@ -832,8 +1100,45 @@ int Visualize::x_idx_to_superk_idx(int x_idx)
 
 double Visualize::x_from_x_idx(int x_idx)
 {
-  return x_idx * subk_min_dist;
+  return x_idx * spec.subk_min_dist;
 }
 
+std::pair<VisMode, VisSpec>
+mode_spec_pair_from_file(const std::string& filename)
+{
+  VisMode mode = VisMode::Normal;
+  VisSpec spec;
+
+  std::ifstream in(filename);
+
+  std::string key, val;
+  while (in >> key >> val) {
+    if (key == "mode") {
+      if (val == "Normal") {
+        mode = VisMode::Normal;
+      } else if (val == "Compact") {
+        mode = VisMode::Compact;
+      } else {
+        throw std::invalid_argument("vis_spec_from_file: invalid value");
+      }
+    } else if (key == "band_band_separation") {
+      spec.band_band_separation = std::stod(val);
+    } else if (key == "subk_min_dist") {
+      spec.subk_min_dist = std::stod(val);
+    } else if (key == "broken_min_dist") {
+      spec.broken_min_dist = std::stod(val);
+    } else if (key == "subband_superband_ratio") {
+      spec.subband_superband_ratio = std::stod(val);
+    } else if (key == "supermode_separation") {
+      spec.supermode_separation = std::stod(val);
+    } else if (key == "skip_color") {
+      spec.skip_color = std::stoi(val);
+    } else {
+      throw std::invalid_argument("vis_spec_from_file: invalid key");
+    }
+  }
+
+  return std::pair(mode, spec);
+}
 
 } // namespace TopoMagnon

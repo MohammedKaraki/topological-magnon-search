@@ -21,9 +21,10 @@ struct SpectrumData {
     std::map<std::string, std::string> irrep_to_k;
     std::map<std::string, int> irrep_to_dim;
     std::vector<int> dims;
+    std::vector<int> irrepidx_to_kidx;
 
     std::vector<std::string> ks;
-    std::map<std::string, std::string> k_to_coords;
+    std::vector<std::string> kcoords;
 
     std::vector<std::tuple<int, int, std::map<int, int>>>
       k1idx_k2idx_irrep1idxtoirrep2idx_tuples;
@@ -44,10 +45,14 @@ struct SpectrumData {
 
   std::string wp;
   std::pair<std::string, std::string> magnon_site_irreps;
+  std::pair<std::string, std::string> pos_neg_siteirreps;
+  std::pair<std::vector<std::string>, std::vector<std::string>>
+    pos_neg_magnonirreps;
 
   std::vector<std::vector<std::string>> super_irrep12wp_decomps_of_sxsy;
   std::map<std::string, std::vector<std::string>> super_irrep1wp_to_irreps;
   std::vector<std::vector<std::string>> super_to_sub;
+  std::vector<std::string> presc;
 
   IntMatrix comp_rels_matrix;
   std::vector<int> si_orders;
@@ -63,10 +68,12 @@ struct SpectrumData {
 
   std::vector<Bag> unique_bags;
 
+  std::string firstsiteirrep_and_wp_as_strkey() const;
   std::string site_irreps_as_str() const;
   std::string make_br_label() const;
   int subk_idx_to_superk_idx(int subk_idx) const;
   int bag_to_idx(const Bag& bag) const;
+  std::string si_orders_to_latex() const;
 };
 
 } // namespace TopoMagnon

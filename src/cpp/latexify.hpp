@@ -12,6 +12,14 @@ namespace TopoMagnon {
 std::string latexify_greeks(const std::string& label);
 std::string latexify_sis(const SpectrumData& data);
 std::string latexify_comp_rels(const SpectrumData& data);
+std::string latexify_super_to_sub_axis(const SpectrumData& data, int axis_idx);
+std::string latexify_super_to_sub(const SpectrumData& data);
+std::string latexify_super_to_sub_v2(const SpectrumData& data);
+std::string latexify_korirrep(std::string label);
+std::string latexify_gkcoords(std::string g,
+                              std::string k,
+                              std::string coords);
+std::string latexify_irrepsum(const std::vector<std::string>& irreps);
 
 std::string latexify_supercond_chemistries(
   const SpectrumData& data,
@@ -28,11 +36,16 @@ public:
     return *this;
   }
 
-  void dump(const std::string& filename);
+  void describe_si_formulas(const SpectrumData& data);
+  void describe_sc_chems(const SpectrumData& data);
+  void dump(const std::string& filename, bool standalone=true);
 
 private:
   std::ostringstream code;
 };
+
+
+
 
 } // namespace TopoMagnon
 

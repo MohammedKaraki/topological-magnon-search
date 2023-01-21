@@ -1,3 +1,4 @@
+#include <iostream>
 #include <regex>
 #include <sstream>
 #include <cassert>
@@ -231,19 +232,19 @@ std::string latexify_comp_rels(const SpectrumData& data)
 
 std::string latexify_supercond_chemistries(
   const SpectrumData& data,
-  const SupercondChemistries& supercond_chemistries
+  const SupercondChemistries& sc_chems
   )
 {
   std::ostringstream result;
 
   result << R"(\begin{align})" "\n"
     R"((S^x,S^y)_{)" << data.wp << "}\n";
-  for (auto it = supercond_chemistries.begin();
-       it != supercond_chemistries.end();
+  for (auto it = sc_chems.begin();
+       it != sc_chems.end();
        ++it)
   {
     result << "&= " << it->latexify();
-    if (std::next(it) != supercond_chemistries.end()) {
+    if (std::next(it) != sc_chems.end()) {
       result << "\\\\\n";
     }
   }
@@ -280,18 +281,251 @@ std::string latexify_physics_and_chemistries_pairs(
   return result.str();
 }
 
-void LatexDoc::dump(const std::string& filename)
+void LatexDoc::dump(const std::string& filename, bool standalone)
 {
   auto out = std::ofstream(filename);
-  out <<
-    R"(\documentclass{article})" "\n"
-    R"(\usepackage{amsmath,amssymb,dsfont})" "\n"
-    R"(\usepackage{mathtools,microtype,bm,xcolor})" "\n"
-    R"(\usepackage[margin=1in]{geometry})" "\n"
-    R"()" "\n"
-    R"(\begin{document})" "\n"
-    << code.str() << "\n"
-    R"(\end{document})";
+
+  if (!standalone) {
+    out << code.str();
+  } else {
+    out <<
+      R"(\documentclass{article})" "\n"
+      R"(\usepackage{amsmath,amssymb,dsfont})" "\n"
+      R"(\usepackage{mathtools,microtype,bm,xcolor})" "\n"
+      R"(\usepackage{adjustbox,enumitem})" "\n"
+      R"(\usepackage{booktabs,longtable,multirow})" "\n"
+      R"(\usepackage{hyperref})" "\n"
+      R"(\usepackage[margin=1in]{geometry})" "\n"
+      R"()" "\n"
+      R"(\newcommand{\myfigure}[3]{%)" "\n"
+      R"(\begin{figure}[b])" "\n"
+      R"(\centering)" "\n"
+      R"(\maxsizebox{\textwidth}{%)" "\n"
+      R"(\textheight-\abovecaptionskip-\belowcaptionskip-\parskip}%)" "\n"
+      R"({\IfFileExists{#1}{\includegraphics{#1}}{????}})" "\n"
+      R"(\caption{\label{#2}#3})" "\n"
+      R"(\end{figure})" "\n"
+      R"(})" "\n"
+      R"(\begin{document})" "\n"
+      << code.str() << "\n"
+      R"(\end{document})";
+  }
 }
+
+void LatexDoc::describe_sc_chems(const SpectrumData& data)
+{
+
+  SupercondChemistries sc_chems;
+  const auto phys_chems_pairs
+    = find_physics_and_chemistries_pairs(data, sc_chems);
+
+  *this << fmt::format(
+    R"(On the Wyckoff position ${0}$ of $G={1}$, the site symmetry group )"
+    R"(representation of the spin-wave variables $(S^x,S^y)$ is ${2}$.)" "\n",
+    data.wp,
+    data.super_msg.label,
+    data.site_irreps_as_str()
+    );
+
+  if (sc_chems.size() == 1) {
+    *this << fmt::format(
+      R"(The band structure induced from ${0}$ on ${1}$ can be uniquely )"
+      R"(decomposed in terms of EBRs as)",
+      data.site_irreps_as_str(),
+      data.wp
+      );
+  }
+  else {
+    *this << fmt::format(
+      R"(In terms of EBRs of ${3}$, we find that there are )"
+      R"({2} valid decompositions of the band structure )"
+      R"(induced from ${0}$ on ${1}$:)" "\n",
+      data.site_irreps_as_str(),
+      data.wp,
+      sc_chems.size(),
+      data.super_msg.label
+      );
+  }
+  *this << latexify_supercond_chemistries(data, sc_chems) << "\n";
+
+
+  if (phys_chems_pairs.size() > 1) {
+    *this << fmt::format(
+      R"(Consequently, we find {} possible band representations for )"
+      R"(the positive energy magnons:)" "\n",
+      phys_chems_pairs.size()
+      );
+  } else {
+    *this <<
+      R"(This leads to a unique band representation for the positive )"
+      R"(energy magnons:)" "\n";
+  }
+
+  *this << latexify_physics_and_chemistries_pairs(phys_chems_pairs)
+    << "\n";
+}
+
+
+std::string latexify_super_to_sub_axis(const SpectrumData& data, int axis_idx)
+{
+  std::string result;
+
+  const std::array super_axes = {R"(\bm{a})", R"(\bm{b})", R"(\bm{c})"};
+  for (int i = 0; i < 3; ++i) {
+    std::string coeff = data.super_to_sub[i][axis_idx];
+    coeff = std::regex_replace(coeff,
+                               std::regex(R"(([0-9])/([0-9]))"),
+                               R"(\frac{$1}{$2})"
+                              );
+    assert(!coeff.empty());
+    if (coeff == "0") {
+      continue;
+    }
+
+    if (!result.empty() || axis_idx == 3) {
+      if (coeff[0] != '-') {
+        coeff = "+" + coeff;
+      }
+    }
+
+    if (coeff == "-1") {
+      coeff = "-";
+    }
+
+    if (coeff == "+1") {
+      coeff = "+";
+    }
+
+    if (coeff == "1") {
+      coeff = "";
+    }
+
+    result += coeff + super_axes[i];
+  }
+
+  if (axis_idx != 3) {
+    assert(!result.empty());
+  }
+
+  return result;
+}
+
+std::string latexify_super_to_sub(const SpectrumData& data)
+{
+  std::string aprime = latexify_super_to_sub_axis(data, 0);
+  std::string bprime = latexify_super_to_sub_axis(data, 1);
+  std::string cprime = latexify_super_to_sub_axis(data, 2);
+  std::string dorigin = latexify_super_to_sub_axis(data, 3);
+
+  std::string breakornot1 = R"(\quad)", breakornot2 = R"(\\[2mm])";
+  if (aprime.size() + bprime.size() + cprime.size() > 30) {
+    std::swap(breakornot1, breakornot2);
+  }
+
+  return fmt::format(R"(\begin{{array}}{{c}}
+  \bm{{a}}\rightarrow {0},\quad
+  \bm{{b}}\rightarrow {1},{4}
+  \bm{{c}}\rightarrow {2},{5}
+  \bm{{o}}\rightarrow \bm{{o}}{3}
+  \end{{array}})",
+    aprime,
+    bprime,
+    cprime,
+    dorigin,
+    breakornot1,
+    breakornot2
+    );
+}
+
+std::string latexify_super_to_sub_v2(const SpectrumData& data)
+{
+  std::string aprime = latexify_super_to_sub_axis(data, 0);
+  std::string bprime = latexify_super_to_sub_axis(data, 1);
+  std::string cprime = latexify_super_to_sub_axis(data, 2);
+  std::string dorigin = latexify_super_to_sub_axis(data, 3);
+
+  return fmt::format(R"(\begin{{align}}
+  \bm{{a}}&\rightarrow\bm{{a}}'={}\\
+  \bm{{b}}&\rightarrow\bm{{b}}'={}\\
+  \bm{{c}}&\rightarrow\bm{{c}}'={}\\
+  \bm{{o}}&\rightarrow\bm{{o}}'=\bm{{o}}{}
+  \end{{align}})",
+    aprime, bprime, cprime, dorigin);
+}
+
+std::string latexify_korirrep(std::string label)
+{
+  label = std::regex_replace(label, std::regex(R"(GM)"), R"(\Gamma)");
+  label = std::regex_replace(label, std::regex(R"(LA)"), R"(\mathit{LA})");
+  label = std::regex_replace(label, std::regex(R"(VA)"), R"(\mathit{VA})");
+  label = std::regex_replace(label, std::regex(R"(KA)"), R"(\mathit{KA})");
+  label = std::regex_replace(label, std::regex(R"(HA)"), R"(\mathit{HA})");
+  label = std::regex_replace(label, std::regex(R"(NA)"), R"(\mathit{NA})");
+  label = std::regex_replace(label, std::regex(R"(TA)"), R"(\mathit{TA})");
+  return R"({)" + label + "}";
+}
+
+std::string latexify_gkcoords(std::string g,
+                              std::string k,
+                              std::string coords)
+{
+  coords = std::regex_replace(coords,
+                              std::regex(R"(([0-9])/([0-9]))"),
+                              R"(\frac{$1}{$2})"
+                             );
+
+  g = std::regex_replace(g,
+                         std::regex(R"(([0-9])/([0-9]))"),
+                         R"(\frac{$1}{$2})"
+                        );
+
+  if (g.empty() || g == R"({1|0})") {
+    return fmt::format(
+      R"({{{}({})}})",
+      latexify_korirrep(k),
+      coords
+      );
+  } else {
+    return fmt::format(
+      R"({{\{{{}\}}{{\bm{{k}}}}_{{{}({})}}}})",
+      std::regex_replace(g.substr(1, g.size()-2),
+                         std::regex(R"(-([0-9]))"),
+                         R"(\bar{$1})"),
+      latexify_korirrep(k),
+      coords
+      );
+  }
+}
+
+
+std::string latexify_irrepsum(const std::vector<std::string>& irreps)
+{
+  std::multiset<std::string> sorted_irreps;
+  sorted_irreps.insert(irreps.begin(),
+                       irreps.end());
+
+  std::ostringstream result;
+
+  for (auto it = sorted_irreps.begin(); it != sorted_irreps.end(); ) {
+    const auto cnt = sorted_irreps.count(*it);
+
+    if (it != sorted_irreps.begin()) {
+      result << R"(\oplus )";
+    }
+
+    if (cnt > 1) {
+      result << cnt << R"(\;)";
+    }
+
+    result << *it;
+
+    std::advance(it, cnt);
+  }
+
+  return result.str();
+}
+
+
+
 
 } // namespace TopoMagnon
