@@ -89,7 +89,7 @@ find_example(Superband superband,
              const int low, const int high, const int exact)
 {
   constexpr auto N = 100'000'000;
-  static auto rng = std::mt19937{114};
+  static auto rng = std::mt19937{116};
 
   for (int i = 0; i < N; ++i) {
     for (int k_idx = 0;
@@ -570,7 +570,8 @@ int main(int argc, const char** argv)
     std::cerr << "GoooooooooOOOOOOooooooOOODDDDDD!!!!!!!!!!!\n";
   }
 
-  if (!type_i_excluded) {
+  // if (!type_i_excluded)
+  {
     LatexDoc doc;
     doc << fmt::format(R"(\subsection{{Subgroup )"
                        R"(\texorpdfstring{{${0}~({1})$}}{{{1}}}}})" "\n"
@@ -601,10 +602,10 @@ int main(int argc, const char** argv)
 
     doc << latexify_super_to_sub_v2(data) << "\n";
 
-    doc << fmt::format(R"(Next, we compute the decomposition of the little-group irreps of the original MSG (${}$) at high-symmetry $k$-points in terms of irreps of the subgroup (${}$).)",
-                       data.super_msg.label,
-                       data.sub_msg.label
-                      );
+    // doc << fmt::format(R"(Next, we compute the decomposition of the little-group irreps of the original MSG (${}$) at high-symmetry $k$-points in terms of irreps of the subgroup (${}$).)",
+    //                    data.super_msg.label,
+    //                    data.sub_msg.label
+    //                   );
 
 
     for (auto it = data.subk_to_superirrep_to_subirreps.begin();
@@ -624,23 +625,63 @@ int main(int argc, const char** argv)
       const auto superk_idx = data.super_msg.k_to_idx(superk);
       const auto superk_coords = data.super_msg.kcoords.at(superk_idx);
 
-      if (subk == "GM") {
-        assert(superk == "GM");
-        doc << fmt::format(
-          "{} ${}$,\n",
-          is_first ? " At" : (is_last ? "Finally, at" : "At"),
-          latexify_gkcoords("", subk, subk_coords)
-          );
-      } else {
-        doc << fmt::format(
-          "{} ${}$, equivalent to ${}$ in the original MSG,\n",
-          is_first ? " At" : (is_last ? "Finally, at" : "At"),
-          latexify_gkcoords("", subk, subk_coords),
-          latexify_gkcoords(g, superk, superk_coords)
-          );
-      }
+      // if (subk == "GM") {
+      //   assert(superk == "GM");
+      //   doc << fmt::format(
+      //     "{} ${}$,\n",
+      //     is_first ? " At" : (is_last ? "Finally, at" : "At"),
+      //     latexify_gkcoords("", subk, subk_coords)
+      //     );
+      // } else {
+      //   doc << fmt::format(
+      //     "{} ${}$, equivalent to ${}$ in the original MSG,\n",
+      //     is_first ? " At" : (is_last ? "Finally, at" : "At"),
+      //     latexify_gkcoords("", subk, subk_coords),
+      //     latexify_gkcoords(g, superk, superk_coords)
+      //     );
+      // }
+      doc << fmt::format(
+        R"(\midrule${}$ & ${}$\\)" "\n"
+        R"(\midrule)" "\n",
+        latexify_gkcoords(g, superk, superk_coords),
+        latexify_gkcoords("", subk, subk_coords)
+        );
 
-      doc << R"(\begin{gather})" "\n";
+
+      // doc << R"(\begin{gather})" "\n";
+      // for (auto it = superirrep_to_subirreps.begin();
+      //      it != superirrep_to_subirreps.end();
+      //      ++it)
+      // {
+      //   const auto& [superirrep, subirreps] = *it;
+      //
+      //   std::vector<std::string> latexified_subirreps;
+      //   for (const auto& subirrep : subirreps) {
+      //     latexified_subirreps.push_back(
+      //       fmt::format("{}({})",
+      //                   latexify_korirrep(subirrep),
+      //                   data.sub_msg.dims.at(
+      //                     data.sub_msg.irrep_to_idx(
+      //                       subirrep
+      //                       )
+      //                     )
+      //                  )
+      //       );
+      //   }
+      //
+      //   doc << fmt::format(R"({}({})\rightarrow {})",
+      //                      latexify_korirrep(superirrep),
+      //                      data.super_msg.dims.at(
+      //                        data.super_msg.irrep_to_idx(superirrep)
+      //                        ),
+      //                      latexify_irrepsum(latexified_subirreps)
+      //                     );
+      //   if (std::next(it) != superirrep_to_subirreps.end()) {
+      //     doc << R"(\\)";
+      //   }
+      //   doc << "\n";
+      // }
+      // doc << R"(\end{gather})" "\n";
       for (auto it = superirrep_to_subirreps.begin();
            it != superirrep_to_subirreps.end();
            ++it)
@@ -661,19 +702,15 @@ int main(int argc, const char** argv)
             );
         }
 
-        doc << fmt::format(R"({}({})\rightarrow {})",
+        doc << fmt::format(R"(\multicolumn{{2}}{{|c|}}{{${}({})\rightarrow {}$}}\\)",
                            latexify_korirrep(superirrep),
                            data.super_msg.dims.at(
                              data.super_msg.irrep_to_idx(superirrep)
                              ),
                            latexify_irrepsum(latexified_subirreps)
                           );
-        if (std::next(it) != superirrep_to_subirreps.end()) {
-          doc << R"(\\)";
-        }
         doc << "\n";
       }
-      doc << R"(\end{gather})" "\n";
     }
 
     const int n1 = subband.get_num_bands() - *high - 1;

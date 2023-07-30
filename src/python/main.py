@@ -6,37 +6,33 @@ from subprocess import check_output
 import sys
 
 
-def preprocess(msg_number, wp):
+def preprocess(msg_number, wps):
     msg = Msg(msg_number)
-    id = 0
-    for gstrs, _ in gstrs_and_presc_of_subgroups(msg):
+
+    for id, (gstrs, _) in enumerate(gstrs_and_presc_of_subgroups(msg)):
         identified_number = identify_group(gstrs.split(';'))['group_number']
         si_str = MSG_INFO_TABLE[identified_number][1]
         if si_str != '(1)':
             print(id, identified_number, si_str)
-            check_output(['python', 'perturb_wp.py',
+            check_output(['python', 'perturb_wps.py',
                           msg_number,
-                          wp,
+                          *wps,
                           str(id)
                           ]
                          )
 
-        id += 1
-
 
 def main():
-    args = sys.argv
-    assert len(args) >= 2
-    command = args[1]
-
-    valid_commands = {"preprocess"}
-    assert command in valid_commands
+    assert len(sys.argv) >= 2
+    command = sys.argv[1]
+    args = sys.argv[2:]
 
     if command == "preprocess":
-        assert len(args) >= 2 + 2
-        msg_number = str(args[2])
-        wp = str(args[3])
-        preprocess(msg_number, wp)
+        assert len(args) >= 2
+        msg_number = str(args[0])
+        wps = args[1:]
+
+        preprocess(msg_number, wps)
 
     else:
         assert False

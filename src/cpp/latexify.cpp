@@ -487,7 +487,8 @@ std::string latexify_gkcoords(std::string g,
       );
   } else {
     return fmt::format(
-      R"({{\{{{}\}}{{\bm{{k}}}}_{{{}({})}}}})",
+      // R"({{\{{{}\}}{{\bm{{k}}}}_{{{}({})}}}})",
+      R"({{\{{{}\}}{{{}({})}}}})",
       std::regex_replace(g.substr(1, g.size()-2),
                          std::regex(R"(-([0-9]))"),
                          R"(\bar{$1})"),
