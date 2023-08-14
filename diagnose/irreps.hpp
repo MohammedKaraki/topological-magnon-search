@@ -19,7 +19,6 @@ class Littleirrep {
     const std::string &get_dim() const { return dim; }
     const std::string &to_str() const { return src; }
 
-
     auto view_as_tuple() const { return std::tie(irreplabel, ksymbol, dim, src); }
     MAKE_COMPARABLE();
 

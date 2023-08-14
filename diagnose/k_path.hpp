@@ -7,11 +7,10 @@
 
 namespace TopoMagnon {
 
-std::vector<int> k_idxs_path(const SpectrumData::Msg& msg, bool all_edges);
+std::vector<int> k_idxs_path(const SpectrumData::Msg &msg, bool all_edges);
 
-void complement_subk_idxs(std::vector<int>& subk_idxs,
-                          const SpectrumData::Msg& msg);
+void complement_subk_idxs(std::vector<int> &subk_idxs, const SpectrumData::Msg &msg);
 
-} // namespace TopoMagnon
+}  // namespace TopoMagnon
 
-#endif // HIGH_SYMMETRY_PATH_HPP
+#endif  // HIGH_SYMMETRY_PATH_HPP
