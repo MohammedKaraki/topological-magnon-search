@@ -967,7 +967,7 @@ void Visualize::visualize_superlines(int x1_idx, int x2_idx,
 
 
 
-  int line_mode_idx = -1;
+  // int line_mode_idx = -1;
   double next_line_y = -1000;
   for (const auto& line_mode : line_modes) {
     const auto& [center_x, center_y] = line_mode.center();
@@ -977,7 +977,7 @@ void Visualize::visualize_superlines(int x1_idx, int x2_idx,
       next_line_y += 0.3;
     }
 
-    ++line_mode_idx;
+    // ++line_mode_idx;
     output << fmt::format(
       R"(\draw[rounded corners=40pt,line width=2,color=gray,opacity=.4]({:3.3f}cm,{:3.3f}cm))"
       R"(--({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)" "\n",
@@ -1010,14 +1010,14 @@ void Visualize::visualize_sublines(int x1_idx, int x2_idx,
   const auto& irrep_points1 = x_idx_to_subirrep_points.at(x1_idx);
   const auto& irrep_points2 = x_idx_to_subirrep_points.at(x2_idx);
 
-  int line_modes_count = 0;
+  // int line_modes_count = 0;
 
   for (const auto& irrep_point1 : irrep_points1) {
     for (const auto& lineirrep
          : subirrep_to_lineirreps.at(irrep_point1.irrep))
     {
       lineirrep_to_left_and_right_queues[lineirrep].first.push(irrep_point1);
-      ++line_modes_count;
+      // ++line_modes_count;
     }
   }
 
@@ -1059,7 +1059,7 @@ void Visualize::visualize_sublines(int x1_idx, int x2_idx,
            );
 
 
-  int line_mode_idx = -1;
+  // int line_mode_idx = -1;
   double next_line_y = -1000;
   for (const auto& line_mode : line_modes) {
     const auto& [center_x, center_y] = line_mode.center();
@@ -1069,7 +1069,7 @@ void Visualize::visualize_sublines(int x1_idx, int x2_idx,
       next_line_y += 0.3;
     }
 
-    ++line_mode_idx;
+    // ++line_mode_idx;
     output << fmt::format(
       R"(\draw[rounded corners=40pt,line width=2,color=gray,opacity=.4]({:3.3f}cm,{:3.3f}cm))"
       R"(--({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)",
