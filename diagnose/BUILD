@@ -1,8 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 load("//:defs.bzl", "py_binary")
 
-
-
 cc_binary(
     name = "diagnose",
     srcs = ["diagnose.cpp"],

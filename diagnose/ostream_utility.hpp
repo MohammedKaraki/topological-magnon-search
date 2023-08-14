@@ -1,5 +1,4 @@
-#ifndef OSTREAM_UTILITY_HPP
-#define OSTREAM_UTILITY_HPP
+#pragma once
 
 #include <llvm/ADT/SmallVector.h>
 
@@ -137,5 +136,3 @@ std::ostream &operator<<(std::ostream &out, const std::map<int, Val> &map) {
 }
 
 }  // namespace TopoMagnon
-
-#endif  // OSTREAM_UTILITY_HPP

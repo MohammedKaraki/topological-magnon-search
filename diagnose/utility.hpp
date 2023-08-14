@@ -1,5 +1,4 @@
-#ifndef UTILITY_HPP
-#define UTILITY_HPP
+#pragma once
 
 #include <llvm/ADT/SmallVector.h>
 
@@ -110,5 +109,3 @@ Vector<T> intersect(const Vector<std::set<T>> &sets) {
 }
 }  // namespace Utility
 }  // namespace TopoMagnon
-
-#endif  // UTILITY_HPP

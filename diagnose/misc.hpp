@@ -1,5 +1,4 @@
-#ifndef MISC_HPP
-#define MISC_HPP
+#pragma once
 
 #include "latexify.hpp"
 
@@ -60,5 +59,3 @@ void {
 }
 
 }  // namespace TopoMagnon
-
-#endif  // MISC_HPP

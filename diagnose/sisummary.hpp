@@ -1,5 +1,4 @@
-#ifndef SISUMMARY_HPP
-#define SISUMMARY_HPP
+#pragma once
 
 #include <iostream>
 #include <map>
@@ -103,5 +102,3 @@ class SiSummary {
 };
 
 }  // namespace TopoMagnon
-
-#endif  // SISUMMARY_HPP

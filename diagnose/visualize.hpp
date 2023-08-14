@@ -1,5 +1,4 @@
-#ifndef VISUALIZE_HPP
-#define VISUALIZE_HPP
+#pragma once
 
 #include <cassert>
 #include <map>
@@ -106,5 +105,3 @@ class Visualize {
 };
 
 }  // namespace TopoMagnon
-
-#endif  // VISUALIZE_HPP

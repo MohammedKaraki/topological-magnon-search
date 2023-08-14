@@ -1,5 +1,4 @@
-#ifndef LATEXIFY_HPP
-#define LATEXIFY_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -40,5 +39,3 @@ class LatexDoc {
 };
 
 }  // namespace TopoMagnon
-
-#endif  // LATEXIFY_HPP
