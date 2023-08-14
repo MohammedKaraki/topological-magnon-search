@@ -1,6 +1,8 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 load("//:defs.bzl", "py_binary")
 
+
+
 cc_binary(
     name = "diagnose",
     srcs = ["diagnose.cpp"],
@@ -28,6 +30,7 @@ cc_library(
         "@fmt",
         ":utility",
         ":ostream_utility",
+        "//utils:compare",
     ],
 )
 
@@ -117,6 +120,7 @@ cc_library(
     srcs = ["irreps.cpp"],
     deps = [
         "@fmt",
+        "//utils:compare",
     ],
 )
 
