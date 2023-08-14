@@ -87,6 +87,16 @@ git_repository(
     ],
 )
 
+# Protobuf library.
+http_archive(
+    name = "com_google_protobuf",
+    strip_prefix = "protobuf-4.23.4",
+    sha256 = "5f3cd52d6e5062071d99da57a96ea87e39bc020d6d25748001d919c474a4d8ed",
+    urls = ["https://github.com/protocolbuffers/protobuf/archive/v4.23.4.tar.gz"],
+)
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+protobuf_deps()
+
 http_archive(
     name = "gtest",
     sha256 = "ffa17fbc5953900994e2deec164bb8949879ea09b411e07f215bfbb1f87f4632",
