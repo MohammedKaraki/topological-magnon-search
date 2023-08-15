@@ -1,7 +1,3 @@
-#include <fmt/format.h>
-
-#include <Eigen/Core>
-#include <Eigen/Dense>
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -14,6 +10,12 @@
 #include <string_view>
 #include <utility>
 
+#include "Eigen/Core"
+#include "Eigen/Dense"
+#include "fmt/format.h"
+
+#include "range/v3/view.hpp"
+
 using IntMatrix = Eigen::Matrix<int, 3, 3>;
 using IntColumn = Eigen::Matrix<int, 3, 1>;
 using IntRow = Eigen::Matrix<int, 1, 3>;
@@ -23,6 +25,10 @@ class Unitarity {
     Unitarity(int value) { set(value); }
 
     Unitarity(const Unitarity &u) { set(u.value); }
+    Unitarity &operator=(const Unitarity &u) {
+        set(u.value);
+        return *this;
+    }
 
     Unitarity operator*(const Unitarity &rhs) const { return Unitarity(value * rhs.value); }
 
@@ -49,7 +55,7 @@ class PointGroupElement {
 
     const Unitarity get_u() const { return data.second; }
 
-    const bool is_identity() const {
+    bool is_identity() const {
         return data.first == IntMatrix::Identity() && data.second.get() == 1;
     }
 
@@ -136,7 +142,7 @@ PointGroupElement::Data PointGroupElement::parse_gstr(std::string_view gstr) {
     assert(std::count(gstr.begin(), gstr.end(), 'z') >= 1);
     assert(std::count(gstr.begin(), gstr.end(), '1') >= 1);
 
-    using namespace std::ranges;
+    using namespace ranges;
     auto view = gstr | views::split(',') | views::transform([](auto &&x) {
                     return std::string_view(&*x.begin(), distance(x));
                 });
@@ -305,7 +311,7 @@ const Dirs &get_dirs(const std::string &msg_number) {
 std::vector<std::string> raw_input_to_vector(std::string_view gstrs) {
     std::vector<std::string> result;
 
-    using namespace std::ranges;
+    using namespace ranges;
     auto view = gstrs | views::split(std::string_view(";")) | views::transform([](auto &&rng) {
                     return std::string_view(&*rng.begin(), distance(rng));
                 });
@@ -412,7 +418,7 @@ void print_subgroups(const std::string &msg_num, std::string_view raw_input) {
         return '(' + result + ')';
     };
 
-    auto textify_symms_triplet = [&textify_symms_singlet, &dirs, &e_symms, &b_symms, &s_symms](
+    auto textify_symms_triplet = [&textify_symms_singlet, /*&dirs,*/ &e_symms, &b_symms, &s_symms](
                                      std::array<unsigned int, 3> triplet) {
         std::vector<std::string> ands;
 

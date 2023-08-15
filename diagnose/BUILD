@@ -5,6 +5,16 @@ load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 
 cc_binary(
+    name = "find_subgroups",
+    srcs = ["find_subgroups.cpp"],
+    deps = [
+        "@fmt",
+        "@eigen",
+        "@range_v3//:range-v3",
+    ],
+)
+
+cc_binary(
     name = "diagnose",
     srcs = ["diagnose.cpp"],
     deps = [

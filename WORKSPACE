@@ -67,6 +67,13 @@ http_archive(
     urls = ["https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz"],
 )
 
+http_archive(
+  name = "range_v3",
+  url = "https://github.com/ericniebler/range-v3/archive/refs/tags/0.12.0.zip",
+  sha256 = "cbcb96beda464e71d293c07dec89ef5c0790ca83d37b0e199890893019441044",
+  strip_prefix = "range-v3-0.12.0",
+)
+
 git_repository(
     name = "fmt",
     commit = "757564f5cd2fa78b634dd698c63dbf069818e6fd",

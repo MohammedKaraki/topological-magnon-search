@@ -121,9 +121,8 @@ class Submode {
  public:
     Submode(int subirrep_idx) : subirrep_idx{subirrep_idx} {}
 
-    int operator<=>(const Submode &rhs) const { assert(false); }
-
-    bool operator!=(const Submode &rhs) const { assert(false); }
+    auto view_as_tuple() const { return std::tie(subirrep_idx); }
+    MAKE_COMPARABLE();
 
     friend std::ostream &operator<<(std::ostream &out, const Submode &submode);
 

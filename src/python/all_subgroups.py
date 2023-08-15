@@ -8,7 +8,7 @@ logger = log.create_logger(__name__)
 
 def gstrs_and_presc_of_subgroups(msg):
     exec_path = str(
-        (Path(__file__) / '../../../build/find_subgroups.exe').resolve())
+        (Path(__file__) / '../../../bazel-bin/diagnose/find_subgroups').resolve())
 
     input = "{} {}".format(msg.number, ";".join(msg.all_gstrs))
     output = check_output([exec_path],
