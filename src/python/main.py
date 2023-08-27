@@ -14,7 +14,7 @@ def preprocess(msg_number, wps):
         si_str = MSG_INFO_TABLE[identified_number][1]
         if si_str != '(1)':
             print(id, identified_number, si_str)
-            check_output(['python', 'perturb_wps.py',
+            check_output(['python3', 'perturb_wps.py',
                           msg_number,
                           *wps,
                           str(id)

@@ -447,10 +447,10 @@ def perturbe_relevant():
     for i, (x1, x2) in enumerate(msgwp_materials_list):
         # if i != 276:
         #     continue
-        # command = ["python", "perturb_relevant.py", *x1]
+        # command = ["python3", "perturb_relevant.py", *x1]
         # print(i, command)
         # result = check_output(command).decode()
-        print("python diagnose.py ", *x1, " && #", i, find_latticetype(x1[0]),
+        print("python3 diagnose.py ", *x1, " && #", i, find_latticetype(x1[0]),
               np.linalg.det(find_primvecsmat(x1[0])), x1[1][:-1], len(x2))
 
 if __name__ == "__main__":
