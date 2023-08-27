@@ -27,7 +27,7 @@ def main():
         si_str = MSG_INFO_TABLE[identified_number][1]
         if si_str != '(1)':
             print(id, identified_number, si_str)
-            check_output(['python', 'perturb_wp.py',
+            check_output(['python3', 'perturb_wp.py',
                           msg_number,
                           wp,
                           str(id)
