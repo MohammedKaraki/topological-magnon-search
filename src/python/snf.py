@@ -17,7 +17,7 @@ def intinv(mat):
     return invmat
 
 
-memory = Memory("~/Dropbox/tmp", verbose=0)
+memory = Memory("~/.tmp", verbose=0)
 
 
 @memory.cache

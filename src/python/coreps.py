@@ -111,7 +111,7 @@ def tabletag_to_trace(table_tag):
     return np.round(trace, ROUND_DECIMALS)
 
 
-memory = Memory("~/Dropbox/tmp/char_table_cache", verbose=1)
+memory = Memory("~/.tmp/char_table_cache", verbose=1)
 
 
 @memory.cache
