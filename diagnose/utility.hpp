@@ -1,7 +1,5 @@
 #pragma once
 
-#include <llvm/ADT/SmallVector.h>
-
 #include <Eigen/Core>
 #include <algorithm>
 #include <set>
@@ -9,19 +7,19 @@
 using IntMatrix = Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic>;
 
 template <typename T>
-using Vector2 = llvm::SmallVector<T, 2>;
+using Vector2 = std::vector<T>;
 
 template <typename T>
-using Vector4 = llvm::SmallVector<T, 4>;
+using Vector4 = std::vector<T>;
 
 template <typename T>
-using Vector8 = llvm::SmallVector<T, 8>;
+using Vector8 = std::vector<T>;
 
 template <typename T>
-using Vector16 = llvm::SmallVector<T, 16>;
+using Vector16 = std::vector<T>;
 
 template <typename T>
-using Vector32 = llvm::SmallVector<T, 32>;
+using Vector32 = std::vector<T>;
 
 template <typename T>
 using Vector = Vector8<T>;

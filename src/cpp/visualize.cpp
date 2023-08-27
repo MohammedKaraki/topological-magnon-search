@@ -12,7 +12,6 @@
 #include <stdexcept>
 
 #include <fmt/core.h>
-#include <llvm/ADT/ArrayRef.h>
 
 #include "visualize.hpp"
 #include "spectrum_data.hpp"
@@ -303,8 +302,8 @@ struct BrokenSupermode {
 };
 
 std::vector<BrokenSupermode> make_broken_supermodes(
-  const llvm::ArrayRef<Supermode> supermodes,
-  const llvm::ArrayRef<Submode> submodes,
+  const std::vector<Supermode> &supermodes,
+  const std::vector<Submode> &submodes,
   const SpectrumData& data)
 {
   auto get_subdim = [&data](int subirrep_idx) {

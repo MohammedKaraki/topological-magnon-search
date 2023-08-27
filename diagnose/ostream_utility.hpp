@@ -1,7 +1,5 @@
 #pragma once
 
-#include <llvm/ADT/SmallVector.h>
-
 #include <iostream>
 #include <map>
 #include <set>
@@ -50,10 +48,6 @@ struct is_vector_like<std::array<T, N>> {
     static constexpr auto value = true;
 };
 
-template <typename T, unsigned N>
-struct is_vector_like<llvm::SmallVector<T, N>> {
-    static constexpr auto value = true;
-};
 
 }  // namespace TypeTraits
 

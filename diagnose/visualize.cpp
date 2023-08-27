@@ -1,7 +1,6 @@
 #include "visualize.hpp"
 
 #include <fmt/core.h>
-#include <llvm/ADT/ArrayRef.h>
 
 #include <array>
 #include <cassert>
@@ -15,6 +14,7 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "entities.hpp"
 #include "latexify.hpp"
@@ -287,8 +287,8 @@ struct BrokenSupermode {
     std::vector<int> subirrep_idxs;
 };
 
-std::vector<BrokenSupermode> make_broken_supermodes(const llvm::ArrayRef<Supermode> supermodes,
-                                                    const llvm::ArrayRef<Submode> submodes,
+std::vector<BrokenSupermode> make_broken_supermodes(const std::vector<Supermode> &supermodes,
+                                                    const std::vector<Submode> &submodes,
                                                     const SpectrumData &data) {
     auto get_subdim = [&data](int subirrep_idx) { return data.sub_msg.dims[subirrep_idx]; };
     auto get_superdim = [&data](int superirrep_idx) { return data.super_msg.dims[superirrep_idx]; };

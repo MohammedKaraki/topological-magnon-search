@@ -8,8 +8,6 @@
 #include <set>
 #include <string>
 
-#include <llvm/ADT/SmallVector.h>
-
 namespace TopoMagnon {
 
 
