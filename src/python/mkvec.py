@@ -5,10 +5,11 @@ import numpy as np
 from re import fullmatch
 
 import log
+
 logger = log.create_logger(__name__)
 
 
-KLABEL_PATTERN = r'([A-Z]+):\(([^,]+),([^,]+),([^,]+)\)'
+KLABEL_PATTERN = r"([A-Z]+):\(([^,]+),([^,]+),([^,]+)\)"
 
 
 def symbol_and_vec3_from_klabel(klabel):
@@ -35,33 +36,37 @@ def vec3_from_klabel(klabel):
 
 def mkvec_html(group_number):
     return cached_post(
-        url=r'https://www.cryst.ehu.es/cgi-bin/cryst/programs/mkvec.pl',
-        data={'super': group_number, 'list': 'Submit'},
-        cache_filename=fr'mkvec-{group_number}.html')
+        url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/mkvec.pl",
+        data={"super": group_number, "list": "Submit"},
+        cache_filename=rf"mkvec-{group_number}.html",
+    )
 
 
 def mkvec_parsed(group_number):
     html = mkvec_html(group_number)
-    soup = bs(html, 'html5lib')
+    soup = bs(html, "html5lib")
 
-    tables = soup.findAll('table',
-                          attrs={'frame': 'box',
-                                 'rules': 'all',
-                                 'align': 'center'})
+    tables = soup.findAll(
+        "table", attrs={"frame": "box", "rules": "all", "align": "center"}
+    )
 
     if len(tables) == 1:
         table = tables[0]
 
         result = []
-        for tr in table.tbody.findAll('tr', recursive=False)[1:]:
-            tds = tr.findAll('td', recursive=False)
+        for tr in table.tbody.findAll("tr", recursive=False)[1:]:
+            tds = tr.findAll("td", recursive=False)
             assert len(tds) == 6, tds
-            result.append({'label': contents_as_str(tds[0]),
-                           'star': contents_as_str(tds[1]),
-                           'cogroup': contents_as_str(tds[2])})
+            result.append(
+                {
+                    "label": contents_as_str(tds[0]),
+                    "star": contents_as_str(tds[1]),
+                    "cogroup": contents_as_str(tds[2]),
+                }
+            )
 
         assert len(result) > 4
-        assert result[0]['label'] == 'GM'
+        assert result[0]["label"] == "GM"
 
         return result
 
@@ -73,32 +78,32 @@ def mkvec_parsed(group_number):
         result = []
 
         generalk_to_cogroup = {}
-        for tr in generalk_table.tbody.findAll('tr', recursive=False)[1:]:
-            tds = tr.findAll('td', recursive=False)
+        for tr in generalk_table.tbody.findAll("tr", recursive=False)[1:]:
+            tds = tr.findAll("td", recursive=False)
             assert len(tds) == 6, tds
-            result.append({'label': contents_as_str(tds[0]),
-                           'star': contents_as_str(tds[1]),
-                           'cogroup': contents_as_str(tds[2])})
+            result.append(
+                {
+                    "label": contents_as_str(tds[0]),
+                    "star": contents_as_str(tds[1]),
+                    "cogroup": contents_as_str(tds[2]),
+                }
+            )
 
-            generalk_to_cogroup[contents_as_str(tds[0])] = contents_as_str(
-                tds[2])
+            generalk_to_cogroup[contents_as_str(tds[0])] = contents_as_str(tds[2])
 
-
-        for tr in specialk_table.tbody.findAll('tr', recursive=False)[1:]:
-            tds = tr.findAll('td', recursive=False)
+        for tr in specialk_table.tbody.findAll("tr", recursive=False)[1:]:
+            tds = tr.findAll("td", recursive=False)
             assert len(tds) == 8, tds
             new_entry = {
-                'label': contents_as_str(tds[0]),
-                'star': contents_as_str(tds[1]),
-                'cogroup':
-                generalk_to_cogroup[contents_as_str(tds[2])]
-                }
+                "label": contents_as_str(tds[0]),
+                "star": contents_as_str(tds[1]),
+                "cogroup": generalk_to_cogroup[contents_as_str(tds[2])],
+            }
 
             assert new_entry not in result
             result.append(new_entry)
 
         assert len(result) > 4
-        assert any(x['label'] == 'GM' for x in result)
+        assert any(x["label"] == "GM" for x in result)
 
         return result
-

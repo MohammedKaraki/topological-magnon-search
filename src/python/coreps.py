@@ -9,6 +9,7 @@ from fractions import Fraction
 from joblib import Memory
 
 import log
+
 logger = log.create_logger(__name__)
 
 
@@ -17,33 +18,33 @@ ROUND_DECIMALS = 10
 
 def fetch_corep_html(group_number, ksymbol):
     return cached_post(
-        url=r'https://www.cryst.ehu.es/cgi-bin/cryst/programs/corepresentations_out.pl',
-        data={'super': group_number,
-              'symbol': '',
-              'vecfinal': ksymbol,
-              'list': 'Submit'},
-        cache_filename=fr'corep-{group_number}-{ksymbol}.html')
-
+        url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/corepresentations_out.pl",
+        data={
+            "super": group_number,
+            "symbol": "",
+            "vecfinal": ksymbol,
+            "list": "Submit",
+        },
+        cache_filename=rf"corep-{group_number}-{ksymbol}.html",
+    )
 
 
 def eval_reprmatrix_element(s):
-    s = s \
-        .replace('t1', '(0)') \
-        .replace('t2', '(0)') \
-        .replace('t3', '(0)')
+    s = s.replace("t1", "(0)").replace("t2", "(0)").replace("t3", "(0)")
 
-    s = sub(r'([0-9]+)', r'(\1)', s)
+    s = sub(r"([0-9]+)", r"(\1)", s)
 
-    s = s \
-        .replace('i', '(i)') \
-        .replace('P', '(P)') \
-        .replace(')(', ')*(') \
-        .replace('i', '1.0j') \
-        .replace('e^{', 'np.exp(') \
-        .replace('}', ')') \
-        .replace('P', 'np.pi') \
-        .replace(')Sqrt', ')*Sqrt') \
-        .replace('Sqrt', 'np.sqrt')
+    s = (
+        s.replace("i", "(i)")
+        .replace("P", "(P)")
+        .replace(")(", ")*(")
+        .replace("i", "1.0j")
+        .replace("e^{", "np.exp(")
+        .replace("}", ")")
+        .replace("P", "np.pi")
+        .replace(")Sqrt", ")*Sqrt")
+        .replace("Sqrt", "np.sqrt")
+    )
 
     return eval(s)
 
@@ -55,9 +56,9 @@ def tabletag_to_trace(table_tag):
     rows = []
     ncols = -1
 
-    trs = table_tag.tbody.findAll('tr', recursive=False)
+    trs = table_tag.tbody.findAll("tr", recursive=False)
     for tr in trs:
-        tds = tr.findAll('td', recursive=False)
+        tds = tr.findAll("td", recursive=False)
         if ncols == -1:
             ncols = len(tds)
         else:
@@ -69,38 +70,38 @@ def tabletag_to_trace(table_tag):
 
         rows.append(row)
 
-
     assert len(rows) > 0, table_tag
     assert len(rows[0]) > 0, table_tag
 
-    INDEX_PATTERN = r'\(([1-6]);([1-6])\): (.+)'
+    INDEX_PATTERN = r"\(([1-6]);([1-6])\): (.+)"
+
     def parse_index_form(s):
         m = fullmatch(INDEX_PATTERN, s)
         if m is None:
             return None
         return m.groups()
 
-
     is_index_form = parse_index_form(rows[0][0]) is not None
 
     assert all(
-        is_index_form == (parse_index_form(x) is not None)
-        for row in rows for x in row
-        )
+        is_index_form == (parse_index_form(x) is not None) for row in rows for x in row
+    )
 
     if is_index_form:
-        matrix = [(rownum, colnum, (eval_reprmatrix_element(valstr)))
-                  for row in rows
-                  for entry in row
-                  for rownum, colnum, valstr in [parse_index_form(entry)]
-                  ]
+        matrix = [
+            (rownum, colnum, (eval_reprmatrix_element(valstr)))
+            for row in rows
+            for entry in row
+            for rownum, colnum, valstr in [parse_index_form(entry)]
+        ]
     else:
-        matrix = [(rowidx+1, colidx+1, val)
-                  for rowidx, row in enumerate(rows)
-                  for colidx, valstr in enumerate(row)
-                  for val in [(eval_reprmatrix_element(valstr))]
-                  if val != 0
-                  ]
+        matrix = [
+            (rowidx + 1, colidx + 1, val)
+            for rowidx, row in enumerate(rows)
+            for colidx, valstr in enumerate(row)
+            for val in [(eval_reprmatrix_element(valstr))]
+            if val != 0
+        ]
 
     trace = 0.0
     for rownum, colnum, val in matrix:
@@ -110,35 +111,34 @@ def tabletag_to_trace(table_tag):
     return np.round(trace, ROUND_DECIMALS)
 
 
-
 memory = Memory("~/Dropbox/tmp/char_table_cache", verbose=1)
+
+
 @memory.cache
 def char_table_info(msg_number, ksymbol):
     html = fetch_corep_html(msg_number, ksymbol)
-    soup = bs(html, 'html5lib')
+    soup = bs(html, "html5lib")
 
-    tables = soup.findAll('table',
-                          attrs={'border': '5',
-                                 'align': 'center'})
+    tables = soup.findAll("table", attrs={"border": "5", "align": "center"})
     assert len(tables) == 2, len(tables)
     table = tables[0]
 
-    trs = table.tbody.findAll('tr', recursive=False)
+    trs = table.tbody.findAll("tr", recursive=False)
     header = trs[0]
     data = trs[1:]
 
     irrep_labels = []
-    header_tds = header.findAll('td', recursive=False)
-    assert len(header_tds) >= (2     # presentation & seitz columns
-                               + 2   # at least 2 irrep columns
-                               )
+    header_tds = header.findAll("td", recursive=False)
+    assert len(header_tds) >= (
+        2 + 2  # presentation & seitz columns  # at least 2 irrep columns
+    )
     for td in header_tds[2:]:
         irrep_labels.append(cleanup_corep_html(contents_as_str(td.center)))
 
     unitary_gs = []
     char_table = []
     for tr in data:
-        tds = tr.findAll('td', recursive=False)
+        tds = tr.findAll("td", recursive=False)
         assert len(irrep_labels) + 3 == len(tds)
 
         chars = []
@@ -150,14 +150,15 @@ def char_table_info(msg_number, ksymbol):
             .replace("t1", "0")
             .replace("t2", "0")
             .replace("t3", "0")
-            ).split()
-        color_to_unitary = {"[black]": True,
-                            "[red]": False,
-                            }
+        ).split()
+        color_to_unitary = {
+            "[black]": True,
+            "[red]": False,
+        }
         is_unitary = color_to_unitary[tmp[0]]
         gstr = mat3x4_to_unitary_gstr(
-            np.reshape([Fraction(x) for x in tmp[1:13]],
-                       newshape=(3, 4)))
+            np.reshape([Fraction(x) for x in tmp[1:13]], newshape=(3, 4))
+        )
 
         if is_unitary:
             unitary_gs.append(UnitaryGenpos.from_gstr(gstr))
@@ -171,12 +172,11 @@ def char_table_info(msg_number, ksymbol):
     inner_prods = char_matrix.T.conj() @ char_matrix
     diag = np.diag(inner_prods)
     assert np.min(np.abs(diag)) > 1.0, diag
-    assert np.allclose(np.diag(diag),
-                       inner_prods)
+    assert np.allclose(np.diag(diag), inner_prods)
     assert np.allclose(inner_prods.imag, 0), inner_prods.imag
     assert np.all(
         np.abs(inner_prods.real.round(7).astype(int) - inner_prods.real) <= 1e-8
-        )
+    )
 
     def as_positive_int(x):
         result = int(x.real)
@@ -184,16 +184,17 @@ def char_table_info(msg_number, ksymbol):
         assert result >= 1
         return result
 
-
     irrep_labels_dimmed = [
         r"{}({})".format(label, as_positive_int(dim))
         for label, dim in zip(irrep_labels, char_matrix[0])
-        ]
+    ]
 
-    num_single_irreps = len([label for label in irrep_labels
-                             if 'overline' not in label])
+    num_single_irreps = len(
+        [label for label in irrep_labels if "overline" not in label]
+    )
 
-    return (irrep_labels_dimmed[:num_single_irreps],
-            unitary_gs,
-            char_matrix[:, :num_single_irreps]
-            )
+    return (
+        irrep_labels_dimmed[:num_single_irreps],
+        unitary_gs,
+        char_matrix[:, :num_single_irreps],
+    )

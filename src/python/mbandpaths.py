@@ -7,20 +7,20 @@ from utility import cleanup_ebr_html
 from br import LittleIrrep
 
 import log
+
 logger = log.create_logger(__name__)
 
 
 def mbandpaths_html(group_number):
     return cached_post(
-        url=r'https://www.cryst.ehu.es/cgi-bin/cryst/programs/mbandpaths.pl',
-        data={'super': group_number},
-        cache_filename=fr'mbandpathsc-{group_number}.html')
+        url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/mbandpaths.pl",
+        data={"super": group_number},
+        cache_filename=rf"mbandpathsc-{group_number}.html",
+    )
 
 
 def html_has_antiunitrels_table_method1(html):
-    count = html.count(
-        "Constrains due to the antiunitary symmetry operations"
-        )
+    count = html.count("Constrains due to the antiunitary symmetry operations")
 
     assert count in (0, 1)
     return count == 1
@@ -33,7 +33,7 @@ def html_has_antiunitrels_table_method2(html):
         r"""style="min-width:50px" height="40">Maximal k-vector"""
         r"""</td><td bgcolor="#d5d5d5" style="min-width:50px" """
         r"""height="40">Connections</td>"""
-        )
+    )
 
     assert count in (0, 1)
     return count == 1
@@ -53,31 +53,28 @@ def antiunit_related_irreps(group_number):
     if not html_has_antiunitrels_table(html):
         return result
 
-    soup = bs(html, 'html5lib')
+    soup = bs(html, "html5lib")
 
-    tables = soup.findAll('table',
-                          attrs={'frame': 'box',
-                                 'rules': 'all',
-                                 'align': 'center'})
+    tables = soup.findAll(
+        "table", attrs={"frame": "box", "rules": "all", "align": "center"}
+    )
 
     num_relevant_tables_found = 0
     for table in tables:
-        if len(table.tbody.tr.findAll('td', recursive=False)) == 3:
+        if len(table.tbody.tr.findAll("td", recursive=False)) == 3:
             num_relevant_tables_found += 1
 
-            trs = table.tbody.findAll('tr', recursive=False)
+            trs = table.tbody.findAll("tr", recursive=False)
             for tr in trs[1:]:
-                tds = tr.findAll('td', recursive=False)
+                tds = tr.findAll("td", recursive=False)
                 assert len(tds) == 3
                 kvec1 = KVector(contents_as_str(tds[0]).strip())
                 kvec2 = KVector(contents_as_str(tds[1]).strip())
-                rels_raw = [[LittleIrrep(y.strip() + '(77)')
-                             for y in x.split(r'↔')
-                             ]
-                            for x in cleanup_ebr_html(contents_as_str(tds[2])
-                                                      ).split(r'<br/>')
-                            if '[overline]' not in x
-                            ]
+                rels_raw = [
+                    [LittleIrrep(y.strip() + "(77)") for y in x.split(r"↔")]
+                    for x in cleanup_ebr_html(contents_as_str(tds[2])).split(r"<br/>")
+                    if "[overline]" not in x
+                ]
                 rels = []
                 for irrep1, irrep2 in rels_raw:
                     assert irrep1.ksymbol == kvec1.symbol

@@ -1,9 +1,11 @@
 import log
+
 logger = log.create_logger(__name__)
+
 
 def contents_as_str(tag):
     """Extract the content of a BeautifulSoup tag as a single string"""
-    return ''.join(str(x) for x in tag.contents)
+    return "".join(str(x) for x in tag.contents)
 
 
 def find_unique(tag, subtag_name, attrs):
@@ -14,59 +16,66 @@ def find_unique(tag, subtag_name, attrs):
 
 
 def cleanup_pointgroup_html(html):
-    return html \
-        .replace(r'<font style="text-decoration:overline;">', '[overline]') \
-        .replace(r'</font>', '') \
-        .replace(r'<sub>', '_{') \
-        .replace(r'</sub>', '}') \
-        .replace(r'<sup>', '^{') \
-        .replace(r'</sup>', '}') \
-        .replace(r'<i>', '') \
-        .replace(r'</i>', '')
+    return (
+        html.replace(r'<font style="text-decoration:overline;">', "[overline]")
+        .replace(r"</font>", "")
+        .replace(r"<sub>", "_{")
+        .replace(r"</sub>", "}")
+        .replace(r"<sup>", "^{")
+        .replace(r"</sup>", "}")
+        .replace(r"<i>", "")
+        .replace(r"</i>", "")
+    )
 
 
 def cleanup_ebr_html(html):
-    return html \
-        .replace(r'<font size="5">↑</font>', '[uparrow]') \
-        .replace(r'<font style="text-decoration:overline;">', '[overline]') \
-        .replace(r'</font>', '') \
-        .replace(r'Γ', 'GM') \
-        .replace(r'⊕', '[oplus]') \
-        .replace(u'\xa0', ' ') \
-        .replace(r'<sub>', '_{') \
-        .replace(r'</sub>', '}') \
-        .replace(r'<sup>', '^{') \
-        .replace(r'</sup>', '}') \
-        .replace(r'<i>', '') \
-        .replace(r'</i>', '')
+    return (
+        html.replace(r'<font size="5">↑</font>', "[uparrow]")
+        .replace(r'<font style="text-decoration:overline;">', "[overline]")
+        .replace(r"</font>", "")
+        .replace(r"Γ", "GM")
+        .replace(r"⊕", "[oplus]")
+        .replace("\xa0", " ")
+        .replace(r"<sub>", "_{")
+        .replace(r"</sub>", "}")
+        .replace(r"<sup>", "^{")
+        .replace(r"</sup>", "}")
+        .replace(r"<i>", "")
+        .replace(r"</i>", "")
+    )
 
 
 def cleanup_corep_html(html):
-    return html \
-        .replace(r'<span style="white-space: nowrap">√<span '
-                 + r'style="text-decoration:overline;">2</span></span>', 'Sqrt(2)') \
-        .replace(r'<font style="text-decoration:overline;">', '[overline]') \
-        .replace(r'<font color="black">', '[black]') \
-        .replace(r'<font color="red">', '[red]') \
-        .replace(r'<font style="color:red">', '[red]') \
-        .replace(r'π', '(P)') \
-        .replace(r'</font>', '') \
-        .replace(r'<sub>', '_{') \
-        .replace(r'</sub>', '}') \
-        .replace(r'<sup>', '^{') \
-        .replace(r'</sup>', '}')
+    return (
+        html.replace(
+            r'<span style="white-space: nowrap">√<span '
+            + r'style="text-decoration:overline;">2</span></span>',
+            "Sqrt(2)",
+        )
+        .replace(r'<font style="text-decoration:overline;">', "[overline]")
+        .replace(r'<font color="black">', "[black]")
+        .replace(r'<font color="red">', "[red]")
+        .replace(r'<font style="color:red">', "[red]")
+        .replace(r"π", "(P)")
+        .replace(r"</font>", "")
+        .replace(r"<sub>", "_{")
+        .replace(r"</sub>", "}")
+        .replace(r"<sup>", "^{")
+        .replace(r"</sup>", "}")
+    )
 
 
 def cleanup_genpos_html(html):
-    return html \
-        .replace(r'<sub>', '_{') \
-        .replace(r'</sub>', '}') \
-        .replace(r'<sup>', '^{') \
-        .replace(r'</sup>', '}') \
-        .replace(r'<fontcolor="#ff0000">', '') \
-        .replace(r'</font>', '') \
-        .replace(r'<nobr>', '') \
-        .replace(r'</nobr>', '')
+    return (
+        html.replace(r"<sub>", "_{")
+        .replace(r"</sub>", "}")
+        .replace(r"<sup>", "^{")
+        .replace(r"</sup>", "}")
+        .replace(r'<fontcolor="#ff0000">', "")
+        .replace(r"</font>", "")
+        .replace(r"<nobr>", "")
+        .replace(r"</nobr>", "")
+    )
 
 
 def list_transpose(l):

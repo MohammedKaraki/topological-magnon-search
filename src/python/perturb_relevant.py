@@ -19,20 +19,14 @@ def read_args():
 def main():
     msg_number, wp = read_args()
 
-
     msg = Msg(msg_number)
     id = 0
     for gstrs, _ in gstrs_and_presc_of_subgroups(msg):
-        identified_number = identify_group(gstrs.split(';'))['group_number']
+        identified_number = identify_group(gstrs.split(";"))["group_number"]
         si_str = MSG_INFO_TABLE[identified_number][1]
-        if si_str != '(1)':
+        if si_str != "(1)":
             print(id, identified_number, si_str)
-            check_output(['python3', 'perturb_wp.py',
-                          msg_number,
-                          wp,
-                          str(id)
-                          ]
-                         )
+            check_output(["python3", "perturb_wp.py", msg_number, wp, str(id)])
 
         id += 1
 

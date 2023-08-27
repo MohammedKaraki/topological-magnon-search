@@ -2,17 +2,19 @@ from itertools import accumulate
 
 
 import log
+
 logger = log.create_logger(__name__)
 
 
 class Band:
-
     def __init__(self, modes_lists):
         def modes_list_dim(modes_list):
             return sum(irrep.dim for irrep in modes_list)
 
         self._dim = modes_list_dim(modes_lists[0])
-        assert all([self.dim == modes_list_dim(modes_list) for modes_list in modes_lists])
+        assert all(
+            [self.dim == modes_list_dim(modes_list) for modes_list in modes_lists]
+        )
 
         self._modes_lists = modes_lists
 
@@ -26,13 +28,13 @@ class Band:
 
     def shuffle(self, seed):
         import random
+
         for idx, modes_list in enumerate(self.modes_lists):
-            random.Random(seed+idx).shuffle(modes_list)
+            random.Random(seed + idx).shuffle(modes_list)
 
     @property
     def all_irreps(self):
         return [mode for modes_list in self.modes_lists for mode in modes_list]
-
 
     def __add__(self, rhs):
         modes_lists = [a + b for a, b in zip(self.modes_lists, rhs.modes_lists)]
@@ -57,7 +59,6 @@ class Band:
 
     @property
     def sub_bands(self):
-
         dims_lists, accums_lists = self.dims_and_modeaccums_lists
 
         accums_intersect = set(accums_lists[0])
@@ -67,11 +68,8 @@ class Band:
 
         subbands_parts = []
         for modes_list, accums_list in zip(self.modes_lists, accums_lists):
-            bounds = [0] + [1 + accums_list.index(x)
-                            for x in accums_intersect
-                            ]
-            subbands_parts.append([modes_list[a: b]
-                                   for a, b in zip(bounds, bounds[1:])])
+            bounds = [0] + [1 + accums_list.index(x) for x in accums_intersect]
+            subbands_parts.append([modes_list[a:b] for a, b in zip(bounds, bounds[1:])])
 
         result = list(map(Band, zip(*subbands_parts)))
         assert sum(result) == self
@@ -82,8 +80,9 @@ class Band:
         return all(l == r for l, r in zip(self.modes_lists, rhs.modes_lists))
 
     def __repr__(self):
-        return " - ".join([
-            r' \oplus{} '.join(
-                [str(irrep.label) for irrep in modes_list ]
-                )
-            for modes_list in self.modes_lists])
+        return " - ".join(
+            [
+                r" \oplus{} ".join([str(irrep.label) for irrep in modes_list])
+                for modes_list in self.modes_lists
+            ]
+        )

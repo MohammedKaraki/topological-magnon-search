@@ -3,11 +3,12 @@ import numpy as np
 from fractions import Fraction
 
 import log
+
 logger = log.create_logger(__name__)
 
 
 def klabel_to_symbol_and_coords(klabel):
-    KLABEL_PATTERN = r'([A-Z]+):\(([^,]+),([^,]+),([^,]+)\)'
+    KLABEL_PATTERN = r"([A-Z]+):\(([^,]+),([^,]+),([^,]+)\)"
 
     m = fullmatch(KLABEL_PATTERN, klabel)
     assert m is not None, klabel
@@ -18,8 +19,8 @@ def klabel_to_symbol_and_coords(klabel):
 
     return symbol, coords
 
-class KVector:
 
+class KVector:
     def __init__(self, klabel):
         self._symbol, self._coords = klabel_to_symbol_and_coords(klabel)
 
@@ -51,9 +52,7 @@ class KVector:
         return str(self)
 
     def __str__(self):
-        return "{}:({},{},{})".format(self.symbol,
-                                      *self.coords)
+        return "{}:({},{},{})".format(self.symbol, *self.coords)
 
     def as_tuple(self):
-        return (self.symbol,
-                "(" + ",".join([str(x) for x in self.coords]) + ")")
+        return (self.symbol, "(" + ",".join([str(x) for x in self.coords]) + ")")

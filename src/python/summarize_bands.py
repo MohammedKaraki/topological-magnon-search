@@ -5,13 +5,7 @@ import json
 
 
 def primcells_per_convcell(latticetype):
-    return {'P': 1,
-            'A': 2,
-            'C': 2,
-            'I': 2,
-            'R': 3,
-            'F': 4
-            }[latticetype]
+    return {"P": 1, "A": 2, "C": 2, "I": 2, "R": 3, "F": 4}[latticetype]
 
 
 def int_cast(f):
@@ -22,9 +16,9 @@ def int_cast(f):
 
 
 def mat_to_numbands(mat):
-    msg_number = mat['msg']
+    msg_number = mat["msg"]
     latticetype = Msg(msg_number).label[0]
-    wps = mat['wp']
+    wps = mat["wp"]
 
     conv_sites = 0
     for wp in wps:
@@ -39,8 +33,8 @@ def summarize():
     materials = load_materials()
 
     for mat in materials:
-        msg_number = mat['msg']
-        wps = mat['wp']
+        msg_number = mat["msg"]
+        wps = mat["wp"]
 
         print(*mat_to_numbands(mat), msg_number, Msg(msg_number).label, wps)
 

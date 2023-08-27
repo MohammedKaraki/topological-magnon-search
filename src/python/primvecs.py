@@ -3,13 +3,15 @@ from latticetype import find_latticetype
 from genpos import fetch_unitary_gs, unitary_gstr_to_mat4x4
 
 import log
+
 logger = log.create_logger(__name__)
 
 
 def find_primvecsmat_method1(msg_number):
     from fractions import Fraction
+
     latticetype = find_latticetype(msg_number)
-    assert latticetype in ['P', 'A', 'I', 'F', 'C', 'R']
+    assert latticetype in ["P", "A", "I", "F", "C", "R"]
 
     f11 = Fraction(1)
     f12 = Fraction(1, 2)
@@ -20,18 +22,18 @@ def find_primvecsmat_method1(msg_number):
     vec2 = [0, f11, 0]
     vec3 = [0, 0, f11]
 
-    if latticetype == 'P':
+    if latticetype == "P":
         pass
-    elif latticetype == 'A':
+    elif latticetype == "A":
         vec1 = [0, f12, f12]
-    elif latticetype == 'C':
+    elif latticetype == "C":
         vec1 = [f12, f12, 0]
-    elif latticetype == 'I':
+    elif latticetype == "I":
         vec1 = [f12, f12, f12]
-    elif latticetype == 'R':
+    elif latticetype == "R":
         vec1 = [f23, f13, f13]
         vec2 = [f13, f23, f23]
-    elif latticetype == 'F':
+    elif latticetype == "F":
         vec1 = [0, f12, f12]
         vec2 = [f12, 0, f12]
         vec3 = [f12, f12, 0]
@@ -41,17 +43,17 @@ def find_primvecsmat_method1(msg_number):
     result = np.array([vec1, vec2, vec3]).T
     det = np.linalg.det(result.astype(float))
 
-    if latticetype == 'P':
+    if latticetype == "P":
         assert det == 1.0
-    elif latticetype == 'A':
+    elif latticetype == "A":
         assert det == 1.0 / 2.0
-    elif latticetype == 'C':
+    elif latticetype == "C":
         assert det == 1.0 / 2.0
-    elif latticetype == 'I':
+    elif latticetype == "I":
         assert det == 1.0 / 2.0
-    elif latticetype == 'R':
+    elif latticetype == "R":
         assert det == 1.0 / 3.0
-    elif latticetype == 'F':
+    elif latticetype == "F":
         assert det == 1.0 / 4.0
     else:
         assert False
@@ -61,13 +63,14 @@ def find_primvecsmat_method1(msg_number):
 
 def find_primvecsmat_method2(msg_number):
     from genpos import fetch_gdicts
+
     result = np.eye(3)
 
     next_col = 0
     zero_translation_already_found = False
-    for g in fetch_gdicts(msg_number)['unitary']:
-        pres = unitary_gstr_to_mat4x4(g['str'])
-        if (pres[:3,:3] == np.eye(3)).all():
+    for g in fetch_gdicts(msg_number)["unitary"]:
+        pres = unitary_gstr_to_mat4x4(g["str"])
+        if (pres[:3, :3] == np.eye(3)).all():
             translation = pres[:3, 3]
             if (translation == np.zeros(3)).all():
                 assert not zero_translation_already_found

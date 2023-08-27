@@ -10,16 +10,11 @@ def preprocess(msg_number, wps):
     msg = Msg(msg_number)
 
     for id, (gstrs, _) in enumerate(gstrs_and_presc_of_subgroups(msg)):
-        identified_number = identify_group(gstrs.split(';'))['group_number']
+        identified_number = identify_group(gstrs.split(";"))["group_number"]
         si_str = MSG_INFO_TABLE[identified_number][1]
-        if si_str != '(1)':
+        if si_str != "(1)":
             print(id, identified_number, si_str)
-            check_output(['python3', 'perturb_wps.py',
-                          msg_number,
-                          *wps,
-                          str(id)
-                          ]
-                         )
+            check_output(["python3", "perturb_wps.py", msg_number, *wps, str(id)])
 
 
 def main():

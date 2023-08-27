@@ -9,7 +9,6 @@ def create_root_logger(filename):
     logger.setLevel(logging.DEBUG)
 
     class ColoredFormatter(logging.Formatter):
-
         grey = "\x1b[38;20m"
         bold_blue = "\x1b[1;34m"
         blue = "\x1b[36m"
@@ -24,14 +23,13 @@ def create_root_logger(filename):
             logging.INFO: magenta + FORMAT + reset,
             logging.WARNING: yellow + FORMAT + reset,
             logging.ERROR: bold_red + FORMAT + reset,
-            logging.CRITICAL: bold_red + FORMAT + reset
+            logging.CRITICAL: bold_red + FORMAT + reset,
         }
 
         def format(self, record):
             log_fmt = self.FORMATS.get(record.levelno)
             formatter = logging.Formatter(log_fmt)
             return formatter.format(record)
-
 
     file_handler = logging.FileHandler(filename)
     file_handler.setFormatter(logging.Formatter(FORMAT))

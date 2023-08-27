@@ -4,6 +4,7 @@ import numpy as np
 from joblib import Memory
 
 import log
+
 logger = log.create_logger(__name__)
 
 
@@ -17,14 +18,18 @@ def intinv(mat):
 
 
 memory = Memory("~/Dropbox/tmp", verbose=0)
+
+
 @memory.cache
 def snf(mat):
     assert mat.dtype == int
 
     session = WolframLanguageSession()
 
-    p, Sigma, q = [np.array(x, dtype=int)
-                   for x in session.evaluate(wl.SmithDecomposition(mat.tolist()))]
+    p, Sigma, q = [
+        np.array(x, dtype=int)
+        for x in session.evaluate(wl.SmithDecomposition(mat.tolist()))
+    ]
 
     assert np.all(intinv(p) @ Sigma @ intinv(q) == mat)
 

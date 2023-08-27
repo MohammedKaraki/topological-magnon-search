@@ -16,14 +16,14 @@ import re
 
 
 def make_ksymbol_nicer(k):
-  k = k.replace(r"GM", r"\Gamma")
-  k = k.replace(r"LA", r"\mathit{LA}")
-  k = k.replace(r"VA", r"\mathit{VA}")
-  k = k.replace(r"KA", r"\mathit{KA}")
-  k = k.replace(r"HA", r"\mathit{HA}")
-  k = k.replace(r"NA", r"\mathit{NA}")
-  k = k.replace(r"TA", r"\mathit{TA}")
-  return k
+    k = k.replace(r"GM", r"\Gamma")
+    k = k.replace(r"LA", r"\mathit{LA}")
+    k = k.replace(r"VA", r"\mathit{VA}")
+    k = k.replace(r"KA", r"\mathit{KA}")
+    k = k.replace(r"HA", r"\mathit{HA}")
+    k = k.replace(r"NA", r"\mathit{NA}")
+    k = k.replace(r"TA", r"\mathit{TA}")
+    return k
 
 
 def siteirrep_and_br(msg_number, wp_label):
@@ -39,17 +39,17 @@ def siteirrep_and_br(msg_number, wp_label):
     for x in set(br):
         br_new.append((x.as_str(), counts[x]))
     br_new.sort()
-    br_new = [(str(x[1]) if x[1]>1 else "") + x[0] for x in br_new]
+    br_new = [(str(x[1]) if x[1] > 1 else "") + x[0] for x in br_new]
     return siteirrep, br_new
 
 
 def partition_strlist(l, partsize):
-    padsize = (1+(len(l)-1)//partsize)*partsize - len(l)
-    return np.array(l + [""]*padsize).reshape((-1, partsize)).tolist()
+    padsize = (1 + (len(l) - 1) // partsize) * partsize - len(l)
+    return np.array(l + [""] * padsize).reshape((-1, partsize)).tolist()
 
 
 def latexify_formula(f):
-    return '{' + f.replace(r'_{', r'$_{').replace(r'}', r'}$') + '}'
+    return "{" + f.replace(r"_{", r"$_{").replace(r"}", r"}$") + "}"
 
 
 def latexify_multirow(cells):
@@ -62,11 +62,11 @@ def latexify_multirow(cells):
         pieces = []
         for cell in cells:
             pieces.append(
-                r'\multirow{{{0}}}{{*}}{{{1}}}'.format(
-                    numrows - len(cell) + 1,
-                    cell[i] if i < len(cell) else "")
+                r"\multirow{{{0}}}{{*}}{{{1}}}".format(
+                    numrows - len(cell) + 1, cell[i] if i < len(cell) else ""
                 )
-        allpieces.append(" & ".join(pieces) + r'\\*')
+            )
+        allpieces.append(" & ".join(pieces) + r"\\*")
     return "\n".join(allpieces)
 
 
@@ -75,8 +75,8 @@ def msg_and_wp_to_materials(msg_number, wp):
 
     all_materials = load_materials()
     for mat in all_materials:
-        cur_msg_number = mat['msg']
-        wps = mat['wp']
+        cur_msg_number = mat["msg"]
+        wps = mat["wp"]
         if len(wps) > 1:
             continue
         cur_wp = wps[0][0]
@@ -84,8 +84,9 @@ def msg_and_wp_to_materials(msg_number, wp):
         if (msg_number, wp) == (cur_msg_number, cur_wp):
             result.append(mat)
 
-    result.sort(key=lambda mat: -1 if '-' in mat['tc'] else float(mat['tc']),
-                reverse=True)
+    result.sort(
+        key=lambda mat: -1 if "-" in mat["tc"] else float(mat["tc"]), reverse=True
+    )
     return result
 
 
@@ -94,13 +95,13 @@ def msg_and_wp_to_latex_materials(msg_number, wp):
 
     materials = msg_and_wp_to_materials(msg_number, wp)
     for mat in materials:
-        result.append(r"""{}{}~\cite{{{}}}"""
-                      .format(latexify_formula(mat['formula']),
-                              "" if '-' in mat['tc']
-                              else r"""\,({}\,K)""".format(mat['tc']),
-                              material_doi(mat)
-                              )
-                      )
+        result.append(
+            r"""{}{}~\cite{{{}}}""".format(
+                latexify_formula(mat["formula"]),
+                "" if "-" in mat["tc"] else r"""\,({}\,K)""".format(mat["tc"]),
+                material_doi(mat),
+            )
+        )
 
     return result
 
@@ -140,24 +141,21 @@ def oldmain():
         ("62.448", "4b"),
         ("74.558", "4b"),
         ("88.86", "16c"),
-        ]
+    ]
     materials = load_materials()
     x = 0
     msgwp_to_materials = defaultdict(list)
     for mat in materials:
-        msg = mat['msg']
-        wps = mat['wp']
+        msg = mat["msg"]
+        wps = mat["wp"]
         if len(wps) == 1:
             msgwp_to_materials[(msg, wps[0][0])].append(mat)
-    msgwp_materials_list = [[key, val]
-                            for key, val in msgwp_to_materials.items()
-                            ]
-    msgwp_materials_list.sort(key=lambda x: len(x[1]),
-                              reverse=True)
-
+    msgwp_materials_list = [[key, val] for key, val in msgwp_to_materials.items()]
+    msgwp_materials_list.sort(key=lambda x: len(x[1]), reverse=True)
 
     output = []
-    output.append(r"""
+    output.append(
+        r"""
 \begin{document}
 \begin{longtable}{cc}
 \caption{caption}\\
@@ -175,32 +173,38 @@ def oldmain():
 \multicolumn{2}{r}{Continued on next page}
 \endfoot
 \bottomrule
-\endlastfoot""")
+\endlastfoot"""
+    )
     for msgwp_materials in msgwp_materials_list[::]:
         msg, wp = msgwp_materials[0]
         msg_label = Msg(msg).label
-        msgwp = ["${0}~({1})$".format(msg_label, msg),
-                 "${0}$".format(wp)
-                 ]
+        msgwp = ["${0}~({1})$".format(msg_label, msg), "${0}$".format(wp)]
         mats = msgwp_materials[1]
-        mats.sort(key=lambda x: (-1000 if '-' in x['tc'] else float(x['tc'])),
-                  reverse=True)
+        mats.sort(
+            key=lambda x: (-1000 if "-" in x["tc"] else float(x["tc"])), reverse=True
+        )
         mats = [
-            r'{0}{1}~\cite{{{2}}}'.format(
-                latexify_formula(mat['formula']),
-                '('+mat['tc']+')' if '-' not in mat['tc'] else "",
-                material_doi(mat))
+            r"{0}{1}~\cite{{{2}}}".format(
+                latexify_formula(mat["formula"]),
+                "(" + mat["tc"] + ")" if "-" not in mat["tc"] else "",
+                material_doi(mat),
+            )
             for mat in mats
-            ]
+        ]
         if (msg, wp) in good_msg_wps:
-            output.append(latexify_multirow([msgwp, [" ".join(x) for x in
-                                                     partition_strlist(mats, 2)]]))
-            output.append(r'\midrule')
+            output.append(
+                latexify_multirow(
+                    [msgwp, [" ".join(x) for x in partition_strlist(mats, 2)]]
+                )
+            )
+            output.append(r"\midrule")
     del output[-1]
-    output.append(r"""
+    output.append(
+        r"""
 \end{longtable}
 \end{document}
-""")
+"""
+    )
 
     print("\n".join(output))
 
@@ -216,17 +220,21 @@ def read_args():
     return str(msg_number), str(wp)
 
 
-def dump_section(msg, wp, pos_dicts, neg_dicts,
-                 all_subgroup_count, nontrivialsi_subgroup_count,
-                 typei_subgroup_count):
+def dump_section(
+    msg,
+    wp,
+    pos_dicts,
+    neg_dicts,
+    all_subgroup_count,
+    nontrivialsi_subgroup_count,
+    typei_subgroup_count,
+):
     section_filename = (
         "/home/mohammed/Dropbox/research/thesis/ch4-sections/{}-{}.tex".format(
-            msg.number,
-            wp)
+            msg.number, wp
         )
+    )
     output = []
-
-
 
     wp_coords = [r"\{" + str(x) + r"\}" for x in fetch_wp(msg.number, wp)]
     if len(wp_coords) == 1:
@@ -239,93 +247,107 @@ def dump_section(msg, wp, pos_dicts, neg_dicts,
         latex_wp = "\\\\\n".join(r",\qquad ".join(x) for x in tmp)
 
     output.append(r"""\clearpage""" "\n")
-    output.append(r"""\section{{Magnetic moments on WP """
-                  r"""\texorpdfstring{{${0}$}}{{{0}}} of MSG """
-                  r"""\texorpdfstring{{${1}~({2})$}}{{{2}}}"""
-                  r"""\label{{sec:{2}-{0}}}}}""" "\n"
-                  .format( wp,
-                          msg.label,
-                          msg.number
-                          )
-                  );
-    output.append(r"""\subsection{{Magnon band representation, material examples """
-                  r"""and result summary"""
-                   r"""\label{{subsec:summary-{0}-{1}}}}}""" "\n"
-                  .format(msg.number,
-                          wp)
-                  );
+    output.append(
+        r"""\section{{Magnetic moments on WP """
+        r"""\texorpdfstring{{${0}$}}{{{0}}} of MSG """
+        r"""\texorpdfstring{{${1}~({2})$}}{{{2}}}"""
+        r"""\label{{sec:{2}-{0}}}}}"""
+        "\n".format(wp, msg.label, msg.number)
+    )
+    output.append(
+        r"""\subsection{{Magnon band representation, material examples """
+        r"""and result summary"""
+        r"""\label{{subsec:summary-{0}-{1}}}}}"""
+        "\n".format(msg.number, wp)
+    )
 
-    output.append(r"""The coordinates and moments of the ${}$ Wyckoff position are
+    output.append(
+        r"""The coordinates and moments of the ${}$ Wyckoff position are
 \begin{{gather*}}
     {}
-\end{{gather*}}""".format(wp, latex_wp)
-                  )
+\end{{gather*}}""".format(
+            wp, latex_wp
+        )
+    )
 
     siteirrep, br = siteirrep_and_br(msg.number, wp)
     for i in range(5, len(br) - 1, 5):
         br[i] = br[i] + r"\\" + "\n" + r"&\quad"
 
-    output.append(r"""and the magnon band representation induced from this WP is
+    output.append(
+        r"""and the magnon band representation induced from this WP is
 \begin{{align*}}
 {{({0})}}_{{{1}}}\uparrow {2}~({3})&={4}
 \end{{align*}}
-""".format(siteirrep,
-           wp,
-           msg.label,
-           msg.number,
-           make_ksymbol_nicer(r'\oplus '.join(br)))
-                  )
-
+""".format(
+            siteirrep,
+            wp,
+            msg.label,
+            msg.number,
+            make_ksymbol_nicer(r"\oplus ".join(br)),
+        )
+    )
 
     lat_mats = msg_and_wp_to_latex_materials(msg.number, wp)
     if len(lat_mats) == 1:
-        output.append("""We find one magnetic material, {}, in the BCS database
+        output.append(
+            """We find one magnetic material, {}, in the BCS database
         with magnetic moments which belong to exactly one copy of this
-                      WP.\n\n""".format(", ".join(lat_mats))
-                      )
+                      WP.\n\n""".format(
+                ", ".join(lat_mats)
+            )
+        )
     else:
         assert len(lat_mats) > 1
-        output.append("""In the BCS database,
+        output.append(
+            """In the BCS database,
         we find {} magnetic materials with magnetic moments belonging to
-                      exactly one copy of this WP: """.format(len(lat_mats))
-                      + ", ".join(lat_mats[:-1])
-                      + " and " + lat_mats[-1] + ".\n\n"
-                      )
-
+                      exactly one copy of this WP: """.format(
+                len(lat_mats)
+            )
+            + ", ".join(lat_mats[:-1])
+            + " and "
+            + lat_mats[-1]
+            + ".\n\n"
+        )
 
     assert all_subgroup_count > 1
     assert nontrivialsi_subgroup_count > 0
     assert typei_subgroup_count <= nontrivialsi_subgroup_count
     if nontrivialsi_subgroup_count == 1:
-        output.append(r"""Out of the {0} subgroups of ${1}$ that can be reached by
+        output.append(
+            r"""Out of the {0} subgroups of ${1}$ that can be reached by
                       external fields and/or mechanical strain, we find that only one
                       subgroup has a nontrivial SI group. As described
                       below, we additionally find that any perturbation leading to this subgroup
                       results in type-I topological magnons.""".format(
-                          all_subgroup_count,
-                          msg.label,
-                          ))
+                all_subgroup_count,
+                msg.label,
+            )
+        )
     else:
-        output.append(r"""Out of the {0} subgroups of ${1}$ that can be reached by
+        output.append(
+            r"""Out of the {0} subgroups of ${1}$ that can be reached by
                   external fields and/or mechanical strain, we find that {2} subgroups have nontrivial SI
                   groups. Among the latter, we identify {3} {4} that {5}
                   characterized by type-I topological magnons, as described
                   below.""".format(
-                      all_subgroup_count,
-                      msg.label,
-                      nontrivialsi_subgroup_count,
-                      "one" if typei_subgroup_count == 1 else typei_subgroup_count,
-                      "subgroup" if typei_subgroup_count == 1 else "subgroups",
-                      "is" if typei_subgroup_count == 1 else "are",
-                      ))
+                all_subgroup_count,
+                msg.label,
+                nontrivialsi_subgroup_count,
+                "one" if typei_subgroup_count == 1 else typei_subgroup_count,
+                "subgroup" if typei_subgroup_count == 1 else "subgroups",
+                "is" if typei_subgroup_count == 1 else "are",
+            )
+        )
     for pos_dict in pos_dicts:
-        output.append(r"""\input{{ch4-subsections/{0}}}""" "\n"
-                      .format(pos_dict['subsection_filename'])
-                      )
-
+        output.append(
+            r"""\input{{ch4-subsections/{0}}}"""
+            "\n".format(pos_dict["subsection_filename"])
+        )
 
     section_content = "\n".join(output)
-    with open(section_filename, 'w') as f:
+    with open(section_filename, "w") as f:
         f.write(section_content)
     return section_content
 
@@ -335,21 +357,20 @@ def input_all_sections():
     x = 0
     msgwp_to_materials = defaultdict(list)
     for mat in materials:
-        msg = mat['msg']
-        wps = mat['wp']
+        msg = mat["msg"]
+        wps = mat["wp"]
         if len(wps) == 1:
             msgwp_to_materials[(msg, wps[0][0])].append(mat)
-    msgwp_materials_list = [[key, val]
-                            for key, val in msgwp_to_materials.items()
-                            ]
-    msgwp_materials_list.sort(key=lambda x: len(x[1]),
-                              reverse=True)
+    msgwp_materials_list = [[key, val] for key, val in msgwp_to_materials.items()]
+    msgwp_materials_list.sort(key=lambda x: len(x[1]), reverse=True)
     for msgwp_mats in msgwp_materials_list:
         msg_number, wp = msgwp_mats[0]
-        print(r"""\IfFileExists{{ch4-sections/{0}-{1}.tex}}"""
-              r"""{{\input{{ch4-sections/{0}-{1}.tex}}}}{{\ignorespaces}}"""
-              .format(msg_number, wp)
-              )
+        print(
+            r"""\IfFileExists{{ch4-sections/{0}-{1}.tex}}"""
+            r"""{{\input{{ch4-sections/{0}-{1}.tex}}}}{{\ignorespaces}}""".format(
+                msg_number, wp
+            )
+        )
 
 
 def main():
@@ -360,25 +381,24 @@ def main():
 
     try:
         conffilebase = {
-            ('62.448', '4b'): '../cpp/conf-62.448-4b',
-            ('205.33', '4a'): '../cpp/conf2',
-            ('205.36', '8b'): '../cpp/conf3',
-            ('126.386', '4d'): '../cpp/conf4',
-            ('140.550', '4a'): '../cpp/conf2',
-            ('15.89', '4d'): '../cpp/conf2',
-            ('138.528', '4b'): '../cpp/conftwoone',
-            ('130.432', '4c'): '../cpp/conftwoone',
-            ('74.558', '4b'): '../cpp/conftwoone',
-            ('15.89', '4c'):  '../cpp/conftwoone',
-            ('230.148', '24c'):  '../cpp/toohigh',
-            ('13.74', '8f'):  '../cpp/tophighbottomlow',
-            ('13.74', '8f'):  '../cpp/tophighbottomlow',
-            ('11.55', '4a'):  '../cpp/fouroneup_fourtwodown',
-            ('128', '4a'):  '../cpp/fouroneup_fourtwodown',
-            }[(msg_number, wp)]
+            ("62.448", "4b"): "../cpp/conf-62.448-4b",
+            ("205.33", "4a"): "../cpp/conf2",
+            ("205.36", "8b"): "../cpp/conf3",
+            ("126.386", "4d"): "../cpp/conf4",
+            ("140.550", "4a"): "../cpp/conf2",
+            ("15.89", "4d"): "../cpp/conf2",
+            ("138.528", "4b"): "../cpp/conftwoone",
+            ("130.432", "4c"): "../cpp/conftwoone",
+            ("74.558", "4b"): "../cpp/conftwoone",
+            ("15.89", "4c"): "../cpp/conftwoone",
+            ("230.148", "24c"): "../cpp/toohigh",
+            ("13.74", "8f"): "../cpp/tophighbottomlow",
+            ("13.74", "8f"): "../cpp/tophighbottomlow",
+            ("11.55", "4a"): "../cpp/fouroneup_fourtwodown",
+            ("128", "4a"): "../cpp/fouroneup_fourtwodown",
+        }[(msg_number, wp)]
     except:
-        conffilebase = '../cpp/conf1'
-
+        conffilebase = "../cpp/conf1"
 
     msg = Msg(msg_number)
     all_subgroup_count = 0
@@ -387,13 +407,13 @@ def main():
     id = 0
     for gstrs, _ in gstrs_and_presc_of_subgroups(msg):
         all_subgroup_count += 1
-        identified_number = identify_group(gstrs.split(';'))['group_number']
+        identified_number = identify_group(gstrs.split(";"))["group_number"]
         si_str = MSG_INFO_TABLE[identified_number][1]
-        if si_str != '(1)':
+        if si_str != "(1)":
             nontrivialsi_subgroup_count += 1
             conffileext = ""
-            if (msg_number, wp) == ('126.386', '4d'):
-                conffileext = 'b' if id==42 else 'a'
+            if (msg_number, wp) == ("126.386", "4d"):
+                conffileext = "b" if id == 42 else "a"
 
             print(id, identified_number, si_str)
             # if ((msg_number, wp, id) == ("230.148", "24c", 11)
@@ -403,14 +423,18 @@ def main():
             #                                                      wp))
             #     id += 1
             #     continue
-            if (msg_number, wp, id) == ('138.528', '4b', 7):
+            if (msg_number, wp, id) == ("138.528", "4b", 7):
                 conffilebase, conffileext = "../cpp/confthin", ""
             print(id, msg_number, wp)
             result = check_output(
-                ['../cpp/diagnose.exe',
-                 msg_number, wp, str(id),
-                 conffilebase + conffileext]
-                ).decode()
+                [
+                    "../cpp/diagnose.exe",
+                    msg_number,
+                    wp,
+                    str(id),
+                    conffilebase + conffileext,
+                ]
+            ).decode()
             print(result)
             # new_dict = json.loads(result.replace("\\", "\\\\"))
             # if new_dict['type-i']:
@@ -418,7 +442,6 @@ def main():
             #     positive_dicts.append(new_dict)
             # else:
             #     negative_dicts.append(new_dict)
-
 
         id += 1
     #
@@ -434,15 +457,12 @@ def perturbe_relevant():
 
     materials = load_materials()
     for mat in materials:
-        msg_number = mat['msg']
-        wps = mat['wp']
+        msg_number = mat["msg"]
+        wps = mat["wp"]
         if len(wps) == 1:
             msgwp_to_materials[(msg_number, wps[0][0])].append(mat)
-    msgwp_materials_list = [[key, val]
-                            for key, val in msgwp_to_materials.items()
-                            ]
-    msgwp_materials_list.sort(key=lambda x: len(x[1]),
-                              reverse=True)
+    msgwp_materials_list = [[key, val] for key, val in msgwp_to_materials.items()]
+    msgwp_materials_list.sort(key=lambda x: len(x[1]), reverse=True)
 
     for i, (x1, x2) in enumerate(msgwp_materials_list):
         # if i != 276:
@@ -450,8 +470,17 @@ def perturbe_relevant():
         # command = ["python3", "perturb_relevant.py", *x1]
         # print(i, command)
         # result = check_output(command).decode()
-        print("python3 diagnose.py ", *x1, " && #", i, find_latticetype(x1[0]),
-              np.linalg.det(find_primvecsmat(x1[0])), x1[1][:-1], len(x2))
+        print(
+            "python3 diagnose.py ",
+            *x1,
+            " && #",
+            i,
+            find_latticetype(x1[0]),
+            np.linalg.det(find_primvecsmat(x1[0])),
+            x1[1][:-1],
+            len(x2)
+        )
+
 
 if __name__ == "__main__":
     # print()

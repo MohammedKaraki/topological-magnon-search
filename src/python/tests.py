@@ -1,30 +1,35 @@
 import log
 
+
 def logfile_path():
     from pathlib import Path
+
     return str((Path(__file__).parent / "../../logs/tests.log").resolve())
+
 
 logger = log.create_root_logger(filename=logfile_path())
 
 
 def test_mkvec():
     from mkvec import mkvec_parsed
-    ks = mkvec_parsed('15.89')
+
+    ks = mkvec_parsed("15.89")
     for k in ks:
         print(k)
 
 
 def test_identify_group():
     from identify_group import identify_group
+
     group_gens = (
-r"""+x,+y,+z,+1
+        r"""+x,+y,+z,+1
 -x,-y,-z,+1
 -z,-y,-x,-1
 +z,+y,+x,-1
 x+1/2,y,z,-1
 x,y+1/2,z,-1
 x,y,z+1/2,-1"""
-        ).split('\n')
+    ).split("\n")
     for g in group_gens:
         print(g)
     group = identify_group(group_gens)
@@ -33,12 +38,12 @@ x,y,z+1/2,-1"""
 
 def test_wyckoff_brs():
     from mbandrep import fetch_br
-    print(fetch_br('143.1', '3d')['A'])
 
+    print(fetch_br("143.1", "3d")["A"])
 
 
 def print_vec(vec):
-    print('\t'.join(str(x) for x in vec))
+    print("\t".join(str(x) for x in vec))
 
 
 def print_mat(mat):
@@ -49,45 +54,52 @@ def print_mat(mat):
 def test_coreps():
     import numpy as np
     from coreps import char_table_info
-    from genpos import \
-        unitary_gstr_to_mat4x4, mat4x4_to_unitary_gstr, UnitaryGenpos
+    from genpos import unitary_gstr_to_mat4x4, mat4x4_to_unitary_gstr, UnitaryGenpos
 
     from fractions import Fraction
 
-
     def helper(group_number, ksymbol, to_standard=None):
-        irrep_labels, unitary_gs, char_matrix = \
-            char_table_info(group_number, ksymbol)
+        irrep_labels, unitary_gs, char_matrix = char_table_info(group_number, ksymbol)
 
         print(irrep_labels)
         print(unitary_gs)
         if to_standard is not None:
-            print([UnitaryGenpos(
-                to_standard @ g.mat4x4 @ np.linalg.inv(to_standard))
-                   for g in unitary_gs])
+            print(
+                [
+                    UnitaryGenpos(to_standard @ g.mat4x4 @ np.linalg.inv(to_standard))
+                    for g in unitary_gs
+                ]
+            )
         print(char_matrix)
-
 
     # result = coreps("228.139", "GM")
     # result = coreps("228.139", "L")
     # result = coreps("2.4", "R")
     helper("134.481", "X")
-    helper("13.72", "A", np.array(
-        [
-            [ 1.,  0., -1.,  0.],
-            [ 0.,  0.,  1.,  0.],
-            [ 0., -1.,  0.,  0.],
-            [ 0.,  0.,  0.,  1.],
-            ])
-           )
-    helper("13.72", "B", np.array(
-        [
-            [ 1.,  0., -1.,  0.],
-            [ 0.,  0.,  1.,  0.],
-            [ 0., -1.,  0.,  0.],
-            [ 0.,  0.,  0.,  1.],
-            ])
-           )
+    helper(
+        "13.72",
+        "A",
+        np.array(
+            [
+                [1.0, 0.0, -1.0, 0.0],
+                [0.0, 0.0, 1.0, 0.0],
+                [0.0, -1.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0, 1.0],
+            ]
+        ),
+    )
+    helper(
+        "13.72",
+        "B",
+        np.array(
+            [
+                [1.0, 0.0, -1.0, 0.0],
+                [0.0, 0.0, 1.0, 0.0],
+                [0.0, -1.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0, 1.0],
+            ]
+        ),
+    )
 
 
 def test_Msg():
@@ -123,11 +135,8 @@ def test_all_subgroups():
     # msg = Msg("62.448")
     msg = Msg("205.33")
 
-
-
-
     for gstrs, presc in gstrs_and_presc_of_subgroups(msg):
-        supersub = SuperAndSubMsgs(msg, gstrs.split(';'))
+        supersub = SuperAndSubMsgs(msg, gstrs.split(";"))
         # print(supersub.super_msg)
         print(supersub.sub_msg)
         # print(gstrs)
@@ -141,23 +150,23 @@ def test_super_and_sub_msgs():
     import numpy as np
     from br import LittleIrrep
 
-#     msg = Msg("167.103")
-#     supersub = SuperAndSubMsgs(super_msg=msg,
-#                            sub_msg_gstrs=
-# "-x+1/3,-y+2/3,-z+2/3,+1;-x+2/3,-y+1/3,-z+1/3,+1;-x+y+1/3,-x+2/3,z+2/3,+1;-x+y+2/3,-x+1/3,z+1/3,+1;-x+y,-x,z,+1;-x,-y,-z,+1;-y+1/3,x-y+2/3,z+2/3,+1;-y+2/3,x-y+1/3,z+1/3,+1;-y,x-y,z,+1;x+1/3,y+2/3,z+2/3,+1;x+2/3,y+1/3,z+1/3,+1;x,y,z,+1;x-y+1/3,x+2/3,-z+2/3,+1;x-y+2/3,x+1/3,-z+1/3,+1;x-y,x,-z,+1;y+1/3,-x+y+2/3,-z+2/3,+1;y+2/3,-x+y+1/3,-z+1/3,+1;y,-x+y,-z,+1".split(';')
-# )
+    #     msg = Msg("167.103")
+    #     supersub = SuperAndSubMsgs(super_msg=msg,
+    #                            sub_msg_gstrs=
+    # "-x+1/3,-y+2/3,-z+2/3,+1;-x+2/3,-y+1/3,-z+1/3,+1;-x+y+1/3,-x+2/3,z+2/3,+1;-x+y+2/3,-x+1/3,z+1/3,+1;-x+y,-x,z,+1;-x,-y,-z,+1;-y+1/3,x-y+2/3,z+2/3,+1;-y+2/3,x-y+1/3,z+1/3,+1;-y,x-y,z,+1;x+1/3,y+2/3,z+2/3,+1;x+2/3,y+1/3,z+1/3,+1;x,y,z,+1;x-y+1/3,x+2/3,-z+2/3,+1;x-y+2/3,x+1/3,-z+1/3,+1;x-y,x,-z,+1;y+1/3,-x+y+2/3,-z+2/3,+1;y+2/3,-x+y+1/3,-z+1/3,+1;y,-x+y,-z,+1".split(';')
+    # )
     # msg = Msg("62.448")
     msg = Msg("205.33")
-    supersub = SuperAndSubMsgs(super_msg=msg,
-                           # sub_msg_gstrs="-x+1/2,y+1/2,z+1/2,-1;-x,-y,-z,+1;x+1/2,-y+1/2,-z+1/2,-1;x,y,z,+1".split(';')
-                           sub_msg_gstrs="-x,-y,-z,+1".split(';')
-                           )
+    supersub = SuperAndSubMsgs(
+        super_msg=msg,
+        # sub_msg_gstrs="-x+1/2,y+1/2,z+1/2,-1;-x,-y,-z,+1;x+1/2,-y+1/2,-z+1/2,-1;x,y,z,+1".split(';')
+        sub_msg_gstrs="-x,-y,-z,+1".split(";"),
+    )
     # print(supersub.super_msg)
     # print(supersub.super_msg.kvectors)
     # print(supersub.sub_msg)
     # print(supersub.sub_msg.kvectors)
     # print(supersub.super_to_sub)
-
 
     for subkvec in supersub.subkvec_to_superirrep_to_subirreps:
         print(subkvec)
@@ -180,13 +189,11 @@ def test_irrep_decomp():
 
     msg = Msg("134.481")
     # msg = Msg("2.4")
-    supersub = SuperAndSubMsgs(super_msg=msg,
-                           sub_msg_gstrs="-x,-y,-z,+1".split(';')
-                           )
+    supersub = SuperAndSubMsgs(super_msg=msg, sub_msg_gstrs="-x,-y,-z,+1".split(";"))
 
     subkvec_to_superirrep_to_subirreps = {}
 
-    for decomp in supersub._irrep_decomp(KVector('R:(1/2,1/2,1/2)')):
+    for decomp in supersub._irrep_decomp(KVector("R:(1/2,1/2,1/2)")):
         print(decomp)
 
 
@@ -216,15 +223,16 @@ def test_irrep_tr_partners():
 
 def test_comp_rels():
     from msg import Msg
-    msg2 = Msg('129.419')
-    for lhs, rhs in msg2.common_comp_rels_dict('GM', 'Z').items():
+
+    msg2 = Msg("129.419")
+    for lhs, rhs in msg2.common_comp_rels_dict("GM", "Z").items():
         print(lhs, rhs)
 
 
 def test_sis():
     from msg import Msg
 
-    msg = Msg('39.199')
+    msg = Msg("39.199")
     print(msg.si_orders)
     print(msg.si_matrix)
     print(msg.irrep_labels)
@@ -244,7 +252,7 @@ def test_diagnose():
     from itertools import accumulate
     from random import shuffle
 
-    msg = Msg('62.441')
+    msg = Msg("62.441")
 
     # all_brs = [
     #     msg.get_br(wp.label, wpirrep.label)
@@ -265,8 +273,6 @@ def test_diagnose():
     #     print(subband)
     #     print(msg.band_si(subband), msg.band_compatibility(subband))
 
-
-
     print(msg.band_bs(band))
 
     print(msg.band_si(band), msg.band_compatibility(band))
@@ -279,8 +285,11 @@ def test_diagnose():
 
 def test_antiunitary_gs():
     from msg import Msg
-    from genpos import is_antiunitary_gstr, antiunitary_gstr_to_mat4x4, \
-        unitary_gstr_to_mat4x4
+    from genpos import (
+        is_antiunitary_gstr,
+        antiunitary_gstr_to_mat4x4,
+        unitary_gstr_to_mat4x4,
+    )
     import numpy as np
 
     msg = Msg("12.62")
@@ -289,12 +298,10 @@ def test_antiunitary_gs():
         if is_antiunitary_gstr(gstr):
             antiunitary_mat3x3s.append(
                 antiunitary_gstr_to_mat4x4(gstr).astype(float)[:3, :3]
-                )
+            )
 
     def kcoords_to_primkcoords(kcoords):
-        return np.mod(msg.primvecsmat.T @ kcoords.astype(float),
-                       1.0
-                       )
+        return np.mod(msg.primvecsmat.T @ kcoords.astype(float), 1.0)
 
     def antiunitary_star(given_kvec):
         result = {given_kvec}
@@ -302,13 +309,15 @@ def test_antiunitary_gs():
         for kvec in msg.kvectors:
             for antiunitary_mat3x3 in antiunitary_mat3x3s:
                 antig_times_given_kvec_coords = (
-                    (-1) * np.linalg.inv(antiunitary_mat3x3.T) @
-                    given_kvec.coords.astype(float)
-                    )
+                    (-1)
+                    * np.linalg.inv(antiunitary_mat3x3.T)
+                    @ given_kvec.coords.astype(float)
+                )
 
-                if np.allclose(kcoords_to_primkcoords(antig_times_given_kvec_coords),
-                               kcoords_to_primkcoords(kvec.coords)
-                               ):
+                if np.allclose(
+                    kcoords_to_primkcoords(antig_times_given_kvec_coords),
+                    kcoords_to_primkcoords(kvec.coords),
+                ):
                     result.add(kvec)
                     break
 
@@ -322,14 +331,13 @@ def test_complex_ebrs():
     from msg import Msg
     import numpy as np
 
-
     msg = Msg("167.103")
     wp_and_irrep_to_paired_vec = msg.make_wp_and_irrep_to_paired_vec()
     all_vecs = list(wp_and_irrep_to_paired_vec.values())
     print(msg.decompose_vec_into_complex_ebr_titles(all_vecs[1] + all_vecs[2]))
 
-def main():
 
+def main():
     # test_mkvec()
     # test_identify_group()
     # test_wyckoff_brs()
@@ -347,5 +355,5 @@ def main():
     # test_antiunitary_gs()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

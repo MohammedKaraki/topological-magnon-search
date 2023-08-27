@@ -39,9 +39,10 @@ dictionary = {
     """<sub>""": r"\textsubscript{",
     """</sup>""": r"}",
     """<sup>""": r"\textsuperscript{",
-    }
+}
 
 import sys
+
 text = sys.stdin.read()
 for key in dictionary:
     text = text.replace(key, dictionary[key])

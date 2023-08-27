@@ -1,16 +1,18 @@
 import log
+
 logger = log.create_logger(__name__)
 
 
 def create_msg_info_table():
     from pathlib import Path
-    TABLE_FILEPATH = \
-        str((Path(__file__).parent
-             / "../../data/msgnumber_label_si_genpos.txt").resolve())
+
+    TABLE_FILEPATH = str(
+        (Path(__file__).parent / "../../data/msgnumber_label_si_genpos.txt").resolve()
+    )
 
     result = {}
 
-    with open(TABLE_FILEPATH, 'r') as file:
+    with open(TABLE_FILEPATH, "r") as file:
         for line in file.readlines():
             fields = line.split()
             assert len(fields) == 4
