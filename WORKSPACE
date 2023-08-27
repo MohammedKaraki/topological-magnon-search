@@ -74,6 +74,14 @@ http_archive(
   strip_prefix = "range-v3-0.12.0",
 )
 
+http_archive(
+  name = "nlohmann_json",
+    build_file = "//:json.BUILD",
+  url = "https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz",
+  sha256 = "d69f9deb6a75e2580465c6c4c5111b89c4dc2fa94e3a85fcd2ffcd9a143d9273",
+  strip_prefix = "json-3.11.2",
+)
+
 git_repository(
     name = "fmt",
     commit = "757564f5cd2fa78b634dd698c63dbf069818e6fd",

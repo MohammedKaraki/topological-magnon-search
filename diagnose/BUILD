@@ -29,6 +29,7 @@ cc_binary(
         ":ostream_utility",
         ":spectrum_data",
         "@fmt",
+        "@nlohmann_json//:json",
     ],
 )
 
@@ -42,6 +43,7 @@ cc_library(
         ":utility",
         ":ostream_utility",
         "//utils:compare",
+        "@nlohmann_json//:json",
     ],
 )
 

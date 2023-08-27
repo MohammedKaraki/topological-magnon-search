@@ -1,6 +1,5 @@
 #include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
 #include <optional>
 #include <random>
 #include <regex>
@@ -9,6 +8,7 @@
 #include <tuple>
 
 #include "fmt/core.h"
+#include "nlohmann/json.hpp"
 
 #include "entities.hpp"
 #include "k_path.hpp"
@@ -272,7 +272,8 @@ int main(int argc, const char **argv) {
     std::string json_filename_noext_nodir =
         fmt::format(R"({}-{}-{})", argv[1], argv[2], subgroup_serial_number);
 
-    std::string config_filename = "/home/mohammed/Dropbox/research/magnons/type-i-algorithm/src/cpp/conf1";
+    std::string config_filename =
+        "/home/mohammed/Dropbox/research/magnons/type-i-algorithm/src/cpp/conf1";
     if (argc == 5) {
         config_filename = argv[4];
     }
