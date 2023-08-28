@@ -458,48 +458,46 @@ int main(int argc, const char **argv) {
         final_upper->print(std::cerr);
     }
 
-    auto make_figure = [&data,
-                        low = low,
-                        high = high,
-                        &superband,
-                        &config_filename,
-                        &figure_filename_noext,
-                        &figure_filename_noext_nodir](bool target_low) {
-        const std::string low_or_high_str = target_low ? "low" : "high";
-        const int low_or_high_int = target_low ? *low : *high;
+    auto make_figure =
+        [&data, low = low, high = high, &superband, &config_filename, &figure_filename_noext
+         // &figure_filename_noext_nodir
+    ](bool target_low) {
+            const std::string low_or_high_str = target_low ? "low" : "high";
+            const int low_or_high_int = target_low ? *low : *high;
 
-        std::vector<int> subk_idxs;
-        auto all_edges = k_idxs_path(data.sub_msg, false);
-        subk_idxs.insert(subk_idxs.end(), all_edges.begin(), all_edges.end());
-        {
-            std::ifstream in("../cpp/drawn_axes");
-            int subkidx;
-            while (in >> subkidx) {
-                subk_idxs.push_back(subkidx);
+            std::vector<int> subk_idxs;
+            auto all_edges = k_idxs_path(data.sub_msg, false);
+            subk_idxs.insert(subk_idxs.end(), all_edges.begin(), all_edges.end());
+            {
+                std::ifstream in("../cpp/drawn_axes");
+                int subkidx;
+                while (in >> subkidx) {
+                    subk_idxs.push_back(subkidx);
+                }
             }
-        }
-        complement_subk_idxs(subk_idxs, data.sub_msg);
-        // std::swap(subk_idxs[1], subk_idxs[2]);
+            complement_subk_idxs(subk_idxs, data.sub_msg);
+            // std::swap(subk_idxs[1], subk_idxs[2]);
 
-        const auto superband_subband_pair_opt =
-            find_example(superband, *low + 1, *high + 1, low_or_high_int + 1);
-        if (superband_subband_pair_opt) {
-            const auto [superband_vis, subband_vis] = superband_subband_pair_opt.value();
-            const auto [mode, spec] = mode_spec_pair_from_file(config_filename);
-            Visualize vis(subk_idxs, superband_vis, subband_vis, data, mode, spec);
-            std::cerr << figure_filename_noext(low_or_high_str) + ".tex"
-                      << "\n";
-            vis.dump(figure_filename_noext(low_or_high_str) + ".tex");
-        }
-        assert(0 ==
-               std::system(fmt::format(R"(set -x && pdflatex -output-directory={0} -jobname={1} )"
-                                       R"({2}.tex 1>/dev/null && )"
-                                       R"(cp {0}/{1}.pdf {0}/recent-fig.pdf)",
-                                       figure_out_dir,
-                                       figure_filename_noext_nodir(low_or_high_str),
-                                       figure_filename_noext(low_or_high_str))
-                               .c_str()));
-    };
+            const auto superband_subband_pair_opt =
+                find_example(superband, *low + 1, *high + 1, low_or_high_int + 1);
+            if (superband_subband_pair_opt) {
+                const auto [superband_vis, subband_vis] = superband_subband_pair_opt.value();
+                const auto [mode, spec] = mode_spec_pair_from_file(config_filename);
+                Visualize vis(subk_idxs, superband_vis, subband_vis, data, mode, spec);
+                std::cerr << figure_filename_noext(low_or_high_str) + ".tex"
+                          << "\n";
+                vis.dump(figure_filename_noext(low_or_high_str) + ".tex");
+            }
+            // assert(0 ==
+            //        std::system(fmt::format(R"(set -x && pdflatex -output-directory={0}
+            //        -jobname={1} )"
+            //                                R"({2}.tex 1>/dev/null && )"
+            //                                R"(cp {0}/{1}.pdf {0}/recent-fig.pdf)",
+            //                                figure_out_dir,
+            //                                figure_filename_noext_nodir(low_or_high_str),
+            //                                figure_filename_noext(low_or_high_str))
+            //                        .c_str()));
+        };
 
     // if (type_i_excluded) {
     //   make_figure(false);
@@ -874,29 +872,38 @@ int main(int argc, const char **argv) {
         }
 
         // doc << latexify_sis(data);
-        doc.dump(fmt::format(R"({}/recent-doc.tex)",
-                             subsection_out_dir,
-                             json_filename_noext_nodir,
-                             data.sub_msg.number));
-        doc.dump(fmt::format(R"({}/{}-{}.tex)",
-                             subsection_out_dir,
-                             json_filename_noext_nodir,
-                             data.sub_msg.number),
-                 false);
-        assert(0 ==
-               std::system(fmt::format(R"(set -x && pdflatex -output-directory={0} -jobname={1} )"
-                                       R"({0}/recent-doc.tex 1>/dev/null&& )"
-                                       R"(cp {0}/{1}.pdf {0}/recent-doc.pdf )",
-                                       subsection_out_dir,
-                                       json_filename_noext_nodir + "-" + data.sub_msg.number)
-                               .c_str()));
-        assert(0 ==
-               std::system(fmt::format(R"(set -x && pdflatex -output-directory={0} -jobname={1} )"
-                                       R"({0}/recent-doc.tex 1>/dev/null&& )"
-                                       R"(cp {0}/{1}.pdf {0}/recent-doc.pdf )",
-                                       subsection_out_dir,
-                                       json_filename_noext_nodir + "-" + data.sub_msg.number)
-                               .c_str()));
+        {
+            const std::string filename = fmt::format(R"({}/recent-doc.tex)",
+                                                     subsection_out_dir,
+                                                     json_filename_noext_nodir,
+                                                     data.sub_msg.number);
+            doc.dump(filename);
+            std::cerr << "output: " << filename << "\n";
+        }
+        {
+            const std::string filename = fmt::format(R"({}/{}-{}.tex)",
+                                                     subsection_out_dir,
+                                                     json_filename_noext_nodir,
+                                                     data.sub_msg.number);
+            doc.dump(filename, false);
+            std::cerr << "output: " << filename << "\n";
+        }
+        // assert(0 ==
+        //        std::system(fmt::format(R"(set -x && pdflatex -output-directory={0} -jobname={1}
+        //        )"
+        //                                R"({0}/recent-doc.tex 1>/dev/null&& )"
+        //                                R"(cp {0}/{1}.pdf {0}/recent-doc.pdf )",
+        //                                subsection_out_dir,
+        //                                json_filename_noext_nodir + "-" + data.sub_msg.number)
+        //                        .c_str()));
+        // assert(0 ==
+        //        std::system(fmt::format(R"(set -x && pdflatex -output-directory={0} -jobname={1}
+        //        )"
+        //                                R"({0}/recent-doc.tex 1>/dev/null&& )"
+        //                                R"(cp {0}/{1}.pdf {0}/recent-doc.pdf )",
+        //                                subsection_out_dir,
+        //                                json_filename_noext_nodir + "-" + data.sub_msg.number)
+        //                        .c_str()));
     }
 
     if (!type_i_excluded) {
