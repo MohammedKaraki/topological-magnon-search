@@ -21,8 +21,6 @@ def read_args():
 
 
 def main():
-    r = runfiles.Create()
-    print(r.Rlocation("bazel-bin/preprocess/perturb_wp"))
     msg_number, wp = read_args()
 
     msg = Msg(msg_number)

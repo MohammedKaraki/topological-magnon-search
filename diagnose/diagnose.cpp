@@ -19,7 +19,7 @@
 #include "spectrum_data.hpp"
 #include "visualize.hpp"
 
-const auto json_dir = "json_output";
+const auto json_dir = "/tmp";
 const auto subsection_out_dir = "/tmp";
 const auto figure_out_dir = "/tmp";
 

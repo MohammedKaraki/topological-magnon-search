@@ -19,7 +19,8 @@ cc_binary(
 cc_binary(
     name = "diagnose",
     srcs = ["diagnose.cpp"],
-    data = ["//:json_output"],
+    data = [
+    ],
     deps = [
         ":irreps",
         ":physics_and_chemistry",

@@ -23,9 +23,7 @@ PALETTE = [
 
 
 def latex_template_path():
-    from pathlib import Path
-
-    return str((Path(__file__).parent / "../latex/template.tex").resolve())
+    return  "src/latex/template.tex"
 
 
 with open(latex_template_path(), "r") as f:

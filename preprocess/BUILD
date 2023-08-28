@@ -172,6 +172,16 @@ py_library(
     ],
 )
 
+py_binary(
+    name = "visual",
+    srcs = ["visual.py"],
+    data = ["//src/latex:template"],
+    deps = [
+        ":br",
+        requirement("numpy"),
+    ],
+)
+
 py_library(
     name = "magnon_irreps",
     srcs = ["magnon_irreps.py"],
@@ -182,7 +192,6 @@ py_library(
 py_library(
     name = "perturb_wp",
     srcs = ["perturb_wp.py"],
-    data = ["//:json_output"],
     deps = [
         ":super_and_sub_msgs",
         ":magnon_irreps",
@@ -195,7 +204,6 @@ py_binary(
     srcs = ["perturb_relevant.py"],
     data = [
         "//:logs",
-        "//:json_output",
     ],
     deps = [
         "@bazel_tools//tools/python/runfiles:runfiles",

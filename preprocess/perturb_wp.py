@@ -15,7 +15,7 @@ def logfile_path():
 
 
 def json_output_dir():
-    return "json_output"
+    return "/tmp"
 
 
 def read_args():
