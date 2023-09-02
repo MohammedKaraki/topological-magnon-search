@@ -105,9 +105,9 @@ git_repository(
 # Protobuf library.
 http_archive(
     name = "com_google_protobuf",
-    strip_prefix = "protobuf-4.23.4",
-    sha256 = "5f3cd52d6e5062071d99da57a96ea87e39bc020d6d25748001d919c474a4d8ed",
-    urls = ["https://github.com/protocolbuffers/protobuf/archive/v4.23.4.tar.gz"],
+    strip_prefix = "protobuf-4.24.2",
+    sha256 = "e218d1afcfedf7fbf80456f867539d7a5775569a3fa8e1b90856b9e4d2866ae9",
+    urls = ["https://github.com/protocolbuffers/protobuf/archive/v4.24.2.tar.gz"],
 )
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 protobuf_deps()
@@ -134,8 +134,6 @@ hedron_compile_commands_setup()
 # Run the tool with:
 # bazel run @hedron_compile_commands//:refresh_all
 
-
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 http_archive(
     name = "rules_python",
     sha256 = "954aa89b491be4a083304a2cb838019c8b8c3720a7abb9c4cb81ac7a24230cea",
