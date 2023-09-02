@@ -95,8 +95,10 @@ def perturb_wp(msg_number, wp_label, subgroup_id):
 
     if len(msgs.sub_msg.si_orders) == 0:
         print(
-            "SI of subgroup ({}) is trivial. Quitting...".format(msgs.sub_msg.si_orders),
-            file=sys.stderr
+            "SI of subgroup ({}) is trivial. Quitting...".format(
+                msgs.sub_msg.si_orders
+            ),
+            file=sys.stderr,
         )
         exit(1)
 

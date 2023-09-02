@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "utils/compare.hpp"
+#include "utility/compare.hpp"
 
 namespace TopoMagnon {
 

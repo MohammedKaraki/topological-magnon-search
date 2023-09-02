@@ -2,7 +2,11 @@ from preprocess.cached_requests import cached_post
 from preprocess.utility import contents_as_str, find_unique, cleanup_ebr_html
 from bs4 import BeautifulSoup as bs
 from re import fullmatch, search
-from preprocess.utility import list_transpose, list_flatten_one_level, cleanup_pointgroup_html
+from preprocess.utility import (
+    list_transpose,
+    list_flatten_one_level,
+    cleanup_pointgroup_html,
+)
 from preprocess.kvector import KVector
 from preprocess.br import LittleIrrep, Br
 import numpy as np

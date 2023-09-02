@@ -23,7 +23,7 @@ PALETTE = [
 
 
 def latex_template_path():
-    return  "src/latex/template.tex"
+    return "src/latex/template.tex"
 
 
 with open(latex_template_path(), "r") as f:

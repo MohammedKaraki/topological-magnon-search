@@ -10,6 +10,7 @@
 #include "fmt/core.h"
 #include "nlohmann/json.hpp"
 
+#include "diagnose/details/config.pb.h"
 #include "entities.hpp"
 #include "k_path.hpp"
 #include "latexify.hpp"
@@ -18,6 +19,8 @@
 #include "sisummary.hpp"
 #include "spectrum_data.hpp"
 #include "visualize.hpp"
+
+const std::string CONFIG_PATH = "config/config.cfg";
 
 const auto json_dir = "/tmp";
 const auto subsection_out_dir = "/tmp";

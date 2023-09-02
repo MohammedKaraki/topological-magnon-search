@@ -7,11 +7,12 @@ from subprocess import check_output
 from preprocess.perturb_wp import perturb_wp
 import sys
 
+
 def logfile_path():
     return "logs/tests.log"
 
-def read_args():
 
+def read_args():
     try:
         _, msg_number, wp = sys.argv
     except:

@@ -9,6 +9,18 @@
                 "([.]hpp$)",
                 "([.]proto$)"
             ]
+        },
+        "pylint": {
+            "type": "pylint",
+            "include": "(\\.py$)",
+            "pylint.config": ".pylintrc"
+        },
+        "text": {
+          "type": "text",
+        "include": [
+            "([.]cpp$)",
+            "([.]hpp$)"
+            ]
         }
     }
 }

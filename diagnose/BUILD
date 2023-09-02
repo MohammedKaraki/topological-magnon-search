@@ -7,6 +7,13 @@ load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 
 cc_binary(
+    name = "read_example",
+    srcs = ["read_example.cpp"],
+    deps = [
+        "//diagnose/details:config_proto_cc",
+    ],
+)
+cc_binary(
     name = "find_subgroups",
     srcs = ["find_subgroups.cpp"],
     deps = [
@@ -22,6 +29,7 @@ cc_binary(
     data = [
     ],
     deps = [
+        "//diagnose/details:config_proto_cc",
         ":irreps",
         ":physics_and_chemistry",
         ":sisummary",
@@ -46,7 +54,7 @@ cc_library(
         "@fmt",
         ":utility",
         ":ostream_utility",
-        "//utils:compare",
+        "//utility:compare",
         "@nlohmann_json//:json",
     ],
 )
@@ -137,7 +145,7 @@ cc_library(
     srcs = ["irreps.cpp"],
     deps = [
         "@fmt",
-        "//utils:compare",
+        "//utility:compare",
     ],
 )
 

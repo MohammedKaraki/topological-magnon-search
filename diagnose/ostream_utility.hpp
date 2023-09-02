@@ -48,7 +48,6 @@ struct is_vector_like<std::array<T, N>> {
     static constexpr auto value = true;
 };
 
-
 }  // namespace TypeTraits
 
 template <typename VectorLike>

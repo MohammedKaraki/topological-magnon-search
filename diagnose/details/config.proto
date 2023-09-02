@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package diagnose.details.proto;
+
+message Config {
+    optional string cache_dir = 1;
+}

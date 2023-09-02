@@ -1,11 +1,11 @@
+#include "spectrum_data.hpp"
+
 #include <algorithm>
 #include <iostream>
 #include <regex>
 #include <sstream>
 
 #include "nlohmann/json.hpp"
-
-#include "spectrum_data.hpp"
 // #include "entities.hpp"
 #include "ostream_utility.hpp"
 #include "utility.hpp"

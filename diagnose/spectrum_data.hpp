@@ -10,7 +10,7 @@
 #include "Eigen/Core"
 
 #include "utility.hpp"
-#include "utils/compare.hpp"
+#include "utility/compare.hpp"
 
 namespace TopoMagnon {
 
