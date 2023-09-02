@@ -1,8 +1,14 @@
 {
-  "linters": {
-    "pylint": {
-      "type": "black",
-      "include": "(\\.py$)"
+    "linters": {
+        "clang-format": {
+            "type": "clang-format",
+            "include": [
+                "([.]c$)",
+                "([.]cpp$)",
+                "([.]h$)",
+                "([.]hpp$)",
+                "([.]proto$)"
+            ]
+        }
     }
-  }
 }
