@@ -10,10 +10,9 @@
                 "([.]proto$)"
             ]
         },
-        "pylint": {
-            "type": "pylint",
-            "include": "(\\.py$)",
-            "pylint.config": ".pylintrc"
+        "black": {
+            "type": "black",
+            "include": "(\\.py$)"
         },
         "text": {
           "type": "text",

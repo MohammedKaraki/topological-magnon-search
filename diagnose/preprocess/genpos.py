@@ -1,5 +1,9 @@
-from preprocess.cached_requests import cached_post
-from preprocess.utility import contents_as_str, find_unique, cleanup_genpos_html
+from topomagnons.diagnose.preprocess.cached_requests import cached_post
+from topomagnons.diagnose.preprocess.utility import (
+    contents_as_str,
+    find_unique,
+    cleanup_genpos_html,
+)
 from bs4 import BeautifulSoup as bs
 import numpy as np
 from fractions import Fraction

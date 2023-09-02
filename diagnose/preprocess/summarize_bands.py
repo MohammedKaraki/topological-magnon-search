@@ -1,6 +1,6 @@
-from preprocess.primvecs import find_primvecsmat
-from preprocess.msg import Msg
-from preprocess.magndata import load_materials
+from topomagnons.diagnose.preprocess.primvecs import find_primvecsmat
+from topomagnons.diagnose.preprocess.msg import Msg
+from topomagnons.diagnose.preprocess.magndata import load_materials
 import json
 
 

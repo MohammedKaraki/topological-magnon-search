@@ -1,8 +1,8 @@
-from preprocess.genpos import fetch_gdicts
-from preprocess.latticetype import find_latticetype
-from preprocess.mbandrep import kvectors_and_ebrs
-from preprocess.genpos import unitary_gstr_to_mat4x4
-from preprocess.mkvec import vec3_from_klabel
+from topomagnons.diagnose.preprocess.genpos import fetch_gdicts
+from topomagnons.diagnose.preprocess.latticetype import find_latticetype
+from topomagnons.diagnose.preprocess.mbandrep import kvectors_and_ebrs
+from topomagnons.diagnose.preprocess.genpos import unitary_gstr_to_mat4x4
+from topomagnons.diagnose.preprocess.mkvec import vec3_from_klabel
 import numpy as np
 from re import fullmatch
 

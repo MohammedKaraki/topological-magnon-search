@@ -1,10 +1,10 @@
 from bazel_tools.tools.python.runfiles import runfiles
-from preprocess.all_subgroups import gstrs_and_presc_of_subgroups
-from preprocess.msg import Msg
-from preprocess.msg_info_table import MSG_INFO_TABLE
-from preprocess.identify_group import identify_group
+from topomagnons.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
+from topomagnons.diagnose.preprocess.msg import Msg
+from topomagnons.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
+from topomagnons.diagnose.preprocess.identify_group import identify_group
 from subprocess import check_output
-from preprocess.perturb_wp import perturb_wp
+from topomagnons.diagnose.preprocess.perturb_wp import perturb_wp
 import sys
 
 

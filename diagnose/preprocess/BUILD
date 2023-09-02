@@ -199,6 +199,14 @@ py_library(
     ],
 )
 
+py_library(
+    name = "wp",
+    srcs = ["wp.py"],
+    deps = [
+        ":cached_requests",
+    ],
+)
+
 py_binary(
     name = "perturb_relevant",
     srcs = ["perturb_relevant.py"],

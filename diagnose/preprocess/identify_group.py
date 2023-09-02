@@ -1,4 +1,4 @@
-from preprocess.cached_requests import cached_post
+from topomagnons.diagnose.preprocess.cached_requests import cached_post
 from genpos import is_valid_mat4x4
 from utility import contents_as_str, find_unique
 from bs4 import BeautifulSoup as bs

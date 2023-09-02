@@ -1,4 +1,4 @@
-from preprocess.br import LittleIrrep
+from topomagnons.diagnose.preprocess.br import LittleIrrep
 import numpy as np
 
 import log

@@ -1,16 +1,20 @@
 import numpy as np
-from preprocess.lattice_type import find_latticetype
+from topomagnons.diagnose.preprocess.lattice_type import find_latticetype
 from re import fullmatch
-from preprocess.mbandrep import kvectors_and_ebrs
-from preprocess.genpos import UnitaryGenpos, fetch_unitary_gs, unitary_gstr_to_mat4x4
-from preprocess.char_table import CharTable
-from preprocess.kvector import KVector
-from preprocess.primvecs import find_primvecsmat
-from preprocess.msg_info_table import MSG_INFO_TABLE
-from preprocess.br import Br
-from preprocess.comp_rels import comp_rels
-from preprocess.band import Band
-from preprocess.br import LittleIrrep
+from topomagnons.diagnose.preprocess.mbandrep import kvectors_and_ebrs
+from topomagnons.diagnose.preprocess.genpos import (
+    UnitaryGenpos,
+    fetch_unitary_gs,
+    unitary_gstr_to_mat4x4,
+)
+from topomagnons.diagnose.preprocess.char_table import CharTable
+from topomagnons.diagnose.preprocess.kvector import KVector
+from topomagnons.diagnose.preprocess.primvecs import find_primvecsmat
+from topomagnons.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
+from topomagnons.diagnose.preprocess.br import Br
+from topomagnons.diagnose.preprocess.comp_rels import comp_rels
+from topomagnons.diagnose.preprocess.band import Band
+from topomagnons.diagnose.preprocess.br import LittleIrrep
 from itertools import accumulate
 
 
@@ -148,7 +152,7 @@ class Msg:
         return b
 
     def _load_sis_and_comp_rels(self):
-        from preprocess.snf import snf, intinv
+        from topomagnons.diagnose.preprocess.snf import snf, intinv
 
         assert self._si_matrix is None
         assert self._si_orders is None
