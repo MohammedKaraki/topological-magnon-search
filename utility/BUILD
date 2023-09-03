@@ -12,6 +12,6 @@ magnon_cc_library(
     hdrs = ["proto.hpp"],
     srcs = ["proto.cpp"],
     deps = [
-        "@com_google_protobuf//:protobuf_lite",
+        "@com_google_protobuf//:protobuf",
     ]
 )

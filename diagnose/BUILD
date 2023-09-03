@@ -8,8 +8,12 @@ load("@rules_proto//proto:defs.bzl", "proto_library")
 magnon_cc_binary(
     name = "read_example",
     srcs = ["read_example.cpp"],
+    data = [
+        "//config:config",
+    ],
     deps = [
         "//diagnose/details:config_proto_cc",
+        "//utility:proto",
     ],
 )
 magnon_cc_binary(

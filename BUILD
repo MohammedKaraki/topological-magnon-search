@@ -17,6 +17,6 @@ filegroup(
 # )
 #
 
-export_files([
+exports_files([
     ".clang-format",
 ])
