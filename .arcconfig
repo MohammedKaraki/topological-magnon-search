@@ -1,5 +1,5 @@
 {
   "load": [
-    "external_tools/clang-format-linter"
+    "external_tools/clang-format-linter/"
   ]
 }

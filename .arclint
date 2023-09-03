@@ -19,7 +19,10 @@
         "include": [
             "([.]cpp$)",
             "([.]hpp$)"
-            ]
+            ],
+        "severity": {
+            "3": "disabled"
+        }
         }
     }
 }

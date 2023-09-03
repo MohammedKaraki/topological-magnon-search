@@ -16,3 +16,7 @@ filegroup(
 #         visibility = ["//visibility:public"],
 # )
 #
+
+export_files([
+    ".clang-format",
+])
