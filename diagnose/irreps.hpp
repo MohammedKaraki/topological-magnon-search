@@ -6,7 +6,7 @@
 
 #include "utility/compare.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 class Littleirrep {
  public:
@@ -105,4 +105,4 @@ class LittleirrepDecomp {
     std::multiset<Littleirrep> littleirrep_comps;
 };
 
-}  // namespace TopoMagnon
+}  // namespace magnon

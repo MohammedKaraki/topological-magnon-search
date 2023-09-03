@@ -11,7 +11,7 @@
 #include "utility.hpp"
 
 using json = nlohmann::json;
-namespace TopoMagnon {
+namespace magnon {
 std::ostream &operator<<(std::ostream &out, const SpectrumData &data) {
 
     operator<<(out, std::vector<std::string>());
@@ -323,9 +323,9 @@ std::string SpectrumData::si_orders_to_latex() const {
     return result.str();
 }
 
-}  // namespace TopoMagnon
+}  // namespace magnon
 
-std::istream &operator>>(std::istream &in, TopoMagnon::SpectrumData &data) {
+std::istream &operator>>(std::istream &in, magnon::SpectrumData &data) {
     json j;
     in >> j;
     data = j;
@@ -347,7 +347,7 @@ std::istream &operator>>(std::istream &in, TopoMagnon::SpectrumData &data) {
 // #include "entities.hpp"
 // #include "spectrum_data.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 Bag::Bag(const std::string &superirrep, const SpectrumData &data) {
     const auto &subirreps = data.superirrep_to_all_subirreps.at(superirrep);
@@ -903,4 +903,4 @@ void Superband::fix_antiunit_rels() {
     }
 }
 
-}  // namespace TopoMagnon
+}  // namespace magnon

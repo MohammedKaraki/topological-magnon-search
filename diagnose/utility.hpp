@@ -24,7 +24,7 @@ using Vector32 = std::vector<T>;
 template <typename T>
 using Vector = Vector8<T>;
 
-namespace TopoMagnon {
+namespace magnon {
 namespace Utility {
 
 template <typename T>
@@ -106,4 +106,4 @@ Vector<T> intersect(const Vector<std::set<T>> &sets) {
     return result;
 }
 }  // namespace Utility
-}  // namespace TopoMagnon
+}  // namespace magnon

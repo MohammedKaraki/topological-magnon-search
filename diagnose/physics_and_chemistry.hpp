@@ -6,7 +6,7 @@
 #include "irreps.hpp"
 #include "spectrum_data.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 using Physics = LittleirrepDecomp;
 using Chemistry = Irrep1wpDecomp;
@@ -17,4 +17,4 @@ using SupercondChemistries = std::set<SupercondChemistry>;
 std::vector<std::pair<Physics, Chemistries>> find_physics_and_chemistries_pairs(
     const SpectrumData &data, SupercondChemistries &supercond_chemistries);
 
-}  // namespace TopoMagnon
+}  // namespace magnon

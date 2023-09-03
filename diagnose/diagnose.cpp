@@ -26,7 +26,7 @@ const auto json_dir = "/tmp";
 const auto subsection_out_dir = "/tmp";
 const auto figure_out_dir = "/tmp";
 
-using namespace TopoMagnon;
+using namespace magnon;
 
 namespace std {
 template <typename T>

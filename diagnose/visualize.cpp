@@ -20,7 +20,7 @@
 #include "latexify.hpp"
 #include "spectrum_data.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 using std::numbers::pi;
 
@@ -976,4 +976,4 @@ std::pair<VisMode, VisSpec> mode_spec_pair_from_file(const std::string &filename
     return std::pair(mode, spec);
 }
 
-}  // namespace TopoMagnon
+}  // namespace magnon

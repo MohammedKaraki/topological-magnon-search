@@ -6,7 +6,7 @@
 #include "physics_and_chemistry.hpp"
 #include "spectrum_data.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 std::string latexify_greeks(const std::string &label);
 std::string latexify_sis(const SpectrumData &data);
@@ -38,4 +38,4 @@ class LatexDoc {
     std::ostringstream code;
 };
 
-}  // namespace TopoMagnon
+}  // namespace magnon

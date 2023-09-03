@@ -6,7 +6,7 @@
 #include <regex>
 #include <sstream>
 
-namespace TopoMagnon {
+namespace magnon {
 
 Littleirrep::Littleirrep(std::string source_str) : src{std::move(source_str)} {
     const std::regex regex{R"((([A-Z]+).*)\(([0-9]+)\))"};
@@ -103,4 +103,4 @@ std::vector<std::string> LittleirrepDecomp::get_irreps_as_strs() const {
     return result;
 }
 
-}  // namespace TopoMagnon
+}  // namespace magnon

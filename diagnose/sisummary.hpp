@@ -5,7 +5,7 @@
 
 #include "spectrum_data.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 struct IntMatrixComp {
     bool operator()(const IntMatrix &a, const IntMatrix &b) const {
@@ -101,4 +101,4 @@ class SiSummary {
     }
 };
 
-}  // namespace TopoMagnon
+}  // namespace magnon

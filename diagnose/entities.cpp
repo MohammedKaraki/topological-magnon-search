@@ -13,7 +13,7 @@
 // // #include "spectrum_data.hpp"
 //
 //
-// namespace TopoMagnon {
+// namespace magnon {
 //
 //
 // Bag::Bag(const std::string& superirrep, const SpectrumData& data)
@@ -689,4 +689,4 @@
 //   }
 // }
 //
-// } // namespace TopoMagnon
+// } // namespace magnon

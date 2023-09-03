@@ -2,7 +2,7 @@
 
 #include "latexify.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 void {
     LatexDoc doc;
@@ -58,4 +58,4 @@ void {
     doc.dump(latex_doc_filename);
 }
 
-}  // namespace TopoMagnon
+}  // namespace magnon

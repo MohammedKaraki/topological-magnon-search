@@ -12,7 +12,7 @@
 #include "utility.hpp"
 #include "utility/compare.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 class Bag;
 
@@ -73,11 +73,11 @@ struct SpectrumData {
     std::string si_orders_to_latex() const;
 };
 
-}  // namespace TopoMagnon
+}  // namespace magnon
 
-std::istream &operator>>(std::istream &in, TopoMagnon::SpectrumData &s);
+std::istream &operator>>(std::istream &in, magnon::SpectrumData &s);
 
-namespace TopoMagnon {
+namespace magnon {
 
 struct SpectrumData;
 
@@ -184,4 +184,4 @@ class Superband {
     const SpectrumData &data;
 };
 
-}  // namespace TopoMagnon
+}  // namespace magnon

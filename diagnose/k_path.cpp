@@ -7,7 +7,7 @@
 
 #include "spectrum_data.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 static bool is_high_symmetry_line(int i, int j, const SpectrumData::Msg &msg) {
     std::string k1 = msg.ks[i];
@@ -87,4 +87,4 @@ void complement_subk_idxs(std::vector<int> &subk_idxs, const SpectrumData::Msg &
     }
 }
 
-}  // namespace TopoMagnon
+}  // namespace magnon

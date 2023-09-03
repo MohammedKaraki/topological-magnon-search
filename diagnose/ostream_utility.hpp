@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace TopoMagnon {
+namespace magnon {
 
 std::ostream &print_indent(std::ostream &out, int N);
 
@@ -128,4 +128,4 @@ std::ostream &operator<<(std::ostream &out, const std::map<int, Val> &map) {
     return out;
 }
 
-}  // namespace TopoMagnon
+}  // namespace magnon

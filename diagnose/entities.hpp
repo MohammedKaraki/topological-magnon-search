@@ -11,7 +11,7 @@
 //
 // #include "utility.hpp"
 //
-// namespace TopoMagnon {
+// namespace magnon {
 //
 // struct SpectrumData;
 //
@@ -140,6 +140,6 @@
 //   const SpectrumData& data;
 // };
 //
-// } // namespace TopoMagnon
+// } // namespace magnon
 //
 // #endif // ENTITIES_HPP

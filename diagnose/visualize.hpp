@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-namespace TopoMagnon {
+namespace magnon {
 
 struct Rgb {
     double r, g, b;
@@ -104,4 +104,4 @@ class Visualize {
     VisSpec spec;
 };
 
-}  // namespace TopoMagnon
+}  // namespace magnon

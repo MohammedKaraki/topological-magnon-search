@@ -10,7 +10,7 @@
 
 #include "irreps.hpp"
 
-namespace TopoMagnon {
+namespace magnon {
 
 std::string Littleirrep::latexify() const {
     return std::regex_replace(irreplabel, std::regex(R"(GM)"), R"(\Gamma)");
@@ -472,4 +472,4 @@ std::string latexify_irrepsum(const std::vector<std::string> &irreps) {
     return result.str();
 }
 
-}  // namespace TopoMagnon
+}  // namespace magnon
