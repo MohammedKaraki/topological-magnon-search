@@ -1,19 +1,18 @@
 package(default_visibility=["//visibility:public"])
 
-load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
-load("//:defs.bzl", "py_binary")
+load("//:defs.bzl", "magnon_py_library", "magnon_py_binary", "magnon_cc_library", "magnon_cc_binary")
 
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 
-cc_binary(
+magnon_cc_binary(
     name = "read_example",
     srcs = ["read_example.cpp"],
     deps = [
         "//diagnose/details:config_proto_cc",
     ],
 )
-cc_binary(
+magnon_cc_binary(
     name = "find_subgroups",
     srcs = ["find_subgroups.cpp"],
     deps = [
@@ -23,7 +22,7 @@ cc_binary(
     ],
 )
 
-cc_binary(
+magnon_cc_binary(
     name = "diagnose",
     srcs = ["diagnose.cpp"],
     data = [
@@ -45,7 +44,7 @@ cc_binary(
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "spectrum_data",
     hdrs = ["spectrum_data.hpp"],
     srcs = ["spectrum_data.cpp"],
@@ -68,7 +67,7 @@ cc_test(
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "ostream_utility",
     hdrs = ["ostream_utility.hpp"],
     srcs = ["ostream_utility.cpp"],
@@ -77,14 +76,14 @@ cc_library(
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "utility",
     hdrs = ["utility.hpp"],
     deps = [
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "entities",
     hdrs = ["entities.hpp"],
     srcs = ["entities.cpp"],
@@ -97,7 +96,7 @@ cc_library(
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "visualize",
     hdrs = ["visualize.hpp"],
     srcs = ["visualize.cpp"],
@@ -109,7 +108,7 @@ cc_library(
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "k_path",
     hdrs = ["k_path.hpp"],
     srcs = ["k_path.cpp"],
@@ -118,7 +117,7 @@ cc_library(
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "latexify",
     hdrs = ["latexify.hpp"],
     srcs = ["latexify.cpp"],
@@ -129,7 +128,7 @@ cc_library(
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "physics_and_chemistry",
     hdrs = ["physics_and_chemistry.hpp"],
     srcs = ["physics_and_chemistry.cpp"],
@@ -139,7 +138,7 @@ cc_library(
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "irreps",
     hdrs = ["irreps.hpp"],
     srcs = ["irreps.cpp"],
@@ -149,7 +148,7 @@ cc_library(
     ],
 )
 
-cc_library(
+magnon_cc_library(
     name = "sisummary",
     hdrs = ["sisummary.hpp"],
     deps = [

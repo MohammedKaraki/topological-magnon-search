@@ -1,4 +1,4 @@
-load("@rules_cc//cc:defs.bzl", "cc_library")
+load("//:defs.bzl", "magnon_cc_library")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -7,7 +7,7 @@ cc_library(
     hdrs = ["compare.hpp"],
 )
 
-cc_library(
+magnon_cc_library(
     name = "proto",
     hdrs = ["proto.hpp"],
     srcs = ["proto.cpp"],
