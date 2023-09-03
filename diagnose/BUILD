@@ -13,7 +13,7 @@ magnon_cc_binary(
     ],
     deps = [
         "//diagnose/details:config_proto_cc",
-        "//utility:proto",
+        "//utility:proto_text_format",
     ],
 )
 magnon_cc_binary(

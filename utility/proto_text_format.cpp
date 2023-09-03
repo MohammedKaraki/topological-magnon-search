@@ -1,9 +1,10 @@
+#include "utility/proto_text_format.hpp"
+
 #include <fstream>
-#include <string>
 #include <iterator>
+#include <string>
 
 #include "google/protobuf/text_format.h"
-#include "utility/proto.hpp"
 
 namespace magnon::proto {
 

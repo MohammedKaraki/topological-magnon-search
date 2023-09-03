@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "diagnose/details/config.pb.h"
-#include "utility/proto.hpp"
+#include "utility/proto_text_format.hpp"
 
 int main() {
     magnon::diagnose::details::proto::Config config{};
