@@ -1,10 +1,10 @@
-from topomagnons.diagnose.preprocess.cached_requests import cached_post
-from topomagnons.diagnose.preprocess.utility import contents_as_str
+from magnon.diagnose.preprocess.cached_requests import cached_post
+from magnon.diagnose.preprocess.utility import contents_as_str
 from bs4 import BeautifulSoup as bs
-from topomagnons.diagnose.preprocess.kvector import KVector
+from magnon.diagnose.preprocess.kvector import KVector
 from re import fullmatch
-from topomagnons.diagnose.preprocess.utility import cleanup_ebr_html
-from topomagnons.diagnose.preprocess.br import LittleIrrep
+from magnon.diagnose.preprocess.utility import cleanup_ebr_html
+from magnon.diagnose.preprocess.br import LittleIrrep
 
 import log
 

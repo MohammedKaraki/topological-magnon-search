@@ -1,18 +1,18 @@
-from topomagnons.diagnose.preprocess.cached_requests import cached_post
-from topomagnons.diagnose.preprocess.utility import (
+from magnon.diagnose.preprocess.cached_requests import cached_post
+from magnon.diagnose.preprocess.utility import (
     contents_as_str,
     find_unique,
     cleanup_ebr_html,
 )
 from bs4 import BeautifulSoup as bs
 from re import fullmatch, search
-from topomagnons.diagnose.preprocess.utility import (
+from magnon.diagnose.preprocess.utility import (
     list_transpose,
     list_flatten_one_level,
     cleanup_pointgroup_html,
 )
-from topomagnons.diagnose.preprocess.kvector import KVector
-from topomagnons.diagnose.preprocess.br import LittleIrrep, Br
+from magnon.diagnose.preprocess.kvector import KVector
+from magnon.diagnose.preprocess.br import LittleIrrep, Br
 import numpy as np
 
 import log

@@ -1,6 +1,6 @@
-from topomagnons.diagnose.preprocess.cached_requests import cached_check_output
+from magnon.diagnose.preprocess.cached_requests import cached_check_output
 from hashlib import sha256
-from topomagnons.diagnose.preprocess.magndata import load_materials, material_doi
+from magnon.diagnose.preprocess.magndata import load_materials, material_doi
 from re import sub
 
 import log

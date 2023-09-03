@@ -1,4 +1,4 @@
-from topomagnons.diagnose.preprocess.cached_requests import cached_post
+from magnon.diagnose.preprocess.cached_requests import cached_post
 from utility import contents_as_str
 from bs4 import BeautifulSoup as bs
 import numpy as np

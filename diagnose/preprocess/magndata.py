@@ -1,5 +1,5 @@
-from topomagnons.diagnose.preprocess.cached_requests import cached_get
-from topomagnons.diagnose.preprocess.utility import contents_as_str
+from magnon.diagnose.preprocess.cached_requests import cached_get
+from magnon.diagnose.preprocess.utility import contents_as_str
 from bs4 import BeautifulSoup as bs
 from re import search
 import json

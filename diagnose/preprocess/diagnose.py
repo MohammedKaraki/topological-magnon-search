@@ -1,17 +1,17 @@
-from topomagnons.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
-from topomagnons.diagnose.preprocess.latticetype import find_latticetype
-from topomagnons.diagnose.preprocess.msg import Msg
-from topomagnons.diagnose.preprocess.primvecs import find_primvecsmat
-from topomagnons.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
-from topomagnons.diagnose.preprocess.identify_group import identify_group
-from subprocess import check_output
-from topomagnons.diagnose.preprocess.magndata import load_materials, material_doi
+from magnon.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
+from magnon.diagnose.preprocess.latticetype import find_latticetype
+from magnon.diagnose.preprocess.msg import Msg
+from magnon.diagnose.preprocess.primvecs import find_primvecsmat
+from magnon.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
+from magnon.diagnose.preprocess.identify_group import identify_group
+from magnon.diagnose.preprocess.magndata import load_materials, material_doi
+from magnon.diagnose.preprocess.magnon_irreps import sxsy_irreps_from_pg
+from magnon.diagnose.preprocess.wp import fetch_wp
+from magnon.diagnose.preprocess.mbandrep import fetch_wp_point_group_and_br
 from collections import defaultdict
-from topomagnons.diagnose.preprocess.magnon_irreps import sxsy_irreps_from_pg
-from topomagnons.diagnose.preprocess.wp import fetch_wp
+from subprocess import check_output
 import numpy as np
 import json
-from topomagnons.diagnose.preprocess.mbandrep import fetch_wp_point_group_and_br
 import re
 
 

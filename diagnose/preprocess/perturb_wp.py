@@ -1,12 +1,12 @@
-from topomagnons.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
+from magnon.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
 from collections import defaultdict
-from topomagnons.diagnose.preprocess.msg import Msg
-from topomagnons.diagnose.preprocess.super_and_sub_msgs import SuperAndSubMsgs
-from topomagnons.diagnose.preprocess.mbandrep import fetch_wp_point_group_and_br
-from topomagnons.diagnose.preprocess.magnon_irreps import sxsy_irreps_from_pg
+from magnon.diagnose.preprocess.msg import Msg
+from magnon.diagnose.preprocess.super_and_sub_msgs import SuperAndSubMsgs
+from magnon.diagnose.preprocess.mbandrep import fetch_wp_point_group_and_br
+from magnon.diagnose.preprocess.magnon_irreps import sxsy_irreps_from_pg
 import json
-from topomagnons.diagnose.preprocess.br import LittleIrrep
-from topomagnons.diagnose.preprocess.mbandpaths import antiunit_related_irreps
+from magnon.diagnose.preprocess.br import LittleIrrep
+from magnon.diagnose.preprocess.mbandpaths import antiunit_related_irreps
 import sys
 
 

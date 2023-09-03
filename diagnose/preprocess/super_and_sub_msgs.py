@@ -1,8 +1,8 @@
-from topomagnons.diagnose.preprocess.msg import Msg
-from topomagnons.diagnose.preprocess.genpos import UnitaryGenpos
-from topomagnons.diagnose.preprocess.identify_group import identify_group
+from magnon.diagnose.preprocess.msg import Msg
+from magnon.diagnose.preprocess.genpos import UnitaryGenpos
+from magnon.diagnose.preprocess.identify_group import identify_group
 import numpy as np
-from topomagnons.diagnose.preprocess.br import LittleIrrep
+from magnon.diagnose.preprocess.br import LittleIrrep
 
 import log
 

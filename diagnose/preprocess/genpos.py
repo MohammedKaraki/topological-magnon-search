@@ -1,5 +1,5 @@
-from topomagnons.diagnose.preprocess.cached_requests import cached_post
-from topomagnons.diagnose.preprocess.utility import (
+from magnon.diagnose.preprocess.cached_requests import cached_post
+from magnon.diagnose.preprocess.utility import (
     contents_as_str,
     find_unique,
     cleanup_genpos_html,

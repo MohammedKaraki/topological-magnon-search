@@ -1,7 +1,7 @@
-from topomagnons.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
-from topomagnons.diagnose.preprocess.msg import Msg
-from topomagnons.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
-from topomagnons.diagnose.preprocess.identify_group import identify_group
+from magnon.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
+from magnon.diagnose.preprocess.msg import Msg
+from magnon.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
+from magnon.diagnose.preprocess.identify_group import identify_group
 from subprocess import check_output
 import sys
 

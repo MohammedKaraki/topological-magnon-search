@@ -1,7 +1,7 @@
-from topomagnons.diagnose.preprocess.cached_requests import cached_post
+from magnon.diagnose.preprocess.cached_requests import cached_post
 from bs4 import BeautifulSoup as bs
 from re import fullmatch, findall
-from topomagnons.diagnose.preprocess.br import LittleIrrep
+from magnon.diagnose.preprocess.br import LittleIrrep
 
 import log
 

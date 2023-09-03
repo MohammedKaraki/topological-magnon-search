@@ -1,6 +1,6 @@
-from topomagnons.diagnose.preprocess.primvecs import find_primvecsmat
-from topomagnons.diagnose.preprocess.msg import Msg
-from topomagnons.diagnose.preprocess.magndata import load_materials
+from magnon.diagnose.preprocess.primvecs import find_primvecsmat
+from magnon.diagnose.preprocess.msg import Msg
+from magnon.diagnose.preprocess.magndata import load_materials
 import json
 
 

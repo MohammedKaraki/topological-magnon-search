@@ -215,7 +215,6 @@ magnon_py_binary(
         "//:logs",
     ],
     deps = [
-        "@bazel_tools//tools/python/runfiles:runfiles",
         ":all_subgroups",
         ":msg",
         ":perturb_wp",

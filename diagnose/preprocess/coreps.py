@@ -1,9 +1,9 @@
-from topomagnons.diagnose.preprocess.cached_requests import cached_post
-from topomagnons.diagnose.preprocess.utility import contents_as_str, cleanup_corep_html
+from magnon.diagnose.preprocess.cached_requests import cached_post
+from magnon.diagnose.preprocess.utility import contents_as_str, cleanup_corep_html
 from bs4 import BeautifulSoup as bs
-from topomagnons.diagnose.preprocess.mkvec import symbol_from_klabel
+from magnon.diagnose.preprocess.mkvec import symbol_from_klabel
 from re import fullmatch, sub
-from topomagnons.diagnose.preprocess.genpos import mat3x4_to_unitary_gstr, UnitaryGenpos
+from magnon.diagnose.preprocess.genpos import mat3x4_to_unitary_gstr, UnitaryGenpos
 import numpy as np
 from fractions import Fraction
 from joblib import Memory

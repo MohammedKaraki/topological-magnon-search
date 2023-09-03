@@ -1,7 +1,7 @@
 import numpy as np
-from topomagnons.diagnose.preprocess.coreps import char_table_info
-from topomagnons.diagnose.preprocess.mkvec import symbol_and_vec3_from_klabel
-from topomagnons.diagnose.preprocess.genpos import UnitaryGenpos
+from magnon.diagnose.preprocess.coreps import char_table_info
+from magnon.diagnose.preprocess.mkvec import symbol_and_vec3_from_klabel
+from magnon.diagnose.preprocess.genpos import UnitaryGenpos
 
 import log
 

@@ -1,6 +1,6 @@
 import numpy as np
-from topomagnons.diagnose.preprocess.lattice_type import find_latticetype
-from topomagnons.diagnose.preprocess.genpos import (
+from magnon.diagnose.preprocess.lattice_type import find_latticetype
+from magnon.diagnose.preprocess.genpos import (
     fetch_unitary_gs,
     unitary_gstr_to_mat4x4,
 )
