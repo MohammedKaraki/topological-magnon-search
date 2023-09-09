@@ -4,6 +4,6 @@
 
 namespace magnon::proto {
 
-bool read_from_text_file(const std::string &path, ::google::protobuf::Message &);
+bool read_from_text_file(const std::string &path, ::google::protobuf::Message &message);
 
 }

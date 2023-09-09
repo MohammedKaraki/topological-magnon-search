@@ -1,7 +1,7 @@
 syntax = "proto2";
 
-package magnon.diagnose.details.proto;
+package magnon.config.proto;
 
-message Config {
+message GlobalConfig {
     optional string cache_dir = 1;
 }

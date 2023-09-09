@@ -10,7 +10,7 @@
 #include "fmt/core.h"
 #include "nlohmann/json.hpp"
 
-#include "diagnose/details/config.pb.h"
+#include "config/config.pb.h"
 #include "entities.hpp"
 #include "k_path.hpp"
 #include "latexify.hpp"

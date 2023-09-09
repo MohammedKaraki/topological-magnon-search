@@ -4,6 +4,7 @@ load("//:defs.bzl", "magnon_py_library", "magnon_py_binary", "magnon_cc_library"
 
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@com_google_protobuf//:protobuf.bzl", "py_proto_library")
 
 magnon_cc_binary(
     name = "read_example",
@@ -12,7 +13,7 @@ magnon_cc_binary(
         "//config:config",
     ],
     deps = [
-        "//diagnose/details:config_proto_cc",
+        "//config:config_proto_cc",
         "//utility:proto_text_format",
     ],
 )
@@ -32,7 +33,7 @@ magnon_cc_binary(
     data = [
     ],
     deps = [
-        "//diagnose/details:config_proto_cc",
+        "//config:config_proto_cc",
         ":irreps",
         ":physics_and_chemistry",
         ":sisummary",
@@ -158,3 +159,5 @@ magnon_cc_library(
     deps = [
     ],
 )
+
+

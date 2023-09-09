@@ -61,7 +61,7 @@ register_toolchains(
 
 http_archive(
     name = "eigen",
-    build_file = "//:eigen.BUILD",
+    build_file = "//build_external:eigen.BUILD",
     sha256 = "8586084f71f9bde545ee7fa6d00288b264a2b7ac3607b974e54d13e7162c1c72",
     strip_prefix = "eigen-3.4.0",
     urls = ["https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz"],
@@ -76,7 +76,7 @@ http_archive(
 
 http_archive(
   name = "nlohmann_json",
-    build_file = "//:json.BUILD",
+    build_file = "//build_external:json.BUILD",
   url = "https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz",
   sha256 = "d69f9deb6a75e2580465c6c4c5111b89c4dc2fa94e3a85fcd2ffcd9a143d9273",
   strip_prefix = "json-3.11.2",
@@ -172,3 +172,14 @@ load("@pybind11_bazel//:python_configure.bzl", "python_configure")
 python_configure(
   name = "local_config_python",
 )
+
+
+# Boost Libraries
+http_archive(
+    name = "com_github_nelhage_rules_boost",
+    url = "https://github.com/nelhage/rules_boost/archive/54aaeeac21382cb433f5630fc966395ee5447b2b.tar.gz",
+    strip_prefix = "rules_boost-54aaeeac21382cb433f5630fc966395ee5447b2b",
+    sha256 = "f5d7f3943d60b86d848d9bfbe6636914d887f11adf1f714c487f0a767d5bae79",
+)
+load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
+boost_deps()
