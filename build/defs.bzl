@@ -1,6 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 
-load("@rules_python//python:defs.bzl", "py_binary", "py_library")
+load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
 
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
@@ -80,5 +80,12 @@ def magnon_pybind_library(name, srcs, data=[], deps=[], py_deps=[], **kwargs):
         name = name,
         data = [":" + name + ".so"] + data,
         deps = py_deps,
+        **kwargs,
+    )
+
+def magnon_py_test(name, srcs, **kwargs):
+    py_test(
+        name = name,
+        srcs = srcs,
         **kwargs,
     )

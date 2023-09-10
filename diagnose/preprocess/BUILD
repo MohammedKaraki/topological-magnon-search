@@ -1,6 +1,12 @@
 package(default_visibility=["//visibility:public"])
 
-load("//build:defs.bzl", "magnon_py_library", "magnon_py_binary", "magnon_cc_library", "magnon_cc_binary")
+load("//build:defs.bzl",
+     "magnon_py_library",
+     "magnon_py_binary",
+     "magnon_py_test",
+     "magnon_cc_library",
+     "magnon_cc_binary",
+     )
 load("@pip_deps//:requirements.bzl", "requirement")
 
 magnon_py_library(
@@ -145,6 +151,11 @@ magnon_py_library(
     srcs = ["genpos.py"],
     deps = [
         ":log",
+        ":cached_requests",
+        ":utility",
+        requirement("requests"),
+        requirement("numpy"),
+        requirement("bs4"),
     ],
 )
 
@@ -254,5 +265,21 @@ magnon_py_binary(
         ":msg",
         ":perturb_wp",
         # requirement("numpy"),
+    ],
+)
+
+magnon_py_test(
+    name = "perturb_relevant_test",
+    srcs = ["perturb_relevant_test.py"],
+    deps = [
+        ":perturb_relevant",
+    ],
+)
+
+magnon_py_test(
+    name = "genpos_test",
+    srcs = ["genpos_test.py"],
+    deps = [
+        ":genpos",
     ],
 )
