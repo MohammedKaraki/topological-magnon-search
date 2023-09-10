@@ -1,8 +1,8 @@
 from re import fullmatch
 from itertools import groupby
-from band import Band
+from magnon.diagnose.preprocess.band import Band
 
-import log
+from magnon.diagnose.preprocess import log
 
 logger = log.create_logger(__name__)
 

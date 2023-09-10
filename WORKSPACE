@@ -139,10 +139,11 @@ http_archive(
     ],
 )
 
-load("@rules_python//python:pip.bzl", "pip_install")
+load("@rules_python//python:pip.bzl", "pip_install", "pip_parse")
 
-pip_install(
+pip_parse(
     name = "pip_deps",
+    python_interpreter_target = interpreter,
     requirements = "//:requirements.txt",
 )
 load("@pip_deps//:requirements.bzl", "install_deps")

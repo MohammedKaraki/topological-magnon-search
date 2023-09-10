@@ -5,7 +5,7 @@ from magnon.diagnose.preprocess.genpos import (
     unitary_gstr_to_mat4x4,
 )
 
-import log
+from magnon.diagnose.preprocess import log
 
 logger = log.create_logger(__name__)
 
@@ -65,7 +65,7 @@ def find_primvecsmat_method1(msg_number):
 
 
 def find_primvecsmat_method2(msg_number):
-    from genpos import fetch_gdicts
+    from magnon.diagnose.preprocess.genpos import fetch_gdicts
 
     result = np.eye(3)
 

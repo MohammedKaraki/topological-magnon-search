@@ -1,6 +1,6 @@
 from re import fullmatch
 
-import log
+from magnon.diagnose.preprocess import log
 
 logger = log.create_logger(__name__)
 

@@ -6,7 +6,7 @@ from re import fullmatch
 from magnon.diagnose.preprocess.utility import cleanup_ebr_html
 from magnon.diagnose.preprocess.br import LittleIrrep
 
-import log
+from magnon.diagnose.preprocess import log
 
 logger = log.create_logger(__name__)
 

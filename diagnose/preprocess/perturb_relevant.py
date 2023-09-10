@@ -8,6 +8,7 @@ from magnon.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
 from magnon.diagnose.preprocess.identify_group import identify_group
 from magnon.diagnose.preprocess.perturb_wp import perturb_wp
 
+from magnon.diagnose.preprocess import log
 
 def logfile_path():
     return "logs/tests.log"
@@ -38,7 +39,6 @@ def main():
 
 
 if __name__ == "__main__":
-    import log
 
     logger = log.create_root_logger(filename=logfile_path())
     main()

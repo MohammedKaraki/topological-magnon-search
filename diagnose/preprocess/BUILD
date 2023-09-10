@@ -15,6 +15,7 @@ magnon_py_library(
         ":utility",
         ":kvector",
         ":snf",
+        ":log",
         ":primvecs",
         ":msg_info_table",
         ":identify_group",
@@ -27,7 +28,9 @@ magnon_py_library(
     name = "snf",
     srcs = ["snf.py"],
     deps = [
+        ":log",
         requirement("oauthlib"),
+        requirement("wolframclient"),
     ]
 )
 
@@ -35,6 +38,7 @@ magnon_py_library(
     name = "primvecs",
     srcs = ["primvecs.py"],
     data = [
+        ":log",
         "//data:latticetype_spacegroupnumber"
     ],
 )
@@ -43,6 +47,7 @@ magnon_py_library(
     name = "all_subgroups",
     srcs = ["all_subgroups.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -51,6 +56,7 @@ magnon_py_library(
     srcs = ["msg_info_table.py"],
     data = ["//data:msgnumber_label_si_genpos"],
     deps = [
+        ":log",
     ],
 )
 
@@ -59,6 +65,7 @@ magnon_py_library(
     srcs = ["cached_requests.py"],
     data = ["//:cache"],
     deps = [
+        ":log",
     ],
 )
 
@@ -66,8 +73,9 @@ magnon_py_library(
     name = "identify_group",
     srcs = ["identify_group.py"],
     deps = [
-        requirement("html5lib"),
+        ":log",
         ":cached_requests",
+        requirement("html5lib"),
     ],
 )
 
@@ -76,7 +84,9 @@ magnon_py_library(
     srcs = ["mbandrep.py"],
     deps = [
         ":br",
+        ":log",
         requirement("requests"),
+        requirement("bs4"),
     ],
 )
 
@@ -91,6 +101,7 @@ magnon_py_library(
     name = "coreps",
     srcs = ["coreps.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -98,6 +109,7 @@ magnon_py_library(
     name = "comp_rels",
     srcs = ["comp_rels.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -105,6 +117,7 @@ magnon_py_library(
     name = "mkvec",
     srcs = ["mkvec.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -114,6 +127,8 @@ magnon_py_library(
     deps = [
         ":coreps",
         ":mkvec",
+        ":log",
+        requirement("joblib"),
     ],
 )
 
@@ -121,6 +136,7 @@ magnon_py_library(
     name = "band",
     srcs = ["band.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -128,6 +144,7 @@ magnon_py_library(
     name = "genpos",
     srcs = ["genpos.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -135,6 +152,7 @@ magnon_py_library(
     name = "br",
     srcs = ["br.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -142,12 +160,21 @@ magnon_py_library(
     name = "utility",
     srcs = ["utility.py"],
     deps = [
+        ":log",
     ],
 )
 
 magnon_py_library(
     name = "kvector",
     srcs = ["kvector.py"],
+    deps = [
+        ":log",
+    ],
+)
+
+magnon_py_library(
+    name = "log",
+    srcs = ["log.py"],
     deps = [
     ],
 )
@@ -156,6 +183,7 @@ magnon_py_library(
     name = "lattice_type",
     srcs = ["lattice_type.py"],
     deps = [
+        ":log"
     ],
 )
 
@@ -163,6 +191,7 @@ magnon_py_library(
     name = "super_and_sub_msgs",
     srcs = ["super_and_sub_msgs.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -170,6 +199,7 @@ magnon_py_library(
     name = "mbandpaths",
     srcs = ["mbandpaths.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -179,6 +209,7 @@ magnon_py_binary(
     data = ["//src/latex:template"],
     deps = [
         ":br",
+        ":log",
         requirement("numpy"),
     ],
 )
@@ -187,6 +218,7 @@ magnon_py_library(
     name = "magnon_irreps",
     srcs = ["magnon_irreps.py"],
     deps = [
+        ":log",
     ],
 )
 
@@ -197,6 +229,7 @@ magnon_py_library(
         ":super_and_sub_msgs",
         ":magnon_irreps",
         ":mbandpaths",
+        ":log",
     ],
 )
 
@@ -204,6 +237,7 @@ magnon_py_library(
     name = "wp",
     srcs = ["wp.py"],
     deps = [
+        ":log",
         ":cached_requests",
     ],
 )
@@ -215,6 +249,7 @@ magnon_py_binary(
         "//:logs",
     ],
     deps = [
+        ":log",
         ":all_subgroups",
         ":msg",
         ":perturb_wp",

@@ -8,7 +8,7 @@ import numpy as np
 from fractions import Fraction
 from joblib import Memory
 
-import log
+from magnon.diagnose.preprocess import log
 
 logger = log.create_logger(__name__)
 
