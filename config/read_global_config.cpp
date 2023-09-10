@@ -1,4 +1,5 @@
 #include "read_global_config.hpp"
+
 #include "utility/proto_text_format.hpp"
 
 namespace {

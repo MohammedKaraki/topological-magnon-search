@@ -2,8 +2,8 @@
 
 #include <fstream>
 #include <iterator>
-#include <string>
 #include <stdexcept>
+#include <string>
 
 #include "google/protobuf/text_format.h"
 
