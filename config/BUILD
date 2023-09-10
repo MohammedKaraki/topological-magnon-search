@@ -1,6 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//build:defs.bzl", "magnon_proto_library", "magnon_py_library", "magnon_cc_library")
+load("//build:defs.bzl", "magnon_proto_library", "magnon_py_library", "magnon_py_binary", "magnon_cc_library")
 
 filegroup(
     name = "config",
@@ -28,4 +28,8 @@ magnon_cc_library(
 magnon_py_library(
     name = "read_global_config_py",
     srcs = ["read_global_config.py"],
+    deps = [
+        # ":config_proto_py",
+        "//config:config_proto_py",
+    ]
 )
