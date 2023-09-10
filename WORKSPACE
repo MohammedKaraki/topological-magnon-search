@@ -75,6 +75,7 @@ http_archive(
 http_archive(
     name = "pybind11_protobuf",
     url = "https://github.com/pybind/pybind11_protobuf/archive/3d7834b607758bbd2e3d210c6c478453922f20c0.zip",
+    sha256 = "cf81bc54676bf9ae64c85469f8d95c65863abf526eb49de01098b6478c194846",
     strip_prefix = "pybind11_protobuf-3d7834b607758bbd2e3d210c6c478453922f20c0",
 )
 
@@ -153,22 +154,23 @@ install_deps()
 
 # Add pybind11.
 http_archive(
-  name = "pybind11_bazel",
-  strip_prefix = "pybind11_bazel-fd7d88857cca3d7435b06f3ac6abab77cd9983b2",
-  sha256 = "ca401da77da9712bb585595796c4d8ec5253e55292f5ecf7773db1b33b26715e",
-  urls = ["https://github.com/pybind/pybind11_bazel/archive/fd7d88857cca3d7435b06f3ac6abab77cd9983b2.zip"],
+    name = "pybind11_bazel",
+    strip_prefix = "pybind11_bazel-fd7d88857cca3d7435b06f3ac6abab77cd9983b2",
+    sha256 = "ca401da77da9712bb585595796c4d8ec5253e55292f5ecf7773db1b33b26715e",
+    urls = ["https://github.com/pybind/pybind11_bazel/archive/fd7d88857cca3d7435b06f3ac6abab77cd9983b2.zip"],
 )
 # We still require the pybind library.
 http_archive(
-  name = "pybind11",
-  build_file = "@pybind11_bazel//:pybind11.BUILD",
-  strip_prefix = "pybind11-2.11",
-  urls = ["https://github.com/pybind/pybind11/archive/v2.11.tar.gz"],
+    name = "pybind11",
+    build_file = "@pybind11_bazel//:pybind11.BUILD",
+    strip_prefix = "pybind11-2.11",
+    sha256 = "b3e8c9dcc58356b92dbe5ce7fbc159130be937e754717e21e8a3eef86b583c45",
+    urls = ["https://github.com/pybind/pybind11/archive/v2.11.tar.gz"],
 )
 load("@pybind11_bazel//:python_configure.bzl", "python_configure")
 python_configure(
-  name = "local_config_python",
-  python_interpreter_target = interpreter,
+    name = "local_config_python",
+    python_interpreter_target = interpreter,
 )
 
 
