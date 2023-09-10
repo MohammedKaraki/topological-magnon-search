@@ -28,6 +28,8 @@ pdflatex /tmp/205.33-4c-4-2.4-figure-high.tex
 ```
 results in the following figure:
 
+<img src="./data/205.33-4c-4-2.4-figure-high.svg">
+
 
 # References
 TBD
