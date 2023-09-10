@@ -16,9 +16,3 @@ magnon_cc_library(
         "@com_google_protobuf//:protobuf",
     ]
 )
-
-magnon_pybind_library(
-    name = "proto_text_format_python",
-    srcs = ["proto_text_format_python.cpp"],
-    deps = [":proto_text_format"],
-)
