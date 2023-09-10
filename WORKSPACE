@@ -31,7 +31,7 @@ load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
 llvm_register_toolchains()
 
 # Setup hermetic python toolchain
-load("//internal:python_interpreter.bzl", "py_download")
+load("//build:python_interpreter.bzl", "py_download")
 py_download(
     name = "py_darwin_x86_64",
     arch = "x86_64",

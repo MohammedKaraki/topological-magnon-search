@@ -1,6 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//:defs.bzl", "magnon_cc_binary", "magnon_py_binary")
+load("//build:defs.bzl", "magnon_cc_binary", "magnon_py_binary")
 
 magnon_cc_binary(
     name = "main",

@@ -1,6 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//:defs.bzl", "magnon_proto_library", "magnon_cc_library")
+load("//build:defs.bzl", "magnon_proto_library", "magnon_cc_library")
 
 filegroup(
     name = "config",

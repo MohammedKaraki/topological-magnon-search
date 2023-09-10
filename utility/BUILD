@@ -1,4 +1,4 @@
-load("//:defs.bzl", "magnon_cc_library")
+load("//build:defs.bzl", "magnon_cc_library")
 load("@pybind11_bazel//:build_defs.bzl", "pybind_extension")
 
 package(default_visibility = ["//visibility:public"])

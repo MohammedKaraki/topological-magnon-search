@@ -1,5 +1,5 @@
-load("//internal:py_binary.bzl", _py_binary = "py_binary")
-load("//internal:py_library.bzl", _py_library = "py_library")
+load("//build:py_binary.bzl", _py_binary = "py_binary")
+load("//build:py_library.bzl", _py_library = "py_library")
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")

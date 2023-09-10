@@ -80,7 +80,7 @@ py_binary = rule(
 
         # Our rule is going to register an action to expand whatever template this attribute points to.
         "_bash_runner_tpl": attr.label(
-            default = "//internal:py_binary_runner.bash.tpl",
+            default = "//build:py_binary_runner.bash.tpl",
             doc = "Label denoting the bash runner template to use for the binary",
             allow_single_file = True,
         ),

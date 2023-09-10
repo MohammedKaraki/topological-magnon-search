@@ -33,7 +33,7 @@ py_download = repository_rule(
             doc = "Path you'd expect the python interpreter binary to live.",
         ),
         "_build_tpl": attr.label(
-            default = "//internal:BUILD.dist.bazel.tpl",
+            default = "//build:BUILD.dist.bazel.tpl",
             doc = "Label denoting the BUILD file template that get's installed in the repo.",
         )
     },
