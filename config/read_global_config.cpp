@@ -8,8 +8,8 @@ const char *const CONFIG_PATH = "config/config.cfg";
 
 }
 
-magnon::config::proto::GlobalConfig read_global_config() {
-    magnon::config::proto::GlobalConfig config;
+magnon::config::GlobalConfig read_global_config() {
+    magnon::config::GlobalConfig config;
     magnon::proto::read_from_text_file(CONFIG_PATH, config);
     return config;
 }

@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package magnon.config.proto;
+package magnon.config;
 
 message GlobalConfig {
     optional string cache_dir = 1;
