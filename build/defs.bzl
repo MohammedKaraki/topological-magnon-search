@@ -68,15 +68,17 @@ def magnon_py_binary(name, main, srcs = [], **kwargs):
     )
 
 
-def magnon_pybind_library(name, srcs, data=[], **kwargs):
+def magnon_pybind_library(name, srcs, data=[], deps=[], py_deps=[], **kwargs):
     pybind_extension(
         name = name,
         srcs = srcs,
+        deps = deps,
         **kwargs,
     )
 
     magnon_py_library(
         name = name,
         data = [":" + name + ".so"] + data,
+        deps = py_deps,
         **kwargs,
     )

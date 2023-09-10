@@ -1,7 +1,7 @@
-load("//build:defs.bzl", "magnon_cc_library")
-load("@pybind11_bazel//:build_defs.bzl", "pybind_extension")
-
 package(default_visibility = ["//visibility:public"])
+
+load("//build:defs.bzl", "magnon_cc_library", "magnon_py_library", "magnon_pybind_library")
+
 
 cc_library(
     name = "compare",
@@ -17,8 +17,8 @@ magnon_cc_library(
     ]
 )
 
-pybind_extension(
+magnon_pybind_library(
     name = "proto_text_format_python",
     srcs = ["proto_text_format_python.cpp"],
-    deps = [],
+    deps = [":proto_text_format"],
 )

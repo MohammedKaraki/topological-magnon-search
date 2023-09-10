@@ -18,6 +18,6 @@ magnon_py_binary(
     srcs = ["main.py"],
     deps = [
         "//config:config_proto_py",
-        "//config:read_global_config_py",
+        "//config:read_global_config_python",
     ],
 )

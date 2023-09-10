@@ -65,11 +65,17 @@ http_archive(
 )
 
 http_archive(
-  name = "nlohmann_json",
+    name = "nlohmann_json",
     build_file = "//build_external:json.BUILD",
-  url = "https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz",
-  sha256 = "d69f9deb6a75e2580465c6c4c5111b89c4dc2fa94e3a85fcd2ffcd9a143d9273",
-  strip_prefix = "json-3.11.2",
+    url = "https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz",
+    sha256 = "d69f9deb6a75e2580465c6c4c5111b89c4dc2fa94e3a85fcd2ffcd9a143d9273",
+    strip_prefix = "json-3.11.2",
+)
+
+http_archive(
+    name = "pybind11_protobuf",
+    url = "https://github.com/pybind/pybind11_protobuf/archive/3d7834b607758bbd2e3d210c6c478453922f20c0.zip",
+    strip_prefix = "pybind11_protobuf-3d7834b607758bbd2e3d210c6c478453922f20c0",
 )
 
 git_repository(
@@ -174,3 +180,22 @@ http_archive(
 )
 load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
 boost_deps()
+
+
+
+# Protobuf expects an //external:python_headers label which would contain the Python headers.
+bind(
+    name = "python_headers",
+    actual = "@third_party//:python_headers",
+)
+new_local_repository(
+    name = "third_party",
+    path = "third_party",
+    build_file_content = """
+alias(
+    name = "python_headers",
+    actual = "@local_config_python//:python_headers",
+    visibility = ["//visibility:public"]
+)
+    """
+)
