@@ -6,6 +6,8 @@ load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 load("@com_google_protobuf//:protobuf.bzl", "py_proto_library")
 
+load("@pybind11_bazel//:build_defs.bzl", "pybind_extension")
+
 
 _ADDITIONAL_COPTS = [
     "-Werror",
@@ -62,5 +64,19 @@ def magnon_py_binary(name, main, srcs = [], **kwargs):
         name = name,
         main = main,
         srcs = srcs,
+        **kwargs,
+    )
+
+
+def magnon_pybind_library(name, srcs, data=[], **kwargs):
+    pybind_extension(
+        name = name,
+        srcs = srcs,
+        **kwargs,
+    )
+
+    magnon_py_library(
+        name = name,
+        data = [":" + name + ".so"] + data,
         **kwargs,
     )
