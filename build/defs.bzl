@@ -54,5 +54,13 @@ def magnon_py_library(**kwargs):
     py_library(**kwargs)
 
 
-def magnon_py_binary(**kwargs):
-    py_binary(**kwargs)
+def magnon_py_binary(name, main, srcs = [], **kwargs):
+    if main not in srcs:
+        srcs = [main] + srcs
+
+    py_binary(
+        name = name,
+        main = main,
+        srcs = srcs,
+        **kwargs,
+    )
