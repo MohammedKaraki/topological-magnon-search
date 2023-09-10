@@ -15,10 +15,9 @@ magnon_cc_binary(
 magnon_py_binary(
     name = "main_py",
     main = "main.py",
+    srcs = ["main.py"],
     deps = [
         "//config:config_proto_py",
-        "//config:read_global_config",
-        "@fmt",
-        "@boost//:filesystem",
+        "//config:read_global_config_py",
     ],
 )
