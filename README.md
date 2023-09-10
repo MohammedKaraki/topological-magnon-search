@@ -16,7 +16,7 @@ bazel run //diagnose/preprocess:perturb_relevant -- 205.33 4c
 bazel run //diagnose:diagnose -- 205.33 4c 4
 ```
 
-This results in a positive results. As a result, three LaTeX files will be created automatically: 2 figures and 1 document that includes summary text, tables and figures. In the example above, the three files will be created at the following location
+This leads to a positive result. Subsequently, three LaTeX files will be created automatically at the following location
 ```
 /tmp/205.33-4c-4-2.4-figure-high.tex
 /tmp/205.33-4c-4-2.4-figure-low.tex
