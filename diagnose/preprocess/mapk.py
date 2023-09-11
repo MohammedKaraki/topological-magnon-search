@@ -1,12 +1,12 @@
 from magnon.diagnose.preprocess.genpos import fetch_gdicts
-from magnon.diagnose.preprocess.latticetype import find_latticetype
+from magnon.diagnose.preprocess.lattice_type import find_latticetype
 from magnon.diagnose.preprocess.mbandrep import kvectors_and_ebrs
 from magnon.diagnose.preprocess.genpos import unitary_gstr_to_mat4x4
 from magnon.diagnose.preprocess.mkvec import vec3_from_klabel
 import numpy as np
 from re import fullmatch
 
-import log
+from magnon.diagnose.preprocess import log
 
 logger = log.create_logger(__name__)
 

@@ -1,5 +1,5 @@
 from magnon.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
-from magnon.diagnose.preprocess.latticetype import find_latticetype
+from magnon.diagnose.preprocess.lattice_type import find_latticetype
 from magnon.diagnose.preprocess.msg import Msg
 from magnon.diagnose.preprocess.primvecs import find_primvecsmat
 from magnon.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE

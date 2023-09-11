@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import perturb_relevant
+from magnon.diagnose.preprocess import perturb_wps
 
 class EmptyTest(unittest.TestCase):
     def test_empty(self):

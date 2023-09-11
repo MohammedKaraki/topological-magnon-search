@@ -1,11 +1,9 @@
 import unittest
 
-import sys
 from magnon.diagnose.preprocess import genpos
 
-class TestPerturbRelevant(unittest.TestCase):
-    def test_aaa(self):
-        print(sys.version)
+class EmptyTest(unittest.TestCase):
+    def test_empty(self):
         pass
 
 if __name__ == "__main__":

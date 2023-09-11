@@ -1,7 +1,7 @@
 from magnon.diagnose.preprocess.br import LittleIrrep
 import numpy as np
 
-import log
+from magnon.diagnose.preprocess import log
 
 logger = log.create_logger(__name__)
 

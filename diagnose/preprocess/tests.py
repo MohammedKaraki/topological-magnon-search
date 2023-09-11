@@ -1,10 +1,8 @@
-import log
+from magnon.diagnose.preprocess import log
 
 
 def logfile_path():
-    from pathlib import Path
-
-    return str((Path(__file__).parent / "../../logs/tests.log").resolve())
+    return "/tmp/tests.log"
 
 
 logger = log.create_root_logger(filename=logfile_path())

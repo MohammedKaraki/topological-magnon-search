@@ -5,7 +5,7 @@ from re import search
 import json
 
 
-import log
+from magnon.diagnose.preprocess import log
 
 logger = log.create_logger(__name__)
 

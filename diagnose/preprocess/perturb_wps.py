@@ -5,20 +5,16 @@ from magnon.diagnose.preprocess.super_and_sub_msgs import SuperAndSubMsgs
 from magnon.diagnose.preprocess.mbandrep import fetch_wp_point_group_and_br
 from magnon.diagnose.preprocess.magnon_irreps import sxsy_irreps_from_pg
 import json
-from br import LittleIrrep
+from magnon.diagnose.preprocess.br import LittleIrrep
 from magnon.diagnose.preprocess.mbandpaths import antiunit_related_irreps
 
 
 def logfile_path():
-    from pathlib import Path
-
-    return str((Path(__file__).parent / "../../logs/tests.log").resolve())
+    return "/tmp/perturb_wps.log"
 
 
 def json_output_dir():
-    from pathlib import Path
-
-    return str((Path(__file__).parent / "../../json_output").resolve())
+    return "/tmp/json_output"
 
 
 def read_args():

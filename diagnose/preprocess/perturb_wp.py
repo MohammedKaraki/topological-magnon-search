@@ -11,7 +11,7 @@ import sys
 
 
 def logfile_path():
-    return "logs/tests.log"
+    return "/tmp/perturb_wp.log"
 
 
 def json_output_dir():

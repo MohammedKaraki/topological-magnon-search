@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import perturb_relevant
+from magnon.diagnose.preprocess import super_and_sub_band
 
 class EmptyTest(unittest.TestCase):
     def test_empty(self):

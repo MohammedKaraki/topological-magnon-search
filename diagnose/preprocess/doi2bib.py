@@ -3,7 +3,7 @@ from hashlib import sha256
 from magnon.diagnose.preprocess.magndata import load_materials, material_doi
 from re import sub
 
-import log
+from magnon.diagnose.preprocess import log
 
 logger = log.create_logger(__name__)
 
