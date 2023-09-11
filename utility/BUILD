@@ -14,5 +14,6 @@ magnon_cc_library(
     srcs = ["proto_text_format.cpp"],
     deps = [
         "@com_google_protobuf//:protobuf",
+        "@fmt",
     ]
 )
