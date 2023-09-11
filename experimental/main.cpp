@@ -1,5 +1,5 @@
 #include "boost/filesystem/path.hpp"
-#include "fmt/format.h"
+#include "fmt/core.h"
 
 #include "config/config.pb.h"
 #include "config/read_global_config.hpp"

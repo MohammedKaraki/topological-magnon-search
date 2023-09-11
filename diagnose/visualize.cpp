@@ -1,7 +1,5 @@
 #include "visualize.hpp"
 
-#include <fmt/core.h>
-
 #include <array>
 #include <cassert>
 #include <fstream>
@@ -15,6 +13,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "fmt/core.h"
 
 #include "config/visualize_config.pb.h"
 #include "entities.hpp"

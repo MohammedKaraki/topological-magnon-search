@@ -90,7 +90,7 @@ IncludeCategories:
     Priority:        2
     SortPriority:    0
     CaseSensitive:   false
-  - Regex:           '^"(third_party|external|boost|Eigen|fmt|nlohmann)/'
+  - Regex:           '^"(boost|Eigen|fmt|nlohmann)/'
     Priority:        3
     SortPriority:    0
     CaseSensitive:   false

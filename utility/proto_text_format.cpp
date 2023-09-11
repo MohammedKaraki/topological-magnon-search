@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "fmt/format.h"
+#include "fmt/core.h"
 
 #include "google/protobuf/io/tokenizer.h"
 #include "google/protobuf/text_format.h"

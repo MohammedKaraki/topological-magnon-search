@@ -332,9 +332,6 @@ std::istream &operator>>(std::istream &in, magnon::SpectrumData &data) {
     return in;
 }
 
-#include <fmt/color.h>
-#include <fmt/core.h>
-
 #include <cassert>
 #include <numeric>
 #include <set>
@@ -342,6 +339,9 @@ std::istream &operator>>(std::istream &in, magnon::SpectrumData &data) {
 #include <tuple>
 #include <utility>
 #include <vector>
+
+#include "fmt/color.h"
+#include "fmt/core.h"
 
 #include "utility.hpp"
 // #include "entities.hpp"

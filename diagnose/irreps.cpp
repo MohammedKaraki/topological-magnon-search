@@ -1,10 +1,10 @@
 #include "irreps.hpp"
 
-#include <fmt/core.h>
-
 #include <cassert>
 #include <regex>
 #include <sstream>
+
+#include "fmt/core.h"
 
 namespace magnon {
 

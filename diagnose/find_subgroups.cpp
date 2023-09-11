@@ -12,7 +12,7 @@
 
 #include "Eigen/Core"
 #include "Eigen/Dense"
-#include "fmt/format.h"
+#include "fmt/core.h"
 
 #include "range/v3/view.hpp"
 

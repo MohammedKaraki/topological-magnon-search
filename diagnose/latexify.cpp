@@ -1,12 +1,12 @@
 #include "latexify.hpp"
 
-#include <fmt/core.h>
-
 #include <cassert>
 #include <fstream>
 #include <iostream>
 #include <regex>
 #include <sstream>
+
+#include "fmt/core.h"
 
 #include "irreps.hpp"
 
