@@ -244,7 +244,7 @@ magnon_py_library(
 magnon_py_binary(
     name = "visual",
     main = "visual.py",
-    data = ["//src/latex:template"],
+    data = ["//template:latex"],
     deps = [
         ":br",
         ":log",

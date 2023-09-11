@@ -1,10 +1,9 @@
 from magnon.diagnose.preprocess.br import LittleIrrep
-import numpy as np
-
 from magnon.diagnose.preprocess import log
 
-logger = log.create_logger(__name__)
+import numpy as np
 
+logger = log.create_logger(__name__)
 
 PALETTE = [
     (15, 181, 174),
@@ -23,7 +22,7 @@ PALETTE = [
 
 
 def latex_template_path():
-    return "src/latex/template.tex"
+    return "template/latex.tex"
 
 
 with open(latex_template_path(), "r") as f:

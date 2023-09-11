@@ -15,5 +15,3 @@ build --cxxopt=-Wno-unused-parameter
 build --cxxopt=-Wno-attributes
 build --cxxopt=-Wno-noexcept-type
 build --cxxopt=-Wno-misleading-indentation
-
-test --test_output=all

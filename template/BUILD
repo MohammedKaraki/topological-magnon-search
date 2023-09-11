@@ -1,7 +1,8 @@
 package(default_visibility = ["//visibility:public"])
+
 filegroup(
-    name = "template",
+    name = "latex",
     srcs = [
-        "template.tex",
+        "latex.tex",
     ],
 )
