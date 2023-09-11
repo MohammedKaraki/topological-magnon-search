@@ -202,3 +202,19 @@ alias(
 )
     """
 )
+
+# Fast & memory efficient hashtable based on robin hood hashing for C++11/14/17/20
+http_archive(
+    name = "robin_hood",
+    url = "https://github.com/martinus/robin-hood-hashing/archive/7697343363af4cc3f42cab17be49e6af9ab181e2.zip",
+    strip_prefix = "robin-hood-hashing-7697343363af4cc3f42cab17be49e6af9ab181e2",
+    sha256 = "6eae5b9e30351bc99f09f5031d77cd126d08af6ddb2052416d5129c0eba6855f",
+    build_file_content = """
+cc_library(
+    name = "robin_hood",
+    hdrs = ["src/include/robin_hood.h"],
+    visibility = ["//visibility:public"],
+    includes = ["src/include"],
+)
+    """
+)
