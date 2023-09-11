@@ -1,6 +1,11 @@
 package(default_visibility=["//visibility:public"])
 
-load("//build:defs.bzl", "magnon_py_library", "magnon_py_binary", "magnon_cc_library", "magnon_cc_binary")
+load("//build:defs.bzl",
+     "magnon_py_library",
+     "magnon_py_binary",
+     "magnon_cc_library",
+     "magnon_cc_binary",
+     )
 
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
@@ -15,15 +20,6 @@ magnon_cc_binary(
     deps = [
         "//config:config_proto_cc",
         "//utility:proto_text_format",
-    ],
-)
-magnon_cc_binary(
-    name = "find_subgroups",
-    srcs = ["find_subgroups.cpp"],
-    deps = [
-        "@fmt",
-        "@eigen",
-        "@range_v3//:range-v3",
     ],
 )
 

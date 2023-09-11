@@ -7,7 +7,7 @@ logger = log.create_logger(__name__)
 
 
 def gstrs_and_presc_of_subgroups(msg):
-    exec_path = "diagnose/find_subgroups"
+    exec_path = "subgroups/find_subgroups"
 
     input = "{} {}".format(msg.number, ";".join(msg.all_gstrs))
     output = check_output([exec_path], input=input.encode("ascii")).decode("ascii")

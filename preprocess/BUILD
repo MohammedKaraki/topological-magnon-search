@@ -12,7 +12,7 @@ load("@pip_deps//:requirements.bzl", "requirement")
 magnon_py_library(
     name = "msg",
     srcs = ["msg.py"],
-    data = ["//diagnose:find_subgroups"],
+    data = ["//subgroups:find_subgroups"],
     deps = [
         ":log",
         ":lattice_type",
