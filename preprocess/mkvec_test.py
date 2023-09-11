@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import mkvec
+from magnon.preprocess import mkvec
 
 
 class EmptyTest(unittest.TestCase):

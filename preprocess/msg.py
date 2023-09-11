@@ -1,24 +1,24 @@
 import numpy as np
-from magnon.diagnose.preprocess.lattice_type import find_latticetype
+from magnon.preprocess.lattice_type import find_latticetype
 from re import fullmatch
-from magnon.diagnose.preprocess.mbandrep import kvectors_and_ebrs
-from magnon.diagnose.preprocess.genpos import (
+from magnon.preprocess.mbandrep import kvectors_and_ebrs
+from magnon.preprocess.genpos import (
     UnitaryGenpos,
     fetch_unitary_gs,
     unitary_gstr_to_mat4x4,
 )
-from magnon.diagnose.preprocess.char_table import CharTable
-from magnon.diagnose.preprocess.kvector import KVector
-from magnon.diagnose.preprocess.primvecs import find_primvecsmat
-from magnon.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
-from magnon.diagnose.preprocess.br import Br
-from magnon.diagnose.preprocess.comp_rels import comp_rels
-from magnon.diagnose.preprocess.band import Band
-from magnon.diagnose.preprocess.br import LittleIrrep
+from magnon.preprocess.char_table import CharTable
+from magnon.preprocess.kvector import KVector
+from magnon.preprocess.primvecs import find_primvecsmat
+from magnon.preprocess.msg_info_table import MSG_INFO_TABLE
+from magnon.preprocess.br import Br
+from magnon.preprocess.comp_rels import comp_rels
+from magnon.preprocess.band import Band
+from magnon.preprocess.br import LittleIrrep
 from itertools import accumulate
 
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 
@@ -152,7 +152,7 @@ class Msg:
         return b
 
     def _load_sis_and_comp_rels(self):
-        from magnon.diagnose.preprocess.snf import snf, intinv
+        from magnon.preprocess.snf import snf, intinv
 
         assert self._si_matrix is None
         assert self._si_orders is None

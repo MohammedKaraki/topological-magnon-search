@@ -1,21 +1,21 @@
-from magnon.diagnose.preprocess.cached_requests import cached_post
-from magnon.diagnose.preprocess.utility import (
+from magnon.preprocess.cached_requests import cached_post
+from magnon.preprocess.utility import (
     contents_as_str,
     find_unique,
     cleanup_ebr_html,
 )
 from bs4 import BeautifulSoup as bs
 from re import fullmatch, search
-from magnon.diagnose.preprocess.utility import (
+from magnon.preprocess.utility import (
     list_transpose,
     list_flatten_one_level,
     cleanup_pointgroup_html,
 )
-from magnon.diagnose.preprocess.kvector import KVector
-from magnon.diagnose.preprocess.br import LittleIrrep, Br
+from magnon.preprocess.kvector import KVector
+from magnon.preprocess.br import LittleIrrep, Br
 import numpy as np
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 

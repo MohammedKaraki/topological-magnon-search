@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import kpoint
+from magnon.preprocess import kpoint
 
 
 class EmptyTest(unittest.TestCase):

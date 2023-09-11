@@ -3,13 +3,13 @@ import os
 print(os.path.abspath(os.getcwd()))
 import sys
 from subprocess import check_output
-from magnon.diagnose.preprocess.msg import Msg
-from magnon.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
-from magnon.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
-from magnon.diagnose.preprocess.identify_group import identify_group
-from magnon.diagnose.preprocess.perturb_wp import perturb_wp
+from magnon.preprocess.msg import Msg
+from magnon.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
+from magnon.preprocess.msg_info_table import MSG_INFO_TABLE
+from magnon.preprocess.identify_group import identify_group
+from magnon.preprocess.perturb_wp import perturb_wp
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 
 def logfile_path():

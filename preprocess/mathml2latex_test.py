@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import mathml2latex
+from magnon.preprocess import mathml2latex
 
 
 class EmptyTest(unittest.TestCase):

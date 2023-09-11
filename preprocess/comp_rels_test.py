@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import comp_rels
+from magnon.preprocess import comp_rels
 
 
 class EmptyTest(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import identify_group
+from magnon.preprocess import identify_group
 
 
 class EmptyTest(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import magnon_irreps
+from magnon.preprocess import magnon_irreps
 
 
 class EmptyTest(unittest.TestCase):

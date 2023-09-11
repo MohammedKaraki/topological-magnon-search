@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import doi2bib
+from magnon.preprocess import doi2bib
 
 
 class EmptyTest(unittest.TestCase):

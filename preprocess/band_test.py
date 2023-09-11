@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import band
+from magnon.preprocess import band
 
 
 class EmptyTest(unittest.TestCase):

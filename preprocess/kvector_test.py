@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import kvector
+from magnon.preprocess import kvector
 
 
 class EmptyTest(unittest.TestCase):

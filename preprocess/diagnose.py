@@ -1,13 +1,13 @@
-from magnon.diagnose.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
-from magnon.diagnose.preprocess.lattice_type import find_latticetype
-from magnon.diagnose.preprocess.msg import Msg
-from magnon.diagnose.preprocess.primvecs import find_primvecsmat
-from magnon.diagnose.preprocess.msg_info_table import MSG_INFO_TABLE
-from magnon.diagnose.preprocess.identify_group import identify_group
-from magnon.diagnose.preprocess.magndata import load_materials, material_doi
-from magnon.diagnose.preprocess.magnon_irreps import sxsy_irreps_from_pg
-from magnon.diagnose.preprocess.wp import fetch_wp
-from magnon.diagnose.preprocess.mbandrep import fetch_wp_point_group_and_br
+from magnon.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
+from magnon.preprocess.lattice_type import find_latticetype
+from magnon.preprocess.msg import Msg
+from magnon.preprocess.primvecs import find_primvecsmat
+from magnon.preprocess.msg_info_table import MSG_INFO_TABLE
+from magnon.preprocess.identify_group import identify_group
+from magnon.preprocess.magndata import load_materials, material_doi
+from magnon.preprocess.magnon_irreps import sxsy_irreps_from_pg
+from magnon.preprocess.wp import fetch_wp
+from magnon.preprocess.mbandrep import fetch_wp_point_group_and_br
 from collections import defaultdict
 from subprocess import check_output
 import numpy as np

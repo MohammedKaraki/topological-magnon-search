@@ -1,5 +1,5 @@
-from magnon.diagnose.preprocess.cached_requests import cached_post
-from magnon.diagnose.preprocess.utility import (
+from magnon.preprocess.cached_requests import cached_post
+from magnon.preprocess.utility import (
     contents_as_str,
     find_unique,
     cleanup_genpos_html,
@@ -9,7 +9,7 @@ import numpy as np
 from fractions import Fraction
 from re import fullmatch, findall
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 

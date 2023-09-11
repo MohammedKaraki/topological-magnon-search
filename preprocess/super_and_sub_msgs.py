@@ -1,10 +1,10 @@
-from magnon.diagnose.preprocess.msg import Msg
-from magnon.diagnose.preprocess.genpos import UnitaryGenpos
-from magnon.diagnose.preprocess.identify_group import identify_group
+from magnon.preprocess.msg import Msg
+from magnon.preprocess.genpos import UnitaryGenpos
+from magnon.preprocess.identify_group import identify_group
 import numpy as np
-from magnon.diagnose.preprocess.br import LittleIrrep
+from magnon.preprocess.br import LittleIrrep
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 

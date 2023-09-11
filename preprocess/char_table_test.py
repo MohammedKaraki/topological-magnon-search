@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import char_table
+from magnon.preprocess import char_table
 
 
 class EmptyTest(unittest.TestCase):

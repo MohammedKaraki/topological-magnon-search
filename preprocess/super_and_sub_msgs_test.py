@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import super_and_sub_msgs
+from magnon.preprocess import super_and_sub_msgs
 
 
 class EmptyTest(unittest.TestCase):

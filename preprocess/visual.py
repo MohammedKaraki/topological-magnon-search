@@ -1,5 +1,5 @@
-from magnon.diagnose.preprocess.br import LittleIrrep
-from magnon.diagnose.preprocess import log
+from magnon.preprocess.br import LittleIrrep
+from magnon.preprocess import log
 
 import numpy as np
 

@@ -3,7 +3,7 @@ from wolframclient.language import wl
 import numpy as np
 from joblib import Memory
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 
@@ -17,7 +17,7 @@ def intinv(mat):
     return invmat
 
 
-memory = Memory("~/.tmp", verbose=0)
+memory = Memory("/tmp", verbose=0)
 
 
 @memory.cache

@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import mbandrep
+from magnon.preprocess import mbandrep
 
 
 class EmptyTest(unittest.TestCase):

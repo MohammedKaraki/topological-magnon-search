@@ -1,10 +1,10 @@
-from magnon.diagnose.preprocess.cached_requests import cached_post
-from magnon.diagnose.preprocess.utility import contents_as_str
+from magnon.preprocess.cached_requests import cached_post
+from magnon.preprocess.utility import contents_as_str
 from bs4 import BeautifulSoup as bs
 import numpy as np
 from re import fullmatch
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 

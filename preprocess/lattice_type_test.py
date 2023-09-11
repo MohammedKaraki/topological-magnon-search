@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import lattice_type
+from magnon.preprocess import lattice_type
 
 
 class EmptyTest(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import genpos
+from magnon.preprocess import genpos
 
 
 class EmptyTest(unittest.TestCase):

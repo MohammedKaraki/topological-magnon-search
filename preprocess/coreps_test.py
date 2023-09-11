@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import coreps
+from magnon.preprocess import coreps
 
 
 class EmptyTest(unittest.TestCase):

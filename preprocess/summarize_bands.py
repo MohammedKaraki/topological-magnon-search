@@ -1,6 +1,6 @@
-from magnon.diagnose.preprocess.primvecs import find_primvecsmat
-from magnon.diagnose.preprocess.msg import Msg
-from magnon.diagnose.preprocess.magndata import load_materials
+from magnon.preprocess.primvecs import find_primvecsmat
+from magnon.preprocess.msg import Msg
+from magnon.preprocess.magndata import load_materials
 import json
 
 

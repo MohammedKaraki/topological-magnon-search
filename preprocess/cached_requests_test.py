@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import cached_requests
+from magnon.preprocess import cached_requests
 
 
 class EmptyTest(unittest.TestCase):

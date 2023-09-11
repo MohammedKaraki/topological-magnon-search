@@ -1,11 +1,11 @@
 import numpy as np
-from magnon.diagnose.preprocess.lattice_type import find_latticetype
-from magnon.diagnose.preprocess.genpos import (
+from magnon.preprocess.lattice_type import find_latticetype
+from magnon.preprocess.genpos import (
     fetch_unitary_gs,
     unitary_gstr_to_mat4x4,
 )
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 
@@ -65,7 +65,7 @@ def find_primvecsmat_method1(msg_number):
 
 
 def find_primvecsmat_method2(msg_number):
-    from magnon.diagnose.preprocess.genpos import fetch_gdicts
+    from magnon.preprocess.genpos import fetch_gdicts
 
     result = np.eye(3)
 

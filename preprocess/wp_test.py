@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import wp
+from magnon.preprocess import wp
 
 
 class EmptyTest(unittest.TestCase):

@@ -1,11 +1,11 @@
-from magnon.diagnose.preprocess.cached_requests import cached_get
-from magnon.diagnose.preprocess.utility import contents_as_str
+from magnon.preprocess.cached_requests import cached_get
+from magnon.preprocess.utility import contents_as_str
 from bs4 import BeautifulSoup as bs
 from re import search
 import json
 
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 

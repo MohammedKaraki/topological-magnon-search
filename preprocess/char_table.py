@@ -1,9 +1,9 @@
 import numpy as np
-from magnon.diagnose.preprocess.coreps import char_table_info
-from magnon.diagnose.preprocess.mkvec import symbol_and_vec3_from_klabel
-from magnon.diagnose.preprocess.genpos import UnitaryGenpos
+from magnon.preprocess.coreps import char_table_info
+from magnon.preprocess.mkvec import symbol_and_vec3_from_klabel
+from magnon.preprocess.genpos import UnitaryGenpos
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 

@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import mapk
+from magnon.preprocess import mapk
 
 
 class EmptyTest(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import summarize_bands
+from magnon.preprocess import summarize_bands
 
 
 class EmptyTest(unittest.TestCase):

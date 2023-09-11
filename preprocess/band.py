@@ -1,6 +1,6 @@
 from itertools import accumulate
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 

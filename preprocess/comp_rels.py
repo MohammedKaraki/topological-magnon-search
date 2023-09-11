@@ -1,9 +1,9 @@
-from magnon.diagnose.preprocess.cached_requests import cached_post
+from magnon.preprocess.cached_requests import cached_post
 from bs4 import BeautifulSoup as bs
 from re import fullmatch, findall
-from magnon.diagnose.preprocess.br import LittleIrrep
+from magnon.preprocess.br import LittleIrrep
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 

@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import primvecs
+from magnon.preprocess import primvecs
 
 
 class EmptyTest(unittest.TestCase):

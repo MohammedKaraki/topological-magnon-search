@@ -1,13 +1,13 @@
-from magnon.diagnose.preprocess.cached_requests import cached_post
-from magnon.diagnose.preprocess.genpos import is_valid_mat4x4
-from magnon.diagnose.preprocess.utility import contents_as_str, find_unique
+from magnon.preprocess.cached_requests import cached_post
+from magnon.preprocess.genpos import is_valid_mat4x4
+from magnon.preprocess.utility import contents_as_str, find_unique
 from bs4 import BeautifulSoup as bs
 from fractions import Fraction
 import re
 import numpy as np
 from hashlib import sha256
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 

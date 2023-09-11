@@ -1,14 +1,14 @@
-from magnon.diagnose.preprocess.cached_requests import cached_post
-from magnon.diagnose.preprocess.utility import contents_as_str, cleanup_corep_html
+from magnon.preprocess.cached_requests import cached_post
+from magnon.preprocess.utility import contents_as_str, cleanup_corep_html
 from bs4 import BeautifulSoup as bs
-from magnon.diagnose.preprocess.mkvec import symbol_from_klabel
+from magnon.preprocess.mkvec import symbol_from_klabel
 from re import fullmatch, sub
-from magnon.diagnose.preprocess.genpos import mat3x4_to_unitary_gstr, UnitaryGenpos
+from magnon.preprocess.genpos import mat3x4_to_unitary_gstr, UnitaryGenpos
 import numpy as np
 from fractions import Fraction
 from joblib import Memory
 
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 logger = log.create_logger(__name__)
 
@@ -111,7 +111,7 @@ def tabletag_to_trace(table_tag):
     return np.round(trace, ROUND_DECIMALS)
 
 
-memory = Memory("~/.tmp/char_table_cache", verbose=1)
+memory = Memory("/tmp", verbose=1)
 
 
 @memory.cache

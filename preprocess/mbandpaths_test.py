@@ -1,6 +1,6 @@
 import unittest
 
-from magnon.diagnose.preprocess import mbandpaths
+from magnon.preprocess import mbandpaths
 
 
 class EmptyTest(unittest.TestCase):

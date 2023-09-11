@@ -1,4 +1,4 @@
-from magnon.diagnose.preprocess import log
+from magnon.preprocess import log
 
 
 def logfile_path():
