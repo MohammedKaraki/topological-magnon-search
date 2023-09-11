@@ -16,9 +16,11 @@
 #include <utility>
 #include <vector>
 
+#include "config/visualize_config.pb.h"
 #include "entities.hpp"
 #include "latexify.hpp"
 #include "spectrum_data.hpp"
+#include "utility/proto_text_format.hpp"
 
 namespace magnon {
 
@@ -940,37 +942,42 @@ int Visualize::x_idx_to_superk_idx(int x_idx) {
 
 double Visualize::x_from_x_idx(int x_idx) { return x_idx * spec.subk_min_dist; }
 
-std::pair<VisMode, VisSpec> mode_spec_pair_from_file(const std::string &filename) {
-    VisMode mode = VisMode::Normal;
-    VisSpec spec;
+std::pair<VisMode, VisSpec> mode_spec_pair_from_file(const std::optional<std::string> filename) {
+    const std::string VISUALIZE_CONFIG_DEFAULT_PATH = "config/visualize_config_base.cfg";
+    const std::string actual_filename =
+        filename.has_value() ? filename.value() : VISUALIZE_CONFIG_DEFAULT_PATH;
+    VisMode mode{VisMode::Normal};
+    VisSpec spec{};
 
-    std::ifstream in(filename);
+    magnon::config::VisualizeConfig visualize_config{};
+    magnon::proto::read_from_text_file(actual_filename, visualize_config);
 
-    std::string key, val;
-    while (in >> key >> val) {
-        if (key == "mode") {
-            if (val == "Normal") {
+    if (visualize_config.has_mode()) {
+        switch (visualize_config.mode()) {
+            case magnon::config::VisualizeConfig::NORMAL:
                 mode = VisMode::Normal;
-            } else if (val == "Compact") {
+                break;
+            case magnon::config::VisualizeConfig::COMPACT:
                 mode = VisMode::Compact;
-            } else {
-                throw std::invalid_argument("vis_spec_from_file: invalid value");
-            }
-        } else if (key == "band_band_separation") {
-            spec.band_band_separation = std::stod(val);
-        } else if (key == "subk_min_dist") {
-            spec.subk_min_dist = std::stod(val);
-        } else if (key == "broken_min_dist") {
-            spec.broken_min_dist = std::stod(val);
-        } else if (key == "subband_superband_ratio") {
-            spec.subband_superband_ratio = std::stod(val);
-        } else if (key == "supermode_separation") {
-            spec.supermode_separation = std::stod(val);
-        } else if (key == "skip_color") {
-            spec.skip_color = std::stoi(val);
-        } else {
-            throw std::invalid_argument("vis_spec_from_file: invalid key");
+                break;
+            default:
+                assert(false);
         }
+    }
+    if (visualize_config.has_band_band_separation()) {
+        spec.band_band_separation = visualize_config.band_band_separation();
+    }
+    if (visualize_config.has_subk_min_dist()) {
+        spec.subk_min_dist = visualize_config.subk_min_dist();
+    }
+    if (visualize_config.has_subband_superband_ratio()) {
+        spec.subband_superband_ratio = visualize_config.subband_superband_ratio();
+    }
+    if (visualize_config.has_supermode_separation()) {
+        spec.supermode_separation = visualize_config.supermode_separation();
+    }
+    if (visualize_config.has_skip_color()) {
+        spec.skip_color = visualize_config.skip_color();
     }
 
     return std::pair(mode, spec);

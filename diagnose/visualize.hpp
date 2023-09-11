@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -35,7 +36,7 @@ struct VisSpec {
     int skip_color = 0;
 };
 
-std::pair<VisMode, VisSpec> mode_spec_pair_from_file(const std::string &filename);
+std::pair<VisMode, VisSpec> mode_spec_pair_from_file(std::optional<std::string> filename);
 
 class Visualize {
  public:

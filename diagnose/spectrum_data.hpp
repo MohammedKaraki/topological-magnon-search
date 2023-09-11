@@ -10,7 +10,7 @@
 #include "Eigen/Core"
 
 #include "utility.hpp"
-#include "utility/compare.hpp"
+#include "utility/comparable.hpp"
 
 namespace magnon {
 
@@ -90,7 +90,7 @@ class Bag {
     friend std::ostream &operator<<(std::ostream &out, const Bag &b);
 
     enum { invalid_idx = -1 };
-    auto view_as_tuple() const { return std::tie(subk_idx_and_subirrep_idx_pairs); }
+    auto field_refs() const { return std::tie(subk_idx_and_subirrep_idx_pairs); }
     MAKE_COMPARABLE();
 
  public:
@@ -121,7 +121,7 @@ class Submode {
  public:
     Submode(int subirrep_idx) : subirrep_idx{subirrep_idx} {}
 
-    auto view_as_tuple() const { return std::tie(subirrep_idx); }
+    auto field_refs() const { return std::tie(subirrep_idx); }
     MAKE_COMPARABLE();
 
     friend std::ostream &operator<<(std::ostream &out, const Submode &submode);

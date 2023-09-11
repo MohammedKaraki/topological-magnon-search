@@ -30,8 +30,6 @@ magnon_cc_binary(
 magnon_cc_binary(
     name = "diagnose",
     srcs = ["diagnose.cpp"],
-    data = [
-    ],
     deps = [
         "//config:config_proto_cc",
         ":irreps",
@@ -58,7 +56,7 @@ magnon_cc_library(
         "@fmt",
         ":utility",
         ":ostream_utility",
-        "//utility:compare",
+        "//utility:comparable",
         "@nlohmann_json//:json",
     ],
 )
@@ -105,11 +103,16 @@ magnon_cc_library(
     name = "visualize",
     hdrs = ["visualize.hpp"],
     srcs = ["visualize.cpp"],
+    data = [
+        "//config:visualize_config_base_cfg",
+    ],
     deps = [
         "@fmt",
         ":spectrum_data",
         ":entities",
         ":latexify",
+        "//config:visualize_config_proto_cc",
+        "//utility:proto_text_format"
     ],
 )
 
@@ -149,7 +152,7 @@ magnon_cc_library(
     srcs = ["irreps.cpp"],
     deps = [
         "@fmt",
-        "//utility:compare",
+        "//utility:comparable",
     ],
 )
 

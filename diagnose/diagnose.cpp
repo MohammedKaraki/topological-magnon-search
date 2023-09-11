@@ -20,12 +20,6 @@
 #include "spectrum_data.hpp"
 #include "visualize.hpp"
 
-const std::string CONFIG_PATH = "config/config.cfg";
-
-const auto json_dir = "/tmp";
-const auto subsection_out_dir = "/tmp";
-const auto figure_out_dir = "/tmp";
-
 using namespace magnon;
 
 namespace std {
@@ -37,7 +31,15 @@ struct less<std::vector<T>> {
 };
 }  // namespace std
 
-static std::string si_to_str(const IntMatrix &si) {
+namespace {
+
+const std::string GLOBAL_CONFIG_PATH = "config/config.cfg";
+
+const auto json_dir = "/tmp";
+const auto subsection_out_dir = "/tmp";
+const auto figure_out_dir = "/tmp";
+
+std::string si_to_str(const IntMatrix &si) {
     std::ostringstream result;
     for (int i = 0; i < si.size(); ++i) {
         result << si(i);
@@ -45,7 +47,7 @@ static std::string si_to_str(const IntMatrix &si) {
     return result.str();
 }
 
-static std::string to_humanread(const std::set<int> &counts) {
+std::string to_humanread(const std::set<int> &counts) {
     std::ostringstream result;
     assert(!counts.empty());
     auto first = counts.begin(), last = counts.end();
@@ -80,10 +82,10 @@ static std::string to_humanread(const std::set<int> &counts) {
     assert(false);
 }
 
-static std::optional<std::pair<Superband, Subband>> find_example(Superband superband,
-                                                                 const int low,
-                                                                 const int high,
-                                                                 const int exact) {
+std::optional<std::pair<Superband, Subband>> find_example(Superband superband,
+                                                          const int low,
+                                                          const int high,
+                                                          const int exact) {
     constexpr auto N = 100'000'000;
     static auto rng = std::mt19937{116};
 
@@ -269,13 +271,15 @@ static std::
     return {trivial_si, finalsi_to_possibcounts, gap_to_possibsis};
 }
 
+}  // namespace
+
 int main(int argc, const char **argv) {
     assert(argc == 4 || argc == 5);
     const std::string subgroup_serial_number = argv[3];
     std::string json_filename_noext_nodir =
         fmt::format(R"({}-{}-{})", argv[1], argv[2], subgroup_serial_number);
 
-    std::string config_filename = "src/cpp/conf1.cfg";
+    std::optional<std::string> config_filename{};
     if (argc == 5) {
         config_filename = argv[4];
     }

@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "utility/compare.hpp"
+#include "utility/comparable.hpp"
 
 namespace magnon {
 
@@ -19,7 +19,7 @@ class Littleirrep {
     const std::string &get_dim() const { return dim; }
     const std::string &to_str() const { return src; }
 
-    auto view_as_tuple() const { return std::tie(irreplabel, ksymbol, dim, src); }
+    auto field_refs() const { return std::tie(irreplabel, ksymbol, dim, src); }
     MAKE_COMPARABLE();
 
  private:
@@ -39,7 +39,7 @@ class Irrep1wp {
 
     std::string latexify() const;
 
-    auto view_as_tuple() const { return std::tie(irrep1, wp); }
+    auto field_refs() const { return std::tie(irrep1, wp); }
     MAKE_COMPARABLE();
 
  private:
@@ -57,7 +57,7 @@ class Irrep12wp {
 
     std::string latexify() const;
 
-    auto view_as_tuple() const { return std::tie(irrep1, irrep2, wp, src); }
+    auto field_refs() const { return std::tie(irrep1, irrep2, wp, src); }
     MAKE_COMPARABLE();
 
  private:
@@ -73,7 +73,7 @@ class Irrep1wpDecomp {
 
     const auto &get_comps() const { return comps; }
 
-    auto view_as_tuple() const { return std::tie(comps); }
+    auto field_refs() const { return std::tie(comps); }
     MAKE_COMPARABLE();
 
  private:
@@ -86,7 +86,7 @@ class Irrep12wpDecomp {
 
     std::string latexify() const;
     std::set<Irrep1wpDecomp> find_all_magnon_irrep1wp_decomps() const;
-    auto view_as_tuple() const { return std::tie(irrep12wp_comps); }
+    auto field_refs() const { return std::tie(irrep12wp_comps); }
     MAKE_COMPARABLE();
 
  private:
@@ -98,7 +98,7 @@ class LittleirrepDecomp {
     LittleirrepDecomp(const std::vector<std::string> &srcs);
     std::string latexify() const;
     std::vector<std::string> get_irreps_as_strs() const;
-    auto view_as_tuple() const { return std::tie(littleirrep_comps); }
+    auto field_refs() const { return std::tie(littleirrep_comps); }
     MAKE_COMPARABLE();
 
  private:

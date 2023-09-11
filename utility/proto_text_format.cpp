@@ -1,3 +1,5 @@
+#include "utility/proto_text_format.hpp"
+
 #include <fstream>
 #include <iterator>
 #include <stdexcept>
@@ -7,7 +9,6 @@
 
 #include "google/protobuf/io/tokenizer.h"
 #include "google/protobuf/text_format.h"
-#include "utility/proto_text_format.hpp"
 
 namespace magnon::proto {
 

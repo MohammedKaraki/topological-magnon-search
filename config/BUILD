@@ -13,9 +13,19 @@ filegroup(
     srcs = ["config.cfg"]
 )
 
+filegroup(
+    name = "visualize_config_base_cfg",
+    srcs = ["visualize_config_base.cfg"]
+)
+
 magnon_proto_library(
     name = "config_proto",
     srcs = ["config.proto"],
+)
+
+magnon_proto_library(
+    name = "visualize_config_proto",
+    srcs = ["visualize_config.proto"],
 )
 
 magnon_cc_library(

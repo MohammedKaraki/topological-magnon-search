@@ -4,8 +4,8 @@ load("//build:defs.bzl", "magnon_cc_library", "magnon_py_library", "magnon_pybin
 
 
 cc_library(
-    name = "compare",
-    hdrs = ["compare.hpp"],
+    name = "comparable",
+    hdrs = ["comparable.hpp"],
 )
 
 magnon_cc_library(

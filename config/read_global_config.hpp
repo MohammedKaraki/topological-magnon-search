@@ -7,4 +7,4 @@ namespace magnon {
 // Returns configs used globally in the project's multiple binary targets.
 magnon::config::GlobalConfig read_global_config();
 
-}
+}  // namespace magnon

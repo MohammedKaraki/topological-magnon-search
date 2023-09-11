@@ -16,4 +16,4 @@ magnon::config::GlobalConfig read_global_config() {
     return config;
 }
 
-}
+}  // namespace magnon
