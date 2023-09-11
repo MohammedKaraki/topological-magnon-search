@@ -1,4 +1,5 @@
 import os
+
 print(os.path.abspath(os.getcwd()))
 import sys
 from subprocess import check_output
@@ -9,6 +10,7 @@ from magnon.diagnose.preprocess.identify_group import identify_group
 from magnon.diagnose.preprocess.perturb_wp import perturb_wp
 
 from magnon.diagnose.preprocess import log
+
 
 def logfile_path():
     return "logs/tests.log"
@@ -39,6 +41,5 @@ def main():
 
 
 if __name__ == "__main__":
-
     logger = log.create_root_logger(filename=logfile_path())
     main()
