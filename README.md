@@ -1,4 +1,7 @@
 ## Automated Discovery of Topological Magnon Materials
+### Summary of the algorithm
+<img src="./notes/new_algorithm.svg">
+
 ### How to use the tools to diagnose a material
 For a given material, the magnetic space group and the Wyckoff position of the magnetic atoms need to be known. Given this data, we proceed in two steps:
 1. Prefetch and preprocess data for the search by running
