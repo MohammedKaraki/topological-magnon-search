@@ -13,7 +13,7 @@ from magnon.preprocess import log
 
 
 def logfile_path():
-    return "logs/tests.log"
+    return "/tmp/output.log"
 
 
 def read_args():
