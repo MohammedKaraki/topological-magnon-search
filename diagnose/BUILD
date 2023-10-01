@@ -27,6 +27,17 @@ magnon_cc_binary(
     name = "diagnose",
     srcs = ["diagnose.cpp"],
     deps = [
+        ":diagnosis_algorithm",
+        "@boost//:program_options",
+        "@fmt",
+    ],
+)
+
+magnon_cc_library(
+    name = "diagnosis_algorithm",
+    srcs = ["diagnosis_algorithm.cpp"],
+    hdrs = ["diagnosis_algorithm.hpp"],
+    deps = [
         "//config:config_proto_cc",
         ":irreps",
         ":physics_and_chemistry",

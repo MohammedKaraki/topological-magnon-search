@@ -25,6 +25,7 @@ magnon_py_library(
         ":br",
         ":comp_rels",
         ":band",
+        ":snf",
         requirement("numpy"),
     ],
 )
@@ -73,7 +74,6 @@ magnon_py_library(
 magnon_py_library(
     name = "cached_requests",
     srcs = ["cached_requests.py"],
-    data = ["//:cache"],
     deps = [
         ":log",
         requirement("requests"),
@@ -290,9 +290,6 @@ magnon_py_library(
 magnon_py_binary(
     name = "perturb_relevant",
     main = "perturb_relevant.py",
-    data = [
-        "//:logs",
-    ],
     deps = [
         ":log",
         ":all_subgroups",
