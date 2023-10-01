@@ -21,3 +21,12 @@ magnon_py_binary(
         "//config:read_global_config_python",
     ],
 )
+
+magnon_cc_binary(
+    name = "graph",
+    srcs = ["graph.cpp"],
+    deps = [
+        "@boost//:graph",
+        "@fmt",
+    ]
+)
