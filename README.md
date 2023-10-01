@@ -10,14 +10,13 @@ bazel run //preprocess:perturb_relevant -- <MSG-NUMBER> <WP-LABEL>
 ```
 2.  Run the search algorithm with
 ```
-bazel run //diagnose:diagnose -- <MSG-NUMBER> <WP-LABEL> <SUBGROUP-INDEX>
+bazel run //diagnose:diagnose -- --msg_number <MSG_NUMBER> --wp <WP> --subgroup_index <SUBGROUP_INDEX>
 ```
 ### Example using MSG `Pa-3` and WP `4c`
 The MSG number of `Pa-3` is 205.33. For any magnetic material with this MSG & WP, we execute the following two commands:
 ```
 bazel run //preprocess:perturb_relevant -- 205.33 4c
-bazel run //diagnose:diagnose -- 205.33 4c 4
-```
+bazel run //diagnose:diagnose -- --msg_number 205.33 --wp 4c --subgroup_index 4```
 
 This leads to a positive result. Subsequently, three LaTeX files will be created automatically at the following location
 ```
