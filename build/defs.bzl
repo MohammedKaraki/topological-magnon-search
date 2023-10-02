@@ -1,15 +1,14 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
-
 load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
-
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 load("@com_google_protobuf//:protobuf.bzl", "py_proto_library")
-
 load("@pybind11_bazel//:build_defs.bzl", "pybind_extension")
 
-
 _ADDITIONAL_COPTS = [
+    # -Werror is placed here to limit its effect to our targets only.
+    # This is because the code of some external libraries we have cause
+    # clang to emit warnings, and it is preferable to just ignore them.
     "-Werror",
 ]
 
@@ -21,15 +20,18 @@ def magnon_proto_library(name, srcs, deps = [], **kwargs):
         deps = deps,
         **kwargs,
     )
+
     cc_proto_library(
         name = name + "_cc",
-        deps = deps + [":" + name],
+        deps = [":" + name],
         **kwargs,
     )
+
+    py_proto_deps = [dep + "_py" for dep in deps]
     py_proto_library(
         name = name + "_py",
         srcs = srcs,
-        deps = deps,
+        deps = py_proto_deps,
         **kwargs,
     )
 
