@@ -1,9 +1,10 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//build:defs.bzl",
-     "magnon_py_library",
-     "magnon_py_binary",
-     )
+load(
+    "//build:defs.bzl",
+    "magnon_py_binary",
+    "magnon_py_library",
+)
 load("@pip_deps//:requirements.bzl", "requirement")
 
 magnon_py_library(
