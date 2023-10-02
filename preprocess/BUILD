@@ -9,6 +9,22 @@ load("//build:defs.bzl",
      )
 load("@pip_deps//:requirements.bzl", "requirement")
 
+magnon_py_binary(
+    name = "analyze_relevant_subgroups",
+    main = "analyze_relevant_subgroups.py",
+    deps = [
+        ":log",
+        ":all_subgroups",
+        ":msg",
+        ":super_and_sub_msgs",
+        ":mbandrep",
+        ":magnon_irreps",
+        ":br",
+        ":mbandpaths",
+        ":perturb_wp",
+    ],
+)
+
 magnon_py_library(
     name = "msg",
     srcs = ["msg.py"],

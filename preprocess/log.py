@@ -1,10 +1,11 @@
 import logging
 
-
 FORMAT = "%(asctime)s [%(name)s] [%(levelname)s] %(message)s"
 
+DEFAULT_LOG_FILENAME = "/tmp/output.log"
 
-def create_root_logger(filename):
+
+def create_root_logger(filename=DEFAULT_LOG_FILENAME):
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 

@@ -37,9 +37,7 @@ def cached_post(url, data, cache_filename):
 
 
 def cached_get(url, params, cache_filename):
-    full_path = str(
-        (Path(__file__) / "/tmp/{}".format(cache_filename)).resolve()
-    )
+    full_path = str((Path(__file__) / "/tmp/{}".format(cache_filename)).resolve())
 
     # full_path = '{0}/{1}'.format(CACHE_DIRECTORY, cache_filename)
     assert fullmatch(r"[-_.+/(),0-9a-zA-Z]+", full_path), full_path
@@ -67,9 +65,7 @@ def cached_get(url, params, cache_filename):
 
 
 def cached_check_output(command, args, cache_filename):
-    full_path = str(
-        (Path(__file__) / "/tmp/{}".format(cache_filename)).resolve()
-    )
+    full_path = str((Path(__file__) / "/tmp/{}".format(cache_filename)).resolve())
 
     # full_path = '{0}/{1}'.format(CACHE_DIRECTORY, cache_filename)
     assert fullmatch(r"[-_.+/(),0-9a-zA-Z]+", full_path), full_path

@@ -51,7 +51,7 @@ load("@python_3_11//:defs.bzl", "interpreter")
 
 http_archive(
     name = "eigen",
-    build_file = "//build_external:eigen.BUILD",
+    build_file = "//build/external:eigen.BUILD",
     sha256 = "8586084f71f9bde545ee7fa6d00288b264a2b7ac3607b974e54d13e7162c1c72",
     strip_prefix = "eigen-3.4.0",
     urls = ["https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz"],
@@ -66,7 +66,7 @@ http_archive(
 
 http_archive(
     name = "nlohmann_json",
-    build_file = "//build_external:json.BUILD",
+    build_file = "//build/external:json.BUILD",
     url = "https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz",
     sha256 = "d69f9deb6a75e2580465c6c4c5111b89c4dc2fa94e3a85fcd2ffcd9a143d9273",
     strip_prefix = "json-3.11.2",

@@ -1,0 +1,22 @@
+syntax = "proto2";
+
+package magnon.groups;
+
+message MagneticSpaceGroup {
+    // Magnetic space group number.
+    optional string number = 1;
+
+    // Mangetic space group label.
+    optional string label = 2;
+
+    // Group generators in comma-separated string format. The following
+    // table show a few examples.
+    //
+    //   Generator             Symmetry Operation
+    //   ---------             -----------------
+    //   "x,y,z,+1"            Identity element
+    //   "x,y,z,-1"            Time reversal
+    //   "x,y,z+1,+1"          Pure translation along c
+    //   "-x,-y,-z,-1"         Anti-unitary inversion
+    repeated string generator = 3;
+}

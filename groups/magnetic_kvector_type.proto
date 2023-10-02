@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+import "groups/magnetic_space_group.proto";
+
+package magnon.fetch;
+
+message MagneticKVectorType {
+    // Vector type label, such as "GM", "M", or "X".
+    optional string label = 1;
+
+    // Coordinates of the vectors of the star. For examples:
+    // "(0,v,0),(0,-v,0),(v,0,0),(-v,0,0),(0,0,v),(0,0,-v)"
+    optional string star_coordinates = 2; 
+
+    // Label of the magnetic little co-group.
+    optional string little_cogroup_label = 3;
+}
+
+message MagneticKVectorTypes {
+    // The magnetic space group to which these k-vector types belong.
+    optional magnon.groups.MagneticSpaceGroup magnetic_space_group = 1;
+
+    // The list of k-vector types.
+    repeated MagneticKVectorType type = 2;
+}
