@@ -7,15 +7,15 @@ magnon_cc_binary(
     srcs = ["main.cpp"],
     deps = [
         "//config:read_global_config",
-        "@fmt",
         "@boost//:filesystem",
+        "@fmt",
     ],
 )
 
 magnon_py_binary(
     name = "main_py",
-    main = "main.py",
     srcs = ["main.py"],
+    main = "main.py",
     deps = [
         "//config:config_proto_py",
         "//config:read_global_config_python",
@@ -28,5 +28,5 @@ magnon_cc_binary(
     deps = [
         "@boost//:graph",
         "@fmt",
-    ]
+    ],
 )
