@@ -1,4 +1,4 @@
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
@@ -12,19 +12,18 @@ _ADDITIONAL_COPTS = [
     "-Werror",
 ]
 
-
 def magnon_proto_library(name, srcs, deps = [], **kwargs):
     proto_library(
         name = name,
         srcs = srcs,
         deps = deps,
-        **kwargs,
+        **kwargs
     )
 
     cc_proto_library(
         name = name + "_cc",
         deps = [":" + name],
-        **kwargs,
+        **kwargs
     )
 
     py_proto_deps = [dep + "_py" for dep in deps]
@@ -32,31 +31,27 @@ def magnon_proto_library(name, srcs, deps = [], **kwargs):
         name = name + "_py",
         srcs = srcs,
         deps = py_proto_deps,
-        **kwargs,
+        **kwargs
     )
-
 
 def magnon_cc_library(name, copts = [], **kwargs):
     copts = _ADDITIONAL_COPTS + copts
     cc_library(
         name = name,
         copts = copts,
-        **kwargs,
+        **kwargs
     )
-
 
 def magnon_cc_binary(name, copts = [], **kwargs):
     copts = _ADDITIONAL_COPTS + copts
     cc_binary(
         name = name,
         copts = copts,
-        **kwargs,
+        **kwargs
     )
-
 
 def magnon_py_library(**kwargs):
     py_library(**kwargs)
-
 
 def magnon_py_binary(name, main, srcs = [], **kwargs):
     if main not in srcs:
@@ -66,28 +61,27 @@ def magnon_py_binary(name, main, srcs = [], **kwargs):
         name = name,
         main = main,
         srcs = srcs,
-        **kwargs,
+        **kwargs
     )
 
-
-def magnon_pybind_library(name, srcs, data=[], deps=[], py_deps=[], **kwargs):
+def magnon_pybind_library(name, srcs, data = [], deps = [], py_deps = [], **kwargs):
     pybind_extension(
         name = name,
         srcs = srcs,
         deps = deps,
-        **kwargs,
+        **kwargs
     )
 
     magnon_py_library(
         name = name,
         data = [":" + name + ".so"] + data,
         deps = py_deps,
-        **kwargs,
+        **kwargs
     )
 
 def magnon_py_test(name, srcs, **kwargs):
     py_test(
         name = name,
         srcs = srcs,
-        **kwargs,
+        **kwargs
     )

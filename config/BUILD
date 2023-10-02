@@ -1,21 +1,22 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//build:defs.bzl",
-     "magnon_proto_library",
-     "magnon_py_library",
-     "magnon_py_binary",
-     "magnon_cc_library",
-     "magnon_pybind_library",
-     )
+load(
+    "//build:defs.bzl",
+    "magnon_cc_library",
+    "magnon_proto_library",
+    "magnon_py_binary",
+    "magnon_py_library",
+    "magnon_pybind_library",
+)
 
 filegroup(
     name = "config",
-    srcs = ["config.cfg"]
+    srcs = ["config.cfg"],
 )
 
 filegroup(
     name = "visualize_config_base_cfg",
-    srcs = ["visualize_config_base.cfg"]
+    srcs = ["visualize_config_base.cfg"],
 )
 
 magnon_proto_library(
@@ -30,10 +31,10 @@ magnon_proto_library(
 
 magnon_cc_library(
     name = "read_global_config",
-    hdrs = ["read_global_config.hpp"],
     srcs = ["read_global_config.cpp"],
+    hdrs = ["read_global_config.hpp"],
     data = [
-        "//config:config",
+        "//config",
     ],
     deps = [
         ":config_proto_cc",
@@ -44,13 +45,11 @@ magnon_cc_library(
 magnon_pybind_library(
     name = "read_global_config_python",
     srcs = ["read_global_config_python.cpp"],
+    py_deps = [
+        ":config_proto_py",
+    ],
     deps = [
         ":read_global_config",
         "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
     ],
-    py_deps = [
-        ":config_proto_py",
-    ]
 )
-
-
