@@ -47,6 +47,18 @@ def html_has_antiunitrels_table(html):
 
 
 def antiunit_related_irreps(group_number):
+    """When two k-vectors are related only by an anti-unitary symmetry (e.g. time reversal combined
+    with inversion), BCS lists them as two k-vector types, as if they are unrelated by symemtry.
+    In particular, the EBR tables will show irreps for each of these k-vectors, which might give
+    the wrong impression that the energetics of these irreps will be independent of each other.
+
+    In our framework, we need to be careful about the constraint on the energetics of these
+    anti-unitarily related k-vector types.
+
+    For a given MSG number, this function returns a list of all k-vector pairs related purely
+    by an anti-unitary symmetry. Additionally, for each such k-vector pair, this function returns
+    the related irrep pairs.
+    """
     result = []
 
     html = mbandpaths_html(group_number)
