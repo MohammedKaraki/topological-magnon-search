@@ -9,7 +9,6 @@
 
 namespace po = boost::program_options;
 
-
 int main(int argc, const char **argv) {
     std::string msg_number, wp, subgroup_index;
     boost::optional<std::string> figure_config_filename{};
@@ -41,12 +40,13 @@ int main(int argc, const char **argv) {
             return 0;
         }
         po::notify(vm);
-        magnon::execute_algorithm(msg_number,
-                                  wp,
-                                  subgroup_index,
-                                  figure_config_filename // Convert boost::optional to std::optional
-                                      ? std::make_optional(figure_config_filename.value())
-                                      : std::nullopt);
+        magnon::execute_algorithm(
+            msg_number,
+            wp,
+            subgroup_index,
+            figure_config_filename  // Convert boost::optional to std::optional
+                ? std::make_optional(figure_config_filename.value())
+                : std::nullopt);
     } catch (const std::exception &e) {
         std::cerr << "Error: " << e.what() << '\n';
     }

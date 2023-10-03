@@ -1,6 +1,7 @@
 import sys
 import argparse
 from subprocess import check_output
+
 from magnon.preprocess.msg import Msg
 from magnon.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
 from magnon.preprocess.msg_info_table import MSG_INFO_TABLE
@@ -8,15 +9,6 @@ from magnon.preprocess.identify_group import identify_group
 from magnon.preprocess.perturb_wp import perturb_wp
 
 from magnon.preprocess import log
-
-
-def read_args():
-    try:
-        _, msg_number, wp = sys.argv
-    except:
-        raise ValueError("Invalid input arguments.")
-
-    return str(msg_number), str(wp)
 
 
 def main():

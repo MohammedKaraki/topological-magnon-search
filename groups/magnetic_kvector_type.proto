@@ -10,7 +10,7 @@ message MagneticKVectorType {
 
     // Coordinates of the vectors of the star. For examples:
     // "(0,v,0),(0,-v,0),(v,0,0),(-v,0,0),(0,0,v),(0,0,-v)"
-    optional string star_coordinates = 2; 
+    optional string star_coordinates = 2;
 
     // Label of the magnetic little co-group.
     optional string little_cogroup_label = 3;

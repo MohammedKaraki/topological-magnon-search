@@ -1,13 +1,14 @@
-from magnon.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
+import sys
+import json
 from collections import defaultdict
+
+from magnon.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
 from magnon.preprocess.msg import Msg
 from magnon.preprocess.super_and_sub_msgs import SuperAndSubMsgs
 from magnon.preprocess.mbandrep import fetch_wp_point_group_and_br
 from magnon.preprocess.magnon_irreps import sxsy_irreps_from_pg
-import json
 from magnon.preprocess.br import LittleIrrep
 from magnon.preprocess.mbandpaths import antiunit_related_irreps
-import sys
 
 
 def logfile_path():

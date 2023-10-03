@@ -105,6 +105,7 @@ magnon_py_library(
         ":genpos",
         ":log",
         ":utility",
+        requirement("bs4"),
         requirement("html5lib"),
     ],
 )
@@ -120,6 +121,7 @@ magnon_py_library(
         ":utility",
         requirement("requests"),
         requirement("bs4"),
+        requirement("html5lib"),
     ],
 )
 
@@ -133,6 +135,7 @@ magnon_py_library(
         ":mkvec",
         ":utility",
         requirement("bs4"),
+        requirement("html5lib"),
         requirement("joblib"),
     ],
 )
@@ -145,6 +148,7 @@ magnon_py_library(
         ":cached_requests",
         ":log",
         requirement("bs4"),
+        requirement("html5lib"),
     ],
 )
 
@@ -156,6 +160,7 @@ magnon_py_library(
         ":log",
         ":utility",
         requirement("bs4"),
+        requirement("html5lib"),
         requirement("numpy"),
     ],
 )
@@ -189,6 +194,7 @@ magnon_py_library(
         ":utility",
         requirement("numpy"),
         requirement("bs4"),
+        requirement("html5lib"),
     ],
 )
 
@@ -255,6 +261,7 @@ magnon_py_library(
         ":log",
         ":utility",
         requirement("bs4"),
+        requirement("html5lib"),
     ],
 )
 
@@ -300,6 +307,7 @@ magnon_py_library(
         ":log",
         ":utility",
         requirement("bs4"),
+        requirement("html5lib"),
         requirement("numpy"),
     ],
 )
@@ -642,6 +650,7 @@ magnon_py_library(
         ":log",
         ":utility",
         requirement("bs4"),
+        requirement("html5lib"),
     ],
 )
 
