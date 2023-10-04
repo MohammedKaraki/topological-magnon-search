@@ -16,11 +16,11 @@
 
 #include "fmt/core.h"
 
+#include "common/proto_text_format.hpp"
 #include "config/visualize_config.pb.h"
 #include "entities.hpp"
 #include "latexify.hpp"
 #include "spectrum_data.hpp"
-#include "utility/proto_text_format.hpp"
 
 namespace magnon {
 
@@ -950,7 +950,7 @@ std::pair<VisMode, VisSpec> mode_spec_pair_from_file(const std::optional<std::st
     VisSpec spec{};
 
     magnon::config::VisualizeConfig visualize_config{};
-    magnon::proto::read_from_text_file(actual_filename, visualize_config);
+    magnon::common::proto::read_from_text_file(actual_filename, visualize_config);
 
     if (visualize_config.has_mode()) {
         switch (visualize_config.mode()) {

@@ -38,7 +38,7 @@ magnon_cc_library(
     ],
     deps = [
         ":config_proto_cc",
-        "//utility:proto_text_format",
+        "//common:proto_text_format",
     ],
 )
 

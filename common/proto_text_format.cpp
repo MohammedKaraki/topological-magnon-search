@@ -1,4 +1,4 @@
-#include "utility/proto_text_format.hpp"
+#include "common/proto_text_format.hpp"
 
 #include <fstream>
 #include <iterator>
@@ -10,7 +10,7 @@
 #include "google/protobuf/io/tokenizer.h"
 #include "google/protobuf/text_format.h"
 
-namespace magnon::proto {
+namespace magnon::common::proto {
 
 namespace details {
 
@@ -40,4 +40,4 @@ bool read_from_text_file(const std::string &path, ::google::protobuf::Message &m
     return parser.ParseFromString(text_file_content, &message);
 }
 
-}  // namespace magnon::proto
+}  // namespace magnon::common::proto
