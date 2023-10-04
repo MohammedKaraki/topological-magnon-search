@@ -23,8 +23,28 @@ magnon_py_library(
 magnon_py_binary(
     name = "test_magnetic_kvector_type_fetcher",
     main = "test_magnetic_kvector_type_fetcher.py",
-    # srcs = ["test_magnetic_kvector_type_fetcher.py"],
     deps = [
         ":magnetic_kvector_type_fetcher",
+    ],
+)
+
+magnon_py_library(
+    name = "magnetic_band_representation_fetcher",
+    srcs = ["magnetic_band_representation_fetcher.py"],
+    deps = [
+        requirement("bs4"),
+        requirement("html5lib"),
+        "//preprocess:cached_requests",
+        "//preprocess:utility",
+        "//preprocess:kvector",
+        "//preprocess:br",
+    ],
+)
+
+magnon_py_binary(
+    name = "test_magnetic_band_representation_fetcher",
+    main = "test_magnetic_band_representation_fetcher.py",
+    deps = [
+        ":magnetic_band_representation_fetcher",
     ],
 )

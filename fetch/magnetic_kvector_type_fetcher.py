@@ -32,8 +32,6 @@ def _symbol_from_klabel(klabel):
 
 
 def _vec3_from_klabel(klabel):
-    logger.debug(klabel)
-    logger.debug(type(klabel))
     _, vec3 = _symbol_and_vec3_from_klabel(klabel)
     return vec3
 
