@@ -19,6 +19,12 @@ message Irrep {
     optional int32 dimension = 2;
 }
 
+message AtomicOrbital {
+    optional WyckoffPosition wyckoff_position = 1;
+
+    optional Irrep site_symmetry_irrep = 2;
+}
+
 message IrrepPair {
     optional Irrep first = 1;
 
@@ -79,7 +85,7 @@ message MagneticSpaceGroup {
 
     // The orders of the symmetry indicator group of this magnetic space group.
     // For example, the list [4, 2, 2, 2] refers the SI group Z_4 x Z_2 x Z_2 x Z_2.
-    repeated int32 symmetry_indicator_orders = 7;
+    repeated int32 symmetry_indicator_order = 7;
 
     // A rectangular, integer-valued matrix which, upon left-multiplyig a band representation
     // column vector, results in a vector of symmetry indicator values of the band
