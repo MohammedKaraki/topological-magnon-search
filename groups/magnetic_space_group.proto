@@ -1,6 +1,40 @@
 syntax = "proto2";
 
+import "common/matrix.proto";
+
 package magnon.groups;
+
+message WyckoffPosition {
+    optional string label = 1;
+
+    optional string site_symmetry_group_label = 2;
+}
+
+// An irreducible representation. We use it to describe irreps of any group,
+// including little groups in k-space as well as site-symmetry groups of
+// Wyckoff positions.
+message Irrep {
+    optional string label = 1;
+
+    optional int32 dimension = 2;
+}
+
+message IrrepPair {
+    optional Irrep first = 1;
+
+    optional Irrep second = 2;
+}
+
+message AtomicBandRepresentation {
+    // The Wyckoff position from which the bands are induced.
+    optional WyckoffPosition wyckoff_position = 1;
+
+    // The point group irrep from which the bands are induces.
+    optional Irrep site_symmetry_irrep = 2;
+
+    // The induced k-space irreps on every k-vector type of the group.
+    repeated Irrep kspace_little_irrep = 3;
+}
 
 message MagneticSpaceGroup {
     // Magnetic space group number.
@@ -19,4 +53,56 @@ message MagneticSpaceGroup {
     //   "x,y,z+1,+1"          Pure translation along c
     //   "-x,-y,-z,-1"         Anti-unitary inversion
     repeated string generator = 3;
+
+    // Specifies if the generators are expressed in the standard basis
+    // of translations and origin. Unless this is true, the transformation
+    // to the standard basis must be provided below.
+    optional bool is_standard_basis = 4;
+
+    // A 4x4 matrix which relates the coordinates (x, y, z) of a point in
+    // the standard axes and origin to the coordinates (x', y', z') expression
+    // in the generators axes and origin. More specifically:
+    //
+    //         (x' y' z' 1)^T = current_from_standard_basis * (x y z 1)^T
+    //
+    // Note that the last row of the matrix must always be (0 0 0 1).
+    // Also, the only requirement on the 3x3 upper-left block is to have det > 0.
+    // In other words, it does not have to be a rotation (since the lattice translations
+    // don't have to be orthogonal.)
+    //
+    // TODO: Define an abstraction that automatically enforces these requirements
+    // instead of using an unconstrained 4x4 matrix.
+    optional magnon.common.Matrix4d current_from_standard_basis = 5;
+
+    // The little group irreps on every kvector type.
+    repeated Irrep kspace_little_irrep = 6;
+
+    // The orders of the symmetry indicator group of this magnetic space group.
+    // For example, the list [4, 2, 2, 2] refers the SI group Z_4 x Z_2 x Z_2 x Z_2.
+    repeated int32 symmetry_indicator_orders = 7;
+
+    // A rectangular, integer-valued matrix which, upon left-multiplyig a band representation
+    // column vector, results in a vector of symmetry indicator values of the band
+    // (modulo the symmetry indicator orders).
+    optional magnon.common.MatrixXi symmetry_indicator_matrix = 8;
+
+    // A rectangular, integer-valued matrix which, upon left-multiplying a band representation
+    // column vector, determines whether the corresponding band can be energetically isolated
+    // at all high-symmetry lines and planes in k-space. More precisely, if and only if the
+    // results of multiplication is zero, the band can be isolated.
+    optional magnon.common.MatrixXi compatibility_relations_matrix = 9;
+
+    // The Wyckoff positions of the group.
+    repeated WyckoffPosition wyckoff_position = 10;
+
+    // Contains the band representations of any band induced from any choice
+    // of a Wyckoff position and a site-symmetry group irreducible representation.
+    optional AtomicBandRepresentation atomic_band_representation = 11;
+
+    // For any pair of k-vector types related only by an anti-unitary symmetry,
+    // this list contains the pairs of irreps related by this symmetry.
+    //
+    // This information is needed in order to enforce the energetics to be equal
+    // for these irreps, despite belonging to different k-vector types.
+    repeated IrrepPair antiunitarily_related_irrep_pair = 12;
 }

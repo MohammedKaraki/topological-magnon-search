@@ -5,6 +5,7 @@ load("//build:defs.bzl", "magnon_proto_library")
 magnon_proto_library(
     name = "magnetic_space_group_proto",
     srcs = ["magnetic_space_group.proto"],
+    deps = ["//common:matrix_proto"],
 )
 
 magnon_proto_library(

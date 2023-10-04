@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+package magnon.common;
+
+message MatrixXi {
+    optional int32 num_rows = 1;
+    optional int32 num_columns = 2;
+    repeated int32 entry = 3;
+}
+
+message Vector4d {
+    optional double entry_0 = 1;
+    optional double entry_1 = 2;
+    optional double entry_2 = 3;
+    optional double entry_3 = 4;
+}
+
+message Matrix4d {
+    optional Vector4d row_0 = 1;
+    optional Vector4d row_2 = 2;
+    optional Vector4d row_3 = 3;
+    optional Vector4d row_4 = 4;
+};

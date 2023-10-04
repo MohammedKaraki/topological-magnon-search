@@ -279,9 +279,9 @@ namespace magnon {
 // TODO: Refactor this ugly monster into small, simple library functions.
 //
 void execute_algorithm(const std::string &msg_number,
-                      const std::string &wp,
-                      const std::string &subgroup_number,
-                      const std::optional<std::string> &config_filename) {
+                       const std::string &wp,
+                       const std::string &subgroup_number,
+                       const std::optional<std::string> &config_filename) {
     std::string json_filename_noext_nodir =
         fmt::format(R"({}-{}-{})", msg_number, wp, subgroup_number);
 
