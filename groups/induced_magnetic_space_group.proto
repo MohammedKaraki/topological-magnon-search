@@ -1,0 +1,30 @@
+syntax = "proto2";
+
+import "common/matrix.proto";
+import "groups/magnetic_space_group.proto";
+
+package magnon.groups;
+
+// InducedMagneticSpaceGroup represents a magnetic space group that was obtained
+// via the application of perturbations to a magnetic space (super)group.
+message InducedMagneticSpaceGroup {
+    // The magnetic space group number of the supergroup.
+    optional string supergroup_number = 1;
+
+    optional MagneticSpaceGroup subgroup = 2;
+
+    // In general, the standard translations and origin of the subgroup do not match
+    // those of the supergroup. The two standard bases are related by this field.
+    optional magnon.common.Matrix4d supergroup_from_subgroup_standard_basis_columns = 3;
+
+    // A human-readable description of perturbations that induce the subgroup
+    // from supergroup.
+    // Note: each entry on its own should describe the complete perturbation
+    // necessary to induce the subgroup. I.e., different entries provide
+    // alternative recipies for the obtaining the subgroup.
+    //
+    // Example:
+    // "B field \perb [100] and  strain \parallel [101]"
+    //
+    repeated string perturbation_prescription = 4;
+}

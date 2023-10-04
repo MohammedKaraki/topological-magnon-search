@@ -1,0 +1,24 @@
+syntax = "proto2";
+
+import "groups/magnetic_space_group.proto";
+import "groups/induced_magnetic_space_group.proto";
+
+package magnon.diagnose2;
+
+// PerturbedBandStructre holds all the information needed to run the topological
+// magnon search algorithm.
+message PerturbedBandStructure {
+    // The original magnetic space group prior to external perturbations.
+    optional magnon.groups.MagneticSpaceGroup base_group = 1;
+
+    // The magnetic space group resulting from applying symmetry-breaking perturbations.
+    optional magnon.groups.InducedMagneticSpaceGroup induced_subgroup = 2;
+
+    // The irreducible (co-)representation content of the bands in the unbroken magnetic space
+    // group.
+    repeated magnon.groups.Irrep base_kspace_little_irrep = 3;
+
+    // The atomic orbitals from which the bands band representation was induced.
+    // If the band structure doesn't admit an atomic limit, this must be left empty.
+    repeated magnon.groups.AtomicOrbital atomic_orbital = 4;
+}
