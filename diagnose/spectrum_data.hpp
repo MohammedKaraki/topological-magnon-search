@@ -9,8 +9,8 @@
 
 #include "Eigen/Core"
 
+#include "common/comparable.hpp"
 #include "utility.hpp"
-#include "utility/comparable.hpp"
 
 namespace magnon {
 
