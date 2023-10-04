@@ -18,8 +18,8 @@ magnon_cc_binary(
         "//config",
     ],
     deps = [
+        "//common:proto_text_format",
         "//config:config_proto_cc",
-        "//utility:proto_text_format",
     ],
 )
 
@@ -61,7 +61,7 @@ magnon_cc_library(
     deps = [
         ":ostream_utility",
         ":utility",
-        "//utility:comparable",
+        "//common:comparable",
         "@eigen",
         "@fmt",
         "@nlohmann_json//:json",
@@ -117,8 +117,8 @@ magnon_cc_library(
         ":entities",
         ":latexify",
         ":spectrum_data",
+        "//common:proto_text_format",
         "//config:visualize_config_proto_cc",
-        "//utility:proto_text_format",
         "@fmt",
     ],
 )
@@ -158,7 +158,7 @@ magnon_cc_library(
     srcs = ["irreps.cpp"],
     hdrs = ["irreps.hpp"],
     deps = [
-        "//utility:comparable",
+        "//common:comparable",
         "@fmt",
     ],
 )

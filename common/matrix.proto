@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package magnon.utility;
+package magnon.common;
 
 message MatrixXi {
     optional int32 num_rows = 1;
