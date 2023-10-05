@@ -14,6 +14,9 @@ from magnon.common.logger import create_logger
 logger = create_logger(__name__)
 
 
+#
+# TODO: Allow this to be passed as a config.
+#
 _CACHE_DIR = "/tmp"
 
 _KLABEL_PATTERN = r"([A-Z]+):\(([^,]+),([^,]+),([^,]+)\)"

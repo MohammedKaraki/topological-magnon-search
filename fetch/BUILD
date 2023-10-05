@@ -39,5 +39,6 @@ magnon_py_library(
         "//fetch/utility:cached_requests",
         "//fetch/utility:kvector",
         "//fetch/utility:scrape_utility",
+        "//groups:magnetic_space_group_proto_py",
     ],
 )

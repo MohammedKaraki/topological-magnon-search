@@ -82,7 +82,7 @@ class LittleIrrep:
 
         if "[overline]" in irreplabel_with_dim:
             self._ksymbol, self._label, self._dim = [
-                "DOUBLE-VALUED IRREP UNSUPPOROTED"
+                "DOUBLE-VALUED IRREP UNSUPPORTED"
             ] * 3
             return
 
