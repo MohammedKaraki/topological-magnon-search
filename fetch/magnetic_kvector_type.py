@@ -7,7 +7,7 @@ from magnon.groups.magnetic_kvector_type_pb2 import (
     MagneticKVectorType,
     MagneticKVectorTypes,
 )
-from magnon.fetch.cached_requests import cached_post
+from magnon.fetch.utility.cached_requests import cached_post
 from magnon.fetch.utility.scrape_utility import contents_as_str
 from magnon.common.logger import create_logger
 

@@ -2,8 +2,8 @@ package(default_visibility = ["//visibility:public"])
 
 load(
     "//build:defs.bzl",
-    "magnon_py_binary",
     "magnon_py_library",
+    "magnon_py_test",
 )
 load("@pip_deps//:requirements.bzl", "requirement")
 
@@ -20,9 +20,9 @@ magnon_py_library(
     ],
 )
 
-magnon_py_binary(
-    name = "test_magnetic_kvector_type",
-    main = "test_magnetic_kvector_type.py",
+magnon_py_test(
+    name = "magnetic_kvector_type_test",
+    srcs = ["magnetic_kvector_type_test.py"],
     deps = [
         ":magnetic_kvector_type",
     ],
