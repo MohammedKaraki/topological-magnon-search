@@ -42,3 +42,11 @@ magnon_py_library(
         "//groups:magnetic_space_group_proto_py",
     ],
 )
+
+magnon_py_test(
+    name = "magnetic_band_representation_test",
+    srcs = ["magnetic_band_representation_test.py"],
+    deps = [
+        ":magnetic_band_representation",
+    ],
+)
