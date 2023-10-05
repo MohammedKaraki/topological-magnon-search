@@ -7,11 +7,14 @@ from magnon.groups.magnetic_kvector_type_pb2 import (
     MagneticKVectorType,
     MagneticKVectorTypes,
 )
-from magnon.preprocess.cached_requests import cached_post
-from magnon.preprocess.utility import contents_as_str
-from magnon.preprocess import log
+from magnon.fetch.cached_requests import cached_post
+from magnon.fetch.utility.scrape_utility import contents_as_str
+from magnon.common.logger import create_logger
 
-logger = log.create_logger(__name__)
+logger = create_logger(__name__)
+
+
+_CACHE_DIR = "/tmp"
 
 _KLABEL_PATTERN = r"([A-Z]+):\(([^,]+),([^,]+),([^,]+)\)"
 
@@ -42,7 +45,7 @@ def _mkvec_html(group_number):
     return cached_post(
         url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/mkvec.pl",
         data={"super": group_number, "list": "Submit"},
-        cache_filename=rf"mkvec-{group_number}.html",
+        cache_dir=_CACHE_DIR,
     )
 
 
