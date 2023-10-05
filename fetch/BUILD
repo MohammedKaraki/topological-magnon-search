@@ -15,7 +15,7 @@ magnon_py_library(
         requirement("bs4"),
         requirement("html5lib"),
         "//groups:magnetic_kvector_type_proto_py",
-        "//fetch:cached_requests",
+        "//fetch/utility:cached_requests",
         "//fetch/utility:scrape_utility",
     ],
 )
@@ -35,7 +35,7 @@ magnon_py_library(
         requirement("numpy"),
         requirement("bs4"),
         requirement("html5lib"),
-        "//fetch:cached_requests",
+        "//fetch/utility:cached_requests",
         "//fetch/utility:scrape_utility",
         "//fetch/utility:kvector",
         "//fetch/utility:br",
@@ -50,11 +50,3 @@ magnon_py_binary(
     ],
 )
 
-magnon_py_library(
-    name = "cached_requests",
-    srcs = ["cached_requests.py"],
-    deps = [
-    "//common:logger",
-        requirement("requests"),
-    ],
-)

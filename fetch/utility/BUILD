@@ -7,6 +7,14 @@ load(
 load("@pip_deps//:requirements.bzl", "requirement")
 
 magnon_py_library(
+    name = "cached_requests",
+    srcs = ["cached_requests.py"],
+    deps = [
+    "//common:logger",
+        requirement("requests"),
+    ],
+)
+magnon_py_library(
     name = "scrape_utility",
     srcs = ["scrape_utility.py"],
     deps = [requirement("bs4"),
@@ -37,3 +45,4 @@ magnon_py_library(
         ":band",
     ]
 )
+
