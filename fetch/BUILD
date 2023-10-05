@@ -35,7 +35,7 @@ magnon_py_library(
         requirement("numpy"),
         requirement("bs4"),
         requirement("html5lib"),
-        "//fetch/utility:cached_requests",
+        "//fetch:cached_requests",
         "//fetch/utility:scrape_utility",
         "//fetch/utility:kvector",
         "//fetch/utility:br",
@@ -50,3 +50,33 @@ magnon_py_binary(
     ],
 )
 
+magnon_py_library(
+    name = "cached_requests",
+    srcs = ["cached_requests.py"],
+    deps = [
+    "//common:logger",
+        requirement("requests"),
+    ],
+)
+
+magnon_py_library(
+    name = "magnetic_band_representation",
+    srcs = ["magnetic_band_representation.py"],
+    deps = [
+        requirement("numpy"),
+        requirement("bs4"),
+        requirement("html5lib"),
+        "//fetch/utility:cached_requests",
+        "//fetch/utility:scrape_utility",
+        "//fetch/utility:kvector",
+        "//fetch/utility:br",
+    ],
+)
+
+magnon_py_binary(
+    name = "test_magnetic_band_representation",
+    main = "test_magnetic_band_representation.py",
+    deps = [
+        ":magnetic_band_representation",
+    ],
+)
