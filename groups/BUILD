@@ -11,8 +11,9 @@ magnon_proto_library(
 magnon_proto_library(
     name = "induced_magnetic_space_group_proto",
     srcs = ["induced_magnetic_space_group.proto"],
-    deps = ["//common:matrix_proto",
+    deps = [
         ":magnetic_space_group_proto",
+        "//common:matrix_proto",
     ],
 )
 
