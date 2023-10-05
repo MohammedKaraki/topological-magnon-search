@@ -7,6 +7,11 @@ cc_library(
     hdrs = ["comparable.hpp"],
 )
 
+magnon_py_library(
+    name = "logger",
+    srcs = ["logger.py"],
+)
+
 magnon_cc_library(
     name = "proto_text_format",
     srcs = ["proto_text_format.cpp"],
