@@ -32,14 +32,11 @@ message IrrepPair {
 }
 
 message AtomicBandRepresentation {
-    // The Wyckoff position from which the bands are induced.
-    optional WyckoffPosition wyckoff_position = 1;
+    // The atomic orbital from which the atomic band representation is induced.
+    optional AtomicOrbital atomic_orbital = 1;
 
-    // The point group irrep from which the bands are induces.
-    optional Irrep site_symmetry_irrep = 2;
-
-    // The induced k-space irreps on every k-vector type of the group.
-    repeated Irrep kspace_little_irrep = 3;
+    // The induced k-space little irreps on every k-vector type of the group.
+    repeated Irrep kspace_little_irrep = 2;
 }
 
 message MagneticSpaceGroup {
