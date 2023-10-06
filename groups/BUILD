@@ -41,3 +41,11 @@ magnon_proto_library(
         "//common:matrix_proto",
     ],
 )
+
+magnon_proto_library(
+    name = "compatibility_relations_proto",
+    srcs = ["compatibility_relations.proto"],
+    deps = [
+        ":atomic_orbital_proto",
+    ],
+)

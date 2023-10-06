@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+import "groups/atomic_orbital.proto";
+
+package magnon.groups;
+
+// CompatibilityRelation describes how a little group irrep at a higher symmetry k-point breaks
+// into irreps of the little (sub)group of a nearby k-line/plane with lower symmetry.
+message CompatibilityRelation {
+    // The irrep on the higher symmetry k-point
+    optional Irrep kpoint_little_irrep = 1;
+
+    // The kvector type label of the lower symmetry k-line. Examples: "LD", "GP".
+    optional string kline_kvector_type_label = 2;
+
+    // The coordinates of the lower symmetry k-line/plane/volume. Examples: "(0,0,w)", "(u,v,w)".
+    optional string kline_coordinates = 3;
+
+    // The irreps of the lower symmetry little group at the k-line.
+    repeated Irrep kline_little_irrep = 4;
+}
+
+message CompatibilityRelations {
+    repeated CompatibilityRelation relation = 1;
+}

@@ -100,3 +100,23 @@ magnon_py_test(
         "//common:matrix_converter_py",
     ],
 )
+
+magnon_py_library(
+    name = "compatibility_relations",
+    srcs = ["compatibility_relations.py"],
+    deps = [
+        "//fetch/utility:br",
+        "//fetch/utility:cached_requests",
+        "//groups:compatibility_relations_proto_py",
+        requirement("bs4"),
+        requirement("html5lib"),
+    ],
+)
+
+magnon_py_test(
+    name = "compatibility_relations_test",
+    srcs = ["compatibility_relations_test.py"],
+    deps = [
+        ":compatibility_relations",
+    ],
+)
