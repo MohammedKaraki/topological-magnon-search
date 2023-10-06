@@ -1,6 +1,15 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//build:defs.bzl", "magnon_cc_library", "magnon_cc_test", "magnon_proto_library", "magnon_py_library", "magnon_pybind_library")
+load(
+    "//build:defs.bzl",
+    "magnon_cc_library",
+    "magnon_cc_test",
+    "magnon_proto_library",
+    "magnon_py_binary",
+    "magnon_py_library",
+    "magnon_pybind_library",
+)
+load("@pip_deps//:requirements.bzl", "requirement")
 
 cc_library(
     name = "comparable",
@@ -44,5 +53,17 @@ magnon_cc_test(
         "//common:matrix_converter",
         "@fmt",
         "@gtest//:gtest_main",
+    ],
+)
+
+magnon_pybind_library(
+    name = "matrix_converter_py",
+    srcs = ["matrix_converter_py.cpp"],
+    py_deps = [
+        ":matrix_proto_py",
+    ],
+    deps = [
+        ":matrix_converter",
+        "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
     ],
 )
