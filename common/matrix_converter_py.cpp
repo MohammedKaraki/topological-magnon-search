@@ -18,6 +18,11 @@ PYBIND11_MODULE(matrix_converter_py, m) {
     m.def("matrixxd_from_proto",
           py::overload_cast<const magnon::common::MatrixXd &>(&magnon::common::from_proto));
 
+    m.def("matrixxcd_to_proto",
+          py::overload_cast<const Eigen::MatrixXcd &>(&magnon::common::to_proto));
+    m.def("matrixxcd_from_proto",
+          py::overload_cast<const magnon::common::MatrixXcd &>(&magnon::common::from_proto));
+
     m.def("matrix4d_to_proto",
           py::overload_cast<const Eigen::Matrix4d &>(&magnon::common::to_proto));
     m.def("matrix4d_from_proto",

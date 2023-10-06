@@ -1,4 +1,5 @@
 #include "common/matrix_converter.hpp"
+
 #include "gtest/gtest.h"
 
 namespace magnon::common {

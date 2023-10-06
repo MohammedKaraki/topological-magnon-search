@@ -39,8 +39,8 @@ magnon_py_library(
         "//fetch/utility:cached_requests",
         "//fetch/utility:kvector",
         "//fetch/utility:scrape_utility",
-        "//groups:magnetic_space_group_proto_py",
         "//groups:atomic_orbital_proto_py",
+        "//groups:magnetic_space_group_proto_py",
     ],
 )
 
@@ -73,6 +73,30 @@ magnon_py_test(
     deps = [
         ":magnetic_space_group_from_generators",
         requirement("numpy"),
+        "//common:matrix_converter_py",
+    ],
+)
+
+magnon_py_library(
+    name = "character_table",
+    srcs = ["character_table.py"],
+    deps = [
+        "//common:matrix_converter_py",
+        "//fetch/utility:cached_requests",
+        "//fetch/utility:general_position_utility",
+        "//fetch/utility:scrape_utility",
+        "//groups:atomic_orbital_proto_py",
+        "//groups:character_table_proto_py",
+        requirement("bs4"),
+        requirement("html5lib"),
+    ],
+)
+
+magnon_py_test(
+    name = "character_table_test",
+    srcs = ["character_table_test.py"],
+    deps = [
+        ":character_table",
         "//common:matrix_converter_py",
     ],
 )
