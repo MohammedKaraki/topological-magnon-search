@@ -50,3 +50,28 @@ magnon_py_test(
         ":magnetic_band_representation",
     ],
 )
+
+magnon_py_library(
+    name = "magnetic_space_group_from_generators",
+    srcs = ["magnetic_space_group_from_generators.py"],
+    deps = [
+        "//common:matrix_converter_py",
+        "//fetch/utility:cached_requests",
+        "//fetch/utility:general_position_utility",
+        "//fetch/utility:scrape_utility",
+        "//groups:magnetic_space_group_proto_py",
+        requirement("bs4"),
+        requirement("html5lib"),
+        requirement("numpy"),
+    ],
+)
+
+magnon_py_test(
+    name = "magnetic_space_group_from_generators_test",
+    srcs = ["magnetic_space_group_from_generators_test.py"],
+    deps = [
+        ":magnetic_space_group_from_generators",
+        requirement("numpy"),
+        "//common:matrix_converter_py",
+    ],
+)

@@ -47,3 +47,11 @@ magnon_py_library(
         "//common:logger",
     ],
 )
+
+magnon_py_library(
+    name = "general_position_utility",
+    srcs = ["general_position_utility.py"],
+    deps = [
+        requirement("numpy"),
+    ],
+)
