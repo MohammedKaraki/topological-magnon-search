@@ -1,0 +1,17 @@
+syntax = "proto2";
+
+import "common/matrix.proto";
+import "groups/atomic_orbital.proto";
+
+package magnon.groups;
+
+message CharacterTable {
+    // The general positions label the rows of the character table.
+    repeated string general_position = 1;
+
+    // The irreps label the columns of the character table.
+    repeated Irrep irrep = 2;
+
+    // The table content.
+    optional magnon.common.MatrixXcd matrix = 3;
+}

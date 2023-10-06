@@ -32,3 +32,12 @@ magnon_proto_library(
         ":magnetic_space_group_proto",
     ],
 )
+
+magnon_proto_library(
+    name = "character_table_proto",
+    srcs = ["character_table.proto"],
+    deps = [
+        ":atomic_orbital_proto",
+        "//common:matrix_proto",
+    ],
+)
