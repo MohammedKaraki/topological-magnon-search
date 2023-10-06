@@ -13,5 +13,6 @@ magnon_proto_library(
         "//common:matrix_proto",
         "//groups:induced_magnetic_space_group_proto",
         "//groups:magnetic_space_group_proto",
+        "//groups:atomic_orbital_proto",
     ],
 )

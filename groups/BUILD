@@ -3,9 +3,17 @@ package(default_visibility = ["//visibility:public"])
 load("//build:defs.bzl", "magnon_proto_library")
 
 magnon_proto_library(
+    name = "atomic_orbital_proto",
+    srcs = ["atomic_orbital.proto"],
+)
+
+magnon_proto_library(
     name = "magnetic_space_group_proto",
     srcs = ["magnetic_space_group.proto"],
-    deps = ["//common:matrix_proto"],
+    deps = [
+        ":atomic_orbital_proto",
+        "//common:matrix_proto",
+    ],
 )
 
 magnon_proto_library(

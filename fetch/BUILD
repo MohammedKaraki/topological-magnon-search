@@ -40,6 +40,7 @@ magnon_py_library(
         "//fetch/utility:kvector",
         "//fetch/utility:scrape_utility",
         "//groups:magnetic_space_group_proto_py",
+        "//groups:atomic_orbital_proto_py",
     ],
 )
 
