@@ -32,8 +32,34 @@ magnon_cc_library(
 )
 
 magnon_proto_library(
+    name = "complex_number_proto",
+    srcs = ["complex_number.proto"],
+)
+
+magnon_proto_library(
     name = "matrix_proto",
     srcs = ["matrix.proto"],
+    deps = [
+        ":complex_number_proto",
+    ],
+)
+
+magnon_cc_library(
+    name = "complex_converter",
+    srcs = ["complex_converter.cpp"],
+    hdrs = ["complex_converter.hpp"],
+    deps = [
+        ":complex_number_proto_cc",
+    ],
+)
+
+magnon_cc_test(
+    name = "complex_converter_test",
+    srcs = ["complex_converter_test.cpp"],
+    deps = [
+        ":complex_converter",
+        "@gtest//:gtest_main",
+    ],
 )
 
 magnon_cc_library(
@@ -41,7 +67,8 @@ magnon_cc_library(
     srcs = ["matrix_converter.cpp"],
     hdrs = ["matrix_converter.hpp"],
     deps = [
-        "//common:matrix_proto_cc",
+        ":complex_converter",
+        ":matrix_proto_cc",
         "@eigen",
     ],
 )
@@ -50,8 +77,7 @@ magnon_cc_test(
     name = "matrix_converter_test",
     srcs = ["matrix_converter_test.cpp"],
     deps = [
-        "//common:matrix_converter",
-        "@fmt",
+        ":matrix_converter",
         "@gtest//:gtest_main",
     ],
 )

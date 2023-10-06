@@ -1,5 +1,7 @@
 syntax = "proto2";
 
+import "common/complex_number.proto";
+
 package magnon.common;
 
 message MatrixXd {
@@ -12,6 +14,13 @@ message MatrixXi {
     optional uint32 num_rows = 1;
     optional uint32 num_columns = 2;
     repeated int32 entry = 3;
+}
+
+message MatrixXcd {
+    optional uint32 num_rows = 1;
+    optional uint32 num_columns = 2;
+
+    repeated ComplexNumber entry = 3;
 }
 
 message Vector4d {
