@@ -120,3 +120,25 @@ magnon_py_test(
         ":compatibility_relations",
     ],
 )
+
+magnon_py_library(
+    name = "antiunitarily_related_irreps",
+    srcs = ["antiunitarily_related_irreps.py"],
+    deps = [
+        "//fetch/utility:br",
+        "//fetch/utility:cached_requests",
+        "//fetch/utility:kvector",
+        "//fetch/utility:scrape_utility",
+        "//groups:magnetic_space_group_proto_py",
+        requirement("bs4"),
+        requirement("html5lib"),
+    ],
+)
+
+magnon_py_test(
+    name = "antiunitarily_related_irreps_test",
+    srcs = ["antiunitarily_related_irreps_test.py"],
+    deps = [
+        ":antiunitarily_related_irreps",
+    ],
+)

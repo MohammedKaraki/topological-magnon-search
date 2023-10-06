@@ -5,10 +5,23 @@ import "groups/atomic_orbital.proto";
 
 package magnon.groups;
 
-message IrrepPair {
-    optional Irrep first = 1;
+// AntiunitarilyRelatedIrrepPair contains a pair of little group irreps at two different k-points
+// which are related by an anti-unitary symmetry *only*. Such a pair of k-points are classified
+// into different k-vector types in MSG tables (including on BCS), and therefore might give the
+// wrong impression that the energetics are independent.
+//
+// We need this information in order to enforce the energetics to be equal for such irreps, despite
+// belonging to different k-vector types.
+message AntiunitarilyRelatedIrrepPair {
+    optional string first_kvector_type_label = 1;
+    optional string first_little_irrep_label = 2;
 
-    optional Irrep second = 2;
+    optional string second_kvector_type_label = 3;
+    optional string second_little_irrep_label = 4;
+}
+
+message AntiunitarilyRelatedIrrepPairs {
+    repeated AntiunitarilyRelatedIrrepPair pair = 1;
 }
 
 message AtomicBandRepresentation {
@@ -82,10 +95,6 @@ message MagneticSpaceGroup {
     // of a Wyckoff position and a site-symmetry group irreducible representation.
     optional AtomicBandRepresentation atomic_band_representation = 11;
 
-    // For any pair of k-vector types related only by an anti-unitary symmetry,
-    // this list contains the pairs of irreps related by this symmetry.
-    //
-    // This information is needed in order to enforce the energetics to be equal
-    // for these irreps, despite belonging to different k-vector types.
-    repeated IrrepPair antiunitarily_related_irrep_pair = 12;
+    // List of irrep pairs related by an anti-unitary symmetry only.
+    optional AntiunitarilyRelatedIrrepPairs antiunitarily_related_irrep_pairs = 12;
 }

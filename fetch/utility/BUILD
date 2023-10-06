@@ -36,6 +36,7 @@ magnon_py_library(
     srcs = ["kvector.py"],
     deps = [
         "//common:logger",
+        requirement("numpy"),
     ],
 )
 
