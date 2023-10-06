@@ -1,4 +1,4 @@
-load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
@@ -45,6 +45,14 @@ def magnon_cc_library(name, copts = [], **kwargs):
 def magnon_cc_binary(name, copts = [], **kwargs):
     copts = _ADDITIONAL_COPTS + copts
     cc_binary(
+        name = name,
+        copts = copts,
+        **kwargs
+    )
+
+def magnon_cc_test(name, copts = [], **kwargs):
+    copts = _ADDITIONAL_COPTS + copts
+    cc_test(
         name = name,
         copts = copts,
         **kwargs

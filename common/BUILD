@@ -1,6 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//build:defs.bzl", "magnon_cc_library", "magnon_proto_library", "magnon_py_library", "magnon_pybind_library")
+load("//build:defs.bzl", "magnon_cc_library", "magnon_cc_test", "magnon_proto_library", "magnon_py_library", "magnon_pybind_library")
 
 cc_library(
     name = "comparable",
@@ -25,4 +25,24 @@ magnon_cc_library(
 magnon_proto_library(
     name = "matrix_proto",
     srcs = ["matrix.proto"],
+)
+
+magnon_cc_library(
+    name = "matrix_converter",
+    srcs = ["matrix_converter.cpp"],
+    hdrs = ["matrix_converter.hpp"],
+    deps = [
+        "//common:matrix_proto_cc",
+        "@eigen",
+    ],
+)
+
+magnon_cc_test(
+    name = "matrix_converter_test",
+    srcs = ["matrix_converter_test.cpp"],
+    deps = [
+        "//common:matrix_converter",
+        "@fmt",
+        "@gtest//:gtest_main",
+    ],
 )
