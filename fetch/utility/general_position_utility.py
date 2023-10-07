@@ -78,20 +78,6 @@ def _str_to_vec4(input_str):
     return vec4_result
 
 
-def _unitary_gstr_to_mat4x4(input_str):
-    components = input_str.split(",")
-    assert len(components) == 4, components
-    assert components[3] == "+1", components[3]
-
-    l = [_str_to_vec4(x) for x in components[:-1]]
-    l.append(np.array([Fraction(0), Fraction(0), Fraction(0), Fraction(1)]))
-
-    mat = np.array(l)
-    assert input_str == _mat4x4_to_unitary_gstr(mat)
-
-    return mat
-
-
 def _fraction_to_str(fraction, letter_factor):
     assert letter_factor in ["", "x", "y", "z"]
 
@@ -127,7 +113,7 @@ class UnitaryGenpos:
 
     @classmethod
     def from_gstr(cls, gstr, cross_check_mat3x4=None, seitz=None):
-        mat4x4 = _unitary_gstr_to_mat4x4(gstr)
+        mat4x4 = unitary_gstr_to_mat4x4(gstr)
         if cross_check_mat3x4 is not None:
             assert np.all(mat4x4[:3, :] == cross_check_mat3x4)
 
@@ -183,3 +169,17 @@ def mat3x4_to_unitary_gstr(mat):
         (mat, np.array([[Fraction(0), Fraction(0), Fraction(0), Fraction(1)]]))
     )
     return _mat4x4_to_unitary_gstr(mat4)
+
+
+def unitary_gstr_to_mat4x4(input_str):
+    components = input_str.split(",")
+    assert len(components) == 4, components
+    assert components[3] == "+1", components[3]
+
+    l = [_str_to_vec4(x) for x in components[:-1]]
+    l.append(np.array([Fraction(0), Fraction(0), Fraction(0), Fraction(1)]))
+
+    mat = np.array(l)
+    assert input_str == _mat4x4_to_unitary_gstr(mat)
+
+    return mat

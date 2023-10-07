@@ -142,3 +142,25 @@ magnon_py_test(
         ":antiunitarily_related_irreps",
     ],
 )
+
+magnon_py_library(
+    name = "general_positions",
+    srcs = ["general_positions.py"],
+    deps = [
+        "//fetch/utility:cached_requests",
+        "//fetch/utility:general_position_utility",
+        "//fetch/utility:scrape_utility",
+        "//groups:magnetic_space_group_proto_py",
+        requirement("numpy"),
+        requirement("bs4"),
+        requirement("html5lib"),
+    ],
+)
+
+magnon_py_test(
+    name = "general_positions_test",
+    srcs = ["general_positions_test.py"],
+    deps = [
+        ":general_positions",
+    ],
+)

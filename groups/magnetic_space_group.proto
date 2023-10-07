@@ -32,6 +32,27 @@ message AtomicBandRepresentation {
     repeated Irrep kspace_little_irrep = 2;
 }
 
+// GeneralPosition describes a group element of the magnetic space group.
+message GeneralPosition {
+    // Coordinate form of the general position.
+    //
+    //   General Position      Symmetry Operation
+    //   ----------------      -----------------
+    //   "x,y,z,+1"            Identity element
+    //   "x,y,z,-1"            Time reversal
+    //   "x,y,z+1,+1"          Pure translation along c
+    //   "-x,-y,-z,-1"         Anti-unitary inversion
+    optional string coordinates_form = 1;
+
+    // Seitz notation of the group element. For example: "{3^{+}001|001/2}" is a clock-wise 3-fold
+    // rotation along the c-direction combined with 1/2 translation along c.
+    optional string seitz_form = 2;
+}
+
+message GeneralPositions {
+    repeated GeneralPosition general_position = 1;
+}
+
 message MagneticSpaceGroup {
     // Magnetic space group number.
     optional string number = 1;
@@ -39,16 +60,8 @@ message MagneticSpaceGroup {
     // Mangetic space group label.
     optional string label = 2;
 
-    // Group generators in comma-separated string format. The following
-    // table show a few examples.
-    //
-    //   Generator             Symmetry Operation
-    //   ---------             -----------------
-    //   "x,y,z,+1"            Identity element
-    //   "x,y,z,-1"            Time reversal
-    //   "x,y,z+1,+1"          Pure translation along c
-    //   "-x,-y,-z,-1"         Anti-unitary inversion
-    repeated string generator = 3;
+    // A (possibly over-complete) list of group generators.
+    optional GeneralPositions generators = 3;
 
     // Specifies if the generators are expressed in the standard basis
     // of translations and origin. Unless this is true, the transformation
