@@ -164,3 +164,23 @@ magnon_py_test(
         ":general_positions",
     ],
 )
+
+magnon_py_library(
+    name = "wyckoff_positions",
+    srcs = ["wyckoff_positions.py"],
+    deps = [
+        "//fetch/utility:cached_requests",
+        "//fetch/utility:scrape_utility",
+        "//groups:magnetic_space_group_proto_py",
+        requirement("bs4"),
+        requirement("html5lib"),
+    ],
+)
+
+magnon_py_test(
+    name = "wyckoff_positions_test",
+    srcs = ["wyckoff_positions_test.py"],
+    deps = [
+        ":wyckoff_positions",
+    ],
+)
