@@ -93,3 +93,21 @@ magnon_pybind_library(
         "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
     ],
 )
+
+magnon_cc_library(
+    name = "smith_normal_form",
+    srcs = ["smith_normal_form.cpp"],
+    hdrs = ["smith_normal_form.hpp"],
+    deps = [
+        "@eigen",
+    ],
+)
+
+magnon_cc_test(
+    name = "smith_normal_form_test",
+    srcs = ["smith_normal_form_test.cpp"],
+    deps = [
+        ":smith_normal_form",
+        "@gtest//:gtest_main",
+    ],
+)
