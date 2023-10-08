@@ -1,5 +1,6 @@
-#include "common/proto_text_format.hpp"
 #include "read_standard_magnetic_space_groups.hpp"
+
+#include "common/proto_text_format.hpp"
 
 namespace magnon::groups {
 
