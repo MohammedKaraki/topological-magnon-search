@@ -1,7 +1,7 @@
 import unittest
 
 from magnon.fetch.magnetic_space_group_from_generators import (
-    fetch_magnetic_space_group_from_generators,
+    fetch_msg_from_generators,
 )
 
 import numpy as np
@@ -16,14 +16,14 @@ TODO: Refactor the fetchers to allow isolated tests.
 
 class MagneticSpaceGroupFromGeneratorsTest(unittest.TestCase):
     def test_trivial_group_standard(self):
-        msg = fetch_magnetic_space_group_from_generators(["x,y,z,+1"])
+        msg = fetch_msg_from_generators(["x,y,z,+1"])
         assert msg.number == "1.1"
         assert msg.label == "P1"
         current_from_standard = matrix4d_from_proto(msg.current_from_standard_basis)
         assert np.all(current_from_standard == np.identity(4))
 
     def test_trivial_group_smaller_c(self):
-        msg = fetch_magnetic_space_group_from_generators(["x,y,z+1/2,+1"])
+        msg = fetch_msg_from_generators(["x,y,z+1/2,+1"])
         current_from_standard_expected = np.array(
             [
                 [1.0, 0.0, 0.0, 0.0],
@@ -39,7 +39,7 @@ class MagneticSpaceGroupFromGeneratorsTest(unittest.TestCase):
         assert np.all(current_from_standard == current_from_standard_expected)
 
     def test_inversion_displaced_origin(self):
-        msg = fetch_magnetic_space_group_from_generators(["-x+1/2,-y,-z,+1"])
+        msg = fetch_msg_from_generators(["-x+1/2,-y,-z,+1"])
         current_from_standard_expected = np.array(
             [
                 [1.0, 0.0, 0.0, 0.25],
@@ -55,7 +55,7 @@ class MagneticSpaceGroupFromGeneratorsTest(unittest.TestCase):
         assert np.all(current_from_standard == current_from_standard_expected)
 
     def test_rotated_axes(self):
-        msg = fetch_magnetic_space_group_from_generators(
+        msg = fetch_msg_from_generators(
             [
                 "x+1/2,y-1/2,-2x-z,+1",
                 "-x-z,z,-y+z,+1",
