@@ -63,7 +63,7 @@ magnon_py_library(
     srcs = ["primvecs.py"],
     data = [
         ":log",
-        "//data:lattice_type_space_group_number",
+        "//data:lattice_type_table",
     ],
     deps = [
         ":genpos",
