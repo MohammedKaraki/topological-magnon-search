@@ -3,6 +3,8 @@ package(default_visibility = ["//visibility:public"])
 load(
     "//build:defs.bzl",
     "magnon_proto_library",
+    "magnon_py_library",
+    "magnon_py_test",
 )
 load("@pip_deps//:requirements.bzl", "requirement")
 
@@ -14,5 +16,27 @@ magnon_proto_library(
         "//groups:atomic_orbital_proto",
         "//groups:induced_magnetic_space_group_proto",
         "//groups:magnetic_space_group_proto",
+    ],
+)
+
+
+magnon_py_library(
+    name = "process_tables",
+    srcs = ["process_tables.py"],
+    deps = [
+    "//diagnose2/utility:magnetic_space_group",
+    "//fetch/utility:br",
+        "//fetch:magnetic_band_representation",
+        "//fetch:antiunitarily_related_irreps",
+        "//diagnose2/utility:group_subgroup_relation",
+        "//diagnose2/utility:s_plus_irrep",
+    ],
+)
+
+magnon_py_test(
+    name = "process_tables_test",
+    srcs = ["process_tables_test.py"],
+    deps = [
+        ":process_tables",
     ],
 )

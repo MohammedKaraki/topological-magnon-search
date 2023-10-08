@@ -1,10 +1,9 @@
 import numpy as np
-from magnon.preprocess.coreps import char_table_info
-from magnon.preprocess.genpos import UnitaryGenpos
 
-from magnon.preprocess import log
-
-logger = log.create_logger(__name__)
+from magnon.fetch.character_table import fetch_single_valued_unitary_character_table
+def character_table_info(args):
+    assert False
+from magnon.fetch.utility.general_position_utility import UnitaryGenpos
 
 
 class CharTable:

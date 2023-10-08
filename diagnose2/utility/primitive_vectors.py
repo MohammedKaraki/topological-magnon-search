@@ -1,18 +1,12 @@
 import numpy as np
-from magnon.preprocess.lattice_type import find_latticetype
-from magnon.preprocess.genpos import (
-    unitary_gstr_to_mat4x4,
-)
-
-from magnon.preprocess import log
-
-logger = log.create_logger(__name__)
+from magnon.diagnose2.utility.lattice_type import lattice_type_for_group_number
+from magnon.fetch.utility.general_position_utility import unitary_gstr_to_mat4x4
 
 
 def find_primvecsmat_method1(msg_number):
     from fractions import Fraction
 
-    latticetype = find_latticetype(msg_number)
+    latticetype = lattice_type_for_group_number(msg_number)
     assert latticetype in ["P", "A", "I", "F", "C", "R"]
 
     f11 = Fraction(1)
