@@ -6,7 +6,7 @@ logger = log.create_logger(__name__)
 def create_msg_info_table():
     from pathlib import Path
 
-    TABLE_FILEPATH = "data/msgnumber_label_si_genpos.txt"
+    TABLE_FILEPATH = "data/msg_number_label_si_genpos.txt"
 
     result = {}
 
