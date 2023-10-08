@@ -4,7 +4,6 @@ import numpy as np
 from joblib import Memory
 
 
-
 def intinv(mat):
     assert mat.dtype == int
     invmat = np.linalg.inv(mat).round().astype(int)

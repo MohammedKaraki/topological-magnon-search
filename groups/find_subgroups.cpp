@@ -1,3 +1,5 @@
+#include "groups/find_subgroups.hpp"
+
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -14,7 +16,6 @@
 #include "Eigen/Dense"
 #include "fmt/core.h"
 
-#include "groups/find_subgroups.hpp"
 #include "range/v3/view.hpp"
 
 namespace magnon::diagnose2 {
@@ -602,8 +603,6 @@ void print_subgroups(const std::string &msg_num, std::string_view raw_input) {
 }  // namespace
 
 std::vector<magnon::groups::InducedMagneticSpaceGroup> find_subgroups(
-    const std::string &msg_number)
-{
-}
+    const std::string &msg_number) {}
 
 }  // namespace magnon::diagnose2

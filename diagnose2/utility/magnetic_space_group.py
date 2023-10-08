@@ -4,19 +4,33 @@ from magnon.diagnose2.utility.msg_info_table import (
     msg_gstrs_from_number,
 )
 
-from magnon.fetch.magnetic_band_representation import fetch_elementary_band_representations_for_group, fetch_kvectors_untested
+from magnon.fetch.magnetic_band_representation import (
+    fetch_elementary_band_representations_for_group,
+    fetch_kvectors_untested,
+)
+
+
 def kvectors_and_ebrs(args):
     assert False
+
+
 from magnon.fetch.compatibility_relations import fetch_compatibility_relations
+
+
 def comp_rels(args):
     assert False
+
+
 from magnon.fetch.utility.br import Br
 from magnon.fetch.utility.band import Band
 from magnon.fetch.utility.br import LittleIrrep
 from magnon.fetch.utility.general_position_utility import UnitaryGenpos
 from magnon.fetch.general_positions import fetch_unitary_general_positions
+
+
 def fetch_unitary_gs(args):
     assert False
+
 
 from magnon.diagnose2.utility.smith_normal_form import snf, intinv
 from magnon.diagnose2.utility.character_table import CharTable

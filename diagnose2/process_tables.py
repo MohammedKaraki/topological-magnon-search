@@ -1,6 +1,12 @@
-from magnon.fetch.magnetic_band_representation import fetch_atomic_band_representations_for_wyckoff_position
+from magnon.fetch.magnetic_band_representation import (
+    fetch_atomic_band_representations_for_wyckoff_position,
+)
+
+
 def fetch_wp_point_group_and_br(arg):
     assert False
+
+
 from magnon.fetch.antiunitarily_related_irreps import fetch_antiunitarily_related_irreps
 
 from magnon.diagnose2.utility.magnetic_space_group import Msg

@@ -1,14 +1,22 @@
 from magnon.diagnose2.utility.magnetic_space_group import Msg
 from magnon.fetch.utility.general_position_utility import UnitaryGenpos
-from magnon.fetch.magnetic_space_group_from_generators import fetch_magnetic_space_group_from_generators
+from magnon.fetch.magnetic_space_group_from_generators import (
+    fetch_magnetic_space_group_from_generators,
+)
+
+
 def identify_group(arg):
     assert False
+
+
 from magnon.fetch.utility.br import LittleIrrep
 
 from magnon.common.logger import create_logger
+
 logger = create_logger(__name__)
 
 import numpy as np
+
 
 class GroupSubgroupRelation:
     def __init__(self, super_msg, sub_msg_gstrs):

@@ -1,8 +1,12 @@
 import numpy as np
 
 from magnon.fetch.character_table import fetch_single_valued_unitary_character_table
+
+
 def character_table_info(args):
     assert False
+
+
 from magnon.fetch.utility.general_position_utility import UnitaryGenpos
 
 
