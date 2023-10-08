@@ -16,9 +16,8 @@
 #include "Eigen/Dense"
 #include "fmt/core.h"
 
-#include "range/v3/view.hpp"
-
 #include "groups/read_standard_magnetic_space_groups.hpp"
+#include "range/v3/view.hpp"
 
 namespace magnon::groups {
 
@@ -204,22 +203,6 @@ PointGroupElement::Data PointGroupElement::parse_gstr(std::string_view gstr) {
     return Data(m, u);
 }
 
-std::string preserved_gstrs(const std::vector<std::string> &gstrs, const std::vector<bool> &symm) {
-    assert(gstrs.size() == symm.size());
-
-    std::string result;
-
-    for (auto i = 0u; i < gstrs.size(); ++i) {
-        if (symm[i]) {
-            result += gstrs[i] + ';';
-        }
-    }
-
-    result.erase(result.size() - 1);
-
-    return result;
-}
-
 using Dirs = std::vector<std::pair<std::array<const int, 3>, const std::string>>;
 
 const std::string in_generic_direction = "in generic direction";
@@ -230,52 +213,52 @@ const Dirs tri_dirs = {
 
 const Dirs mono_dirs = {
     {{0, 0, 0}, ""},
-    {{0, 1, 0}, "$\\parallel [010]$"},
-    {{1, 0, 5}, "$\\perp [010]$"},
+    {{0, 1, 0}, "parallel [010]"},
+    {{1, 0, 5}, "perp [010]"},
     {{1, 9, 88}, in_generic_direction},
 };
 
 const Dirs ortho_dirs = {
     {{0, 0, 0}, ""},
-    {{1, 0, 0}, "$\\parallel [100]$"},
-    {{0, 1, 0}, "$\\parallel [010]$"},
-    {{0, 0, 1}, "$\\parallel [001]$"},
-    {{0, 1, 9}, "$\\perp [100]$"},
-    {{1, 0, 8}, "$\\perp [010]$"},
-    {{121, 3, 0}, "$\\perp [001]$"},
+    {{1, 0, 0}, "parallel [100]"},
+    {{0, 1, 0}, "parallel [010]"},
+    {{0, 0, 1}, "parallel [001]"},
+    {{0, 1, 9}, "perp [100]"},
+    {{1, 0, 8}, "perp [010]"},
+    {{121, 3, 0}, "perp [001]"},
     {{1, 9, 88}, in_generic_direction},
 };
 
 const Dirs tetra_dirs = {
     {{0, 0, 0}, ""},
-    {{0, 0, 1}, "$\\parallel [001]$"},
-    {{1, 0, 0}, "$\\parallel [100]$"},
-    {{1, 1, 0}, "$\\parallel [110]$"},
-    {{99, 1, 0}, "$\\perp [001]$"},
-    {{0, 8, 112}, "$\\perp [100]$"},
-    {{1, -1, 9}, "$\\perp [110]$"},
+    {{0, 0, 1}, "parallel [001]"},
+    {{1, 0, 0}, "parallel [100]"},
+    {{1, 1, 0}, "parallel [110]"},
+    {{99, 1, 0}, "perp [001]"},
+    {{0, 8, 112}, "perp [100]"},
+    {{1, -1, 9}, "perp [110]"},
     {{1, 9, 88}, in_generic_direction},
 };
 
 const Dirs hex_dirs = {
     {{0, 0, 0}, ""},
-    {{0, 0, 1}, "$\\parallel [001]$"},
-    {{1, 0, 0}, "$\\parallel [100]$"},
-    {{1, 1, 0}, "$\\parallel [110]$"},
-    {{99, 1, 0}, "$\\perp [001]$"},
-    {{1, 2, 112}, "$\\perp [100]$"},
-    {{-1, 1, 9}, "$\\perp [110]$"},
+    {{0, 0, 1}, "parallel [001]"},
+    {{1, 0, 0}, "parallel [100]"},
+    {{1, 1, 0}, "parallel [110]"},
+    {{99, 1, 0}, "perp [001]"},
+    {{1, 2, 112}, "perp [100]"},
+    {{-1, 1, 9}, "perp [110]"},
     {{1, 9, 88}, in_generic_direction},
 };
 
 const Dirs cubic_dirs = {
     {{0, 0, 0}, ""},
-    {{1, 0, 0}, "$\\parallel [100]$"},
-    {{1, 1, 0}, "$\\parallel [110]$"},
-    {{1, 1, 1}, "$\\parallel [111]$"},
-    {{0, 1, 77}, "$\\perp [100]$"},
-    {{1, -1, 77}, "$\\perp [110]$"},
-    {{97, 3, -100}, "$\\perp [111]$"},
+    {{1, 0, 0}, "parallel [100]"},
+    {{1, 1, 0}, "parallel [110]"},
+    {{1, 1, 1}, "parallel [111]"},
+    {{0, 1, 77}, "perp [100]"},
+    {{1, -1, 77}, "perp [110]"},
+    {{97, 3, -100}, "perp [111]"},
     {{1, 9, 288}, in_generic_direction},
 };
 
@@ -314,22 +297,6 @@ const Dirs &get_dirs(const std::string &msg_number) {
     }
 
     assert(false);
-}
-
-std::vector<std::string> raw_input_to_vector(std::string_view gstrs) {
-    std::vector<std::string> result;
-
-    using namespace ranges;
-    auto view = gstrs | views::split(std::string_view(";")) | views::transform([](auto &&rng) {
-                    return std::string_view(&*rng.begin(), distance(rng));
-                });
-
-    for (const auto gstr : view) {
-        result.emplace_back(gstr);
-    }
-
-    std::sort(result.begin(), result.end());
-    return result;
 }
 
 std::vector<bool> calc_symmetry(const std::vector<PointGroupElement> &gs, const auto &x) {
@@ -374,16 +341,16 @@ std::vector<bool> intersect(const std::vector<bool> &sym1,
     return result;
 }
 
-void print_subgroups(const std::string &msg_num, std::string_view raw_input) {
+std::vector<magnon::groups::InducedMagneticSpaceGroup> find_subgroups_impl(
+    const std::string &msg_number, const std::vector<std::string> &gstrs) {
 
-    const auto &dirs = get_dirs(msg_num);
+    const auto &dirs = get_dirs(msg_number);
 
     assert(dirs[0].first[0] == 0);
     assert(dirs[0].first[1] == 0);
     assert(dirs[0].first[2] == 0);
     assert(dirs[0].second == "");
 
-    auto gstrs = raw_input_to_vector(raw_input);
     auto gs = std::vector<PointGroupElement>{};
     gs.reserve(gstrs.size());
 
@@ -431,11 +398,11 @@ void print_subgroups(const std::string &msg_num, std::string_view raw_input) {
         std::vector<std::string> ands;
 
         if (int i = triplet[0]; i > 0) {
-            ands.push_back(textify_symms_singlet("$\\bm{E}$", e_symms[i].second));
+            ands.push_back(textify_symms_singlet("E", e_symms[i].second));
         }
 
         if (int i = triplet[1]; i > 0) {
-            ands.push_back(textify_symms_singlet("$\\bm{B}$", b_symms[i].second));
+            ands.push_back(textify_symms_singlet("B", b_symms[i].second));
         }
 
         if (int i = triplet[2]; i > 0) {
@@ -580,36 +547,42 @@ void print_subgroups(const std::string &msg_num, std::string_view raw_input) {
         }
     }
 
-    auto first_line = true;
+    std::vector<InducedMagneticSpaceGroup> result{};
     for (const auto &[symm, triplets] : ebs_symms) {
-        if (!first_line) {
-            std::cout << "\n";
-        } else {
-            first_line = false;
+        InducedMagneticSpaceGroup induced_group{};
+        induced_group.set_supergroup_number(msg_number);
+
+        for (auto i = 0u; i < gstrs.size(); ++i) {
+            if (symm[i]) {
+                induced_group.mutable_unbroken_standard_general_positions()
+                    ->add_general_position()
+                    ->set_coordinates_form(gstrs[i]);
+            }
         }
 
-        std::cout << fmt::format("?{}? ?", preserved_gstrs(gstrs, symm));
-        auto first = true;
         for (const auto &triplet : triplets) {
-            if (first) {
-                first = false;
-            } else {
-                std::cout << ";";
-            }
-            std::cout << textify_symms_triplet(triplet);
+            induced_group.add_perturbation_prescription(textify_symms_triplet(triplet));
         }
-        std::cout << "?";
+        result.push_back(std::move(induced_group));
     }
+
+    return result;
 }
 
 }  // namespace
 
 std::vector<magnon::groups::InducedMagneticSpaceGroup> find_subgroups(
-    const std::string &msg_number) {
-    const auto groups = groups::read_standard_magnetic_space_groups_from_disk();
-    fmt::print("{}\n", groups.group(1).generators().general_position(1).coordinates_form());
-    (void)print_subgroups;
-    return {};
+    const std::string &msg_number, const MagneticSpaceGroups &magnetic_space_groups) {
+    for (const auto &group : magnetic_space_groups.group()) {
+        if (group.number() == msg_number) {
+            std::vector<std::string> gstrs{};
+            for (const auto &general_position : group.generators().general_position()) {
+                gstrs.push_back(general_position.coordinates_form());
+            }
+            return find_subgroups_impl(msg_number, gstrs);
+        }
+    }
+    assert(false);
 }
 
-}  // namespace magnon::diagnose2
+}  // namespace magnon::groups
