@@ -1,12 +1,18 @@
 from magnon.diagnose2.utility.magnetic_space_group import Msg
 from magnon.fetch.utility.general_position_utility import UnitaryGenpos
 from magnon.fetch.magnetic_space_group_from_generators import (
-    fetch_magnetic_space_group_from_generators,
+    fetch_msg_from_generators,
 )
+from magnon.common.matrix_converter_py import matrix4d_from_proto
 
-
-def identify_group(arg):
-    assert False
+def identify_group(gstrs):
+    identified_msg = fetch_msg_from_generators(gstrs)
+    msg_number = identified_msg.number
+    import sys
+    print("WORTH CHCECKING THIS!!", file=sys.stderr)
+    to_standard = matrix4d_from_proto(identified_msg.current_from_standard_basis)
+    return {"group_number": msg_number,
+            "to_standard": to_standard}
 
 
 from magnon.fetch.utility.br import LittleIrrep

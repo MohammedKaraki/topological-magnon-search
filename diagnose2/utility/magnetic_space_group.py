@@ -6,19 +6,25 @@ from magnon.diagnose2.utility.msg_info_table import (
 
 from magnon.fetch.magnetic_band_representation import (
     fetch_elementary_band_representations_for_group,
-    fetch_kvectors_untested,
 )
 
 
-def kvectors_and_ebrs(args):
-    assert False
+def kvectors_and_ebrs(msg_number):
+    # only temporary while refactoring!!
+    # only temporary while refactoring!!
+    # only temporary while refactoring!!
+    from magnon.fetch.magnetic_band_representation import _kvectors_and_wp_to_site_irrep_to_br_map
+    return _kvectors_and_wp_to_site_irrep_to_br_map(msg_number)
 
 
 from magnon.fetch.compatibility_relations import fetch_compatibility_relations
 
 
-def comp_rels(args):
-    assert False
+def comp_rels(msg_number, kvector_type_label):
+    # only temporary while refactoring!!
+    from magnon.fetch.compatibility_relations import _comp_rels_impl
+    res0 = _comp_rels_impl(msg_number, kvector_type_label)
+    return [(a, "{}:{}".format(b, c), d) for a,b,c,d, in res0]
 
 
 from magnon.fetch.utility.br import Br
@@ -28,8 +34,9 @@ from magnon.fetch.utility.general_position_utility import UnitaryGenpos
 from magnon.fetch.general_positions import fetch_unitary_general_positions
 
 
-def fetch_unitary_gs(args):
-    assert False
+def fetch_unitary_gs(msg_number):
+    return [UnitaryGenpos.from_gstr(g.coordinates_form)for g in
+            fetch_unitary_general_positions(msg_number).general_position]
 
 
 from magnon.diagnose2.utility.smith_normal_form import snf, intinv

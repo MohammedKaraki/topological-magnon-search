@@ -383,8 +383,3 @@ def fetch_elementary_band_representations_for_group(msg_number):
             elementary_band_representations.append(elementary_band_representation)
 
     return elementary_band_representations
-
-
-def fetch_kvectors_untested(msg_number):
-    kvectors, _ = _kvectors_and_wp_to_site_irrep_to_br_map(msg_number)
-    return kvectors

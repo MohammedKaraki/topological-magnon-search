@@ -104,7 +104,7 @@ magnon_py_library(
     name = "lattice_type",
     srcs = ["lattice_type.py"],
     data = [
-        "//data:lattice_type_space_group_number",
+        "//data:lattice_type_table",
     ],
     deps = [
     ],

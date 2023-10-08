@@ -1,32 +1,37 @@
+import sys
+import json
+from collections import defaultdict
+
+
+from magnon.fetch.magnetic_space_group_from_generators import fetch_msg_from_generators
 from magnon.fetch.magnetic_band_representation import (
     fetch_atomic_band_representations_for_wyckoff_position,
 )
 
 
-def fetch_wp_point_group_and_br(arg):
-    assert False
-
-
 from magnon.fetch.antiunitarily_related_irreps import fetch_antiunitarily_related_irreps
+def antiunit_related_irreps(msg_number):
+    # only temporary until refactoring is complete
+    from magnon.fetch.antiunitarily_related_irreps import _antiunit_related_irreps_impl
+    return _antiunit_related_irreps_impl(msg_number)
 
 from magnon.diagnose2.utility.magnetic_space_group import Msg
 from magnon.diagnose2.utility.group_subgroup_relation import GroupSubgroupRelation
-
 from magnon.fetch.utility.br import LittleIrrep
-
 from magnon.diagnose2.utility.s_plus_irrep import s_plus_irrep_for_point_group
 
-import sys
-import json
-from collections import defaultdict
 
-from magnon.preprocess.all_subgroups import gstrs_and_presc_of_subgroups
-
-
-def posirrep_posbr_negirrep_negbr(msg_number, wp_label):
-    point_group, brs = fetch_wp_point_group_and_br(msg_number, wp_label)
-    irrep1, irrep2 = s_plus_irrep_for_point_group(point_group)
-    return irrep1, brs[irrep1].irreps, irrep2, brs[irrep2].irreps
+from magnon.groups.find_subgroups_py import find_subgroups
+from magnon.groups.read_standard_magnetic_space_groups_py import read_standard_msgs_from_disk
+def gstrs_and_presc_of_subgroups(msg_number):
+    standard_msgs = read_standard_msgs_from_disk()
+    subgroups_info = find_subgroups(msg_number, standard_msgs)
+    def get_gstrs(subgroup_info):
+        return [gp.coordinates_form for gp in
+                subgroup_info.unbroken_standard_general_positions.general_position]
+    def get_prescs(subgroup_info):
+        return [p for p in subgroup_info.perturbation_prescription]
+    return [(get_gstrs(sgi), get_prescs(sgi)) for sgi in subgroups_info]
 
 
 def k1_to_k2_to_irrep_to_lineirreps(msg):
@@ -58,27 +63,21 @@ def process_tables(msg_number, wp_label, subgroup_id):
 
     msg = Msg(msg_number)
 
-    magnon_site_irreps, magnon_band_irreps = sxsy_irreps_from_msg_and_wp(
-        msg_number, wp_label
-    )
+    brs_at_wp = fetch_atomic_band_representations_for_wyckoff_position(msg_number, wp_label)
+    point_group_label = brs_at_wp[0].atomic_orbital.wyckoff_position.site_symmetry_group_label
+    s_plus_irrep = s_plus_irrep_for_point_group(point_group_label)
 
-    output["super_irrep12wp_decomps_of_sxsy"] = msg.decompose_irreps_into_irrep12wps(
-        magnon_band_irreps
-    )
-    output["super_irrep1wp_to_irreps"] = msg.make_irrep1wp_to_irreps()
-    output["magnon_site_irreps"] = magnon_site_irreps
+    magnon_br_filtered = ([br for br in brs_at_wp if br.atomic_orbital.site_symmetry_irrep.label ==
+                 s_plus_irrep])
+    assert len(magnon_br_filtered) == 1
+    magnon_br = magnon_br_filtered[0]
 
-    posbrirrep, posbr, negbrirrep, negbr = posirrep_posbr_negirrep_negbr(
-        msg_number, wp_label
-    )
+    output["magnon_site_irreps"] = [s_plus_irrep, "LEFT_EMPTY"]
+    output["posbrsiteirrep"] = s_plus_irrep
+    output["posbrirreps"] = [irrep.label for irrep in magnon_br.kspace_little_irrep]
 
-    output["posbrsiteirrep"] = posbrirrep
-    output["posbrirreps"] = [x.label for x in posbr]
-    output["negbrsiteirrep"] = negbrirrep
-    output["negbrirreps"] = [x.label for x in negbr]
-
-    gstrs, presc = gstrs_and_presc_of_subgroups(msg)[subgroup_id]
-    msgs = SuperAndSubMsgs(msg, gstrs.split(";"))
+    gstrs, presc = gstrs_and_presc_of_subgroups(msg_number)[subgroup_id]
+    msgs = GroupSubgroupRelation(msg, gstrs)
 
     if len(msgs.sub_msg.si_orders) == 0:
         print(
@@ -97,7 +96,7 @@ def process_tables(msg_number, wp_label, subgroup_id):
         subksymbol_to_g_and_superksymbol[subkvec.symbol] = (str(g), superkvec.symbol)
     output["subk_to_g_and_superk"] = subksymbol_to_g_and_superksymbol
 
-    output["presc"] = presc
+    output["presc"] = ";".join(presc)
 
     superksymbols_having_maximal_subks = set([])
     for subksymbol, g_and_superksymbol in subksymbol_to_g_and_superksymbol.items():
@@ -190,7 +189,5 @@ def process_tables(msg_number, wp_label, subgroup_id):
     print(output["super_to_sub"], file=sys.stderr)
     out_filename = r"{}-{}-{}.json".format(msg_number, wp_label, subgroup_id)
 
-    with open(json_output_dir() + "/" + out_filename, "w") as f:
-        json.dump(output, f, indent=4)
-
     print("Finished successfully. Quitting ...", file=sys.stderr)
+    return output

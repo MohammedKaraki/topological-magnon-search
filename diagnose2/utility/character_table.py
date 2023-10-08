@@ -3,8 +3,15 @@ import numpy as np
 from magnon.fetch.character_table import fetch_single_valued_unitary_character_table
 
 
-def character_table_info(args):
-    assert False
+def character_table_info(msg_number, kvector_type_label):
+    # only temporary until refactoring is complete
+    # only temporary until refactoring is complete
+    # only temporary until refactoring is complete
+    from magnon.fetch.character_table import _char_table_info
+    a, b, c = _char_table_info(msg_number, kvector_type_label)
+    b = ["{}({})".format(ba, bb) for ba, bb in b]
+    return a, b, c
+
 
 
 from magnon.fetch.utility.general_position_utility import UnitaryGenpos
@@ -15,7 +22,7 @@ class CharTable:
         self._msg = msg
         self._kvector = kvector
 
-        self._irrep_labels, self._unitary_gs, self._char_matrix = char_table_info(
+        self._unitary_gs, self._irrep_labels, self._char_matrix = character_table_info(
             msg.number, self._kvector.symbol
         )
 
@@ -48,11 +55,11 @@ class CharTable:
             for idx, h in enumerate(self.unitary_gs)
             if np.all(h.mat4x4[:3, :3] == g.mat4x4[:3, :3])
         ]
-        assert len(almostequivs) == 2
-        assert almostequivs[0][1] == almostequivs[1][1]
+        assert len(almostequivs) == 1, almostequivs
+        # assert almostequivs[0][1] == almostequivs[1][1]
 
         # the two almost equivalent are different by 2pi rotation (double group)
-        assert almostequivs[1][0] - almostequivs[0][0] == len(self.unitary_gs) / 2
+        # assert almostequivs[1][0] - almostequivs[0][0] == len(self.unitary_gs) / 2
 
         def g_to_translation_vec3(g):
             assert np.all(g.mat4x4[:3, :3] == np.eye(3))

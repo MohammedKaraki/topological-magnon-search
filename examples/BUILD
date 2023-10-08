@@ -17,8 +17,6 @@ magnon_py_binary(
     srcs = ["main.py"],
     main = "main.py",
     deps = [
-        "//fetch:magnetic_space_group_from_generators",
-        "//groups:find_subgroups_py",
-        "//groups:read_standard_magnetic_space_groups_py",
+        "//diagnose2:process_tables",
     ],
 )

@@ -1,5 +1,6 @@
 import numpy as np
 from magnon.diagnose2.utility.lattice_type import lattice_type_for_group_number
+from magnon.fetch.general_positions import fetch_unitary_general_positions
 from magnon.fetch.utility.general_position_utility import unitary_gstr_to_mat4x4
 
 
@@ -58,14 +59,13 @@ def find_primvecsmat_method1(msg_number):
 
 
 def find_primvecsmat_method2(msg_number):
-    from magnon.preprocess.genpos import fetch_gdicts
 
     result = np.eye(3)
 
     next_col = 0
     zero_translation_already_found = False
-    for g in fetch_gdicts(msg_number)["unitary"]:
-        pres = unitary_gstr_to_mat4x4(g["str"])
+    for g in fetch_unitary_general_positions(msg_number).general_position:
+        pres = unitary_gstr_to_mat4x4(g.coordinates_form)
         if (pres[:3, :3] == np.eye(3)).all():
             translation = pres[:3, 3]
             if (translation == np.zeros(3)).all():
