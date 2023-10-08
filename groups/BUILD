@@ -1,7 +1,9 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//build:defs.bzl", "magnon_proto_library")
-
+load("//build:defs.bzl", "magnon_proto_library",
+"magnon_cc_library",
+"magnon_cc_test",
+     )
 magnon_proto_library(
     name = "atomic_orbital_proto",
     srcs = ["atomic_orbital.proto"],
@@ -47,5 +49,26 @@ magnon_proto_library(
     srcs = ["compatibility_relations.proto"],
     deps = [
         ":atomic_orbital_proto",
+    ],
+)
+
+magnon_cc_library(
+    name = "find_subgroups",
+    hdrs = ["find_subgroups.hpp"],
+     srcs= ["find_subgroups.cpp"],
+    deps = [
+        ":induced_magnetic_space_group_proto_cc",
+        "@eigen",
+        "@fmt",
+        "@range_v3//:range-v3",
+    ],
+)
+
+magnon_cc_test(
+    name = "find_subgroups_test",
+    srcs = ["find_subgroups_test.hpp"],
+    deps = [
+        ":find_subgroups",
+        "@gtest//:gtest_main",
     ],
 )
