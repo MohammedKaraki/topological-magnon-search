@@ -111,3 +111,7 @@ message MagneticSpaceGroup {
     // List of irrep pairs related by an anti-unitary symmetry only.
     optional AntiunitarilyRelatedIrrepPairs antiunitarily_related_irrep_pairs = 12;
 }
+
+message MagneticSpaceGroups {
+    repeated MagneticSpaceGroup group = 1;
+}
