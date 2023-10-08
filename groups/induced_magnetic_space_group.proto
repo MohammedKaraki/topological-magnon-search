@@ -11,7 +11,10 @@ message InducedMagneticSpaceGroup {
     // The magnetic space group number of the supergroup.
     optional string supergroup_number = 1;
 
-    optional MagneticSpaceGroup subgroup = 2;
+    optional string subgroup_number = 2;
+
+    // Standard general positions of the base MSG which are unbroken by the perturbation.
+    optional GeneralPositions unbroken_standard_general_positions = 5;
 
     // In general, the standard translations and origin of the subgroup do not match
     // those of the supergroup. The two standard bases are related by this field.
