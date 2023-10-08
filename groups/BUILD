@@ -5,6 +5,7 @@ load(
     "magnon_cc_library",
     "magnon_cc_test",
     "magnon_proto_library",
+    "magnon_pybind_library",
 )
 
 magnon_proto_library(
@@ -87,5 +88,29 @@ magnon_cc_test(
     deps = [
         ":find_subgroups",
         "@gtest//:gtest_main",
+    ],
+)
+
+magnon_pybind_library(
+    name = "find_subgroups_py",
+    srcs = ["find_subgroups_py.cpp"],
+    py_deps = [
+        ":induced_magnetic_space_group_proto_py",
+    ],
+    deps = [
+        ":find_subgroups",
+        "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
+    ],
+)
+
+magnon_pybind_library(
+    name = "read_standard_magnetic_space_groups_py",
+    srcs = ["read_standard_magnetic_space_groups_py.cpp"],
+    py_deps = [
+        ":magnetic_space_group_proto_py",
+    ],
+    deps = [
+        ":read_standard_magnetic_space_groups",
+        "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
     ],
 )

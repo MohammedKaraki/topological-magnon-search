@@ -7,6 +7,7 @@ from magnon.common.logger import create_logger
 from magnon.fetch.utility.general_position_utility import is_valid_transform
 from magnon.groups.magnetic_space_group_pb2 import (
     MagneticSpaceGroup as MagneticSpaceGroupProto,
+    GeneralPositions as GeneralPositionsProto,
 )
 from magnon.common.matrix_converter_py import matrix4d_to_proto
 
@@ -103,7 +104,9 @@ def _identify_group(gstrs):
     return {"group_label": label, "group_number": number, "to_standard": to_standard}
 
 
-def fetch_magnetic_space_group_from_generators(generators: List[str]):
+def fetch_msg_from_generators(generators: List[str] | GeneralPositionsProto):
+    if isinstance(generators, GeneralPositionsProto):
+        generators = [gp.coordinates_form for gp in generators.general_position]
     attrs = _identify_group(generators)
     current_from_standard = matrix4d_to_proto(attrs["to_standard"])
     return MagneticSpaceGroupProto(
