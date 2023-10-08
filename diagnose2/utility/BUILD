@@ -23,14 +23,14 @@ magnon_py_library(
     srcs = ["magnetic_space_group.py"],
     deps = [
         ":msg_info_table",
-        "//fetch:magnetic_band_representation",
+        "//diagnose2/utility:character_table",
+        "//diagnose2/utility:lattice_type",
+        "//diagnose2/utility:primitive_vectors",
+        "//diagnose2/utility:smith_normal_form",
         "//fetch:compatibility_relations",
         "//fetch:general_positions",
+        "//fetch:magnetic_band_representation",
         "//fetch/utility:general_position_utility",
-        "//diagnose2/utility:smith_normal_form",
-        "//diagnose2/utility:character_table",
-        "//diagnose2/utility:primitive_vectors",
-        "//diagnose2/utility:lattice_type",
     ],
 )
 
@@ -86,6 +86,7 @@ magnon_py_test(
     srcs = ["character_table_test.py"],
     deps = [":character_table"],
 )
+
 magnon_py_library(
     name = "primitive_vectors",
     srcs = ["primitive_vectors.py"],
@@ -98,11 +99,12 @@ magnon_py_test(
     srcs = ["primitive_vectors_test.py"],
     deps = [":primitive_vectors"],
 )
+
 magnon_py_library(
     name = "lattice_type",
     srcs = ["lattice_type.py"],
     data = [
-        "//data:lattice_type_space_group_number"
+        "//data:lattice_type_space_group_number",
     ],
     deps = [
     ],
@@ -113,15 +115,16 @@ magnon_py_test(
     srcs = ["lattice_type_test.py"],
     deps = [":lattice_type"],
 )
+
 magnon_py_library(
     name = "group_subgroup_relation",
     srcs = ["group_subgroup_relation.py"],
     deps = [
-        "//diagnose2/utility:magnetic_space_group",
-        "//fetch/utility:general_position_utility",
-        "//fetch/utility:br",
         "//common:logger",
+        "//diagnose2/utility:magnetic_space_group",
         "//fetch:magnetic_space_group_from_generators",
+        "//fetch/utility:br",
+        "//fetch/utility:general_position_utility",
     ],
 )
 

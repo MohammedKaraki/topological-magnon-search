@@ -19,17 +19,16 @@ magnon_proto_library(
     ],
 )
 
-
 magnon_py_library(
     name = "process_tables",
     srcs = ["process_tables.py"],
     deps = [
-    "//diagnose2/utility:magnetic_space_group",
-    "//fetch/utility:br",
-        "//fetch:magnetic_band_representation",
-        "//fetch:antiunitarily_related_irreps",
         "//diagnose2/utility:group_subgroup_relation",
+        "//diagnose2/utility:magnetic_space_group",
         "//diagnose2/utility:s_plus_irrep",
+        "//fetch:antiunitarily_related_irreps",
+        "//fetch:magnetic_band_representation",
+        "//fetch/utility:br",
     ],
 )
 
