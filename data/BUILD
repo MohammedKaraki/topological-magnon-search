@@ -1,11 +1,13 @@
+package(default_visibility = ["//visibility:public"])
+
 filegroup(
-    name = "msgnumber_label_si_genpos",
-    srcs = ["msgnumber_label_si_genpos.txt"],
+    name = "msg_info_table",
+    srcs = ["msg_number_label_si_genpos.txt"],
     visibility = ["//visibility:public"],
 )
 
 filegroup(
-    name = "latticetype_spacegroupnumber",
-    srcs = ["latticetype_spacegroupnumber.txt"],
+    name = "lattice_type_space_group_number",
+    srcs = ["lattice_type_space_group_number.txt"],
     visibility = ["//visibility:public"],
 )
