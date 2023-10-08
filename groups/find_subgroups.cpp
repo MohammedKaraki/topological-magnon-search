@@ -18,7 +18,9 @@
 
 #include "range/v3/view.hpp"
 
-namespace magnon::diagnose2 {
+#include "groups/read_standard_magnetic_space_groups.hpp"
+
+namespace magnon::groups {
 
 namespace {
 
@@ -603,6 +605,11 @@ void print_subgroups(const std::string &msg_num, std::string_view raw_input) {
 }  // namespace
 
 std::vector<magnon::groups::InducedMagneticSpaceGroup> find_subgroups(
-    const std::string &msg_number) {}
+    const std::string &msg_number) {
+    const auto groups = groups::read_standard_magnetic_space_groups_from_disk();
+    fmt::print("{}\n", groups.group(1).generators().general_position(1).coordinates_form());
+    (void)print_subgroups;
+    return {};
+}
 
 }  // namespace magnon::diagnose2
