@@ -32,10 +32,9 @@ magnon_proto_library(
 )
 
 magnon_proto_library(
-    name = "magnetic_kvector_type_proto",
-    srcs = ["magnetic_kvector_type.proto"],
+    name = "kvector_proto",
+    srcs = ["kvector_proto.proto"],
     deps = [
-        ":magnetic_space_group_proto",
     ],
 )
 

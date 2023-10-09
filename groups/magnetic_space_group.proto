@@ -2,6 +2,7 @@ syntax = "proto2";
 
 import "common/matrix.proto";
 import "groups/atomic_orbital.proto";
+import "groups/kvector.proto";
 
 package magnon.groups;
 
@@ -110,6 +111,11 @@ message MagneticSpaceGroup {
 
     // List of irrep pairs related by an anti-unitary symmetry only.
     optional AntiunitarilyRelatedIrrepPairs antiunitarily_related_irrep_pairs = 12;
+
+    // List of k-vector representatives of the k-stars.
+    repeated KVector kvector = 13;
+
+    repeated CompatibilityRelation compatibility_relation = 14;
 }
 
 message MagneticSpaceGroups {

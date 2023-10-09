@@ -6,7 +6,10 @@ from magnon.fetch.magnetic_space_group_from_generators import fetch_msg_from_gen
 from magnon.diagnose2.process_tables import process_tables
 import json
 
+from magnon.common.logger import create_root_logger
+
 def main():
+    create_root_logger()
     print(json.dumps(process_tables("205.33", "4a", 2)))
     pass
 

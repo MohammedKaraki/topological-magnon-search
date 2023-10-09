@@ -35,7 +35,7 @@ from magnon.fetch.general_positions import fetch_unitary_general_positions
 
 
 def fetch_unitary_gs(msg_number):
-    return [UnitaryGenpos.from_gstr(g.coordinates_form)for g in
+    return [UnitaryGenpos.from_gstr(g.coordinates_form, seitz=g.seitz_form)for g in
             fetch_unitary_general_positions(msg_number).general_position]
 
 

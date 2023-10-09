@@ -12,6 +12,8 @@ from magnon.fetch.magnetic_band_representation import (
 from magnon.fetch.antiunitarily_related_irreps import fetch_antiunitarily_related_irreps
 def antiunit_related_irreps(msg_number):
     # only temporary until refactoring is complete
+    # only temporary until refactoring is complete
+    # only temporary until refactoring is complete
     from magnon.fetch.antiunitarily_related_irreps import _antiunit_related_irreps_impl
     return _antiunit_related_irreps_impl(msg_number)
 
@@ -24,6 +26,9 @@ from magnon.diagnose2.utility.s_plus_irrep import s_plus_irrep_for_point_group
 from magnon.groups.find_subgroups_py import find_subgroups
 from magnon.groups.read_standard_magnetic_space_groups_py import read_standard_msgs_from_disk
 def gstrs_and_presc_of_subgroups(msg_number):
+    # only temporary until refactoring is complete
+    # only temporary until refactoring is complete
+    # only temporary until refactoring is complete
     standard_msgs = read_standard_msgs_from_disk()
     subgroups_info = find_subgroups(msg_number, standard_msgs)
     def get_gstrs(subgroup_info):
@@ -101,13 +106,6 @@ def process_tables(msg_number, wp_label, subgroup_id):
     superksymbols_having_maximal_subks = set([])
     for subksymbol, g_and_superksymbol in subksymbol_to_g_and_superksymbol.items():
         superksymbols_having_maximal_subks.add(g_and_superksymbol[1])
-
-    # output["band_super_irreps"] = [x.label
-    #                                for x in magnon_irreps_from_msg_and_wp(
-    #                                    msg_number, wp_label)
-    #                                if x.ksymbol
-    #                                in superksymbols_having_maximal_subks
-    #                                ]
 
     output["super_msg_label"] = msgs.super_msg.label
     output["super_msg_number"] = msgs.super_msg.number

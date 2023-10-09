@@ -5,15 +5,15 @@ import "groups/magnetic_space_group.proto";
 
 package magnon.groups;
 
-// InducedMagneticSpaceGroup represents a magnetic space group that was obtained
+// GroupSubgroupRelation represents a magnetic space group that was obtained
 // via the application of perturbations to a magnetic space (super)group.
-message InducedMagneticSpaceGroup {
+message GroupSubgroupRelation {
     // The magnetic space group number of the supergroup.
     optional string supergroup_number = 1;
 
     optional string subgroup_number = 2;
-
     // Standard general positions of the base MSG which are unbroken by the perturbation.
+
     optional GeneralPositions unbroken_standard_general_positions = 5;
 
     // In general, the standard translations and origin of the subgroup do not match
@@ -30,4 +30,32 @@ message InducedMagneticSpaceGroup {
     // "B field \perb [100] and  strain \parallel [101]"
     //
     repeated string perturbation_prescription = 4;
+
+    // IrrepRelation describes
+    //
+    //      * How the k-vectors in the supergroup and in the subgroup are related, and
+    //
+    //      * How the supergroup irreps on these k-vectors are decomposed into
+    //        irreps of the subgroup at the corresponding subgroup k-vectors.
+    //
+    message IrrepRelation {
+        optional Irrep supergroup_irrep = 2;
+
+        optional KVector supergroup_kvector = 1;
+
+        message SubgroupIrrepDecomposition {
+            optional KVector subgroup_kvector = 1;
+
+            // The supergroup element which acts on the supergroup k-vector to make it
+            // equal to the subgroup k-vector.
+            optional GeneralPosition operation_on_supergroup_kvector = 2;
+
+            // The decomposition of the supergroup irrep into irreps of the subgroup.
+            repeated Irrep subgroup_irrep;
+        }
+
+        repeated SubgroupIrrepDecomposition subgroup_irrep_decomposition = 3;
+    }
+
+    repeated IrrepRelation irrep_relation = 6;
 }
