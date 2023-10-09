@@ -21,7 +21,7 @@ message GroupSubgroupRelation {
 
     // In general, the standard translations and origin of the subgroup do not match
     // those of the supergroup. The two standard bases are related by this field.
-    optional magnon.common.Matrix4d supergroup_from_subgroup_standard_basis_columns = 3;
+    optional magnon.common.Matrix4d supergroup_from_subgroup_standard_basis = 3;
 
     // A human-readable description of perturbations that induce the subgroup
     // from supergroup.

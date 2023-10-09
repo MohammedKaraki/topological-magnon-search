@@ -23,6 +23,7 @@ magnon_py_library(
     name = "process_tables",
     srcs = ["process_tables.py"],
     deps = [
+        ":perturbed_band_structure_proto_py",
         "//diagnose2/utility:group_subgroup_relation",
         "//diagnose2/utility:magnetic_space_group",
         "//diagnose2/utility:s_plus_irrep",
@@ -31,7 +32,6 @@ magnon_py_library(
         "//fetch/utility:br",
         "//groups:find_subgroups_py",
         "//groups:read_standard_magnetic_space_groups_py",
-        ":perturbed_band_structure_proto_py",
     ],
 )
 

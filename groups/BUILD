@@ -29,9 +29,9 @@ magnon_proto_library(
     srcs = ["group_subgroup_relation.proto"],
     deps = [
         ":atomic_orbital_proto",
+        ":compatibility_relations_proto",
         ":kvector_proto",
         ":magnetic_space_group_proto",
-        ":compatibility_relations_proto",
         "//common:matrix_proto",
     ],
 )

@@ -2,7 +2,6 @@ from magnon.fetch.utility.cached_requests import cached_post
 from magnon.groups.atomic_orbital_pb2 import Irrep as IrrepProto
 from magnon.groups.compatibility_relations_pb2 import (
     CompatibilityRelation as CompatibilityRelationProto,
-    CompatibilityRelations as CompatibilityRelationsProto,
 )
 
 from bs4 import BeautifulSoup as bs
@@ -113,20 +112,21 @@ def _comp_rels_impl(group_number, ksymbol):
     return result
 
 
-def fetch_compatibility_relations(msg_number: str, kvector_type_label: str):
-    relations = CompatibilityRelationsProto()
+def fetch_compatibility_relations(msg_number: str, kvector_star_label: str):
+    relations = []
     for lhs_irrep, klabel, kcoords, rhs_irreps in _comp_rels_impl(
-        msg_number, kvector_type_label
+        msg_number, kvector_star_label
     ):
         relation = CompatibilityRelationProto()
         relation.decomposition.supergroup_irrep.CopyFrom(
             IrrepProto(label=lhs_irrep.label, dimension=lhs_irrep.dim)
         )
+        relation.point_kvector.star.label = kvector_star_label
         relation.line_kvector.star.label = klabel
         relation.line_kvector.coordinates = kcoords
         for rhs_irrep in rhs_irreps:
             relation.decomposition.subgroup_irrep.append(
                 IrrepProto(label=rhs_irrep.label, dimension=rhs_irrep.dim)
             )
-        relations.relation.append(relation)
+        relations.append(relation)
     return relations
