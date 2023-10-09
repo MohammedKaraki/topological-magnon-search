@@ -2,7 +2,7 @@ syntax = "proto2";
 
 import "groups/atomic_orbital.proto";
 import "groups/magnetic_space_group.proto";
-import "groups/induced_magnetic_space_group.proto";
+import "groups/group_subgroup_relation.proto";
 
 package magnon.diagnose2;
 
@@ -10,10 +10,13 @@ package magnon.diagnose2;
 // magnon search algorithm.
 message PerturbedBandStructure {
     // The original magnetic space group prior to external perturbations.
-    optional magnon.groups.MagneticSpaceGroup base_group = 1;
+    optional magnon.groups.MagneticSpaceGroup supergroup = 1;
+
+    // The subgroup after perturbations.
+    optional magnon.groups.MagneticSpaceGroup subgroup = 5;
 
     // The magnetic space group resulting from applying symmetry-breaking perturbations.
-    optional magnon.groups.InducedMagneticSpaceGroup induced_subgroup = 2;
+    optional magnon.groups.GroupSubgroupRelation group_subgroup_relation = 2;
 
     // The irreducible (co-)representation content of the bands in the unbroken magnetic space
     // group.

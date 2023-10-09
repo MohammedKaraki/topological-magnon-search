@@ -21,6 +21,27 @@ magnon_proto_library(
 )
 
 magnon_cc_library(
+    name = "analyze_perturbed_band_structure",
+    srcs = ["analyze_perturbed_band_structure.cpp"],
+    hdrs = ["analyze_perturbed_band_structure.hpp"],
+    deps = [
+        ":perturbed_band_structure_proto_cc",
+        # ":irreps",
+        # ":k_path",
+        # ":latexify",
+        # ":ostream_utility",
+        # ":physics_and_chemistry",
+        ":si_summary",
+        ":spectrum_data",
+        # ":utility",
+        # ":visualize",
+        # "//config:config_proto_cc",
+        "@fmt",
+        # "@nlohmann_json//:json",
+    ],
+)
+
+magnon_cc_library(
     name = "si_summary",
     hdrs = ["si_summary.hpp"],
     deps = [
