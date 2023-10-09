@@ -6,8 +6,8 @@ magnon_cc_binary(
     name = "main",
     srcs = ["main.cpp"],
     deps = [
-        "//config:read_global_config",
-        "@boost//:filesystem",
+        "//common:proto_text_format",
+        "//diagnose2:analyze_perturbed_band_structure",
         "@fmt",
     ],
 )
@@ -17,8 +17,6 @@ magnon_py_binary(
     srcs = ["main.py"],
     main = "main.py",
     deps = [
-        "//fetch:magnetic_space_group_from_generators",
-        "//groups:find_subgroups_py",
-        "//groups:read_standard_magnetic_space_groups_py",
+        "//diagnose2:process_tables",
     ],
 )
