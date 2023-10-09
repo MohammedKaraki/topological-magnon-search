@@ -350,9 +350,7 @@ def fetch_atomic_band_representations_for_wyckoff_position(
 
 
 def fetch_elementary_band_representations_for_group(msg_number):
-    kvectors, wp_to_site_irrep_to_br_map = _kvectors_and_wp_to_site_irrep_to_br_map(
-        msg_number
-    )
+    _, wp_to_site_irrep_to_br_map = _kvectors_and_wp_to_site_irrep_to_br_map(msg_number)
 
     elementary_band_representations = []
 
