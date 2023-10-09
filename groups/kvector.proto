@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+package magnon.groups;
+
+message KVectorStar {
+    // Vector type label, such as "GM", "M", or "X".
+    optional string label = 1;
+
+    // Coordinates of the vectors of the star. For examples:
+    // ["(0,v,0)", "(0,-v,0)", "(v,0,0)", "(-v,0,0)", "(0,0,v)", "(0,0,-v)"]
+    repeated string coordinates = 2;
+
+    // Label of the magnetic little co-group.
+    optional string little_cogroup_label = 3;
+}
+
+message KVector {
+    // Coordinates of the k-vector. E.g., "(0,v,0)".
+    optional string coordinates = 1;
+
+    // The star to which the k-vector belongs.
+    optional KVectorStar star = 2;
+}

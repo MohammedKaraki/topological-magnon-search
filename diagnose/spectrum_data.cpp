@@ -170,9 +170,8 @@ static void from_json(const json &j, SpectrumData &data) {
 
     j["posbrsiteirrep"].get_to(data.pos_neg_siteirreps.first);
     j["posbrirreps"].get_to(data.pos_neg_magnonirreps.first);
-    j["negbrsiteirrep"].get_to(data.pos_neg_siteirreps.second);
-    j["negbrirreps"].get_to(data.pos_neg_magnonirreps.second);
-
+    // j["negbrsiteirrep"].get_to(data.pos_neg_siteirreps.second);
+    // j["negbrirreps"].get_to(data.pos_neg_magnonirreps.second);
     j["super_msg_label"].get_to(data.super_msg.label);
     j["super_msg_number"].get_to(data.super_msg.number);
     j["super_msg_irreps"].get_to(data.super_msg.irreps);
@@ -202,7 +201,6 @@ static void from_json(const json &j, SpectrumData &data) {
         }
         data.presc.push_back(presc_str.substr(last));
     }
-
     j["super_msg_ks"].get_to(data.super_msg.ks);
     j["sub_msg_ks"].get_to(data.sub_msg.ks);
 
@@ -267,10 +265,10 @@ static void from_json(const json &j, SpectrumData &data) {
     //                            subirreps.cbegin(),
     //                            subirreps.cend());
     // }
-    j["super_irrep12wp_decomps_of_sxsy"].get_to(data.super_irrep12wp_decomps_of_sxsy);
 
-    j["super_irrep1wp_to_irreps"].get_to(data.super_irrep1wp_to_irreps);
+    // j["super_irrep12wp_decomps_of_sxsy"].get_to(data.super_irrep12wp_decomps_of_sxsy);
 
+    // j["super_irrep1wp_to_irreps"].get_to(data.super_irrep1wp_to_irreps);
     j["super_to_sub"].get_to(data.super_to_sub);
 
     for (const auto &[subk, superirrep_to_subirreps] : data.subk_to_superirrep_to_subirreps) {
