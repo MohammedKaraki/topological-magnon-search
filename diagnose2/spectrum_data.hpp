@@ -10,6 +10,7 @@
 #include "Eigen/Core"
 
 #include "common/comparable.hpp"
+#include "diagnose2/perturbed_band_structure.pb.h"
 #include "utility.hpp"
 
 namespace magnon::diagnose2 {
@@ -17,6 +18,9 @@ namespace magnon::diagnose2 {
 class Bag;
 
 struct SpectrumData {
+    SpectrumData() = default;
+    SpectrumData(const PerturbedBandStructure &spectrum);
+
     struct Msg {
         std::string label, number;
 

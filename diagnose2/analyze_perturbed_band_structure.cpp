@@ -33,7 +33,13 @@ std::string si_to_str(const MatrixInt &si) {
 void analyze_perturbed_band_structure(const PerturbedBandStructure &structure) {
     SpectrumData data(structure);
 
-    const auto &positive_energy_irreps = structure.base_kspace_little_irrep;
+    const auto &positive_energy_irreps = [&]() {
+        std::vector<std::string> result{};
+        for (const auto &irrep : structure.base_kspace_little_irrep()) {
+            result.push_back(irrep.label());
+        }
+        return result;
+    }();
     auto superband = Superband(positive_energy_irreps, data);
     superband.fix_antiunit_rels();
 

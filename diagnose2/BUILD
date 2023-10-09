@@ -78,6 +78,7 @@ magnon_cc_library(
     srcs = ["spectrum_data.cpp"],
     hdrs = ["spectrum_data.hpp"],
     deps = [
+        ":perturbed_band_structure_proto_cc",
         ":utility",
         "//common:comparable",
         "@eigen",

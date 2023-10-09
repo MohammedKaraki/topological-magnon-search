@@ -6,8 +6,8 @@ magnon_cc_binary(
     name = "main",
     srcs = ["main.cpp"],
     deps = [
-        "//config:read_global_config",
-        "@boost//:filesystem",
+        "//common:proto_text_format",
+        "//diagnose2:analyze_perturbed_band_structure",
         "@fmt",
     ],
 )
