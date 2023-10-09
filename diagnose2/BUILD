@@ -20,6 +20,30 @@ magnon_proto_library(
     ],
 )
 
+magnon_py_library(
+    name = "process_tables",
+    srcs = ["process_tables.py"],
+    deps = [
+        ":perturbed_band_structure_proto_py",
+        "//diagnose2/utility:group_subgroup_relation",
+        "//diagnose2/utility:magnetic_space_group",
+        "//diagnose2/utility:s_plus_irrep",
+        "//fetch:antiunitarily_related_irreps",
+        "//fetch:magnetic_band_representation",
+        "//fetch/utility:br",
+        "//groups:find_subgroups_py",
+        "//groups:read_standard_magnetic_space_groups_py",
+    ],
+)
+
+magnon_py_test(
+    name = "process_tables_test",
+    srcs = ["process_tables_test.py"],
+    deps = [
+        ":process_tables",
+    ],
+)
+
 magnon_cc_library(
     name = "analyze_perturbed_band_structure",
     srcs = ["analyze_perturbed_band_structure.cpp"],
