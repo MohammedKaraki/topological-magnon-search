@@ -2,6 +2,8 @@ syntax = "proto2";
 
 import "common/matrix.proto";
 import "groups/magnetic_space_group.proto";
+import "groups/kvector.proto";
+import "groups/atomic_orbital.proto";
 
 package magnon.groups;
 
@@ -39,9 +41,9 @@ message GroupSubgroupRelation {
     //        irreps of the subgroup at the corresponding subgroup k-vectors.
     //
     message IrrepRelation {
-        optional Irrep supergroup_irrep = 2;
+        optional Irrep supergroup_irrep = 1;
 
-        optional KVector supergroup_kvector = 1;
+        optional KVector supergroup_kvector = 2;
 
         message SubgroupIrrepDecomposition {
             optional KVector subgroup_kvector = 1;
@@ -51,7 +53,7 @@ message GroupSubgroupRelation {
             optional GeneralPosition operation_on_supergroup_kvector = 2;
 
             // The decomposition of the supergroup irrep into irreps of the subgroup.
-            repeated Irrep subgroup_irrep;
+            repeated Irrep subgroup_irrep = 3;
         }
 
         repeated SubgroupIrrepDecomposition subgroup_irrep_decomposition = 3;

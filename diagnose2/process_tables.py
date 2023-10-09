@@ -10,12 +10,16 @@ from magnon.fetch.magnetic_band_representation import (
 
 
 from magnon.fetch.antiunitarily_related_irreps import fetch_antiunitarily_related_irreps
+
+
 def antiunit_related_irreps(msg_number):
     # only temporary until refactoring is complete
     # only temporary until refactoring is complete
     # only temporary until refactoring is complete
     from magnon.fetch.antiunitarily_related_irreps import _antiunit_related_irreps_impl
+
     return _antiunit_related_irreps_impl(msg_number)
+
 
 from magnon.diagnose2.utility.magnetic_space_group import Msg
 from magnon.diagnose2.utility.group_subgroup_relation import GroupSubgroupRelation
@@ -24,18 +28,27 @@ from magnon.diagnose2.utility.s_plus_irrep import s_plus_irrep_for_point_group
 
 
 from magnon.groups.find_subgroups_py import find_subgroups
-from magnon.groups.read_standard_magnetic_space_groups_py import read_standard_msgs_from_disk
+from magnon.groups.read_standard_magnetic_space_groups_py import (
+    read_standard_msgs_from_disk,
+)
+
+
 def gstrs_and_presc_of_subgroups(msg_number):
     # only temporary until refactoring is complete
     # only temporary until refactoring is complete
     # only temporary until refactoring is complete
     standard_msgs = read_standard_msgs_from_disk()
     subgroups_info = find_subgroups(msg_number, standard_msgs)
+
     def get_gstrs(subgroup_info):
-        return [gp.coordinates_form for gp in
-                subgroup_info.unbroken_standard_general_positions.general_position]
+        return [
+            gp.coordinates_form
+            for gp in subgroup_info.unbroken_standard_general_positions.general_position
+        ]
+
     def get_prescs(subgroup_info):
         return [p for p in subgroup_info.perturbation_prescription]
+
     return [(get_gstrs(sgi), get_prescs(sgi)) for sgi in subgroups_info]
 
 
@@ -68,12 +81,19 @@ def process_tables(msg_number, wp_label, subgroup_id):
 
     msg = Msg(msg_number)
 
-    brs_at_wp = fetch_atomic_band_representations_for_wyckoff_position(msg_number, wp_label)
-    point_group_label = brs_at_wp[0].atomic_orbital.wyckoff_position.site_symmetry_group_label
+    brs_at_wp = fetch_atomic_band_representations_for_wyckoff_position(
+        msg_number, wp_label
+    )
+    point_group_label = brs_at_wp[
+        0
+    ].atomic_orbital.wyckoff_position.site_symmetry_group_label
     s_plus_irrep = s_plus_irrep_for_point_group(point_group_label)
 
-    magnon_br_filtered = ([br for br in brs_at_wp if br.atomic_orbital.site_symmetry_irrep.label ==
-                 s_plus_irrep])
+    magnon_br_filtered = [
+        br
+        for br in brs_at_wp
+        if br.atomic_orbital.site_symmetry_irrep.label == s_plus_irrep
+    ]
     assert len(magnon_br_filtered) == 1
     magnon_br = magnon_br_filtered[0]
 

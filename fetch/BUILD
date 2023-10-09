@@ -8,23 +8,23 @@ load(
 load("@pip_deps//:requirements.bzl", "requirement")
 
 magnon_py_library(
-    name = "magnetic_kvector_type",
-    srcs = ["magnetic_kvector_type.py"],
+    name = "kvector_stars",
+    srcs = ["kvector_stars.py"],
     deps = [
         requirement("numpy"),
         requirement("bs4"),
         requirement("html5lib"),
         "//fetch/utility:cached_requests",
         "//fetch/utility:scrape_utility",
-        "//groups:magnetic_kvector_type_proto_py",
+        "//groups:kvector_proto_py",
     ],
 )
 
 magnon_py_test(
-    name = "magnetic_kvector_type_test",
-    srcs = ["magnetic_kvector_type_test.py"],
+    name = "kvector_stars_test",
+    srcs = ["kvector_stars_test.py"],
     deps = [
-        ":magnetic_kvector_type",
+        ":kvector_stars",
     ],
 )
 

@@ -341,7 +341,7 @@ std::vector<bool> intersect(const std::vector<bool> &sym1,
     return result;
 }
 
-std::vector<magnon::groups::InducedMagneticSpaceGroup> find_subgroups_impl(
+std::vector<magnon::groups::GroupSubgroupRelation> find_subgroups_impl(
     const std::string &msg_number, const std::vector<std::string> &gstrs) {
 
     const auto &dirs = get_dirs(msg_number);
@@ -547,9 +547,9 @@ std::vector<magnon::groups::InducedMagneticSpaceGroup> find_subgroups_impl(
         }
     }
 
-    std::vector<InducedMagneticSpaceGroup> result{};
+    std::vector<GroupSubgroupRelation> result{};
     for (const auto &[symm, triplets] : ebs_symms) {
-        InducedMagneticSpaceGroup induced_group{};
+        GroupSubgroupRelation induced_group{};
         induced_group.set_supergroup_number(msg_number);
 
         for (auto i = 0u; i < gstrs.size(); ++i) {
@@ -571,7 +571,7 @@ std::vector<magnon::groups::InducedMagneticSpaceGroup> find_subgroups_impl(
 
 }  // namespace
 
-std::vector<magnon::groups::InducedMagneticSpaceGroup> find_subgroups(
+std::vector<magnon::groups::GroupSubgroupRelation> find_subgroups(
     const std::string &msg_number, const MagneticSpaceGroups &magnetic_space_groups) {
     for (const auto &group : magnetic_space_groups.group()) {
         if (group.number() == msg_number) {

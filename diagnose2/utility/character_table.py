@@ -8,10 +8,10 @@ def character_table_info(msg_number, kvector_type_label):
     # only temporary until refactoring is complete
     # only temporary until refactoring is complete
     from magnon.fetch.character_table import _char_table_info
+
     a, b, c = _char_table_info(msg_number, kvector_type_label)
     b = ["{}({})".format(ba, bb) for ba, bb in b]
     return a, b, c
-
 
 
 from magnon.fetch.utility.general_position_utility import UnitaryGenpos

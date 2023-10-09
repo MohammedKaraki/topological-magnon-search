@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package magnon.fetch;
+package magnon.groups;
 
 message KVectorStar {
     // Vector type label, such as "GM", "M", or "X".

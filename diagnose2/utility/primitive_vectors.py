@@ -59,7 +59,6 @@ def find_primvecsmat_method1(msg_number):
 
 
 def find_primvecsmat_method2(msg_number):
-
     result = np.eye(3)
 
     next_col = 0

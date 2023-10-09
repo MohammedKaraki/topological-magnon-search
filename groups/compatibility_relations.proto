@@ -12,10 +12,10 @@ message CompatibilityRelation {
     optional KVector point_kvector = 1;
 
     // The irrep on the higher symmetry k-point
-    optional Irrep point_irrep = 1;
+    optional Irrep point_irrep = 2;
 
     // The lower-symmetry k-vector.
-    optional KVector line_kvector = 1;
+    optional KVector line_kvector = 3;
 
     // The irreps of the lower symmetry little group at the k-line.
     repeated Irrep line_irrep = 4;

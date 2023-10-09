@@ -18,14 +18,18 @@ magnon_proto_library(
     srcs = ["magnetic_space_group.proto"],
     deps = [
         ":atomic_orbital_proto",
+        ":compatibility_relations_proto",
+        ":kvector_proto",
         "//common:matrix_proto",
     ],
 )
 
 magnon_proto_library(
-    name = "induced_magnetic_space_group_proto",
-    srcs = ["induced_magnetic_space_group.proto"],
+    name = "group_subgroup_relation_proto",
+    srcs = ["group_subgroup_relation.proto"],
     deps = [
+        ":atomic_orbital_proto",
+        ":kvector_proto",
         ":magnetic_space_group_proto",
         "//common:matrix_proto",
     ],
@@ -33,7 +37,7 @@ magnon_proto_library(
 
 magnon_proto_library(
     name = "kvector_proto",
-    srcs = ["kvector_proto.proto"],
+    srcs = ["kvector.proto"],
     deps = [
     ],
 )
@@ -52,6 +56,7 @@ magnon_proto_library(
     srcs = ["compatibility_relations.proto"],
     deps = [
         ":atomic_orbital_proto",
+        ":kvector_proto",
     ],
 )
 
@@ -73,7 +78,7 @@ magnon_cc_library(
     srcs = ["find_subgroups.cpp"],
     hdrs = ["find_subgroups.hpp"],
     deps = [
-        ":induced_magnetic_space_group_proto_cc",
+        ":group_subgroup_relation_proto_cc",
         ":read_standard_magnetic_space_groups",
         "@eigen",
         "@fmt",
@@ -94,7 +99,7 @@ magnon_pybind_library(
     name = "find_subgroups_py",
     srcs = ["find_subgroups_py.cpp"],
     py_deps = [
-        ":induced_magnetic_space_group_proto_py",
+        ":group_subgroup_relation_proto_py",
     ],
     deps = [
         ":find_subgroups",

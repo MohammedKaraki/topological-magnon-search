@@ -3,6 +3,7 @@ syntax = "proto2";
 import "common/matrix.proto";
 import "groups/atomic_orbital.proto";
 import "groups/kvector.proto";
+import "groups/compatibility_relations.proto";
 
 package magnon.groups;
 

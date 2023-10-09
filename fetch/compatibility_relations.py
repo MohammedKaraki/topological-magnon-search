@@ -119,13 +119,13 @@ def fetch_compatibility_relations(msg_number: str, kvector_type_label: str):
         msg_number, kvector_type_label
     ):
         relation = CompatibilityRelationProto()
-        relation.kpoint_little_irrep.CopyFrom(
+        relation.point_irrep.CopyFrom(
             IrrepProto(label=lhs_irrep.label, dimension=lhs_irrep.dim)
         )
-        relation.kline_kvector_type_label = klabel
-        relation.kline_coordinates = kcoords
+        relation.line_kvector.star.label = klabel
+        relation.line_kvector.coordinates = kcoords
         for rhs_irrep in rhs_irreps:
-            relation.kline_little_irrep.append(
+            relation.line_irrep.append(
                 IrrepProto(label=rhs_irrep.label, dimension=rhs_irrep.dim)
             )
         relations.relation.append(relation)

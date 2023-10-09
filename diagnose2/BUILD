@@ -14,7 +14,7 @@ magnon_proto_library(
     deps = [
         "//common:matrix_proto",
         "//groups:atomic_orbital_proto",
-        "//groups:induced_magnetic_space_group_proto",
+        "//groups:group_subgroup_relation_proto",
         "//groups:magnetic_space_group_proto",
     ],
 )
@@ -29,8 +29,8 @@ magnon_py_library(
         "//fetch:antiunitarily_related_irreps",
         "//fetch:magnetic_band_representation",
         "//fetch/utility:br",
-        "//groups:read_standard_magnetic_space_groups_py",
         "//groups:find_subgroups_py",
+        "//groups:read_standard_magnetic_space_groups_py",
     ],
 )
 

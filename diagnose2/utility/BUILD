@@ -91,6 +91,10 @@ magnon_py_library(
     name = "primitive_vectors",
     srcs = ["primitive_vectors.py"],
     deps = [
+        ":lattice_type",
+        "//fetch:general_positions",
+        "//fetch/utility:general_position_utility",
+        requirement("numpy"),
     ],
 )
 
