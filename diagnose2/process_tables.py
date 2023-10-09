@@ -2,6 +2,7 @@ import sys
 import json
 from collections import defaultdict
 
+from magnon.diagnose2.perturbed_band_structure_pb2 import PerturbedBandStructure
 
 from magnon.fetch.magnetic_space_group_from_generators import fetch_msg_from_generators
 from magnon.fetch.magnetic_band_representation import (
@@ -76,8 +77,12 @@ def k1_to_k2_to_irrep_to_lineirreps(msg):
 
 
 def process_tables(msg_number, wp_label, subgroup_id):
+    result = PerturbedBandStructure()
+
     subgroup_id = int(subgroup_id)
     output = {"wp": wp_label}
+    result.atomic_orbital.add()
+    result.atomic_orbital[0].wyckoff_position.label = wp_label
 
     msg = Msg(msg_number)
 
@@ -98,8 +103,13 @@ def process_tables(msg_number, wp_label, subgroup_id):
     magnon_br = magnon_br_filtered[0]
 
     output["magnon_site_irreps"] = [s_plus_irrep, "LEFT_EMPTY"]
+    result.atomic_orbital[0].site_symmetry_irrep.label = s_plus_irrep
     output["posbrsiteirrep"] = s_plus_irrep
     output["posbrirreps"] = [irrep.label for irrep in magnon_br.kspace_little_irrep]
+    for irrep in magnon_br.kspace_little_irrep:
+        result.base_kspace_little_irrep.add(
+            label=irrep.label, dimension=irrep.dimension
+        )
 
     gstrs, presc = gstrs_and_presc_of_subgroups(msg_number)[subgroup_id]
     msgs = GroupSubgroupRelation(msg, gstrs)
@@ -208,4 +218,5 @@ def process_tables(msg_number, wp_label, subgroup_id):
     out_filename = r"{}-{}-{}.json".format(msg_number, wp_label, subgroup_id)
 
     print("Finished successfully. Quitting ...", file=sys.stderr)
-    return output
+
+    return result

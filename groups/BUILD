@@ -31,6 +31,7 @@ magnon_proto_library(
         ":atomic_orbital_proto",
         ":kvector_proto",
         ":magnetic_space_group_proto",
+        ":compatibility_relations_proto",
         "//common:matrix_proto",
     ],
 )

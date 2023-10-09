@@ -119,13 +119,13 @@ def fetch_compatibility_relations(msg_number: str, kvector_type_label: str):
         msg_number, kvector_type_label
     ):
         relation = CompatibilityRelationProto()
-        relation.point_irrep.CopyFrom(
+        relation.decomposition.supergroup_irrep.CopyFrom(
             IrrepProto(label=lhs_irrep.label, dimension=lhs_irrep.dim)
         )
         relation.line_kvector.star.label = klabel
         relation.line_kvector.coordinates = kcoords
         for rhs_irrep in rhs_irreps:
-            relation.line_irrep.append(
+            relation.decomposition.subgroup_irrep.append(
                 IrrepProto(label=rhs_irrep.label, dimension=rhs_irrep.dim)
             )
         relations.relation.append(relation)

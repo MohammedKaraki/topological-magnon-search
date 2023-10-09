@@ -5,20 +5,24 @@ import "groups/kvector.proto";
 
 package magnon.groups;
 
+// IrrepDecomposition describes the decomposition of an irrep of a super group in terms
+// of the irreps of a subgroup.
+message IrrepDecomposition {
+    optional Irrep supergroup_irrep = 1;
+    repeated Irrep subgroup_irrep = 2;
+}
+
 // CompatibilityRelation describes how a little group irrep at a higher symmetry k-point breaks
 // into irreps of the little (sub)group of a nearby k-line/plane with lower symmetry.
 message CompatibilityRelation {
     // The higher-symmetry k-vector.
     optional KVector point_kvector = 1;
 
-    // The irrep on the higher symmetry k-point
-    optional Irrep point_irrep = 2;
-
     // The lower-symmetry k-vector.
-    optional KVector line_kvector = 3;
+    optional KVector line_kvector = 2;
 
-    // The irreps of the lower symmetry little group at the k-line.
-    repeated Irrep line_irrep = 4;
+    // The decomposition of the k-point little irrep into little irreps of the k-line/k-plane.
+    optional IrrepDecomposition decomposition = 3;
 }
 
 message CompatibilityRelations {

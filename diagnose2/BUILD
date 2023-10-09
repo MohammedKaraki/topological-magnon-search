@@ -31,6 +31,7 @@ magnon_py_library(
         "//fetch/utility:br",
         "//groups:find_subgroups_py",
         "//groups:read_standard_magnetic_space_groups_py",
+        ":perturbed_band_structure_proto_py",
     ],
 )
 
