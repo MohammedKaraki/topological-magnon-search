@@ -121,6 +121,16 @@ MatrixInt construct_matrix(const std::vector<std::vector<int>> &rows) {
     return result;
 }
 
+SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
+    assert(spectrum.atomic_orbital_size() == 1);
+    {
+        assert(spectrum.atomic_orbital(0).wyckoff_position().has_label());
+        wp = spectrum.atomic_orbital(0).wyckoff_position().label();
+        assert(spectrum.atomic_orbital(0).site_symmetry_irrep().has_label());
+        magnon_site_irreps = {spectrum.atomic_orbital(0).site_symmetry_irrep().label(), ""};
+    }
+}
+
 // void from_json(const json &j, SpectrumData &data) {
 //     j["wp"].get_to(data.wp);
 //     j["magnon_site_irreps"].get_to(data.magnon_site_irreps);
