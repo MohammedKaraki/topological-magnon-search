@@ -41,35 +41,23 @@ message GroupSubgroupRelation {
     //      * How the supergroup irreps on these k-vectors are decomposed into
     //        irreps of the subgroup at the corresponding subgroup k-vectors.
     //
-    message SupergroupSubgroupIrrepRelation {
-        optional KVector supergroup_kvector = 1;
-        message SubgroupKVectorDecomposition {
-            // The subgroup k-vector equivalent to the supergroup k-vector
-            optional KVector subgroup_kvector = 1;
-
-            // The supergroup element which acts on the supergroup k-vector to make it
-            // equal to the subgroup k-vector.
-            optional GeneralPosition operation_on_supergroup_kvector = 2;
-        }
-    }
+    // Remember that the mapping from supergroup k-vector to subgroup k-vector is 1-to-many.
+    //
     message IrrepRelation {
-        optional Irrep supergroup_irrep = 1;
+        optional KVector supergroup_kvector = 1;
 
-        optional KVector supergroup_kvector = 2;
-
-        message SubgroupIrrepDecomposition {
+        message SubgroupKVectorDecompositions {
             // The subgroup k-vector equivalent to the supergroup k-vector
             optional KVector subgroup_kvector = 1;
 
             // The supergroup element which acts on the supergroup k-vector to make it
             // equal to the subgroup k-vector.
-            optional GeneralPosition operation_on_supergroup_kvector = 2;
+            optional GeneralPosition action_on_supergroup_kvector = 2;
 
-            // The decomposition of the supergroup irrep into irreps of the subgroup.
-            repeated Irrep subgroup_irrep = 3;
+            repeated IrrepDecomposition decomposition = 3;
         }
 
-        repeated SubgroupIrrepDecomposition subgroup_irrep_decomposition = 3;
+        repeated SubgroupKVectorDecompositions subgroup_kvector_decompositions = 2;
     }
 
     repeated IrrepRelation irrep_relation = 6;
