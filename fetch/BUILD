@@ -40,7 +40,9 @@ magnon_py_library(
         "//fetch/utility:kvector",
         "//fetch/utility:scrape_utility",
         "//groups:atomic_orbital_proto_py",
+        "//groups:irrep_proto_py",
         "//groups:magnetic_space_group_proto_py",
+        "//groups:wyckoff_position_proto_py",
     ],
 )
 
@@ -85,8 +87,8 @@ magnon_py_library(
         "//fetch/utility:cached_requests",
         "//fetch/utility:general_position_utility",
         "//fetch/utility:scrape_utility",
-        "//groups:atomic_orbital_proto_py",
         "//groups:character_table_proto_py",
+        "//groups:irrep_proto_py",
         requirement("bs4"),
         requirement("html5lib"),
     ],
@@ -108,6 +110,7 @@ magnon_py_library(
         "//fetch/utility:br",
         "//fetch/utility:cached_requests",
         "//groups:compatibility_relations_proto_py",
+        "//groups:irrep_proto_py",
         requirement("bs4"),
         requirement("html5lib"),
     ],

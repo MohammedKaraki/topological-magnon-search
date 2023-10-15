@@ -1,5 +1,6 @@
 syntax = "proto2";
 
+import "groups/irrep.proto";
 import "groups/atomic_orbital.proto";
 import "groups/magnetic_space_group.proto";
 import "groups/group_subgroup_relation.proto";
@@ -18,9 +19,12 @@ message PerturbedBandStructure {
     // The magnetic space group resulting from applying symmetry-breaking perturbations.
     optional magnon.groups.GroupSubgroupRelation group_subgroup_relation = 2;
 
-    // The irreducible (co-)representation content of the bands in the unbroken magnetic space
-    // group.
-    repeated magnon.groups.Irrep base_kspace_little_irrep = 3;
+    message BandStructure {
+        repeated magnon.groups.Irrep supergroup_little_irrep = 1;
+    }
+
+    // The (co-)representation content of the unperturbed bands.
+    optional BandStructure unperturbed_band_structure = 3;
 
     // The atomic orbitals from which the bands band representation was induced.
     // If the band structure doesn't admit an atomic limit, this must be left empty.

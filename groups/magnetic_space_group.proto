@@ -1,8 +1,10 @@
 syntax = "proto2";
 
 import "common/matrix.proto";
+import "groups/irrep.proto";
 import "groups/atomic_orbital.proto";
 import "groups/kvector.proto";
+import "groups/wyckoff_position.proto";
 import "groups/compatibility_relations.proto";
 
 package magnon.groups;
@@ -15,10 +17,10 @@ package magnon.groups;
 // We need this information in order to enforce the energetics to be equal for such irreps, despite
 // belonging to different k-vector types.
 message AntiunitarilyRelatedIrrepPair {
-    optional KVectorStar first_kvector_star = 1;
+    optional KStar first_kstar = 1;
     optional string first_little_irrep_label = 2;
 
-    optional KVectorStar second_kvector_star = 3;
+    optional KStar second_kstar = 3;
     optional string second_little_irrep_label = 4;
 }
 
@@ -117,6 +119,9 @@ message MagneticSpaceGroup {
     repeated KVector kvector = 13;
 
     repeated CompatibilityRelation compatibility_relation = 14;
+
+    // A list of all little irreps of the group at the high-symmetry k-stars.
+    repeated Irrep little_irrep = 15;
 }
 
 message MagneticSpaceGroups {

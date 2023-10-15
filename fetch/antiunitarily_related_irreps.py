@@ -109,8 +109,8 @@ def fetch_antiunitarily_related_irreps(msg_number):
     for k1_label, k2_label, irrep_pairs in _antiunit_related_irreps_impl(msg_number):
         for irrep1_label, irrep2_label in irrep_pairs:
             pair = pairs.pair.add()
-            pair.first_kvector_star.label = k1_label
+            pair.first_kstar.label = k1_label
             pair.first_little_irrep_label = irrep1_label
-            pair.second_kvector_star.label = k2_label
+            pair.second_kstar.label = k2_label
             pair.second_little_irrep_label = irrep2_label
     return pairs

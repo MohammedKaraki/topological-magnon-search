@@ -6,7 +6,7 @@ from magnon.fetch.utility.general_position_utility import (
 )
 from magnon.common.matrix_converter_py import matrixxcd_to_proto
 from magnon.groups.character_table_pb2 import CharacterTable as CharacterTableProto
-from magnon.groups.atomic_orbital_pb2 import Irrep as IrrepProto
+from magnon.groups.irrep_pb2 import Irrep as IrrepProto
 
 from bs4 import BeautifulSoup as bs
 from re import fullmatch, sub

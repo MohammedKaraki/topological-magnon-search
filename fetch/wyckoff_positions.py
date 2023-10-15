@@ -1,6 +1,6 @@
 from magnon.fetch.utility.cached_requests import cached_post
 from magnon.fetch.utility.scrape_utility import contents_as_str
-from magnon.groups.atomic_orbital_pb2 import WyckoffPosition as WyckoffPositionProto
+from magnon.groups.wyckoff_position_pb2 import WyckoffPosition as WyckoffPositionProto
 from bs4 import BeautifulSoup as bs
 
 

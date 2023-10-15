@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package magnon.groups;
 
-message KVectorStar {
+message KStar {
     // Vector type label, such as "GM", "M", or "X".
     optional string label = 1;
 
@@ -19,5 +19,5 @@ message KVector {
     optional string coordinates = 1;
 
     // The star to which the k-vector belongs.
-    optional KVectorStar star = 2;
+    optional KStar star = 2;
 }

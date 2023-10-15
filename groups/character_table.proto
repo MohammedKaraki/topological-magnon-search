@@ -1,7 +1,7 @@
 syntax = "proto2";
 
 import "common/matrix.proto";
-import "groups/atomic_orbital.proto";
+import "groups/irrep.proto";
 
 package magnon.groups;
 

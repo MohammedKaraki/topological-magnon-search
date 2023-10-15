@@ -1,0 +1,14 @@
+syntax = "proto2";
+
+package magnon.groups;
+
+message WyckoffPosition {
+    optional string label = 1;
+
+    optional string site_symmetry_group_label = 2;
+
+    message Orbit {
+        repeated string coordinates = 1;
+    }
+    optional Orbit orbit = 3;
+}

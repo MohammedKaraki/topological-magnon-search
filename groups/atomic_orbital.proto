@@ -1,26 +1,9 @@
 syntax = "proto2";
 
+import "groups/wyckoff_position.proto";
+import "groups/irrep.proto";
+
 package magnon.groups;
-
-message WyckoffPosition {
-    optional string label = 1;
-
-    optional string site_symmetry_group_label = 2;
-
-    message Orbit {
-        repeated string coordinates = 1;
-    }
-    optional Orbit orbit = 3;
-}
-
-// An irreducible representation. We use it to describe irreps of any group,
-// including little groups in k-space as well as site-symmetry groups of
-// Wyckoff positions.
-message Irrep {
-    optional string label = 1;
-
-    optional int32 dimension = 2;
-}
 
 message AtomicOrbital {
     optional WyckoffPosition wyckoff_position = 1;

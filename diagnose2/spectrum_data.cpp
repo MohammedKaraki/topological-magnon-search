@@ -128,7 +128,27 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
         wp = spectrum.atomic_orbital(0).wyckoff_position().label();
         assert(spectrum.atomic_orbital(0).site_symmetry_irrep().has_label());
         magnon_site_irreps = {spectrum.atomic_orbital(0).site_symmetry_irrep().label(), ""};
+
+        for (const auto &irrep_proto :
+             spectrum.unperturbed_band_structure().supergroup_little_irrep()) {
+            pos_neg_magnonirreps.first.push_back(irrep_proto.label());
+        }
     }
+
+    const auto group_from_proto = [](const groups::MagneticSpaceGroup &group) -> SpectrumData::Msg {
+        SpectrumData::Msg result{};
+        result.label = group.label();
+        result.number = group.number();
+
+        std::vector<std::string> irrep_labels{};
+        for (const auto &irrep_proto : group.little_irrep()) {
+            result.irreps.push_back(irrep_proto.label());
+        }
+        return result;
+    };
+
+    super_msg = group_from_proto(spectrum.supergroup());
+    sub_msg = group_from_proto(spectrum.subgroup());
 }
 
 

@@ -1,5 +1,5 @@
 from magnon.fetch.utility.cached_requests import cached_post
-from magnon.groups.atomic_orbital_pb2 import Irrep as IrrepProto
+from magnon.groups.irrep_pb2 import Irrep as IrrepProto
 from magnon.groups.compatibility_relations_pb2 import (
     CompatibilityRelation as CompatibilityRelationProto,
 )

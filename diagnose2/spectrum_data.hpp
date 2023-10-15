@@ -49,7 +49,6 @@ struct SpectrumData {
 
     std::string wp;
     std::pair<std::string, std::string> magnon_site_irreps;
-    std::pair<std::string, std::string> pos_neg_siteirreps;
     std::pair<std::vector<std::string>, std::vector<std::string>> pos_neg_magnonirreps;
 
     std::vector<std::vector<std::string>> super_irrep12wp_decomps_of_sxsy;

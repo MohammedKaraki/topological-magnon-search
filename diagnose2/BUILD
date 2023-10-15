@@ -16,6 +16,7 @@ magnon_proto_library(
         "//common:matrix_proto",
         "//groups:atomic_orbital_proto",
         "//groups:group_subgroup_relation_proto",
+        "//groups:irrep_proto",
         "//groups:magnetic_space_group_proto",
     ],
 )

@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-import "groups/atomic_orbital.proto";
+import "groups/irrep.proto";
 import "groups/kvector.proto";
 
 package magnon.groups;

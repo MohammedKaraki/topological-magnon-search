@@ -116,7 +116,7 @@ def process_tables(msg_number, wp_label, subgroup_id):
 
     def copy_to_proto():
         for irrep in magnon_br.kspace_little_irrep:
-            result.base_kspace_little_irrep.add(
+            result.unperturbed_band_structure.supergroup_little_irrep.add(
                 label=irrep.label, dimension=irrep.dimension
             )
 

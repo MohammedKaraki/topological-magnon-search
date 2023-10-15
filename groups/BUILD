@@ -9,8 +9,26 @@ load(
 )
 
 magnon_proto_library(
+    name = "irrep_proto",
+    srcs = ["irrep.proto"],
+    deps = [
+        ":kvector_proto",
+        ":wyckoff_position_proto",
+    ],
+)
+
+magnon_proto_library(
+    name = "wyckoff_position_proto",
+    srcs = ["wyckoff_position.proto"],
+)
+
+magnon_proto_library(
     name = "atomic_orbital_proto",
     srcs = ["atomic_orbital.proto"],
+    deps = [
+        ":irrep_proto",
+        ":wyckoff_position_proto",
+    ],
 )
 
 magnon_proto_library(
@@ -19,7 +37,9 @@ magnon_proto_library(
     deps = [
         ":atomic_orbital_proto",
         ":compatibility_relations_proto",
+        ":irrep_proto",
         ":kvector_proto",
+        ":wyckoff_position_proto",
         "//common:matrix_proto",
     ],
 )
@@ -28,8 +48,8 @@ magnon_proto_library(
     name = "group_subgroup_relation_proto",
     srcs = ["group_subgroup_relation.proto"],
     deps = [
-        ":atomic_orbital_proto",
         ":compatibility_relations_proto",
+        ":irrep_proto",
         ":kvector_proto",
         ":magnetic_space_group_proto",
         "//common:matrix_proto",
@@ -47,7 +67,7 @@ magnon_proto_library(
     name = "character_table_proto",
     srcs = ["character_table.proto"],
     deps = [
-        ":atomic_orbital_proto",
+        ":irrep_proto",
         "//common:matrix_proto",
     ],
 )
@@ -56,7 +76,7 @@ magnon_proto_library(
     name = "compatibility_relations_proto",
     srcs = ["compatibility_relations.proto"],
     deps = [
-        ":atomic_orbital_proto",
+        ":irrep_proto",
         ":kvector_proto",
     ],
 )

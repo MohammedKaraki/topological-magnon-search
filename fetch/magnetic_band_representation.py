@@ -14,11 +14,9 @@ from magnon.fetch.utility.cached_requests import cached_post
 from magnon.fetch.utility.kvector import KVector
 from magnon.fetch.utility.br import LittleIrrep, Br
 from magnon.common.logger import create_logger
-from magnon.groups.atomic_orbital_pb2 import (
-    WyckoffPosition as WyckoffPositionProto,
-    AtomicOrbital as AtomicOrbitalProto,
-    Irrep as IrrepProto,
-)
+from magnon.groups.wyckoff_position_pb2 import WyckoffPosition as WyckoffPositionProto
+from magnon.groups.atomic_orbital_pb2 import AtomicOrbital as AtomicOrbitalProto
+from magnon.groups.irrep_pb2 import Irrep as IrrepProto
 from magnon.groups.magnetic_space_group_pb2 import (
     AtomicBandRepresentation as AtomicBandRepresentationProto,
 )

@@ -26,14 +26,12 @@ class AntiunitarilyRelatedIrrepsTest(unittest.TestCase):
         expected_second_irrep_label = ["RA_{{{}}}".format(x) for x in [2, 1, 3, 4]] + [
             "XA_{{{}}}".format(x) for x in [1, 2, 4, 3]
         ]
-        assert [
-            pair.first_kvector_star.label for pair in pairs.pair
-        ] == expected_first_klabel
+        assert [pair.first_kstar.label for pair in pairs.pair] == expected_first_klabel
         assert [
             pair.first_little_irrep_label for pair in pairs.pair
         ] == expected_first_irrep_label
         assert [
-            pair.second_kvector_star.label for pair in pairs.pair
+            pair.second_kstar.label for pair in pairs.pair
         ] == expected_second_klabel
         assert [
             pair.second_little_irrep_label for pair in pairs.pair

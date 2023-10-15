@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+import "groups/kvector.proto";
+import "groups/wyckoff_position.proto";
+
+package magnon.groups;
+
+// An irreducible representation. We use it to describe irreps of any group,
+// including little groups in k-space as well as site-symmetry groups of
+// Wyckoff positions.
+message Irrep {
+    optional string label = 1;
+
+    optional int32 dimension = 2;
+
+    oneof host {
+        // For little irreps.
+        KStar kstar = 3;
+
+        // For on-site symmetry group irreps.
+        WyckoffPosition wyckoff_position = 4;
+    }
+}

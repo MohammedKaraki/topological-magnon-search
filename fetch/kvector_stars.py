@@ -3,7 +3,7 @@ from re import fullmatch
 import numpy as np
 from bs4 import BeautifulSoup as bs
 
-from magnon.groups.kvector_pb2 import KVectorStar
+from magnon.groups.kvector_pb2 import KStar
 from magnon.fetch.utility.cached_requests import cached_post
 from magnon.fetch.utility.scrape_utility import contents_as_str
 from magnon.common.logger import create_logger
@@ -84,7 +84,7 @@ def fetch_kvector_stars(group_number):
             tds = tr.findAll("td", recursive=False)
             assert len(tds) == 6, tds
 
-            kvector_star = KVectorStar()
+            kvector_star = KStar()
             kvector_star.label = contents_as_str(tds[0])
             for x in parse_coordinates_group(contents_as_str(tds[1])):
                 kvector_star.coordinates.append(x)
@@ -100,7 +100,7 @@ def fetch_kvector_stars(group_number):
             tds = tr.findAll("td", recursive=False)
             assert len(tds) == 6, tds
 
-            kvector_star = KVectorStar()
+            kvector_star = KStar()
             kvector_star.label = contents_as_str(tds[0])
             for x in parse_coordinates_group(contents_as_str(tds[1])):
                 kvector_star.coordinates.append(x)
@@ -112,7 +112,7 @@ def fetch_kvector_stars(group_number):
         for tr in specialk_table.tbody.findAll("tr", recursive=False)[1:]:
             tds = tr.findAll("td", recursive=False)
             assert len(tds) == 8, tds
-            kvector_star = KVectorStar()
+            kvector_star = KStar()
             kvector_star.label = contents_as_str(tds[0])
             for x in parse_coordinates_group(contents_as_str(tds[1])):
                 kvector_star.coordinates.append(x)

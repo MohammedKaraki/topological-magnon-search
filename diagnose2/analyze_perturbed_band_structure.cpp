@@ -35,7 +35,7 @@ void analyze_perturbed_band_structure(const PerturbedBandStructure &structure) {
 
     const auto &positive_energy_irreps = [&]() {
         std::vector<std::string> result{};
-        for (const auto &irrep : structure.base_kspace_little_irrep()) {
+        for (const auto &irrep : structure.unperturbed_band_structure().supergroup_little_irrep()) {
             result.push_back(irrep.label());
         }
         return result;
