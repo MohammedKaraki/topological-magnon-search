@@ -191,6 +191,21 @@ def process_tables(msg_number, wp_label, subgroup_id):
         for irrep in [LittleIrrep(x) for x in msgs.sub_msg.irrep_labels]
     }
 
+    def copy_to_proto():
+        def convert_to_proto(irrep_labels, group_proto):
+            for x in irrep_labels:
+                irrep = LittleIrrep(x)
+                irrep_proto = group_proto.little_irrep.add()
+                irrep_proto.label = irrep.label
+                irrep_proto.dimension = irrep.dim
+                irrep_proto.kstar.label = irrep.ksymbol
+
+        convert_to_proto(msgs.super_msg.irrep_labels, result.supergroup)
+        convert_to_proto(msgs.sub_msg.irrep_labels, result.subgroup)
+
+    copy_to_proto()
+    del copy_to_proto
+
     output["si_orders"] = [int(x) for x in msgs.sub_msg.si_orders]
     output["si_matrix"] = [[int(x) for x in row] for row in msgs.sub_msg.si_matrix]
     output["comp_rels_matrix"] = [
@@ -206,6 +221,10 @@ def process_tables(msg_number, wp_label, subgroup_id):
         )
         for si_order in output["si_orders"]:
             result.subgroup.symmetry_indicator_order.append(si_order)
+
+        for index, irrep_str in enumerate(msgs.sub_msg.irrep_labels):
+            label = LittleIrrep(irrep_str).label
+            result.subgroup.irrep_label_to_matrix_column_index[label] = index
 
     copy_to_proto()
     del copy_to_proto
@@ -227,17 +246,18 @@ def process_tables(msg_number, wp_label, subgroup_id):
     )
 
     def copy_to_proto():
-        for subkvec in msgs.sub_msg.kvectors:
-            for cr in fetch_compatibility_relations(
-                msgs.sub_msg.number, subkvec.symbol
-            ):
-                result.subgroup.compatibility_relation.append(cr)
+        def process_kvectors(group, group_proto):
+            for kvec in group.kvectors:
+                kvec_coords = ",".join((str(coord) for coord in kvec.coords))
+                kvector_proto = group_proto.kvector.add()
+                kvector_proto.star.label = kvec.symbol
+                kvector_proto.coordinates = kvec_coords
 
-        for superkvec in msgs.super_msg.kvectors:
-            for cr in fetch_compatibility_relations(
-                msgs.super_msg.number, superkvec.symbol
-            ):
-                result.supergroup.compatibility_relation.append(cr)
+                for cr in fetch_compatibility_relations(group.number, kvec.symbol):
+                    group_proto.compatibility_relation.append(cr)
+
+        process_kvectors(msgs.sub_msg, result.subgroup)
+        process_kvectors(msgs.super_msg, result.supergroup)
 
     copy_to_proto()
     del copy_to_proto
@@ -290,8 +310,8 @@ def process_tables(msg_number, wp_label, subgroup_id):
                     decomp.supergroup_irrep.dimension = superirrep.dim
                     for subirrep in subirreps:
                         subgroup_irrep = decomp.subgroup_irrep.add()
-                        subgroup_irrep.label = superirrep.label
-                        subgroup_irrep.dimension = superirrep.dim
+                        subgroup_irrep.label = subirrep.label
+                        subgroup_irrep.dimension = subirrep.dim
 
     copy_to_proto()
     del copy_to_proto

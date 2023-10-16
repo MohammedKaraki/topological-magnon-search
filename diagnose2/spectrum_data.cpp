@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "common/matrix_converter.hpp"
 #include "utility.hpp"
 
 namespace magnon::diagnose2 {
@@ -140,15 +141,143 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
         result.label = group.label();
         result.number = group.number();
 
-        std::vector<std::string> irrep_labels{};
         for (const auto &irrep_proto : group.little_irrep()) {
-            result.irreps.push_back(irrep_proto.label());
+            const std::string irrep_label = irrep_proto.label();
+            result.irreps.push_back(irrep_label);
+            result.irrep_to_dim[irrep_label] = irrep_proto.dimension();
+            result.irrep_to_k[irrep_label] = irrep_proto.kstar().label();
+            std::cerr << irrep_label << " -> " << irrep_proto.kstar().label() << '\n';
         }
+        result.populate_irrep_dims();
+
+        for (const auto &kvector_proto : group.kvector()) {
+            result.kcoords.push_back(kvector_proto.coordinates());
+            result.ks.push_back(kvector_proto.star().label());
+        }
+
+        for (const auto &cr1 : group.compatibility_relation()) {
+            assert(!cr1.line_kvector().coordinates().empty());
+            const auto k1_star_label = cr1.point_kvector().star().label();
+            for (const auto &cr2 : group.compatibility_relation()) {
+                if (cr1.line_kvector().coordinates() != cr2.line_kvector().coordinates()) {
+                    continue;
+                }
+                const auto k2_star_label = cr2.point_kvector().star().label();
+                const auto point_irrep = cr2.decomposition().supergroup_irrep();
+                for (const auto &line_irrep : cr2.decomposition().subgroup_irrep()) {
+                    result
+                        .k1_to_k2_to_irrep_to_lineirreps[k1_star_label][k2_star_label]
+                                                        [point_irrep.label()]
+                        .push_back(line_irrep.label());
+                }
+            }
+        }
+
+        std::map<std::pair<int, int>, std::map<int, int>> k1idx_k2idx_to_irrep1idx_to_irrep2idx{};
+        for (const auto &aur_irrep_pair : group.antiunitarily_related_irrep_pairs().pair()) {
+            const auto k1_idx = result.k_to_idx(aur_irrep_pair.first_kstar().label());
+            const auto k2_idx = result.k_to_idx(aur_irrep_pair.second_kstar().label());
+
+            auto &irrep1idx_to_irrep2idx = k1idx_k2idx_to_irrep1idx_to_irrep2idx[{k1_idx, k2_idx}];
+
+            const auto &irrep1_idx = result.irrep_to_idx(aur_irrep_pair.first_little_irrep_label());
+            const auto &irrep2_idx =
+                result.irrep_to_idx(aur_irrep_pair.second_little_irrep_label());
+
+            // irrep1_idx should be used only once as a key
+            assert(!irrep1idx_to_irrep2idx.contains(irrep1_idx));
+
+            irrep1idx_to_irrep2idx[irrep1_idx] = irrep2_idx;
+
+            // irrep2_idx should never appear on the left hand side of the map
+            assert(!irrep1idx_to_irrep2idx.contains(irrep2_idx));
+        }
+        for (const auto &[k1idx_k2idx, irrep1idx_to_irrep2idx] :
+             k1idx_k2idx_to_irrep1idx_to_irrep2idx) {
+            const auto &[k1idx, k2idx] = k1idx_k2idx;
+            result.k1idx_k2idx_irrep1idxtoirrep2idx_tuples.emplace_back(
+                std::tuple{k1idx, k2idx, irrep1idx_to_irrep2idx});
+        }
+
+        for (auto i = 0U; i < result.irreps.size(); ++i) {
+            const auto &k = result.irrep_to_k.at(result.irreps[i]);
+            const auto k_idx = result.k_to_idx(k);
+            result.irrepidx_to_kidx.push_back(k_idx);
+        }
+
+        const auto transformed_matrix = [&group, &result](const MatrixInt &matrix) {
+            assert(matrix.cols() == group.irrep_label_to_matrix_column_index_size());
+            assert(matrix.cols() == static_cast<long>(result.irreps.size()));
+
+            MatrixInt new_matrix(matrix.rows(), matrix.cols());
+            for (auto c = 0U; c < new_matrix.cols(); ++c) {
+                new_matrix.col(c) =
+                    matrix.col(group.irrep_label_to_matrix_column_index().at(result.irreps[c]));
+            }
+            std::cerr << "before\n" << matrix << '\n';
+            std::cerr << "after\n" << new_matrix << '\n';
+            return new_matrix;
+        };
+        if (group.has_symmetry_indicator_matrix()) {
+            result.si_matrix =
+                transformed_matrix(common::from_proto(group.symmetry_indicator_matrix()));
+        }
+        if (group.has_compatibility_relations_matrix()) {
+            result.comp_rels_matrix =
+                transformed_matrix(common::from_proto(group.compatibility_relations_matrix()));
+        }
+        for (const auto order : group.symmetry_indicator_order()) {
+            result.si_orders.push_back(order);
+        }
+
         return result;
     };
 
     super_msg = group_from_proto(spectrum.supergroup());
     sub_msg = group_from_proto(spectrum.subgroup());
+
+    for (const auto &p : spectrum.group_subgroup_relation().perturbation_prescription()) {
+        presc.push_back(p);
+    }
+
+    for (const auto &irrep_relation : spectrum.group_subgroup_relation().irrep_relation()) {
+        const auto &supergroup_kvector_label = irrep_relation.supergroup_kvector().star().label();
+        for (const auto &subgroup_kvector_decomposition :
+             irrep_relation.subgroup_kvector_decompositions()) {
+            const auto &subgroup_kvector_label =
+                subgroup_kvector_decomposition.subgroup_kvector().star().label();
+            const auto &action_on_supergroup_kvector =
+                subgroup_kvector_decomposition.action_on_supergroup_kvector().seitz_form();
+            assert(subk_to_g_and_superk
+                       .insert({subgroup_kvector_label,
+                                std::pair{action_on_supergroup_kvector, supergroup_kvector_label}})
+                       .second);
+        }
+    }
+
+    for (const auto &irrep_relation : spectrum.group_subgroup_relation().irrep_relation()) {
+        for (const auto &subgroup_kvector_decomposition :
+             irrep_relation.subgroup_kvector_decompositions()) {
+            const auto &subgroup_kvector_label =
+                subgroup_kvector_decomposition.subgroup_kvector().star().label();
+            for (const auto &decomposition : subgroup_kvector_decomposition.decomposition()) {
+                const auto &supergroup_irrep_label = decomposition.supergroup_irrep().label();
+                for (const auto &subgroup_irrep : decomposition.subgroup_irrep()) {
+                    const auto &subgroup_irrep_label = subgroup_irrep.label();
+                    superirrep_to_all_subirreps[supergroup_irrep_label].push_back(
+                        subgroup_irrep_label);
+                    subk_to_superirrep_to_subirreps[subgroup_kvector_label][supergroup_irrep_label]
+                        .push_back(subgroup_irrep_label);
+                }
+            }
+        }
+    }
+
+    for (const auto &[superirrep, subirreps] : superirrep_to_all_subirreps) {
+        unique_bags.emplace_back(superirrep, *this);
+    }
+    std::sort(unique_bags.begin(), unique_bags.end());
+    unique_bags.erase(std::unique(unique_bags.begin(), unique_bags.end()), unique_bags.end());
 }
 
 
@@ -518,8 +647,8 @@ std::map<int, std::pair<bool, MatrixInt>> Subband::calc_gap_sis() const {
 
     assert(num_bands >= 1);
 
-    MatrixInt si = 0 * data.si_matrix.col(0);
-    MatrixInt cr = 0 * data.comp_rels_matrix.col(0);
+    MatrixInt si = 0 * data.sub_msg.si_matrix.col(0);
+    MatrixInt cr = 0 * data.sub_msg.comp_rels_matrix.col(0);
 
     Vector<int> subk_idx_to_numbandsbelow(data.sub_msg.ks.size(), 0);
     Vector<typename Vector<Submode>::const_iterator> subk_idx_to_cur_submode_it;
@@ -536,8 +665,8 @@ std::map<int, std::pair<bool, MatrixInt>> Subband::calc_gap_sis() const {
 
                 numbandsbelow += data.sub_msg.dims[cur_subirrep_idx];
 
-                si += data.si_matrix.col(cur_subirrep_idx);
-                cr += data.comp_rels_matrix.col(cur_subirrep_idx);
+                si += data.sub_msg.si_matrix.col(cur_subirrep_idx);
+                cr += data.sub_msg.comp_rels_matrix.col(cur_subirrep_idx);
 
                 ++submode_it;
             }
@@ -558,9 +687,9 @@ std::map<int, std::pair<bool, MatrixInt>> Subband::calc_gap_sis() const {
 
         result[gap].first = gapped;
         if (gapped) {
-            assert(si.size() == static_cast<int>(data.si_orders.size()));
+            assert(si.size() == static_cast<int>(data.sub_msg.si_orders.size()));
             for (int i = 0; i < si.size(); ++i) {
-                si(i) %= data.si_orders[i];
+                si(i) %= data.sub_msg.si_orders[i];
             }
             result[gap].second = si;
         }

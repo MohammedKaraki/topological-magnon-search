@@ -15,6 +15,7 @@ using Vector = std::vector<T>;
 template <typename T>
 std::size_t find_unique_index(const std::vector<T> &elems, const T &elem) {
     auto it = std::find(elems.cbegin(), elems.cend(), elem);
+    assert(it != elems.cend());
     assert(std::count(std::next(it), elems.cend(), elem) == 0);
 
     return std::distance(elems.begin(), it);

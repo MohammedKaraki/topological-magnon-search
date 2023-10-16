@@ -40,6 +40,10 @@ struct SpectrumData {
                  std::map<std::string, std::map<std::string, std::vector<std::string>>>>
             k1_to_k2_to_irrep_to_lineirreps;
 
+        MatrixInt comp_rels_matrix;
+        std::vector<int> si_orders;
+        MatrixInt si_matrix;
+
         MatrixInt make_br_vec(const std::vector<std::string> &br_irreps);
         int sum_dim(const std::vector<std::string> &irreps);
         int irrep_to_idx(const std::string irrep) const;
@@ -56,9 +60,6 @@ struct SpectrumData {
     std::vector<std::vector<std::string>> super_to_sub;
     std::vector<std::string> presc;
 
-    MatrixInt comp_rels_matrix;
-    std::vector<int> si_orders;
-    MatrixInt si_matrix;
     std::map<std::string, std::map<std::string, std::vector<std::string>>>
         subk_to_superirrep_to_subirreps;
 

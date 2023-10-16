@@ -105,6 +105,10 @@ message MagneticSpaceGroup {
     // results of multiplication is zero, the band can be isolated.
     optional magnon.common.MatrixXi compatibility_relations_matrix = 9;
 
+    // Specifies the interpretation of the rows in the symmetry_indicator_matrix and
+    // compatibility_relations_matrix above.
+    map<string, int32> irrep_label_to_matrix_column_index = 16;
+
     // The Wyckoff positions of the group.
     repeated WyckoffPosition wyckoff_position = 10;
 
@@ -118,6 +122,7 @@ message MagneticSpaceGroup {
     // List of k-vector representatives of the k-stars.
     repeated KVector kvector = 13;
 
+    // Describes how the irreps at k-points decompose into irreps at parent k-lines.
     repeated CompatibilityRelation compatibility_relation = 14;
 
     // A list of all little irreps of the group at the high-symmetry k-stars.

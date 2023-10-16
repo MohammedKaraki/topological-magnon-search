@@ -82,6 +82,7 @@ magnon_cc_library(
         ":perturbed_band_structure_proto_cc",
         ":utility",
         "//common:comparable",
+        "//common:matrix_converter",
         "@eigen",
         "@fmt",
     ],
