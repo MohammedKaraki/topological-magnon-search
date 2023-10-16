@@ -18,17 +18,11 @@ import numpy as np
 from fractions import Fraction
 from re import fullmatch, findall
 
-#
-# TODO: Allow this to be passed as a config.
-#
-_CACHE_DIR = "/tmp"
-
 
 def _genpos_html(msg_number):
     return cached_post(
         url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/nph-magtrgen",
         data={"gnum": msg_number, "list": "Standard/Default Setting"},
-        cache_dir=_CACHE_DIR,
     )
 
 

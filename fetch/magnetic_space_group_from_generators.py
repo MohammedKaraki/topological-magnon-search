@@ -20,11 +20,6 @@ from hashlib import sha256
 from typing import List
 
 
-#
-# TODO: Allow this to be passed as a config.
-#
-_CACHE_DIR = "/tmp"
-
 logger = create_logger(__name__)
 
 
@@ -51,7 +46,6 @@ def _identify_group_html(gstrs):
             "generators": gstrs_combined,
             "list": "Submit",
         },
-        cache_dir=_CACHE_DIR,
     )
 
     return result

@@ -4,17 +4,10 @@ from magnon.groups.wyckoff_position_pb2 import WyckoffPosition as WyckoffPositio
 from bs4 import BeautifulSoup as bs
 
 
-#
-# TODO: Allow this to be passed as a config.
-#
-_CACHE_DIR = "/tmp"
-
-
 def _wp_html(group_number):
     return cached_post(
         url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/nph-magwplist",
         data={"gnum": group_number, "list": "Standard/Default Setting"},
-        cache_dir=_CACHE_DIR,
     )
 
 

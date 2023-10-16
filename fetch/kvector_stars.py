@@ -11,11 +11,6 @@ from magnon.common.logger import create_logger
 logger = create_logger(__name__)
 
 
-#
-# TODO: Allow this to be passed as a config.
-#
-_CACHE_DIR = "/tmp"
-
 _KLABEL_PATTERN = r"([A-Z]+):\(([^,]+),([^,]+),([^,]+)\)"
 
 
@@ -45,7 +40,6 @@ def _mkvec_html(group_number):
     return cached_post(
         url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/mkvec.pl",
         data={"super": group_number, "list": "Submit"},
-        cache_dir=_CACHE_DIR,
     )
 
 

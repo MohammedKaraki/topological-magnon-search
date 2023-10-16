@@ -14,11 +14,6 @@ import numpy as np
 from fractions import Fraction
 
 
-#
-# TODO: Allow this to be passed as a config.
-#
-_CACHE_DIR = "/tmp"
-
 _ROUND_DECIMALS = 10
 
 
@@ -31,7 +26,6 @@ def _fetch_corep_html(group_number, ksymbol):
             "vecfinal": ksymbol,
             "list": "Submit",
         },
-        cache_dir=_CACHE_DIR,
     )
 
 

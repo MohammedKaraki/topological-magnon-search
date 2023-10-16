@@ -11,6 +11,7 @@ magnon_py_library(
     srcs = ["cached_requests.py"],
     deps = [
         "//common:logger",
+        "//config:read_global_config_python",
         requirement("requests"),
     ],
 )

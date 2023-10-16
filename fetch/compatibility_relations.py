@@ -9,12 +9,6 @@ from re import fullmatch, findall
 from magnon.fetch.utility.br import LittleIrrep
 
 
-#
-# TODO: Allow this to be passed as a config.
-#
-_CACHE_DIR = "/tmp"
-
-
 def _comp_rels_html(group_number, ksymbol):
     return cached_post(
         url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/mcomprel.pl",
@@ -24,7 +18,6 @@ def _comp_rels_html(group_number, ksymbol):
             "vecfinal": "{}&".format(ksymbol),
             "list": "Submit",
         },
-        cache_dir=_CACHE_DIR,
     )
 
 

@@ -9,17 +9,11 @@ from magnon.groups.magnetic_space_group_pb2 import (
 
 from bs4 import BeautifulSoup as bs
 
-#
-# TODO: Allow this to be passed as a config.
-#
-_CACHE_DIR = "/tmp"
-
 
 def _mbandpaths_html(group_number):
     return cached_post(
         url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/mbandpaths.pl",
         data={"super": group_number},
-        cache_dir=_CACHE_DIR,
     )
 
 

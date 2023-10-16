@@ -25,11 +25,6 @@ from magnon.groups.magnetic_space_group_pb2 import (
 logger = create_logger(__name__)
 
 
-#
-# TODO: Allow this to be passed as a config.
-#
-_CACHE_DIR = "/tmp"
-
 IRREP_PATTERN = (
     r"((\([A-Z]+\))?(\[overline\])?[A-Z]+_\{[0-9]+\}(\^\{[-+]\})?){1,2}\([0-9]+\)"
 )
@@ -39,7 +34,6 @@ def _ebrs_html(group_number):
     return cached_post(
         url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/mbandrep.pl",
         data={"super": group_number, "elementary": "Elementary"},
-        cache_dir=_CACHE_DIR,
     )
 
 
@@ -115,7 +109,6 @@ def _wyckoff_brs_html(group_number, wyckoff):
     return cached_post(
         url=r"https://www.cryst.ehu.es/cgi-bin/cryst/programs/mbandrep.pl",
         data={"super": group_number, "wyck": "Wyckoff", "wyckoff": wyckoff_in_request},
-        cache_dir=_CACHE_DIR,
     )
 
 
