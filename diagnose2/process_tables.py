@@ -1,6 +1,7 @@
 import sys
 import json
 from collections import defaultdict
+from fractions import Fraction
 
 from magnon.diagnose2.perturbed_band_structure_pb2 import PerturbedBandStructure
 from magnon.common.matrix_converter_py import matrixxi_to_proto, matrix4d_to_proto
@@ -78,54 +79,42 @@ def k1_to_k2_to_irrep_to_lineirreps(msg):
     return result
 
 
-def process_tables(msg_number, wp_label, subgroup_id):
+def process_tables(msg_number, wp_labels, subgroup_id):
     result = PerturbedBandStructure()
-
+    assert isinstance(wp_labels, list)
+    assert isinstance(wp_labels[0], str)
     subgroup_id = int(subgroup_id)
-    output = {"wp": wp_label}
-
-    def copy_to_proto():
-        result.unperturbed_band_structure.atomic_orbital.add()
-        result.unperturbed_band_structure.atomic_orbital[
-            0
-        ].wyckoff_position.label = wp_label
-
-    copy_to_proto()
-    del copy_to_proto
-
     msg = Msg(msg_number)
 
-    brs_at_wp = fetch_atomic_band_representations_for_wyckoff_position(
-        msg_number, wp_label
-    )
-    point_group_label = brs_at_wp[
-        0
-    ].atomic_orbital.wyckoff_position.site_symmetry_group_label
-    s_plus_irrep = s_plus_irrep_for_point_group(point_group_label)
+    for wp_label in wp_labels:
+        brs_at_wp = fetch_atomic_band_representations_for_wyckoff_position(
+            msg_number, wp_label
+        )
+        point_group_label = brs_at_wp[
+            0
+        ].atomic_orbital.wyckoff_position.site_symmetry_group_label
+        s_plus_irrep = s_plus_irrep_for_point_group(point_group_label)
 
-    magnon_br_filtered = [
-        br
-        for br in brs_at_wp
-        if br.atomic_orbital.site_symmetry_irrep.label == s_plus_irrep
-    ]
-    assert len(magnon_br_filtered) == 1
-    magnon_br = magnon_br_filtered[0]
+        magnon_br_filtered = [
+            br
+            for br in brs_at_wp
+            if br.atomic_orbital.site_symmetry_irrep.label == s_plus_irrep
+        ]
+        assert len(magnon_br_filtered) == 1
+        magnon_br = magnon_br_filtered[0]
 
-    output["magnon_site_irreps"] = [s_plus_irrep, "LEFT_EMPTY"]
-    result.unperturbed_band_structure.atomic_orbital[
-        0
-    ].site_symmetry_irrep.label = s_plus_irrep
-    output["posbrsiteirrep"] = s_plus_irrep
-    output["posbrirreps"] = [irrep.label for irrep in magnon_br.kspace_little_irrep]
+        def copy_to_proto():
+            orbital = result.unperturbed_band_structure.atomic_orbital.add()
+            orbital.wyckoff_position.label = wp_label
+            orbital.wyckoff_position.site_symmetry_group_label = point_group_label
 
-    def copy_to_proto():
-        for irrep in magnon_br.kspace_little_irrep:
-            result.unperturbed_band_structure.supergroup_little_irrep.add(
-                label=irrep.label, dimension=irrep.dimension
-            )
+            for irrep in magnon_br.kspace_little_irrep:
+                result.unperturbed_band_structure.supergroup_little_irrep.add(
+                    label=irrep.label, dimension=irrep.dimension
+                )
 
-    copy_to_proto()
-    del copy_to_proto
+        copy_to_proto()
+        del copy_to_proto
 
     gstrs, presc = gstrs_and_presc_of_subgroups(msg_number)[subgroup_id]
     msgs = GroupSubgroupRelation(msg, gstrs)
@@ -145,9 +134,6 @@ def process_tables(msg_number, wp_label, subgroup_id):
         g = gs[0]
         assert subkvec.symbol not in subksymbol_to_g_and_superksymbol
         subksymbol_to_g_and_superksymbol[subkvec.symbol] = (str(g), superkvec.symbol)
-    output["subk_to_g_and_superk"] = subksymbol_to_g_and_superksymbol
-
-    output["presc"] = ";".join(presc)
 
     def copy_to_proto():
         for p in presc:
@@ -155,15 +141,6 @@ def process_tables(msg_number, wp_label, subgroup_id):
 
     copy_to_proto()
     del copy_to_proto
-
-    superksymbols_having_maximal_subks = set([])
-    for subksymbol, g_and_superksymbol in subksymbol_to_g_and_superksymbol.items():
-        superksymbols_having_maximal_subks.add(g_and_superksymbol[1])
-
-    output["super_msg_label"] = msgs.super_msg.label
-    output["super_msg_number"] = msgs.super_msg.number
-    output["sub_msg_label"] = msgs.sub_msg.label
-    output["sub_msg_number"] = msgs.sub_msg.number
 
     def copy_to_proto():
         result.supergroup.number = msgs.super_msg.number
@@ -173,27 +150,6 @@ def process_tables(msg_number, wp_label, subgroup_id):
 
     copy_to_proto()
     del copy_to_proto
-
-    output["super_msg_irreps"] = [
-        LittleIrrep(x).label for x in msgs.super_msg.irrep_labels
-    ]
-    output["superirrep_to_dim"] = {
-        irrep.label: irrep.dim
-        for irrep in [LittleIrrep(x) for x in msgs.super_msg.irrep_labels]
-    }
-    output["superirrep_to_k"] = {
-        irrep.label: irrep.ksymbol
-        for irrep in [LittleIrrep(x) for x in msgs.super_msg.irrep_labels]
-    }
-    output["sub_msg_irreps"] = [LittleIrrep(x).label for x in msgs.sub_msg.irrep_labels]
-    output["subirrep_to_dim"] = {
-        irrep.label: irrep.dim
-        for irrep in [LittleIrrep(x) for x in msgs.sub_msg.irrep_labels]
-    }
-    output["subirrep_to_k"] = {
-        irrep.label: irrep.ksymbol
-        for irrep in [LittleIrrep(x) for x in msgs.sub_msg.irrep_labels]
-    }
 
     def copy_to_proto():
         def convert_to_proto(irrep_labels, group_proto):
@@ -210,21 +166,15 @@ def process_tables(msg_number, wp_label, subgroup_id):
     copy_to_proto()
     del copy_to_proto
 
-    output["si_orders"] = [int(x) for x in msgs.sub_msg.si_orders]
-    output["si_matrix"] = [[int(x) for x in row] for row in msgs.sub_msg.si_matrix]
-    output["comp_rels_matrix"] = [
-        [int(x) for x in row] for row in msgs.sub_msg.comp_rels
-    ]
-
     def copy_to_proto():
         result.subgroup.symmetry_indicator_matrix.CopyFrom(
-            matrixxi_to_proto(output["si_matrix"])
+            matrixxi_to_proto([[int(x) for x in row] for row in msgs.sub_msg.si_matrix])
         )
         result.subgroup.compatibility_relations_matrix.CopyFrom(
-            matrixxi_to_proto(output["comp_rels_matrix"])
+            matrixxi_to_proto([[int(x) for x in row] for row in msgs.sub_msg.comp_rels])
         )
-        for si_order in output["si_orders"]:
-            result.subgroup.symmetry_indicator_order.append(si_order)
+        for si_order in msgs.sub_msg.si_orders:
+            result.subgroup.symmetry_indicator_order.append(int(si_order))
 
         for index, irrep_str in enumerate(msgs.sub_msg.irrep_labels):
             label = LittleIrrep(irrep_str).label
@@ -232,22 +182,6 @@ def process_tables(msg_number, wp_label, subgroup_id):
 
     copy_to_proto()
     del copy_to_proto
-
-    output["super_msg_ks"] = [x.symbol for x in msgs.super_msg.kvectors]
-    output["super_msg_kcoords"] = [
-        ",".join((str(coord) for coord in x.coords)) for x in msgs.super_msg.kvectors
-    ]
-    output["sub_msg_ks"] = [x.symbol for x in msgs.sub_msg.kvectors]
-    output["sub_msg_kcoords"] = [
-        ",".join((str(coord) for coord in x.coords)) for x in msgs.sub_msg.kvectors
-    ]
-
-    output["super_k1_to_k2_to_irrep_to_lineirreps"] = k1_to_k2_to_irrep_to_lineirreps(
-        msgs.super_msg
-    )
-    output["sub_k1_to_k2_to_irrep_to_lineirreps"] = k1_to_k2_to_irrep_to_lineirreps(
-        msgs.sub_msg
-    )
 
     def copy_to_proto():
         def process_kvectors(group, group_proto):
@@ -265,22 +199,6 @@ def process_tables(msg_number, wp_label, subgroup_id):
 
     copy_to_proto()
     del copy_to_proto
-
-    superirrep_to_all_subirreps = defaultdict(list)
-    for superkvec, m in msgs.superkvec_to_superirrep_to_subirreps.items():
-        for superirrep, superirreps in m.items():
-            superirrep_to_all_subirreps[superirrep.label].extend(
-                [x.label for x in superirreps]
-            )
-    output["superirrep_to_all_subirreps"] = superirrep_to_all_subirreps
-
-    output["subk_to_superirrep_to_subirreps"] = {
-        subkvec.symbol: {
-            superirrep.label: [subirrep.label for subirrep in subirreps]
-            for superirrep, subirreps in superirrep_to_subirreps.items()
-        }
-        for subkvec, superirrep_to_subirreps in msgs.subkvec_to_superirrep_to_subirreps.items()
-    }
 
     def copy_to_proto():
         map_superksymbol_to_map_subksymbol_to_pair_g_and_map_superirrep_to_subirreps = (
@@ -320,13 +238,6 @@ def process_tables(msg_number, wp_label, subgroup_id):
     copy_to_proto()
     del copy_to_proto
 
-    output["k1_k2_irrep1irrep2pairs_tuples_of_supermsg"] = antiunit_related_irreps(
-        msgs.super_msg.number
-    )
-    output["k1_k2_irrep1irrep2pairs_tuples_of_submsg"] = antiunit_related_irreps(
-        msgs.sub_msg.number
-    )
-
     def copy_to_proto():
         result.supergroup.antiunitarily_related_irrep_pairs.CopyFrom(
             fetch_antiunitarily_related_irreps(msgs.super_msg.number)
@@ -338,24 +249,17 @@ def process_tables(msg_number, wp_label, subgroup_id):
     copy_to_proto()
     del copy_to_proto
 
-    from fractions import Fraction
-
-    output["super_to_sub"] = list(
-        list(str(Fraction(y).limit_denominator(1000)) for y in x)
-        for x in msgs.super_to_sub
-    )
-    print(output["super_to_sub"], file=sys.stderr)
-
     def copy_to_proto():
         result.group_subgroup_relation.supergroup_from_subgroup_standard_basis.CopyFrom(
-            matrix4d_to_proto(output["super_to_sub"])
+            matrix4d_to_proto(
+                list(
+                    list(str(Fraction(y).limit_denominator(1000)) for y in x)
+                    for x in msgs.super_to_sub
+                )
+            )
         )
 
     copy_to_proto()
     del copy_to_proto
-
-    out_filename = r"{}-{}-{}.json".format(msg_number, wp_label, subgroup_id)
-
-    print("Finished successfully. Quitting ...", file=sys.stderr)
 
     return result

@@ -11,7 +11,7 @@ TODO: Refactor the fetchers to allow isolated tests.
 
 class ProcessTablesTest(unittest.TestCase):
     def test_empty(self):
-        process_tables("205.33", "4a", 4)
+        process_tables("205.33", ["4a"], 4)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@
 
 int main() {
     magnon::diagnose2::PerturbedBandStructure structure{};
-    magnon::common::proto::read_from_text_file("/tmp/processed_tables.txtpb", structure);
+    magnon::common::proto::read_from_text_file("/tmp/1.txtpb", structure);
     std::string output;
     assert(google::protobuf::TextFormat::PrintToString(structure, &output));
     fmt::print("{}\n", output);

@@ -123,23 +123,9 @@ MatrixInt construct_matrix(const std::vector<std::vector<int>> &rows) {
 }
 
 SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
-    assert(spectrum.unperturbed_band_structure().atomic_orbital_size() == 1);
-    {
-        assert(
-            spectrum.unperturbed_band_structure().atomic_orbital(0).wyckoff_position().has_label());
-        wp = spectrum.unperturbed_band_structure().atomic_orbital(0).wyckoff_position().label();
-        assert(spectrum.unperturbed_band_structure()
-                   .atomic_orbital(0)
-                   .site_symmetry_irrep()
-                   .has_label());
-        magnon_site_irreps = {
-            spectrum.unperturbed_band_structure().atomic_orbital(0).site_symmetry_irrep().label(),
-            ""};
-
-        for (const auto &irrep_proto :
-             spectrum.unperturbed_band_structure().supergroup_little_irrep()) {
-            pos_neg_magnonirreps.first.push_back(irrep_proto.label());
-        }
+    for (const auto &irrep_proto :
+         spectrum.unperturbed_band_structure().supergroup_little_irrep()) {
+        pos_neg_magnonirreps.first.push_back(irrep_proto.label());
     }
 
     const auto group_from_proto = [](const groups::MagneticSpaceGroup &group) -> SpectrumData::Msg {
@@ -285,7 +271,6 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
     std::sort(unique_bags.begin(), unique_bags.end());
     unique_bags.erase(std::unique(unique_bags.begin(), unique_bags.end()), unique_bags.end());
 }
-
 
 Bag::Bag(const std::string &superirrep, const SpectrumData &data) {
     const auto &subirreps = data.superirrep_to_all_subirreps.at(superirrep);

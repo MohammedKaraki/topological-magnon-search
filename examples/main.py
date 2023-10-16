@@ -11,7 +11,7 @@ from magnon.common.logger import create_root_logger
 
 def main():
     create_root_logger()
-    print(process_tables("205.33", "4a", 2))
+    print(process_tables("205.33", ["4a", "4a"], 2))
 
 
 if __name__ == "__main__":
