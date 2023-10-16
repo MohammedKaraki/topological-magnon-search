@@ -6,6 +6,7 @@ from magnon.fetch.magnetic_space_group_from_generators import fetch_msg_from_gen
 from magnon.diagnose2.process_tables import process_tables
 import json
 import sys
+import os
 
 from magnon.common.logger import create_root_logger, create_logger
 
@@ -21,13 +22,19 @@ def main():
         if key not in key_to_materials:
             key_to_materials[key] = []
         key_to_materials[key].append(mat)
-    for key, mats in key_to_materials.items():
-        name = "{}-{}".format(key[0], "-".join(key[1]))
-        _logger.info(name)
-        spectrums = process_tables(key[0], list(key[1]))
-        _logger.info(spectrums)
-        with open("/tmp/{}.txtpb".format(name), "w") as f:
-            f.write(str(spectrums))
+    for i, (key, mats) in enumerate(key_to_materials.items()):
+        try:
+            label = "{}-{}".format(key[0], "-".join(key[1]))
+            filename = "/tmp/{}.txtpb".format(label)
+            _logger.info(label)
+            if os.path.exists(filename):
+                continue
+            spectrums = process_tables(key[0], list(key[1]))
+            _logger.info(spectrums)
+            with open(filename, "w") as f:
+                f.write(str(spectrums))
+        except Exception as e:
+            _logger.error(e)
 
 
 if __name__ == "__main__":

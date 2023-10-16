@@ -15,10 +15,10 @@ magnon_cc_binary(
 magnon_py_binary(
     name = "main_py",
     srcs = ["main.py"],
-    main = "main.py",
-    data=[
+    data = [
         "//data:materials",
     ],
+    main = "main.py",
     deps = [
         "//diagnose2:process_tables",
     ],

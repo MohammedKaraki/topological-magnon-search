@@ -5,13 +5,17 @@ from magnon.fetch.magnetic_space_group_from_generators import (
 )
 from magnon.common.matrix_converter_py import matrix4d_from_proto
 
+from magnon.common.logger import create_logger
+
+_logger = create_logger(__name__)
+
 
 def identify_group(gstrs):
     identified_msg = fetch_msg_from_generators(gstrs)
     msg_number = identified_msg.number
     import sys
 
-    print("WORTH CHCECKING THIS!!", file=sys.stderr)
+    _logger.warning("WORTH CHCECKING THIS!!")
     to_standard = matrix4d_from_proto(identified_msg.current_from_standard_basis)
     return {"group_number": msg_number, "to_standard": to_standard}
 

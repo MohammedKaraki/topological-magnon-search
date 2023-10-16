@@ -39,7 +39,7 @@ def create_root_logger(filename=_DEFAULT_LOG_FILENAME):
 
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(ColoredFormatter())
-    console_handler.setLevel(logging.DEBUG)
+    console_handler.setLevel(logging.ERROR)
     logger.addHandler(console_handler)
 
     return logger
@@ -47,6 +47,6 @@ def create_root_logger(filename=_DEFAULT_LOG_FILENAME):
 
 def create_logger(name):
     logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.ERROR)
 
     return logger

@@ -10,6 +10,7 @@ _ADDITIONAL_COPTS = [
     # This is because the code of some external libraries we have cause
     # clang to emit warnings, and it is preferable to just ignore them.
     "-Werror",
+    "-O2",
 ]
 
 def magnon_proto_library(name, srcs, deps = [], **kwargs):

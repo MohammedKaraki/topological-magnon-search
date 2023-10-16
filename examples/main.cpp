@@ -4,11 +4,14 @@
 #include "diagnose2/analyze_perturbed_band_structure.hpp"
 #include "google/protobuf/text_format.h"
 
-int main() {
-    magnon::diagnose2::PerturbedBandStructure structure{};
-    magnon::common::proto::read_from_text_file("/tmp/1.txtpb", structure);
-    std::string output;
-    assert(google::protobuf::TextFormat::PrintToString(structure, &output));
-    fmt::print("{}\n", output);
-    magnon::diagnose2::analyze_perturbed_band_structure(structure);
+int main(int argc, const char **argv) {
+    assert(argc == 2);
+    magnon::diagnose2::PerturbedBandStructures structures{};
+    magnon::common::proto::read_from_text_file(argv[1], structures);
+    // std::string output;
+    // assert(google::protobuf::TextFormat::PrintToString(structures, &output));
+    // fmt::print("{}\n", output);
+    for (const auto &structure : structures.structure()) {
+        magnon::diagnose2::analyze_perturbed_band_structure(structure);
+    }
 }

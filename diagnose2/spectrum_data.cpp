@@ -138,7 +138,6 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
             result.irreps.push_back(irrep_label);
             result.irrep_to_dim[irrep_label] = irrep_proto.dimension();
             result.irrep_to_k[irrep_label] = irrep_proto.kstar().label();
-            std::cerr << irrep_label << " -> " << irrep_proto.kstar().label() << '\n';
         }
         result.populate_irrep_dims();
 
@@ -206,8 +205,6 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
                 new_matrix.col(c) =
                     matrix.col(group.irrep_label_to_matrix_column_index().at(result.irreps[c]));
             }
-            std::cerr << "before\n" << matrix << '\n';
-            std::cerr << "after\n" << new_matrix << '\n';
             return new_matrix;
         };
         if (group.has_symmetry_indicator_matrix()) {

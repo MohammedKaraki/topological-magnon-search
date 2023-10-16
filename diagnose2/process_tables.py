@@ -254,18 +254,20 @@ def _process_tables_for_subgroup(msg_number, wp_labels, subgroup_gstrs, presc):
     copy_to_proto()
     del copy_to_proto
 
-    print(result, file=sys.stderr)
     return result
 
 
 def process_tables(msg_number, wp_labels):
     structures = PerturbedBandStructures()
+    print(msg_number, wp_labels)
     for gstrs, presc in gstrs_and_presc_of_subgroups(msg_number):
         identified_number = fetch_msg_from_generators(gstrs).number
         subgroup = Msg(identified_number)
         if len(subgroup.si_orders) == 0:
+            print("X ", subgroup.label)
             continue
 
+        print("viable subgroup: ", subgroup.label)
         structures.structure.append(
             _process_tables_for_subgroup(msg_number, wp_labels, gstrs, presc)
         )

@@ -58,7 +58,7 @@ void analyze_perturbed_band_structure(const PerturbedBandStructure &structure) {
         do {
             assert(subband.satisfies_antiunit_rels());
 
-            if (model_counter % 500'000 == 0) {
+            if (model_counter % 50'000 == 0) {
                 std::cerr << "counter: " << model_counter << '\n';
             }
 

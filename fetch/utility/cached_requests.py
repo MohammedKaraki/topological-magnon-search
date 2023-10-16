@@ -32,6 +32,7 @@ def _cached_call(function, *args, **kwargs):
         result = response.text
 
         assert not path.exists(full_path)
+        assert len(result) > 0
         with open(full_path, "w") as file:
             file.write(result)
             _logger.info("Cached: '{0}'".format(full_path))
