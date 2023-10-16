@@ -3,7 +3,10 @@ import json
 from collections import defaultdict
 from fractions import Fraction
 
-from magnon.diagnose2.perturbed_band_structure_pb2 import PerturbedBandStructure
+from magnon.diagnose2.perturbed_band_structure_pb2 import (
+    PerturbedBandStructures,
+    PerturbedBandStructure,
+)
 from magnon.common.matrix_converter_py import matrixxi_to_proto, matrix4d_to_proto
 
 from magnon.fetch.magnetic_space_group_from_generators import fetch_msg_from_generators
@@ -79,11 +82,10 @@ def k1_to_k2_to_irrep_to_lineirreps(msg):
     return result
 
 
-def process_tables(msg_number, wp_labels, subgroup_id):
+def _process_tables_for_subgroup(msg_number, wp_labels, subgroup_gstrs, presc):
     result = PerturbedBandStructure()
     assert isinstance(wp_labels, list)
     assert isinstance(wp_labels[0], str)
-    subgroup_id = int(subgroup_id)
     msg = Msg(msg_number)
 
     for wp_label in wp_labels:
@@ -116,17 +118,7 @@ def process_tables(msg_number, wp_labels, subgroup_id):
         copy_to_proto()
         del copy_to_proto
 
-    gstrs, presc = gstrs_and_presc_of_subgroups(msg_number)[subgroup_id]
-    msgs = GroupSubgroupRelation(msg, gstrs)
-
-    if len(msgs.sub_msg.si_orders) == 0:
-        print(
-            "SI of subgroup ({}) is trivial. Quitting...".format(
-                msgs.sub_msg.si_orders
-            ),
-            file=sys.stderr,
-        )
-        exit(1)
+    msgs = GroupSubgroupRelation(msg, subgroup_gstrs)
 
     subksymbol_to_g_and_superksymbol = {}
     for subkvec in msgs.sub_msg.kvectors:
@@ -253,7 +245,7 @@ def process_tables(msg_number, wp_labels, subgroup_id):
         result.group_subgroup_relation.supergroup_from_subgroup_standard_basis.CopyFrom(
             matrix4d_to_proto(
                 list(
-                    list(str(Fraction(y).limit_denominator(1000)) for y in x)
+                    list(str(float(Fraction(y).limit_denominator(1000))) for y in x)
                     for x in msgs.super_to_sub
                 )
             )
@@ -262,4 +254,20 @@ def process_tables(msg_number, wp_labels, subgroup_id):
     copy_to_proto()
     del copy_to_proto
 
+    print(result, file=sys.stderr)
     return result
+
+
+def process_tables(msg_number, wp_labels):
+    structures = PerturbedBandStructures()
+    for gstrs, presc in gstrs_and_presc_of_subgroups(msg_number):
+        identified_number = fetch_msg_from_generators(gstrs).number
+        subgroup = Msg(identified_number)
+        if len(subgroup.si_orders) == 0:
+            continue
+
+        structures.structure.append(
+            _process_tables_for_subgroup(msg_number, wp_labels, gstrs, presc)
+        )
+
+    return structures

@@ -14,3 +14,8 @@ filegroup(
     name = "standard_magnetic_space_groups",
     srcs = ["standard_magnetic_space_groups.txtpb"],
 )
+
+filegroup(
+    name = "materials",
+    srcs = ["materials.json"],
+)

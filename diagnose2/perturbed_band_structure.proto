@@ -7,7 +7,7 @@ import "groups/group_subgroup_relation.proto";
 
 package magnon.diagnose2;
 
-// PerturbedBandStructre holds all the information needed to run the topological
+// PerturbedBandStructure holds all the information needed to run the topological
 // magnon search algorithm.
 message PerturbedBandStructure {
     // The original magnetic space group prior to external perturbations.
@@ -29,4 +29,8 @@ message PerturbedBandStructure {
     }
 
     optional BandStructure unperturbed_band_structure = 3;
+}
+
+message PerturbedBandStructures {
+    repeated PerturbedBandStructure structure = 1;
 }

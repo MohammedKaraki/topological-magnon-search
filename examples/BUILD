@@ -16,6 +16,9 @@ magnon_py_binary(
     name = "main_py",
     srcs = ["main.py"],
     main = "main.py",
+    data=[
+        "//data:materials",
+    ],
     deps = [
         "//diagnose2:process_tables",
     ],
