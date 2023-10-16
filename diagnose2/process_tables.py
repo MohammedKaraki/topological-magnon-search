@@ -85,8 +85,10 @@ def process_tables(msg_number, wp_label, subgroup_id):
     output = {"wp": wp_label}
 
     def copy_to_proto():
-        result.atomic_orbital.add()
-        result.atomic_orbital[0].wyckoff_position.label = wp_label
+        result.unperturbed_band_structure.atomic_orbital.add()
+        result.unperturbed_band_structure.atomic_orbital[
+            0
+        ].wyckoff_position.label = wp_label
 
     copy_to_proto()
     del copy_to_proto
@@ -110,7 +112,9 @@ def process_tables(msg_number, wp_label, subgroup_id):
     magnon_br = magnon_br_filtered[0]
 
     output["magnon_site_irreps"] = [s_plus_irrep, "LEFT_EMPTY"]
-    result.atomic_orbital[0].site_symmetry_irrep.label = s_plus_irrep
+    result.unperturbed_band_structure.atomic_orbital[
+        0
+    ].site_symmetry_irrep.label = s_plus_irrep
     output["posbrsiteirrep"] = s_plus_irrep
     output["posbrirreps"] = [irrep.label for irrep in magnon_br.kspace_little_irrep]
 

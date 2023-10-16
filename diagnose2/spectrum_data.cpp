@@ -123,12 +123,18 @@ MatrixInt construct_matrix(const std::vector<std::vector<int>> &rows) {
 }
 
 SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
-    assert(spectrum.atomic_orbital_size() == 1);
+    assert(spectrum.unperturbed_band_structure().atomic_orbital_size() == 1);
     {
-        assert(spectrum.atomic_orbital(0).wyckoff_position().has_label());
-        wp = spectrum.atomic_orbital(0).wyckoff_position().label();
-        assert(spectrum.atomic_orbital(0).site_symmetry_irrep().has_label());
-        magnon_site_irreps = {spectrum.atomic_orbital(0).site_symmetry_irrep().label(), ""};
+        assert(
+            spectrum.unperturbed_band_structure().atomic_orbital(0).wyckoff_position().has_label());
+        wp = spectrum.unperturbed_band_structure().atomic_orbital(0).wyckoff_position().label();
+        assert(spectrum.unperturbed_band_structure()
+                   .atomic_orbital(0)
+                   .site_symmetry_irrep()
+                   .has_label());
+        magnon_site_irreps = {
+            spectrum.unperturbed_band_structure().atomic_orbital(0).site_symmetry_irrep().label(),
+            ""};
 
         for (const auto &irrep_proto :
              spectrum.unperturbed_band_structure().supergroup_little_irrep()) {

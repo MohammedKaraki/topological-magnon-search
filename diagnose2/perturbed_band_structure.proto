@@ -20,13 +20,13 @@ message PerturbedBandStructure {
     optional magnon.groups.GroupSubgroupRelation group_subgroup_relation = 2;
 
     message BandStructure {
+        // The (co-)representation content of the unperturbed bands.
         repeated magnon.groups.Irrep supergroup_little_irrep = 1;
+
+        // The atomic orbitals from which the bands band representation was induced.
+        // If the band structure doesn't admit an atomic limit, this must be left empty.
+        repeated magnon.groups.AtomicOrbital atomic_orbital = 2;
     }
 
-    // The (co-)representation content of the unperturbed bands.
     optional BandStructure unperturbed_band_structure = 3;
-
-    // The atomic orbitals from which the bands band representation was induced.
-    // If the band structure doesn't admit an atomic limit, this must be left empty.
-    repeated magnon.groups.AtomicOrbital atomic_orbital = 4;
 }
