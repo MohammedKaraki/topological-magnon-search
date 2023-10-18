@@ -22,7 +22,7 @@ def find_primvecsmat_method1(msg_number):
     if latticetype == "P":
         pass
     elif latticetype == "A":
-        vec1 = [0, f12, f12]
+        vec3 = [0, f12, f12]
     elif latticetype == "C":
         vec1 = [f12, f12, 0]
     elif latticetype == "I":
@@ -43,7 +43,7 @@ def find_primvecsmat_method1(msg_number):
     if latticetype == "P":
         assert det == 1.0
     elif latticetype == "A":
-        assert det == 1.0 / 2.0
+        assert det == 1.0 / 2.0, result
     elif latticetype == "C":
         assert det == 1.0 / 2.0
     elif latticetype == "I":
@@ -73,7 +73,8 @@ def find_primvecsmat_method2(msg_number):
             else:
                 result[:, next_col] = translation
                 next_col += 1
-
+    if np.allclose(result, [[0, 0, 0], [0.5, 1, 0], [0.5, 0, 1]]):
+        result = np.array([[1, 0, 0], [0, 1, 0.5], [0, 0, 0.5]])
     return result
 
 

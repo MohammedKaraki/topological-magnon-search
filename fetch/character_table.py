@@ -111,6 +111,12 @@ def _tabletag_to_trace(table_tag):
     return np.round(trace, _ROUND_DECIMALS)
 
 
+from joblib import Memory
+
+memory = Memory("/tmp", verbose=0)
+
+
+@memory.cache
 def _char_table_info(msg_number, ksymbol):
     html = _fetch_corep_html(msg_number, ksymbol)
     soup = bs(html, "html5lib")

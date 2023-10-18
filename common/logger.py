@@ -47,6 +47,6 @@ def create_root_logger(filename=_DEFAULT_LOG_FILENAME):
 
 def create_logger(name):
     logger = logging.getLogger(name)
-    logger.setLevel(logging.ERROR)
+    logger.setLevel(logging.DEBUG)
 
     return logger

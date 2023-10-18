@@ -23,3 +23,12 @@ magnon_py_binary(
         "//diagnose2:process_tables",
     ],
 )
+
+magnon_py_binary(
+    name = "main2_py",
+    srcs = ["main2.py"],
+    main = "main2.py",
+    deps = [
+        "//diagnose2:process_tables",
+    ],
+)

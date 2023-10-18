@@ -10,6 +10,15 @@ load(
 load("@pip_deps//:requirements.bzl", "requirement")
 
 magnon_proto_library(
+    name = "result_proto",
+    srcs = ["result.proto"],
+    deps = [
+        "//common:matrix_proto",
+        "//groups:atomic_orbital_proto",
+    ],
+)
+
+magnon_proto_library(
     name = "perturbed_band_structure_proto",
     srcs = ["perturbed_band_structure.proto"],
     deps = [
@@ -51,18 +60,10 @@ magnon_cc_library(
     hdrs = ["analyze_perturbed_band_structure.hpp"],
     deps = [
         ":perturbed_band_structure_proto_cc",
-        # ":irreps",
-        # ":k_path",
-        # ":latexify",
-        # ":ostream_utility",
-        # ":physics_and_chemistry",
+        ":result_proto_cc",
         ":si_summary",
         ":spectrum_data",
-        # ":utility",
-        # ":visualize",
-        # "//config:config_proto_cc",
         "@fmt",
-        # "@nlohmann_json//:json",
     ],
 )
 

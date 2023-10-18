@@ -15,6 +15,10 @@ _logger = create_logger(__name__)
 
 def main():
     create_root_logger()
+
+    # process_tables("64.471",['8f'])
+    # return
+
     output_materials = []
     key_to_materials = {}
     for mat in json.load(open("data/materials.json", "r")):
@@ -35,6 +39,7 @@ def main():
                 f.write(str(spectrums))
         except Exception as e:
             _logger.error(e)
+            raise e
 
 
 if __name__ == "__main__":

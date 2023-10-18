@@ -1,17 +1,43 @@
+#include "fmt/color.h"
 #include "fmt/core.h"
 
 #include "common/proto_text_format.hpp"
 #include "diagnose2/analyze_perturbed_band_structure.hpp"
+#include "diagnose2/result.pb.h"
 #include "google/protobuf/text_format.h"
+
+constexpr double TIMEOUT_S = 10.0;
 
 int main(int argc, const char **argv) {
     assert(argc == 2);
     magnon::diagnose2::PerturbedBandStructures structures{};
     magnon::common::proto::read_from_text_file(argv[1], structures);
-    // std::string output;
-    // assert(google::protobuf::TextFormat::PrintToString(structures, &output));
-    // fmt::print("{}\n", output);
+
     for (const auto &structure : structures.structure()) {
-        magnon::diagnose2::analyze_perturbed_band_structure(structure);
+        std::string wp_labels{};
+        for (const auto &atomic_orbital : structure.unperturbed_band_structure().atomic_orbital()) {
+            wp_labels = wp_labels + "+" + atomic_orbital.wyckoff_position().label();
+        }
+        std::cerr << fmt::format("{} ({}), WPs {} -> {} ({}): ",
+                                 structure.supergroup().label(),
+                                 structure.supergroup().number(),
+                                 wp_labels,
+                                 structure.subgroup().label(),
+                                 structure.subgroup().number());
+        const auto result =
+            magnon::diagnose2::analyze_perturbed_band_structure(structure, TIMEOUT_S);
+        if (result.is_timeout()) {
+            std::cerr << fmt::format(fmt::bg(fmt::color::blue), "Timeout!") << '\n';
+        } else if (result.is_negative_diagnosis()) {
+            std::cerr << fmt::format(fmt::bg(fmt::color::red), "Negative!!") << '\n';
+        } else {
+            std::cerr << fmt::format(fmt::bg(fmt::color::green), "Positive!!!") << '\n';
+        }
+
+        magnon::diagnose2::Results results{};
+        *results.add_result() = result;
+        std::string output;
+        assert(google::protobuf::TextFormat::PrintToString(results, &output));
+        std::cout << output << std::endl;
     }
 }

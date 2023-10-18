@@ -1,5 +1,6 @@
 #include "diagnose2/analyze_perturbed_band_structure.hpp"
 
+#include <chrono>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -8,6 +9,8 @@
 #include <utility>
 #include <vector>
 
+#include "fmt/core.h"
+
 #include "si_summary.hpp"
 #include "spectrum_data.hpp"
 
@@ -15,10 +18,16 @@ namespace magnon::diagnose2 {
 
 namespace {
 
+constexpr auto GAPLESS = "g";
+constexpr auto TRIVIAL_OR_GAPLESS = "tg";
+
 using GapRange = std::pair<int, int>;
 using Sis = std::vector<std::string>;
 using SisSet = std::set<Sis>;
 using SiToPossibs = std::map<std::string, std::set<int>>;
+
+auto now() { return std::chrono::high_resolution_clock::now(); }
+auto as_seconds(const auto &duration) { return std::chrono::duration<double>(duration).count(); }
 
 std::string si_to_str(const MatrixInt &si) {
     std::ostringstream result;
@@ -28,10 +37,124 @@ std::string si_to_str(const MatrixInt &si) {
     return result.str();
 }
 
+std::set<int> all_sums(const std::set<int> &a, const std::set<int> &b) {
+    assert(!a.empty());
+    assert(!b.empty());
+
+    std::set<int> result;
+    for (const auto &x : a) {
+        for (const auto &y : b) {
+            result.insert(x + y);
+        }
+    }
+
+    return result;
+}
+
+std::tuple<std::string, std::map<std::string, std::set<int>>, std::map<int, std::set<std::string>>>
+summarize(const std::vector<std::pair<GapRange, SisSet>> &gap_range_sis_set_pairs,
+          const int num_bands) {
+    std::map<int, std::set<std::string>> gap_to_possibsis;
+    for (const auto &[gap_range, sis_set] : gap_range_sis_set_pairs) {
+        const auto &[gap_begin, gap_end] = gap_range;
+        for (const auto &sis : sis_set) {
+            for (int gap = gap_begin; gap <= gap_end; ++gap) {
+                gap_to_possibsis[gap].insert(sis.at(gap - gap_begin));
+            }
+        }
+    }
+
+    std::set<std::string> all_sis;
+    for (const auto &[gap_range, sis_set] : gap_range_sis_set_pairs) {
+        for (const auto &sis : sis_set) {
+            for (const auto &si : sis) {
+                all_sis.insert(si);
+            }
+        }
+    }
+
+    std::string trivial_si;
+    for (const auto &si : all_sis) {
+        if (std::all_of(si.begin(), si.end(), [](const char c) { return c == '0'; })) {
+            assert(!si.empty());
+            for (char c : si) {
+                assert(c == '0');
+            }
+            trivial_si = si;
+            break;
+        }
+    }
+    assert(!trivial_si.empty());
+
+    all_sis.insert(TRIVIAL_OR_GAPLESS);
+    all_sis.insert(GAPLESS);
+
+    std::map<std::string, std::set<int>> finalsi_to_possibcounts;
+    std::map<std::string, std::set<int>> si_to_possibcounts;
+
+    for (const auto &[gap_range, sis_set] : gap_range_sis_set_pairs) {
+        const auto &[gap_begin, gap_end] = gap_range;
+
+        for (const auto &key_si : all_sis) {
+            if (gap_begin == 1) {  // started super Hamiltonian
+                si_to_possibcounts[key_si] = {0};
+            }
+            if (gap_end == 0) {  // finished super Hamiltonian
+                assert(gap_begin - 1 == num_bands);
+
+                finalsi_to_possibcounts[key_si].insert(si_to_possibcounts.at(key_si).begin(),
+                                                       si_to_possibcounts.at(key_si).end());
+                si_to_possibcounts[key_si].clear();
+                continue;
+            }
+
+            std::set<int> cur_possibcounts;
+
+            if (key_si == TRIVIAL_OR_GAPLESS) {
+                for (const auto &sis : sis_set) {
+                    cur_possibcounts.insert(
+                        std::count_if(sis.begin(), sis.end(), [&trivial_si](const auto &si) {
+                            return si == GAPLESS || si == trivial_si;
+                        }));
+                }
+            } else {
+                for (const auto &sis : sis_set) {
+                    cur_possibcounts.insert(std::count(sis.begin(), sis.end(), key_si));
+                }
+            }
+
+            si_to_possibcounts[key_si] = all_sums(si_to_possibcounts.at(key_si), cur_possibcounts);
+        }
+    }
+
+    std::set<int> gappednontrivial_possibcounts_exctopband;
+    for (auto count : finalsi_to_possibcounts.at(TRIVIAL_OR_GAPLESS)) {
+        assert(count >= 1);
+        gappednontrivial_possibcounts_exctopband.insert(num_bands - count);
+    }
+    finalsi_to_possibcounts["well-defined \\& nontrivial"] =
+        gappednontrivial_possibcounts_exctopband;
+    finalsi_to_possibcounts.erase(TRIVIAL_OR_GAPLESS);
+
+    finalsi_to_possibcounts["undefined (gap closed)"] = finalsi_to_possibcounts.at(GAPLESS);
+    finalsi_to_possibcounts.erase(GAPLESS);
+
+    std::set<int> correct_trivial_counts;
+    for (const auto &incorrect_count : finalsi_to_possibcounts.at(trivial_si)) {
+        assert(incorrect_count >= 1);
+        correct_trivial_counts.insert(incorrect_count - 1);
+    }
+    finalsi_to_possibcounts.at(trivial_si) = correct_trivial_counts;
+    return {trivial_si, finalsi_to_possibcounts, gap_to_possibsis};
+}
+
 }  // namespace
 
-void analyze_perturbed_band_structure(const PerturbedBandStructure &structure) {
+SubgroupWyckoffPositionResult analyze_perturbed_band_structure(
+    const PerturbedBandStructure &structure, double timeout) {
+    const auto start_time = now();
     SpectrumData data(structure);
+    SubgroupWyckoffPositionResult result{};
 
     const auto &positive_energy_irreps = [&]() {
         std::vector<std::string> result{};
@@ -46,21 +169,25 @@ void analyze_perturbed_band_structure(const PerturbedBandStructure &structure) {
     Subband subband = superband.make_subband();
 
     bool type_i_excluded = false;
-    int model_counter = 0;
     std::optional<SiSummary> final_lower, final_upper;
 
     std::vector<std::pair<GapRange, SisSet>> gap_range_and_sis_set_pairs;
+    result.set_is_timeout(false);
     do {
+        if (timeout > 0.0) {
+            if (as_seconds(now() - start_time) > timeout) {
+                result.set_is_timeout(true);
+                type_i_excluded = true;
+                break;
+            }
+        }
+
         assert(superband.satisfies_antiunit_rels());
 
         Subband subband = superband.make_subband();
         std::map<int, std::optional<SiSummary>> firstgap_to_lower, firstgap_to_upper;
         do {
             assert(subband.satisfies_antiunit_rels());
-
-            if (model_counter % 50'000 == 0) {
-                std::cerr << "counter: " << model_counter << '\n';
-            }
 
             int gap_bracket_begin = 1;
             int gap_bracket_end = 0;
@@ -80,7 +207,6 @@ void analyze_perturbed_band_structure(const PerturbedBandStructure &structure) {
             }
 
             if (gap_bracket_end >= gap_bracket_begin) {
-                ++model_counter;
                 assert(gap_bracket_end >= gap_bracket_begin);
                 const auto gap_to_isgapped_and_si = subband.calc_gap_sis();
                 SiSummary cur;
@@ -94,7 +220,7 @@ void analyze_perturbed_band_structure(const PerturbedBandStructure &structure) {
                         sis.push_back(si_to_str(si));
                     } else {
                         cur.increment_gapless();
-                        sis.push_back("-");
+                        sis.push_back(GAPLESS);
                     }
                 }
                 gap_range_and_sis_set_pairs.back().second.insert(sis);
@@ -140,18 +266,45 @@ void analyze_perturbed_band_structure(const PerturbedBandStructure &structure) {
         } while (subband.next_energetics());
     } while (!type_i_excluded && superband.cartesian_permute());
 
-    if (type_i_excluded) {
-        std::cerr << "\nType-I excluded!\n";
-    } else {
-        assert(final_lower);
-        std::cerr << "\nTotal number of models: " << model_counter << '\n';
-        std::cerr << "Lower bounds:\n'";
-        final_lower->print(std::cerr);
-        std::cerr << '\n';
+    result.mutable_metadata()->set_compute_time_s(as_seconds(now() - start_time));
+    result.set_supergroup_label(structure.supergroup().label());
+    result.set_supergroup_number(structure.supergroup().number());
+    result.set_subgroup_label(structure.subgroup().label());
+    result.set_subgroup_number(structure.subgroup().number());
+    *result.mutable_supergroup_from_subgroup_basis() =
+        structure.group_subgroup_relation().supergroup_from_subgroup_standard_basis();
+    *result.mutable_atomic_orbital() = structure.unperturbed_band_structure().atomic_orbital();
 
-        assert(final_upper);
-        final_upper->print(std::cerr);
+    if (result.is_negative_diagnosis()) {
+        return result;
     }
+
+    if (type_i_excluded) {
+        result.set_is_negative_diagnosis(true);
+    } else {
+        result.set_is_negative_diagnosis(false);
+        assert(final_lower);
+        assert(final_upper);
+        const auto [trivial_si, si_to_possible_counts, gap_to_possibsis] =
+            summarize(gap_range_and_sis_set_pairs, subband.get_num_bands());
+
+        for (const auto &[si, possible_counts] : si_to_possible_counts) {
+            SubgroupWyckoffPositionResult::GapCounts gap_counts{};
+            for (const auto &gap_count : possible_counts) {
+                gap_counts.add_gap_count(gap_count);
+            }
+            (*result.mutable_si_to_possible_gap_count())[si] = gap_counts;
+        }
+
+        for (const auto &[gap, possible_sis] : gap_to_possibsis) {
+            SubgroupWyckoffPositionResult::SIs sis_proto{};
+            for (const auto &si : possible_sis) {
+                *sis_proto.add_si() = si;
+            }
+            (*result.mutable_gap_to_possible_si_values())[gap] = sis_proto;
+        }
+    }
+    return result;
 }
 
 }  // namespace magnon::diagnose2

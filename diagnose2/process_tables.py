@@ -257,7 +257,16 @@ def _process_tables_for_subgroup(msg_number, wp_labels, subgroup_gstrs, presc):
     return result
 
 
-def process_tables(msg_number, wp_labels):
+def process_tables(msg_number, wp_labels, debug_index=None):
+    if debug_index is not None:
+        return [
+            _process_tables_for_subgroup(
+                msg_number,
+                wp_labels,
+                *gstrs_and_presc_of_subgroups(msg_number)[debug_index]
+            )
+        ]
+
     structures = PerturbedBandStructures()
     print(msg_number, wp_labels)
     for gstrs, presc in gstrs_and_presc_of_subgroups(msg_number):
