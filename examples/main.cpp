@@ -6,7 +6,7 @@
 #include "diagnose2/result.pb.h"
 #include "google/protobuf/text_format.h"
 
-constexpr double TIMEOUT_S = 10.0;
+constexpr double TIMEOUT_S = 1.0;
 
 int main(int argc, const char **argv) {
     assert(argc == 2);

@@ -173,20 +173,24 @@ SubgroupWyckoffPositionResult analyze_perturbed_band_structure(
 
     std::vector<std::pair<GapRange, SisSet>> gap_range_and_sis_set_pairs;
     result.set_is_timeout(false);
+    long counter = 0;
     do {
-        if (timeout > 0.0) {
-            if (as_seconds(now() - start_time) > timeout) {
-                result.set_is_timeout(true);
-                type_i_excluded = true;
-                break;
-            }
-        }
 
         assert(superband.satisfies_antiunit_rels());
 
         Subband subband = superband.make_subband();
         std::map<int, std::optional<SiSummary>> firstgap_to_lower, firstgap_to_upper;
         do {
+            ++counter;
+            if (counter % 1000 == 0) {
+                if (timeout > 0.0) {
+                    if (as_seconds(now() - start_time) > timeout) {
+                        result.set_is_timeout(true);
+                        type_i_excluded = true;
+                        break;
+                    }
+                }
+            }
             assert(subband.satisfies_antiunit_rels());
 
             int gap_bracket_begin = 1;
@@ -275,7 +279,7 @@ SubgroupWyckoffPositionResult analyze_perturbed_band_structure(
         structure.group_subgroup_relation().supergroup_from_subgroup_standard_basis();
     *result.mutable_atomic_orbital() = structure.unperturbed_band_structure().atomic_orbital();
 
-    if (result.is_negative_diagnosis()) {
+    if (result.is_timeout()) {
         return result;
     }
 

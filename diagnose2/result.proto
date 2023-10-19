@@ -1,0 +1,37 @@
+syntax = "proto2";
+
+import "groups/atomic_orbital.proto";
+import "common/matrix.proto";
+
+package magnon.diagnose2;
+
+message SubgroupWyckoffPositionResult {
+    optional string supergroup_number = 1;
+    optional string supergroup_label = 2;
+    repeated magnon.groups.AtomicOrbital atomic_orbital = 3;
+    optional string subgroup_number = 4;
+    optional string subgroup_label = 5;
+    optional magnon.common.Matrix4d supergroup_from_subgroup_basis = 6;
+
+    optional bool is_timeout = 7;
+    optional bool is_negative_diagnosis = 8;
+
+    message SIs {
+        repeated string si = 1;
+    }
+    map<int32, SIs> gap_to_possible_si_values = 9;
+
+    message GapCounts {
+        repeated int32 gap_count = 1;
+    }
+    map<string, GapCounts> si_to_possible_gap_count = 10;
+
+    message Metadata {
+        optional double compute_time_s = 1;
+    }
+    optional Metadata metadata = 11;
+}
+
+message Results {
+    repeated SubgroupWyckoffPositionResult result = 1;
+}
