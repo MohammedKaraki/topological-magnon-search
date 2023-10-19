@@ -13,6 +13,15 @@ magnon_cc_binary(
 )
 
 magnon_py_binary(
+    name = "summarize_results",
+    srcs = ["summarize_results.py"],
+    main = "summarize_results.py",
+    deps = [
+        "//latexify:latexify_result",
+    ],
+)
+
+magnon_py_binary(
     name = "main_py",
     srcs = ["main.py"],
     data = [
