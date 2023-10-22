@@ -1,7 +1,7 @@
 ## Automated Discovery of Topological Magnon Materials
 
 ### Architecture draft
-<img src="./data/arch.svg">
+<img src="./notes/arch.svg">
 
 ### Summary of the algorithm
 <img src="./notes/new_algorithm.svg">
@@ -37,7 +37,7 @@ pdflatex /tmp/205.33-4c-4-2.4-figure-high.tex
 ```
 results in the following figure:
 
-<img src="./data/205.33-4c-4-2.4-figure-high.svg">
+<img src="./notes/205.33-4c-4-2.4-figure-high.svg">
 
 
 # References
