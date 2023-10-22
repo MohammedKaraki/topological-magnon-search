@@ -18,8 +18,8 @@ namespace magnon::diagnose2 {
 
 namespace {
 
-constexpr auto GAPLESS = "g";
-constexpr auto TRIVIAL_OR_GAPLESS = "tg";
+constexpr const char *GAPLESS = "G";
+constexpr const char *TRIVIAL_OR_GAPLESS = "TorG";
 
 using GapRange = std::pair<int, int>;
 using Sis = std::vector<std::string>;
@@ -132,11 +132,10 @@ summarize(const std::vector<std::pair<GapRange, SisSet>> &gap_range_sis_set_pair
         assert(count >= 1);
         gappednontrivial_possibcounts_exctopband.insert(num_bands - count);
     }
-    finalsi_to_possibcounts["well-defined \\& nontrivial"] =
-        gappednontrivial_possibcounts_exctopband;
+    finalsi_to_possibcounts["nontrivial"] = gappednontrivial_possibcounts_exctopband;
     finalsi_to_possibcounts.erase(TRIVIAL_OR_GAPLESS);
 
-    finalsi_to_possibcounts["undefined (gap closed)"] = finalsi_to_possibcounts.at(GAPLESS);
+    finalsi_to_possibcounts["gapless"] = finalsi_to_possibcounts.at(GAPLESS);
     finalsi_to_possibcounts.erase(GAPLESS);
 
     std::set<int> correct_trivial_counts;

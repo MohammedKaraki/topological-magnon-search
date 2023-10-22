@@ -89,6 +89,7 @@ magnon_py_library(
         "//fetch/utility:scrape_utility",
         "//groups:character_table_proto_py",
         "//groups:irrep_proto_py",
+        requirement("joblib"),
         requirement("bs4"),
         requirement("html5lib"),
     ],
