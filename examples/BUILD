@@ -12,6 +12,20 @@ magnon_cc_binary(
     ],
 )
 
+magnon_cc_binary(
+    name = "analyze_perturbation",
+    srcs = ["analyze_perturbation.cpp"],
+    data = [
+        "//diagnose2/test_data",
+    ],
+    deps = [
+        "//common:proto_text_format",
+        "//diagnose2:analyze_perturbation",
+        "//diagnose2:perturbed_band_structure_proto_cc",
+        "@fmt",
+    ],
+)
+
 magnon_py_binary(
     name = "summarize_results",
     srcs = ["summarize_results.py"],

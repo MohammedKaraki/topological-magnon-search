@@ -40,4 +40,10 @@ bool read_from_text_file(const std::string &path, ::google::protobuf::Message &m
     return parser.ParseFromString(text_file_content, &message);
 }
 
+std::string to_text_format(const ::google::protobuf::Message &message) {
+    std::string result;
+    ::google::protobuf::TextFormat::PrintToString(message, &result);
+    return result;
+}
+
 }  // namespace magnon::common::proto

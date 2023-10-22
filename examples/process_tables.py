@@ -3,8 +3,9 @@ from magnon.common.logger import create_root_logger
 
 
 def main():
-    process_result = process_tables("205.33",['4a'])
-    print(process_result)
+    result = process_tables("205.33", ["4a"], 2)
+    print(result[0])
+
 
 if __name__ == "__main__":
     create_root_logger()
