@@ -3,6 +3,7 @@ package(default_visibility = ["//visibility:public"])
 load(
     "//build:defs.bzl",
     "magnon_cc_library",
+    "magnon_cc_test",
     "magnon_proto_library",
     "magnon_py_library",
     "magnon_py_test",
@@ -49,6 +50,9 @@ magnon_py_library(
 magnon_py_test(
     name = "process_tables_test",
     srcs = ["process_tables_test.py"],
+    data = [
+        "//diagnose2/test_data",
+    ],
     deps = [
         ":process_tables",
     ],
@@ -64,6 +68,19 @@ magnon_cc_library(
         ":si_summary",
         ":spectrum_data",
         "@fmt",
+    ],
+)
+
+magnon_cc_test(
+    name = "analyze_perturbation_test",
+    srcs = ["analyze_perturbation_test.cpp"],
+    data = [
+        "//diagnose2/test_data",
+    ],
+    deps = [
+        ":analyze_perturbation",
+        "//common:proto_text_format",
+        "@gtest//:gtest_main",
     ],
 )
 

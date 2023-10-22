@@ -1,0 +1,4461 @@
+supergroup {
+  number: "205.33"
+  label: "Pa\\bar{3}"
+  antiunitarily_related_irrep_pairs {
+  }
+  kvector {
+    coordinates: "0,0,0"
+    star {
+      label: "GM"
+    }
+  }
+  kvector {
+    coordinates: "1/2,1/2,0"
+    star {
+      label: "M"
+    }
+  }
+  kvector {
+    coordinates: "1/2,1/2,1/2"
+    star {
+      label: "R"
+    }
+  }
+  kvector {
+    coordinates: "0,1/2,0"
+    star {
+      label: "X"
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{+}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "DT_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{3}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{4}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{-}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "DT_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{3}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{4}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{+}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "LD_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{-}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "LD_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{+}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "SM_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{-}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "SM_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{+}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{-}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{+}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{-}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{2}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{3}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{+}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{4}^{-}"
+        dimension: 3
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "SM_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,0)"
+      star {
+        label: "SM"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "SM_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "SM_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,1/2,w)"
+      star {
+        label: "T"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "T_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,1/2,w)"
+      star {
+        label: "T"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "T_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,0)"
+      star {
+        label: "Z"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "Z_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "Z_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,0)"
+      star {
+        label: "Z"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "Z_{3}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "Z_{4}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,u,0)"
+      star {
+        label: "ZA"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "ZA_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,u,0)"
+      star {
+        label: "ZA"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "ZA_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "M"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "M_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "LD_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "LD_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "LD_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "LD_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "LD_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,u)"
+      star {
+        label: "LD"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "LD_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "LD_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,u)"
+      star {
+        label: "S"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "S_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "S_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,u)"
+      star {
+        label: "S"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "S_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "S_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,u)"
+      star {
+        label: "S"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "S_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "S_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,u)"
+      star {
+        label: "S"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "S_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "S_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,u)"
+      star {
+        label: "S"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "S_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "S_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,u)"
+      star {
+        label: "S"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "S_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "S_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,1/2,w)"
+      star {
+        label: "T"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "T_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,1/2,w)"
+      star {
+        label: "T"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "T_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,1/2,w)"
+      star {
+        label: "T"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "T_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,1/2,w)"
+      star {
+        label: "T"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "T_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,1/2,w)"
+      star {
+        label: "T"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "T_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(1/2,1/2,w)"
+      star {
+        label: "T"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "T_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,u,w)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{2}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{+}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{3}^{-}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "DT_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,v,0)"
+      star {
+        label: "DT"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "DT_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "DT_{4}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,u)"
+      star {
+        label: "S"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "S_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "S_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,u)"
+      star {
+        label: "S"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "S_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "S_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,0)"
+      star {
+        label: "Z"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "Z_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "Z_{3}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,0)"
+      star {
+        label: "Z"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "Z_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "Z_{4}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,1/2,u)"
+      star {
+        label: "ZA"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "ZA_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(0,1/2,u)"
+      star {
+        label: "ZA"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "ZA_{1}"
+        dimension: 2
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,0)"
+      star {
+        label: "A"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "A_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,1/2,w)"
+      star {
+        label: "B"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "B_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "B_{2}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,w,u)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,w,u)"
+      star {
+        label: "C"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "C_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{2}"
+        dimension: 2
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  little_irrep {
+    label: "GM_{1}^{+}"
+    dimension: 1
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "GM_{1}^{-}"
+    dimension: 1
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "GM_{2}^{+}"
+    dimension: 1
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "GM_{2}^{-}"
+    dimension: 1
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "GM_{3}^{+}"
+    dimension: 1
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "GM_{3}^{-}"
+    dimension: 1
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "GM_{4}^{+}"
+    dimension: 3
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "GM_{4}^{-}"
+    dimension: 3
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "M_{1}"
+    dimension: 2
+    kstar {
+      label: "M"
+    }
+  }
+  little_irrep {
+    label: "M_{2}"
+    dimension: 2
+    kstar {
+      label: "M"
+    }
+  }
+  little_irrep {
+    label: "R_{1}^{+}"
+    dimension: 2
+    kstar {
+      label: "R"
+    }
+  }
+  little_irrep {
+    label: "R_{1}^{-}"
+    dimension: 2
+    kstar {
+      label: "R"
+    }
+  }
+  little_irrep {
+    label: "R_{2}^{+}"
+    dimension: 2
+    kstar {
+      label: "R"
+    }
+  }
+  little_irrep {
+    label: "R_{2}^{-}"
+    dimension: 2
+    kstar {
+      label: "R"
+    }
+  }
+  little_irrep {
+    label: "R_{3}^{+}"
+    dimension: 2
+    kstar {
+      label: "R"
+    }
+  }
+  little_irrep {
+    label: "R_{3}^{-}"
+    dimension: 2
+    kstar {
+      label: "R"
+    }
+  }
+  little_irrep {
+    label: "X_{1}"
+    dimension: 2
+    kstar {
+      label: "X"
+    }
+  }
+  little_irrep {
+    label: "X_{2}"
+    dimension: 2
+    kstar {
+      label: "X"
+    }
+  }
+}
+group_subgroup_relation {
+  supergroup_from_subgroup_standard_basis {
+    row_0 {
+      entry_0: 1.0
+      entry_1: 0.0
+      entry_2: 0.0
+      entry_3: 0.0
+    }
+    row_1 {
+      entry_0: 0.0
+      entry_1: 1.0
+      entry_2: 0.0
+      entry_3: 0.0
+    }
+    row_2 {
+      entry_0: 0.0
+      entry_1: 0.0
+      entry_2: 1.0
+      entry_3: 0.0
+    }
+    row_3 {
+      entry_0: 0.0
+      entry_1: 0.0
+      entry_2: 0.0
+      entry_3: 1.0
+    }
+  }
+  perturbation_prescription: "strain in generic direction"
+  perturbation_prescription: "B parallel [100] and strain parallel [110]"
+  perturbation_prescription: "B parallel [100] and strain parallel [111]"
+  perturbation_prescription: "B in generic direction"
+  perturbation_prescription: "B parallel [111] and strain parallel [100]"
+  perturbation_prescription: "B parallel [111] and strain parallel [110]"
+  perturbation_prescription: "B parallel [111] and strain perp [100]"
+  irrep_relation {
+    supergroup_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    subgroup_kvector_decompositions {
+      subgroup_kvector {
+        star {
+          label: "GM"
+        }
+      }
+      action_on_supergroup_kvector {
+        seitz_form: "{1|0}"
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "GM_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{+}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "GM_{1}^{-}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "GM_{2}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{+}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "GM_{2}^{-}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "GM_{3}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{+}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "GM_{3}^{-}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "GM_{4}^{+}"
+          dimension: 3
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{+}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "GM_{4}^{-}"
+          dimension: 3
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{-}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{-}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "GM_{1}^{-}"
+          dimension: 1
+        }
+      }
+    }
+  }
+  irrep_relation {
+    supergroup_kvector {
+      star {
+        label: "R"
+      }
+    }
+    subgroup_kvector_decompositions {
+      subgroup_kvector {
+        star {
+          label: "R"
+        }
+      }
+      action_on_supergroup_kvector {
+        seitz_form: "{1|0}"
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "R_{1}^{+}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "R_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "R_{1}^{+}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "R_{1}^{-}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "R_{1}^{-}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "R_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "R_{2}^{+}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "R_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "R_{1}^{+}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "R_{2}^{-}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "R_{1}^{-}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "R_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "R_{3}^{+}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "R_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "R_{1}^{+}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "R_{3}^{-}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "R_{1}^{-}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "R_{1}^{-}"
+          dimension: 1
+        }
+      }
+    }
+  }
+  irrep_relation {
+    supergroup_kvector {
+      star {
+        label: "M"
+      }
+    }
+    subgroup_kvector_decompositions {
+      subgroup_kvector {
+        star {
+          label: "T"
+        }
+      }
+      action_on_supergroup_kvector {
+        seitz_form: "{3^{+}_{111}|0}"
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "M_{1}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "T_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "T_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "M_{2}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "T_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "T_{1}^{-}"
+          dimension: 1
+        }
+      }
+    }
+    subgroup_kvector_decompositions {
+      subgroup_kvector {
+        star {
+          label: "U"
+        }
+      }
+      action_on_supergroup_kvector {
+        seitz_form: "{3^{-}_{111}|0}"
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "M_{1}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "U_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "U_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "M_{2}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "U_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "U_{1}^{-}"
+          dimension: 1
+        }
+      }
+    }
+    subgroup_kvector_decompositions {
+      subgroup_kvector {
+        star {
+          label: "V"
+        }
+      }
+      action_on_supergroup_kvector {
+        seitz_form: "{1|0}"
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "M_{1}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "V_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "V_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "M_{2}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "V_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "V_{1}^{-}"
+          dimension: 1
+        }
+      }
+    }
+  }
+  irrep_relation {
+    supergroup_kvector {
+      star {
+        label: "X"
+      }
+    }
+    subgroup_kvector_decompositions {
+      subgroup_kvector {
+        star {
+          label: "X"
+        }
+      }
+      action_on_supergroup_kvector {
+        seitz_form: "{3^{-}_{111}|0}"
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "X_{1}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "X_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "X_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "X_{2}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "X_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "X_{1}^{-}"
+          dimension: 1
+        }
+      }
+    }
+    subgroup_kvector_decompositions {
+      subgroup_kvector {
+        star {
+          label: "Y"
+        }
+      }
+      action_on_supergroup_kvector {
+        seitz_form: "{1|0}"
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "X_{1}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "Y_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "Y_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "X_{2}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "Y_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "Y_{1}^{-}"
+          dimension: 1
+        }
+      }
+    }
+    subgroup_kvector_decompositions {
+      subgroup_kvector {
+        star {
+          label: "Z"
+        }
+      }
+      action_on_supergroup_kvector {
+        seitz_form: "{3^{+}_{111}|0}"
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "X_{1}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "Z_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "Z_{1}^{-}"
+          dimension: 1
+        }
+      }
+      decomposition {
+        supergroup_irrep {
+          label: "X_{2}"
+          dimension: 2
+        }
+        subgroup_irrep {
+          label: "Z_{1}^{+}"
+          dimension: 1
+        }
+        subgroup_irrep {
+          label: "Z_{1}^{-}"
+          dimension: 1
+        }
+      }
+    }
+  }
+}
+unperturbed_band_structure {
+  supergroup_little_irrep {
+    label: "GM_{3}^{+}"
+    dimension: 1
+  }
+  supergroup_little_irrep {
+    label: "GM_{4}^{+}"
+    dimension: 3
+  }
+  supergroup_little_irrep {
+    label: "M_{1}"
+    dimension: 2
+  }
+  supergroup_little_irrep {
+    label: "M_{2}"
+    dimension: 2
+  }
+  supergroup_little_irrep {
+    label: "R_{2}^{+}"
+    dimension: 2
+  }
+  supergroup_little_irrep {
+    label: "R_{3}^{+}"
+    dimension: 2
+  }
+  supergroup_little_irrep {
+    label: "X_{1}"
+    dimension: 2
+  }
+  supergroup_little_irrep {
+    label: "X_{2}"
+    dimension: 2
+  }
+  atomic_orbital {
+    wyckoff_position {
+      label: "4a"
+      site_symmetry_group_label: "-3"
+    }
+  }
+}
+subgroup {
+  number: "2.4"
+  label: "P\\bar{1}"
+  symmetry_indicator_order: 2
+  symmetry_indicator_order: 2
+  symmetry_indicator_order: 2
+  symmetry_indicator_order: 4
+  symmetry_indicator_matrix {
+    num_rows: 4
+    num_columns: 16
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 3
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 1
+    entry: 0
+    entry: 3
+    entry: 0
+    entry: 3
+    entry: 0
+    entry: 3
+    entry: 0
+  }
+  compatibility_relations_matrix {
+    num_rows: 7
+    num_columns: 16
+    entry: 1
+    entry: 1
+    entry: -1
+    entry: -1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: -1
+    entry: -1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: -1
+    entry: -1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: -1
+    entry: -1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: -1
+    entry: -1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: -1
+    entry: -1
+    entry: 0
+    entry: 0
+    entry: 1
+    entry: 1
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: 0
+    entry: -1
+    entry: -1
+  }
+  antiunitarily_related_irrep_pairs {
+  }
+  kvector {
+    coordinates: "0,0,0"
+    star {
+      label: "GM"
+    }
+  }
+  kvector {
+    coordinates: "1/2,1/2,1/2"
+    star {
+      label: "R"
+    }
+  }
+  kvector {
+    coordinates: "0,1/2,1/2"
+    star {
+      label: "T"
+    }
+  }
+  kvector {
+    coordinates: "1/2,0,1/2"
+    star {
+      label: "U"
+    }
+  }
+  kvector {
+    coordinates: "1/2,1/2,0"
+    star {
+      label: "V"
+    }
+  }
+  kvector {
+    coordinates: "1/2,0,0"
+    star {
+      label: "X"
+    }
+  }
+  kvector {
+    coordinates: "0,1/2,0"
+    star {
+      label: "Y"
+    }
+  }
+  kvector {
+    coordinates: "0,0,1/2"
+    star {
+      label: "Z"
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "GM"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "GM_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "R"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "R_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "T"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "T_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "T"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "T_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "U"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "U_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "U"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "U_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "V"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "V_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "V"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "V_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "X"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "X_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "Y"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "Y_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "Y"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "Y_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "Z"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "Z_{1}^{+}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  compatibility_relation {
+    point_kvector {
+      star {
+        label: "Z"
+      }
+    }
+    line_kvector {
+      coordinates: "(u,v,w)"
+      star {
+        label: "GP"
+      }
+    }
+    decomposition {
+      supergroup_irrep {
+        label: "Z_{1}^{-}"
+        dimension: 1
+      }
+      subgroup_irrep {
+        label: "GP_{1}"
+        dimension: 1
+      }
+    }
+  }
+  little_irrep {
+    label: "GM_{1}^{+}"
+    dimension: 1
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "GM_{1}^{-}"
+    dimension: 1
+    kstar {
+      label: "GM"
+    }
+  }
+  little_irrep {
+    label: "R_{1}^{+}"
+    dimension: 1
+    kstar {
+      label: "R"
+    }
+  }
+  little_irrep {
+    label: "R_{1}^{-}"
+    dimension: 1
+    kstar {
+      label: "R"
+    }
+  }
+  little_irrep {
+    label: "T_{1}^{+}"
+    dimension: 1
+    kstar {
+      label: "T"
+    }
+  }
+  little_irrep {
+    label: "T_{1}^{-}"
+    dimension: 1
+    kstar {
+      label: "T"
+    }
+  }
+  little_irrep {
+    label: "U_{1}^{+}"
+    dimension: 1
+    kstar {
+      label: "U"
+    }
+  }
+  little_irrep {
+    label: "U_{1}^{-}"
+    dimension: 1
+    kstar {
+      label: "U"
+    }
+  }
+  little_irrep {
+    label: "V_{1}^{+}"
+    dimension: 1
+    kstar {
+      label: "V"
+    }
+  }
+  little_irrep {
+    label: "V_{1}^{-}"
+    dimension: 1
+    kstar {
+      label: "V"
+    }
+  }
+  little_irrep {
+    label: "X_{1}^{+}"
+    dimension: 1
+    kstar {
+      label: "X"
+    }
+  }
+  little_irrep {
+    label: "X_{1}^{-}"
+    dimension: 1
+    kstar {
+      label: "X"
+    }
+  }
+  little_irrep {
+    label: "Y_{1}^{+}"
+    dimension: 1
+    kstar {
+      label: "Y"
+    }
+  }
+  little_irrep {
+    label: "Y_{1}^{-}"
+    dimension: 1
+    kstar {
+      label: "Y"
+    }
+  }
+  little_irrep {
+    label: "Z_{1}^{+}"
+    dimension: 1
+    kstar {
+      label: "Z"
+    }
+  }
+  little_irrep {
+    label: "Z_{1}^{-}"
+    dimension: 1
+    kstar {
+      label: "Z"
+    }
+  }
+  irrep_label_to_matrix_column_index {
+    key: "GM_{1}^{+}"
+    value: 0
+  }
+  irrep_label_to_matrix_column_index {
+    key: "GM_{1}^{-}"
+    value: 1
+  }
+  irrep_label_to_matrix_column_index {
+    key: "R_{1}^{+}"
+    value: 2
+  }
+  irrep_label_to_matrix_column_index {
+    key: "R_{1}^{-}"
+    value: 3
+  }
+  irrep_label_to_matrix_column_index {
+    key: "T_{1}^{+}"
+    value: 4
+  }
+  irrep_label_to_matrix_column_index {
+    key: "T_{1}^{-}"
+    value: 5
+  }
+  irrep_label_to_matrix_column_index {
+    key: "U_{1}^{+}"
+    value: 6
+  }
+  irrep_label_to_matrix_column_index {
+    key: "U_{1}^{-}"
+    value: 7
+  }
+  irrep_label_to_matrix_column_index {
+    key: "V_{1}^{+}"
+    value: 8
+  }
+  irrep_label_to_matrix_column_index {
+    key: "V_{1}^{-}"
+    value: 9
+  }
+  irrep_label_to_matrix_column_index {
+    key: "X_{1}^{+}"
+    value: 10
+  }
+  irrep_label_to_matrix_column_index {
+    key: "X_{1}^{-}"
+    value: 11
+  }
+  irrep_label_to_matrix_column_index {
+    key: "Y_{1}^{+}"
+    value: 12
+  }
+  irrep_label_to_matrix_column_index {
+    key: "Y_{1}^{-}"
+    value: 13
+  }
+  irrep_label_to_matrix_column_index {
+    key: "Z_{1}^{+}"
+    value: 14
+  }
+  irrep_label_to_matrix_column_index {
+    key: "Z_{1}^{-}"
+    value: 15
+  }
+}

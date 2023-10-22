@@ -1,0 +1,366 @@
+supergroup_number: "205.33"
+supergroup_label: "Pa\\bar{3}"
+atomic_orbital {
+  wyckoff_position {
+    label: "4a"
+    site_symmetry_group_label: "-3"
+  }
+}
+subgroup_number: "2.4"
+subgroup_label: "P\\bar{1}"
+supergroup_from_subgroup_basis {
+  row_0 {
+    entry_0: 1
+    entry_1: 0
+    entry_2: 0
+    entry_3: 0
+  }
+  row_1 {
+    entry_0: 0
+    entry_1: 1
+    entry_2: 0
+    entry_3: 0
+  }
+  row_2 {
+    entry_0: 0
+    entry_1: 0
+    entry_2: 1
+    entry_3: 0
+  }
+  row_3 {
+    entry_0: 0
+    entry_1: 0
+    entry_2: 0
+    entry_3: 1
+  }
+}
+is_timeout: false
+is_negative_diagnosis: false
+gap_to_possible_si_values {
+  key: 1
+  value {
+    si: "0000"
+    si: "0003"
+    si: "0010"
+    si: "0011"
+    si: "0012"
+    si: "0013"
+    si: "0100"
+    si: "0101"
+    si: "0102"
+    si: "0103"
+    si: "0110"
+    si: "0111"
+    si: "0112"
+    si: "0113"
+    si: "1000"
+    si: "1001"
+    si: "1002"
+    si: "1003"
+    si: "1010"
+    si: "1011"
+    si: "1012"
+    si: "1013"
+    si: "1100"
+    si: "1101"
+    si: "1102"
+    si: "1103"
+    si: "1110"
+    si: "1111"
+  }
+}
+gap_to_possible_si_values {
+  key: 2
+  value {
+    si: "1110"
+  }
+}
+gap_to_possible_si_values {
+  key: 3
+  value {
+    si: "0000"
+    si: "0001"
+    si: "0010"
+    si: "0011"
+    si: "0012"
+    si: "0013"
+    si: "0100"
+    si: "0101"
+    si: "0102"
+    si: "0103"
+    si: "0110"
+    si: "0111"
+    si: "0112"
+    si: "0113"
+    si: "1000"
+    si: "1001"
+    si: "1002"
+    si: "1003"
+    si: "1010"
+    si: "1011"
+    si: "1012"
+    si: "1013"
+    si: "1100"
+    si: "1101"
+    si: "1102"
+    si: "1103"
+    si: "1110"
+    si: "1113"
+  }
+}
+gap_to_possible_si_values {
+  key: 4
+  value {
+    si: "0000"
+  }
+}
+si_to_possible_gap_count {
+  key: "0000"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0001"
+  value {
+    gap_count: 0
+    gap_count: 1
+  }
+}
+si_to_possible_gap_count {
+  key: "0003"
+  value {
+    gap_count: 0
+    gap_count: 1
+  }
+}
+si_to_possible_gap_count {
+  key: "0010"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0011"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0012"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0013"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0100"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0101"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0102"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0103"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0110"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0111"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0112"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "0113"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1000"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1001"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1002"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1003"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1010"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1011"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1012"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1013"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1100"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1101"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1102"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1103"
+  value {
+    gap_count: 0
+    gap_count: 1
+    gap_count: 2
+  }
+}
+si_to_possible_gap_count {
+  key: "1110"
+  value {
+    gap_count: 1
+    gap_count: 2
+    gap_count: 3
+  }
+}
+si_to_possible_gap_count {
+  key: "1111"
+  value {
+    gap_count: 0
+    gap_count: 1
+  }
+}
+si_to_possible_gap_count {
+  key: "1113"
+  value {
+    gap_count: 0
+    gap_count: 1
+  }
+}
+si_to_possible_gap_count {
+  key: "gapless"
+  value {
+    gap_count: 0
+  }
+}
+si_to_possible_gap_count {
+  key: "nontrivial"
+  value {
+    gap_count: 1
+    gap_count: 2
+    gap_count: 3
+  }
+}
