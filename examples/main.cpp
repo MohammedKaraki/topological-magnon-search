@@ -2,7 +2,7 @@
 #include "fmt/core.h"
 
 #include "common/proto_text_format.hpp"
-#include "diagnose2/analyze_perturbed_band_structure.hpp"
+#include "diagnose2/analyze_perturbation.hpp"
 #include "diagnose2/result.pb.h"
 #include "google/protobuf/text_format.h"
 
@@ -24,8 +24,7 @@ int main(int argc, const char **argv) {
                                  wp_labels,
                                  structure.subgroup().label(),
                                  structure.subgroup().number());
-        const auto result =
-            magnon::diagnose2::analyze_perturbed_band_structure(structure, TIMEOUT_S);
+        const auto result = magnon::diagnose2::analyze_perturbation(structure, TIMEOUT_S);
         if (result.is_timeout()) {
             std::cerr << fmt::format(fmt::bg(fmt::color::blue), "Timeout!") << '\n';
         } else if (result.is_negative_diagnosis()) {

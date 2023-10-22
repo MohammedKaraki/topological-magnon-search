@@ -1,4 +1,4 @@
-#include "diagnose2/analyze_perturbed_band_structure.hpp"
+#include "diagnose2/analyze_perturbation.hpp"
 
 #include <chrono>
 #include <optional>
@@ -149,8 +149,8 @@ summarize(const std::vector<std::pair<GapRange, SisSet>> &gap_range_sis_set_pair
 
 }  // namespace
 
-SubgroupWyckoffPositionResult analyze_perturbed_band_structure(
-    const PerturbedBandStructure &structure, double timeout) {
+SubgroupWyckoffPositionResult analyze_perturbation(const PerturbedBandStructure &structure,
+                                                   double timeout) {
     const auto start_time = now();
     SpectrumData data(structure);
     SubgroupWyckoffPositionResult result{};

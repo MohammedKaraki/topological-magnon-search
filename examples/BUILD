@@ -7,7 +7,7 @@ magnon_cc_binary(
     srcs = ["main.cpp"],
     deps = [
         "//common:proto_text_format",
-        "//diagnose2:analyze_perturbed_band_structure",
+        "//diagnose2:analyze_perturbation",
         "@fmt",
     ],
 )

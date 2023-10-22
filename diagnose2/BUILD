@@ -55,9 +55,9 @@ magnon_py_test(
 )
 
 magnon_cc_library(
-    name = "analyze_perturbed_band_structure",
-    srcs = ["analyze_perturbed_band_structure.cpp"],
-    hdrs = ["analyze_perturbed_band_structure.hpp"],
+    name = "analyze_perturbation",
+    srcs = ["analyze_perturbation.cpp"],
+    hdrs = ["analyze_perturbation.hpp"],
     deps = [
         ":perturbed_band_structure_proto_cc",
         ":result_proto_cc",
