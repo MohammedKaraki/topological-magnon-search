@@ -22,21 +22,21 @@ magnon_py_binary(
 )
 
 magnon_py_binary(
-    name = "main_py",
-    srcs = ["main.py"],
+    name = "process_tables_for_all_materials",
+    srcs = ["process_tables_for_all_materials.py"],
     data = [
         "//data:materials",
     ],
-    main = "main.py",
+    main = "process_tables_for_all_materials.py",
     deps = [
         "//diagnose2:process_tables",
     ],
 )
 
 magnon_py_binary(
-    name = "main2_py",
-    srcs = ["main2.py"],
-    main = "main2.py",
+    name = "process_tables",
+    srcs = ["process_tables.py"],
+    main = "process_tables.py",
     deps = [
         "//diagnose2:process_tables",
     ],

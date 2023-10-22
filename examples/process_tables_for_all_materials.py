@@ -1,8 +1,3 @@
-from magnon.groups.find_subgroups_py import find_subgroups
-from magnon.groups.read_standard_magnetic_space_groups_py import (
-    read_standard_msgs_from_disk,
-)
-from magnon.fetch.magnetic_space_group_from_generators import fetch_msg_from_generators
 from magnon.diagnose2.process_tables import process_tables
 import json
 import sys
@@ -14,11 +9,6 @@ _logger = create_logger(__name__)
 
 
 def main():
-    create_root_logger()
-
-    # process_tables("64.471",['8f'])
-    # return
-
     output_materials = []
     key_to_materials = {}
     for mat in json.load(open("data/materials.json", "r")):
@@ -43,4 +33,5 @@ def main():
 
 
 if __name__ == "__main__":
+    create_root_logger()
     main()
