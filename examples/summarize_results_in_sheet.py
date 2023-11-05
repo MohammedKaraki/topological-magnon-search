@@ -31,7 +31,7 @@ def _key_from_material(material):
     return (supergroup_number, wp_labels)
 
 
-def section_from_key(
+def make_sheet(
     key: Tuple[str, List[str]],
     materials,
     results: List[SubgroupWyckoffPositionResult],
@@ -40,53 +40,44 @@ def section_from_key(
 ):
     atoms = []
 
-    wp_labels = "+".join(
+    wp_labels = ",".join(
         [
-            "${}$".format(atomic_orbital.wyckoff_position.label)
+            "{}".format(atomic_orbital.wyckoff_position.label)
             for atomic_orbital in results[0].atomic_orbital
         ]
     )
-    atoms.append(
-        r"\section{{${}~({})$ {}}}".format(
-            results[0].supergroup_label, results[0].supergroup_number, wp_labels
-        )
-    )
-    atoms.append(r"Materials:\\")
-    atoms.append(r"\begin{center}")
-    for material in materials:
-        counter_ptr[0] += 1
-        atoms.append(
-            r"{{\color{{red}}{}}}. {{\color{{purple}}{}}} ({{\color{{blue}}{}K}})\\".format(
-                counter_ptr[0], material["material"], material["tc"]
-            )
-        )
-    atoms.append(r"\end{center}")
+    supergroup_label = results[0].supergroup_label
+    supergroup_number = results[0].supergroup_number
+
+    subgroups = []
     for result in results:
         assert not result.is_timeout and not result.is_negative_diagnosis
-        atoms.append(
-            r"\subsection{{Subgroup ${}~({})$}}".format(
-                result.subgroup_label, result.subgroup_number
-            )
+        subgroups.append(
+            r"{}({})".format(result.subgroup_label, result.subgroup_number)
         )
-        perturbations = get_perturbations(
-            result.supergroup_number,
-            result.subgroup_number,
-            result.supergroup_from_subgroup_basis,
-        )
-        if len(perturbations) > 1:
-            atoms.append("Perturbations:")
+    if len(subgroups) == 0:
+        return
+
+    for idx, material in enumerate(materials):
+        material_name, temperature = material["material"], material["tc"]
+        material_name = material_name.replace(r"\textsubscript", "_")
+        bcs_link = material["link"]
+        counter_ptr[0] += 1
+
+        row = []
+        if idx == 0:
+            row.append(supergroup_label)
+            row.append(supergroup_number)
+            row.append(wp_labels)
+            row.append(",".join(subgroups))
         else:
-            assert len(perturbations) == 1
-            atoms.append("Perturbation:")
+            row.extend([""] * 4)
 
-        atoms.append(r"\begin{itemize}")
-        for perturbation in perturbations:
-            atoms.append(r"\item {}".format(perturbation))
-        atoms.append(r"\end{itemize}")
-        atoms.append(possible_gap_count_table_from_result(result))
-        atoms.append(possible_si_table_from_result(result))
+        row.append(material_name)
+        row.append(temperature)
+        row.append(bcs_link)
 
-    return "\n".join(atoms)
+        print('"{}"'.format('","'.join(row)))
 
 
 def make_function_get_perturbations():
@@ -138,24 +129,12 @@ def main():
 
     key_to_results = helper()
 
-    body_atoms = []
-    body_atoms.append(r"\tableofcontents\\")
-
     counter_ptr = [0]
     for key, materials in key_to_materials.items():
         if key not in key_to_results:
             continue
         results = key_to_results[key]
-        section_content = section_from_key(
-            key, materials, results, get_perturbations, counter_ptr
-        )
-        section_filename = r"sections/{}_{}.tex".format(key[0], "+".join(key[1]))
-        with open("/tmp/{}".format(section_filename), "w") as f:
-            f.write(section_content)
-        body_atoms.append(r"\include{{{}}}".format(section_filename))
-
-    body = "\n".join(body_atoms)
-    print(tex_document_from_template(body=body))
+        make_sheet(key, materials, results, get_perturbations, counter_ptr)
 
 
 if __name__ == "__main__":

@@ -26,11 +26,34 @@ magnon_cc_binary(
     ],
 )
 
+magnon_cc_binary(
+    name = "to_from_binary",
+    srcs = ["to_from_binary.cpp"],
+    deps = [
+        "//common:proto_text_format",
+        "//diagnose2:perturbed_band_structure_proto_cc",
+        "//diagnose2:result_proto_cc",
+    ],
+)
+
+magnon_py_binary(
+    name = "summarize_results_in_sheet",
+    srcs = ["summarize_results_in_sheet.py"],
+    data = ["//data:materials"],
+    main = "summarize_results_in_sheet.py",
+    deps = [
+        "//diagnose2:perturbed_band_structure_proto_py",
+        "//latexify:latexify_result",
+    ],
+)
+
 magnon_py_binary(
     name = "summarize_results",
     srcs = ["summarize_results.py"],
+    data = ["//data:materials"],
     main = "summarize_results.py",
     deps = [
+        "//diagnose2:perturbed_band_structure_proto_py",
         "//latexify:latexify_result",
     ],
 )
