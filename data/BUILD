@@ -19,3 +19,8 @@ filegroup(
     name = "materials",
     srcs = ["materials.json"],
 )
+
+filegroup(
+    name = "material",
+    srcs = ["material.json"],
+)

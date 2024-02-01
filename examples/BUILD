@@ -13,6 +13,16 @@ magnon_cc_binary(
 )
 
 magnon_cc_binary(
+    name = "analyze_perturbation_for_material",
+    srcs = ["analyze_perturbation_for_material.cpp"],
+    deps = [
+        "//common:proto_text_format",
+        "//diagnose2:analyze_perturbation",
+        "@fmt",
+    ],
+)
+
+magnon_cc_binary(
     name = "analyze_perturbation",
     srcs = ["analyze_perturbation.cpp"],
     data = [
@@ -48,6 +58,17 @@ magnon_py_binary(
 )
 
 magnon_py_binary(
+    name = "summarize_result_for_material",
+    srcs = ["summarize_result_for_material.py"],
+    data = ["//data:material"],
+    main = "summarize_result_for_material.py",
+    deps = [
+        "//diagnose2:perturbed_band_structure_proto_py",
+        "//latexify:latexify_result",
+    ],
+)
+
+magnon_py_binary(
     name = "summarize_results",
     srcs = ["summarize_results.py"],
     data = ["//data:materials"],
@@ -55,6 +76,18 @@ magnon_py_binary(
     deps = [
         "//diagnose2:perturbed_band_structure_proto_py",
         "//latexify:latexify_result",
+    ],
+)
+
+magnon_py_binary(
+    name = "process_tables_for_material",
+    srcs = ["process_tables_for_material.py"],
+    data = [
+        "//data:material",
+    ],
+    main = "process_tables_for_material.py",
+    deps = [
+        "//diagnose2:process_tables",
     ],
 )
 
