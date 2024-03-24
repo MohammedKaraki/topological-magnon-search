@@ -15,6 +15,6 @@ magnon_py_library(
     srcs = ["latexify_result.py"],
     data = [":latex_templates"],
     deps = [
-        "//diagnose2:result_proto_py",
+        "//diagnose2:search_result_proto_py",
     ],
 )

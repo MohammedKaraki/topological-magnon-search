@@ -5,7 +5,7 @@ import "common/matrix.proto";
 
 package magnon.diagnose2;
 
-message SubgroupWyckoffPositionResult {
+message PerturbedStructureSearchResult {
     optional string supergroup_number = 1;
     optional string supergroup_label = 2;
     repeated magnon.groups.AtomicOrbital atomic_orbital = 3;
@@ -32,6 +32,6 @@ message SubgroupWyckoffPositionResult {
     optional Metadata metadata = 11;
 }
 
-message Results {
-    repeated SubgroupWyckoffPositionResult result = 1;
+message SearchResults {
+    repeated PerturbedStructureSearchResult search_result = 1;
 }

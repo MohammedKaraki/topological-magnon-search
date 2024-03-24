@@ -11,8 +11,8 @@ load(
 load("@pip_deps//:requirements.bzl", "requirement")
 
 magnon_proto_library(
-    name = "result_proto",
-    srcs = ["result.proto"],
+    name = "search_result_proto",
+    srcs = ["search_result.proto"],
     deps = [
         "//common:matrix_proto",
         "//groups:atomic_orbital_proto",
@@ -64,7 +64,7 @@ magnon_cc_library(
     hdrs = ["analyze_perturbation.hpp"],
     deps = [
         ":perturbed_band_structure_proto_cc",
-        ":result_proto_cc",
+        ":search_result_proto_cc",
         ":si_summary",
         ":spectrum_data",
         "@fmt",

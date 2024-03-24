@@ -3,7 +3,7 @@
 
 #include "common/proto_text_format.hpp"
 #include "diagnose2/analyze_perturbation.hpp"
-#include "diagnose2/result.pb.h"
+#include "diagnose2/search_result.pb.h"
 #include "google/protobuf/text_format.h"
 
 constexpr double TIMEOUT_S = 1.0;
@@ -33,8 +33,8 @@ int main(int argc, const char **argv) {
             std::cerr << fmt::format(fmt::bg(fmt::color::green), "Positive!!!") << '\n';
         }
 
-        magnon::diagnose2::Results results{};
-        *results.add_result() = result;
+        magnon::diagnose2::SearchResults results{};
+        *results.add_search_result() = result;
         std::string output;
         assert(google::protobuf::TextFormat::PrintToString(results, &output));
         std::cout << output << std::endl;

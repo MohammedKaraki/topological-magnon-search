@@ -149,11 +149,11 @@ summarize(const std::vector<std::pair<GapRange, SisSet>> &gap_range_sis_set_pair
 
 }  // namespace
 
-SubgroupWyckoffPositionResult analyze_perturbation(const PerturbedBandStructure &structure,
-                                                   double timeout) {
+PerturbedStructureSearchResult analyze_perturbation(const PerturbedBandStructure &structure,
+                                                    double timeout) {
     const auto start_time = now();
     SpectrumData data(structure);
-    SubgroupWyckoffPositionResult result{};
+    PerturbedStructureSearchResult result{};
 
     const auto &positive_energy_irreps = [&]() {
         std::vector<std::string> result{};
@@ -292,7 +292,7 @@ SubgroupWyckoffPositionResult analyze_perturbation(const PerturbedBandStructure 
             summarize(gap_range_and_sis_set_pairs, subband.get_num_bands());
 
         for (const auto &[si, possible_counts] : si_to_possible_counts) {
-            SubgroupWyckoffPositionResult::GapCounts gap_counts{};
+            PerturbedStructureSearchResult::GapCounts gap_counts{};
             for (const auto &gap_count : possible_counts) {
                 gap_counts.add_gap_count(gap_count);
             }
@@ -300,7 +300,7 @@ SubgroupWyckoffPositionResult analyze_perturbation(const PerturbedBandStructure 
         }
 
         for (const auto &[gap, possible_sis] : gap_to_possibsis) {
-            SubgroupWyckoffPositionResult::SIs sis_proto{};
+            PerturbedStructureSearchResult::SIs sis_proto{};
             for (const auto &si : possible_sis) {
                 *sis_proto.add_si() = si;
             }

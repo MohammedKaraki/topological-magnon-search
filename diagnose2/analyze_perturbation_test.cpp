@@ -20,7 +20,7 @@ TEST(AnalyzePerturbationTest, RegressionTestCase) {
         return structure;
     }();
     const auto expected_result = []() {
-        magnon::diagnose2::SubgroupWyckoffPositionResult result{};
+        magnon::diagnose2::PerturbedStructureSearchResult result{};
         assert(magnon::common::proto::read_from_text_file(RESULT_PATH, result));
         return result;
     }();
