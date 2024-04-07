@@ -82,11 +82,53 @@ def k1_to_k2_to_irrep_to_lineirreps(msg):
     return result
 
 
-def _process_tables_for_subgroup(msg_number, wp_labels, subgroup_gstrs, presc):
+def _process_tables_for_subgroup(msg_number, wp_labels, subgroup_gstrs, presc, is_trivial_subgroup):
     result = PerturbedBandStructure()
     assert isinstance(wp_labels, list)
     assert isinstance(wp_labels[0], str)
     msg = Msg(msg_number)
+
+    msgs = GroupSubgroupRelation(msg, subgroup_gstrs)
+
+    def copy_to_proto():
+        result.supergroup.number = msgs.super_msg.number
+        result.supergroup.label = msgs.super_msg.label
+        result.subgroup.number = msgs.sub_msg.number
+        result.subgroup.label = msgs.sub_msg.label
+    copy_to_proto()
+    del copy_to_proto
+
+    def copy_to_proto():
+        result.group_subgroup_relation.supergroup_from_subgroup_standard_basis.CopyFrom(
+            matrix4d_to_proto(
+                list(
+                    list(str(float(Fraction(y).limit_denominator(1000))) for y in x)
+                    for x in msgs.super_to_sub
+                )
+            )
+        )
+    copy_to_proto()
+    del copy_to_proto
+
+    if is_trivial_subgroup:
+        result.subgroup.is_trivial_symmetry_indicator_group = True;
+        return result
+
+    def copy_to_proto():
+        result.subgroup.symmetry_indicator_matrix.CopyFrom(
+            matrixxi_to_proto([[int(x) for x in row] for row in msgs.sub_msg.si_matrix])
+        )
+        result.subgroup.compatibility_relations_matrix.CopyFrom(
+            matrixxi_to_proto([[int(x) for x in row] for row in msgs.sub_msg.comp_rels])
+        )
+        for si_order in msgs.sub_msg.si_orders:
+            result.subgroup.symmetry_indicator_order.append(int(si_order))
+
+        for index, irrep_str in enumerate(msgs.sub_msg.irrep_labels):
+            label = LittleIrrep(irrep_str).label
+            result.subgroup.irrep_label_to_matrix_column_index[label] = index
+    copy_to_proto()
+    del copy_to_proto
 
     for wp_label in wp_labels:
         brs_at_wp = fetch_atomic_band_representations_for_wyckoff_position(
@@ -118,8 +160,6 @@ def _process_tables_for_subgroup(msg_number, wp_labels, subgroup_gstrs, presc):
         copy_to_proto()
         del copy_to_proto
 
-    msgs = GroupSubgroupRelation(msg, subgroup_gstrs)
-
     subksymbol_to_g_and_superksymbol = {}
     for subkvec in msgs.sub_msg.kvectors:
         gs, superkvec = msgs.subkvec_to_gs_and_superkvec(subkvec)
@@ -130,18 +170,9 @@ def _process_tables_for_subgroup(msg_number, wp_labels, subgroup_gstrs, presc):
     def copy_to_proto():
         for p in presc:
             result.group_subgroup_relation.perturbation_prescription.append(p)
-
     copy_to_proto()
     del copy_to_proto
 
-    def copy_to_proto():
-        result.supergroup.number = msgs.super_msg.number
-        result.supergroup.label = msgs.super_msg.label
-        result.subgroup.number = msgs.sub_msg.number
-        result.subgroup.label = msgs.sub_msg.label
-
-    copy_to_proto()
-    del copy_to_proto
 
     def copy_to_proto():
         def convert_to_proto(irrep_labels, group_proto):
@@ -154,23 +185,6 @@ def _process_tables_for_subgroup(msg_number, wp_labels, subgroup_gstrs, presc):
 
         convert_to_proto(msgs.super_msg.irrep_labels, result.supergroup)
         convert_to_proto(msgs.sub_msg.irrep_labels, result.subgroup)
-
-    copy_to_proto()
-    del copy_to_proto
-
-    def copy_to_proto():
-        result.subgroup.symmetry_indicator_matrix.CopyFrom(
-            matrixxi_to_proto([[int(x) for x in row] for row in msgs.sub_msg.si_matrix])
-        )
-        result.subgroup.compatibility_relations_matrix.CopyFrom(
-            matrixxi_to_proto([[int(x) for x in row] for row in msgs.sub_msg.comp_rels])
-        )
-        for si_order in msgs.sub_msg.si_orders:
-            result.subgroup.symmetry_indicator_order.append(int(si_order))
-
-        for index, irrep_str in enumerate(msgs.sub_msg.irrep_labels):
-            label = LittleIrrep(irrep_str).label
-            result.subgroup.irrep_label_to_matrix_column_index[label] = index
 
     copy_to_proto()
     del copy_to_proto
@@ -241,19 +255,6 @@ def _process_tables_for_subgroup(msg_number, wp_labels, subgroup_gstrs, presc):
     copy_to_proto()
     del copy_to_proto
 
-    def copy_to_proto():
-        result.group_subgroup_relation.supergroup_from_subgroup_standard_basis.CopyFrom(
-            matrix4d_to_proto(
-                list(
-                    list(str(float(Fraction(y).limit_denominator(1000))) for y in x)
-                    for x in msgs.super_to_sub
-                )
-            )
-        )
-
-    copy_to_proto()
-    del copy_to_proto
-
     return result
 
 
@@ -272,13 +273,14 @@ def process_tables(msg_number, wp_labels, debug_index=None):
     for gstrs, presc in gstrs_and_presc_of_subgroups(msg_number):
         identified_number = fetch_msg_from_generators(gstrs).number
         subgroup = Msg(identified_number)
-        if len(subgroup.si_orders) == 0:
-            print("X ", subgroup.label)
-            continue
-
-        print("viable subgroup: ", subgroup.label)
+        print("Subgroup ", subgroup.label, " ... ", end='')
+        is_trivial_subgroup = len(subgroup.si_orders) == 0
+        if is_trivial_subgroup:
+            print("trivial")
+        else:
+            print("<<<<<<viable>>>>>>>!")
         structures.structure.append(
-            _process_tables_for_subgroup(msg_number, wp_labels, gstrs, presc)
+            _process_tables_for_subgroup(msg_number, wp_labels, gstrs, presc, is_trivial_subgroup)
         )
 
     return structures

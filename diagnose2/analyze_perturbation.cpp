@@ -154,6 +154,18 @@ PerturbedStructureSearchResult analyze_perturbation(const PerturbedBandStructure
     const auto start_time = now();
     SpectrumData data(structure);
     PerturbedStructureSearchResult result{};
+    result.set_supergroup_label(structure.supergroup().label());
+    result.set_supergroup_number(structure.supergroup().number());
+    result.set_subgroup_label(structure.subgroup().label());
+    result.set_subgroup_number(structure.subgroup().number());
+    *result.mutable_supergroup_from_subgroup_basis() =
+        structure.group_subgroup_relation().supergroup_from_subgroup_standard_basis();
+    *result.mutable_atomic_orbital() = structure.unperturbed_band_structure().atomic_orbital();
+
+    if (structure.subgroup().symmetry_indicator_order_size() == 0){ 
+        result.set_is_negative_diagnosis(true);
+        return result;
+    }
 
     const auto &positive_energy_irreps = [&]() {
         std::vector<std::string> result{};
@@ -270,13 +282,6 @@ PerturbedStructureSearchResult analyze_perturbation(const PerturbedBandStructure
     } while (!type_i_excluded && superband.cartesian_permute());
 
     result.mutable_metadata()->set_compute_time_s(as_seconds(now() - start_time));
-    result.set_supergroup_label(structure.supergroup().label());
-    result.set_supergroup_number(structure.supergroup().number());
-    result.set_subgroup_label(structure.subgroup().label());
-    result.set_subgroup_number(structure.subgroup().number());
-    *result.mutable_supergroup_from_subgroup_basis() =
-        structure.group_subgroup_relation().supergroup_from_subgroup_standard_basis();
-    *result.mutable_atomic_orbital() = structure.unperturbed_band_structure().atomic_orbital();
 
     if (result.is_timeout()) {
         return result;

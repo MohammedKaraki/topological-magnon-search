@@ -90,6 +90,8 @@ message MagneticSpaceGroup {
     // The little group irreps on every kvector type.
     repeated Irrep kspace_little_irrep = 6;
 
+    optional bool is_trivial_symmetry_indicator_group = 17;
+
     // The orders of the symmetry indicator group of this magnetic space group.
     // For example, the list [4, 2, 2, 2] refers the SI group Z_4 x Z_2 x Z_2 x Z_2.
     repeated int32 symmetry_indicator_order = 7;
