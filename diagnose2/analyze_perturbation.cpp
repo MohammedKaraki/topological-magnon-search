@@ -162,7 +162,7 @@ PerturbedStructureSearchResult analyze_perturbation(const PerturbedBandStructure
         structure.group_subgroup_relation().supergroup_from_subgroup_standard_basis();
     *result.mutable_atomic_orbital() = structure.unperturbed_band_structure().atomic_orbital();
 
-    if (structure.subgroup().symmetry_indicator_order_size() == 0){ 
+    if (structure.subgroup().symmetry_indicator_order_size() == 0) {
         result.set_is_negative_diagnosis(true);
         return result;
     }

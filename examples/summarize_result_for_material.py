@@ -144,9 +144,9 @@ def main():
     body_atoms = []
     body_atoms.append(r"\tableofcontents")
 
-
-    output_dir = "/tmp/" + ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in
-                                   range(20))
+    output_dir = "/tmp/" + "".join(
+        random.choice(string.ascii_lowercase + string.digits) for _ in range(20)
+    )
     os.makedirs(output_dir)
     os.makedirs(output_dir + "/sections")
     print("Output saved to: " + output_dir)
@@ -165,7 +165,7 @@ def main():
         body_atoms.append(r"\include{{{}}}".format(section_filename))
 
     body = "\n".join(body_atoms)
-    with open(output_dir + "/main.tex", 'w') as f:
+    with open(output_dir + "/main.tex", "w") as f:
         f.write(tex_document_from_template(body=body))
 
 

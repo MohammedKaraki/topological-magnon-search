@@ -13,9 +13,10 @@ def main():
     msg, wp_labels = mat["msg"], tuple(mat["wp_labels"])
     filename = "/tmp/intermediate_result_1.txtpb".format()
     spectrums = process_tables(msg, list(wp_labels))
-    with open(filename, 'w') as f:
+    with open(filename, "w") as f:
         f.write(str(spectrums))
     print(str(spectrums))
+
 
 if __name__ == "__main__":
     create_root_logger()
