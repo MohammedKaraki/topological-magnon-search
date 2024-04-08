@@ -139,6 +139,7 @@ magnon_cc_library(
     deps = [
         ":physics_and_chemistry",
         ":spectrum_data",
+        "//diagnose2:spectrum_data",
         "@fmt",
     ],
 )

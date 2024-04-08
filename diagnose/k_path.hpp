@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "spectrum_data.hpp"
+#include "diagnose/spectrum_data.hpp"
 
 namespace magnon {
 

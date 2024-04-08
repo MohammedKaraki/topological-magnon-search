@@ -11,7 +11,7 @@
 
 #include "common/comparable.hpp"
 #include "diagnose2/perturbed_band_structure.pb.h"
-#include "utility.hpp"
+#include "diagnose2/utility.hpp"
 
 namespace magnon::diagnose2 {
 
@@ -49,6 +49,7 @@ struct SpectrumData {
         int irrep_to_idx(const std::string irrep) const;
         int k_to_idx(const std::string k) const;
         void populate_irrep_dims();
+        std::string si_orders_to_latex() const;
     } super_msg, sub_msg;
 
     std::string wp;
@@ -74,7 +75,6 @@ struct SpectrumData {
     std::string make_br_label() const;
     int subk_idx_to_superk_idx(int subk_idx) const;
     int bag_to_idx(const Bag &bag) const;
-    std::string si_orders_to_latex() const;
 };
 
 // Decomposition of an irrep of supergroup into irreps of subgroup at all

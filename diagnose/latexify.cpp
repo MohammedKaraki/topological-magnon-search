@@ -376,6 +376,46 @@ std::string latexify_super_to_sub_axis(const SpectrumData &data, int axis_idx) {
     return result;
 }
 
+std::string latexify_super_to_sub_axis(const diagnose2::SpectrumData &data, int axis_idx) {
+    std::string result;
+
+    const std::array super_axes = {R"(\bm{a})", R"(\bm{b})", R"(\bm{c})"};
+    for (int i = 0; i < 3; ++i) {
+        std::string coeff = data.super_to_sub.at(i).at(axis_idx);
+        coeff = std::regex_replace(coeff, std::regex(R"(([0-9])/([0-9]))"), R"(\frac{$1}{$2})");
+        assert(!coeff.empty());
+        if (coeff == "0") {
+            continue;
+        }
+
+        if (!result.empty() || axis_idx == 3) {
+            if (coeff[0] != '-') {
+                coeff = "+" + coeff;
+            }
+        }
+
+        if (coeff == "-1") {
+            coeff = "-";
+        }
+
+        if (coeff == "+1") {
+            coeff = "+";
+        }
+
+        if (coeff == "1") {
+            coeff = "";
+        }
+
+        result += coeff + super_axes[i];
+    }
+
+    if (axis_idx != 3) {
+        assert(!result.empty());
+    }
+
+    return result;
+}
+
 std::string latexify_super_to_sub(const SpectrumData &data) {
     std::string aprime = latexify_super_to_sub_axis(data, 0);
     std::string bprime = latexify_super_to_sub_axis(data, 1);
@@ -401,7 +441,32 @@ std::string latexify_super_to_sub(const SpectrumData &data) {
                        breakornot2);
 }
 
-std::string latexify_super_to_sub_v2(const SpectrumData &data) {
+std::string latexify_super_to_sub(const diagnose2::SpectrumData &data) {
+    std::string aprime = latexify_super_to_sub_axis(data, 0);
+    std::string bprime = latexify_super_to_sub_axis(data, 1);
+    std::string cprime = latexify_super_to_sub_axis(data, 2);
+    std::string dorigin = latexify_super_to_sub_axis(data, 3);
+
+    std::string breakornot1 = R"(\quad)", breakornot2 = R"(\\[2mm])";
+    if (aprime.size() + bprime.size() + cprime.size() > 30) {
+        std::swap(breakornot1, breakornot2);
+    }
+
+    return fmt::format(R"(\begin{{array}}{{c}}
+  \bm{{a}}\rightarrow {0},\quad
+  \bm{{b}}\rightarrow {1},{4}
+  \bm{{c}}\rightarrow {2},{5}
+  \bm{{o}}\rightarrow \bm{{o}}{3}
+  \end{{array}})",
+                       aprime,
+                       bprime,
+                       cprime,
+                       dorigin,
+                       breakornot1,
+                       breakornot2);
+}
+
+std::string latexify_super_to_sub_v2(const diagnose2::SpectrumData &data) {
     std::string aprime = latexify_super_to_sub_axis(data, 0);
     std::string bprime = latexify_super_to_sub_axis(data, 1);
     std::string cprime = latexify_super_to_sub_axis(data, 2);

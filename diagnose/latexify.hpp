@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "diagnose2/spectrum_data.hpp"
 #include "physics_and_chemistry.hpp"
 #include "spectrum_data.hpp"
 
@@ -12,7 +13,9 @@ std::string latexify_greeks(const std::string &label);
 std::string latexify_sis(const SpectrumData &data);
 std::string latexify_comp_rels(const SpectrumData &data);
 std::string latexify_super_to_sub_axis(const SpectrumData &data, int axis_idx);
+
 std::string latexify_super_to_sub(const SpectrumData &data);
+std::string latexify_super_to_sub(const diagnose2::SpectrumData &data);
 std::string latexify_super_to_sub_v2(const SpectrumData &data);
 std::string latexify_korirrep(std::string label);
 std::string latexify_gkcoords(std::string g, std::string k, std::string coords);

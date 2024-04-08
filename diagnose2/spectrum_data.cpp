@@ -147,17 +147,29 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
         }
 
         for (const auto &cr1 : group.compatibility_relation()) {
-            assert(!cr1.line_kvector().coordinates().empty());
             const auto k1_star_label = cr1.point_kvector().star().label();
+            assert(!cr1.line_kvector().coordinates().empty());
             for (const auto &cr2 : group.compatibility_relation()) {
+                const auto k2_star_label = cr2.point_kvector().star().label();
                 if (cr1.line_kvector().coordinates() != cr2.line_kvector().coordinates()) {
                     continue;
                 }
-                const auto k2_star_label = cr2.point_kvector().star().label();
                 const auto point_irrep = cr2.decomposition().supergroup_irrep();
+                result
+                    .k1_to_k2_to_irrep_to_lineirreps[k1_star_label][k2_star_label]
+                                                    [point_irrep.label()]
+                    .clear();
+                result
+                    .k1_to_k2_to_irrep_to_lineirreps[k2_star_label][k1_star_label]
+                                                    [point_irrep.label()]
+                    .clear();
                 for (const auto &line_irrep : cr2.decomposition().subgroup_irrep()) {
                     result
                         .k1_to_k2_to_irrep_to_lineirreps[k1_star_label][k2_star_label]
+                                                        [point_irrep.label()]
+                        .push_back(line_irrep.label());
+                    result
+                        .k1_to_k2_to_irrep_to_lineirreps[k2_star_label][k1_star_label]
                                                         [point_irrep.label()]
                         .push_back(line_irrep.label());
                 }
@@ -267,6 +279,8 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
     }
     std::sort(unique_bags.begin(), unique_bags.end());
     unique_bags.erase(std::unique(unique_bags.begin(), unique_bags.end()), unique_bags.end());
+
+    super_to_sub = {{"2", "2", "2", "2"}, {"2", "2", "2", "2"}, {"2", "2", "2", "2"}};
 }
 
 Bag::Bag(const std::string &superirrep, const SpectrumData &data) {
@@ -746,6 +760,32 @@ void Superband::fix_antiunit_rels() {
                 data);
         }
     }
+}
+
+std::string SpectrumData::Msg::si_orders_to_latex() const {
+    std::ostringstream result;
+
+    std::multiset<int> orders;
+    for (const auto &x : si_orders) {
+        orders.insert(x);
+    }
+
+    for (auto it = orders.begin(); it != orders.end();) {
+        const auto cnt = orders.count(*it);
+
+        if (it != orders.begin()) {
+            result << R"(\times )";
+        }
+
+        result << R"({\mathbb{Z}}_{)" << *it << "}";
+        if (cnt > 1) {
+            result << "^{" << cnt << "}";
+        }
+
+        std::advance(it, cnt);
+    }
+
+    return result.str();
 }
 
 }  // namespace magnon::diagnose2
