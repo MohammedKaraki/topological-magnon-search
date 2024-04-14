@@ -34,8 +34,20 @@ int main(const int argc, const char *const argv[]) {
         const diagnose2::Superband superband(data.pos_neg_magnonirreps.first, data);
         const diagnose2::Subband subband = superband.make_subband();
 
-        Visualizer({0, 1, 2, 3, 4, 5, 6, 7}, superband, subband, data, {}, {})
-            .dump("/home/mohammed/magnon/tmp/out.tex");
+        const std::string wps = [&]() {
+            std::string result{};
+            for (const auto &orbital : perturbation.unperturbed_band_structure().atomic_orbital()) {
+                result += orbital.wyckoff_position().label();
+            }
+            return result;
+        }();
+        const std::string output_filename = fmt::format("{}/{}_{}_{}_fig.tex",
+                                                        args.output_dir,
+                                                        perturbation.supergroup().number(),
+                                                        perturbation.subgroup().number(),
+                                                        wps);
+        Visualizer({0, 1, 2, 3, 4, 1, 3, 0}, superband, subband, data, {}, {})
+            .dump(output_filename);
     }
 }
 

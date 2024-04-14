@@ -7,7 +7,11 @@ from magnon.diagnose2.perturbed_band_structure_pb2 import (
     PerturbedBandStructures,
     PerturbedBandStructure,
 )
-from magnon.common.matrix_converter_py import matrixxi_to_proto, matrix4d_to_proto
+from magnon.common.matrix_converter_py import (
+    matrixxi_from_proto,
+    matrixxi_to_proto,
+    matrix4d_to_proto,
+)
 
 from magnon.fetch.magnetic_space_group_from_generators import fetch_msg_from_generators
 from magnon.fetch.magnetic_band_representation import (
@@ -275,19 +279,32 @@ def process_tables(msg_number, wp_labels, debug_index=None):
 
     structures = PerturbedBandStructures()
     print(msg_number, wp_labels)
-    for gstrs, presc in gstrs_and_presc_of_subgroups(msg_number):
+    for i, (gstrs, presc) in enumerate(gstrs_and_presc_of_subgroups(msg_number)):
         identified_number = fetch_msg_from_generators(gstrs).number
         subgroup = Msg(identified_number)
         print("Subgroup ", subgroup.label, " ... ", end="")
         is_trivial_subgroup = len(subgroup.si_orders) == 0
-        if is_trivial_subgroup:
-            print("trivial")
-        else:
-            print("<<<<<<viable>>>>>>>!")
         structures.structure.append(
             _process_tables_for_subgroup(
                 msg_number, wp_labels, gstrs, presc, is_trivial_subgroup
             )
         )
+
+        def format_mat(m):
+            def format_vec(v):
+                return "{{ {} }}".format(", ".join(str(x) for x in v))
+
+            return "{" + ",\n".join([format_vec(v) for v in m]) + "}"
+
+        if is_trivial_subgroup:
+            print(i + 1, "trivial")
+        else:
+            print(i + 1, "<<<<<<viable>>>>>>>!")
+            # print()
+            # print(format_mat(matrixxi_from_proto(structures.structure[-1].subgroup.symmetry_indicator_matrix)))
+            # print()
+            # print(format_mat(matrixxi_from_proto(structures.structure[-1].subgroup.compatibility_relations_matrix)))
+            # print("{ " + ", ".join(['"' + li.label + '"' for li in
+            #                         structures.structure[-1].subgroup.little_irrep]) + " }")
 
     return structures

@@ -1,5 +1,3 @@
-#include "spectrum_data.hpp"
-
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -12,7 +10,11 @@
 #include <utility>
 #include <vector>
 
+#include "Eigen/Dense"
+#include "fmt/core.h"
+
 #include "common/matrix_converter.hpp"
+#include "spectrum_data.hpp"
 #include "utility.hpp"
 
 namespace magnon::diagnose2 {
@@ -168,6 +170,9 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
                         .k1_to_k2_to_irrep_to_lineirreps[k1_star_label][k2_star_label]
                                                         [point_irrep.label()]
                         .push_back(line_irrep.label());
+                    if (k1_star_label == k2_star_label) {
+                        continue;
+                    }
                     result
                         .k1_to_k2_to_irrep_to_lineirreps[k2_star_label][k1_star_label]
                                                         [point_irrep.label()]
@@ -280,7 +285,36 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
     std::sort(unique_bags.begin(), unique_bags.end());
     unique_bags.erase(std::unique(unique_bags.begin(), unique_bags.end()), unique_bags.end());
 
-    super_to_sub = {{"2", "2", "2", "2"}, {"2", "2", "2", "2"}, {"2", "2", "2", "2"}};
+    const auto to_fraction = [](const double x) -> std::string {
+        constexpr int MAX_DENOM = 10;
+        int num = static_cast<int>(std::round(x));
+        int denom = 1;
+        for (int j = 2; j <= MAX_DENOM; ++j) {
+            const int i = static_cast<int>(std::round(x * j));
+            if (std::fabs(x - double(i) / double(j)) < std::fabs(x - double(num) / double(denom))) {
+
+                num = i;
+                denom = j;
+            }
+        }
+        constexpr double TOLERANCE = 1e-6;
+        assert(std::fabs(x - double(num) / double(denom)) < TOLERANCE);
+        if (denom == 1) {
+            return fmt::format("{}", num);
+        } else {
+            return fmt::format("{}/{}", num, denom);
+        }
+    };
+
+    const auto super_from_sub = Eigen::Matrix4d(
+        from_proto(spectrum.group_subgroup_relation().supergroup_from_subgroup_standard_basis()));
+    super_to_sub.clear();
+    for (int row = 0; row < 3; ++row) {
+        super_to_sub.push_back({});
+        for (int col = 0; col < 4; ++col) {
+            super_to_sub.back().push_back(to_fraction(super_from_sub(row, col)));
+        }
+    }
 }
 
 Bag::Bag(const std::string &superirrep, const SpectrumData &data) {
@@ -304,14 +338,6 @@ Supermode::Supermode(const std::string &superirrep, const SpectrumData &data) {
     if (data.superirrep_to_all_subirreps.contains(superirrep)) {
         bag_idx = data.bag_to_idx(Bag(superirrep, data));
     } else {
-        // std::cerr << fmt::format(fmt::bg(fmt::color::red),
-        //                          "Warning: added this branch because of core "
-        //                          "dump on\n"
-        //                          "230.148 24c 11 due to superirrep P_1 "
-        //                          "doesn't match a subirrep in P-1\n");
-        // std::cerr << fmt::format(fmt::bg(fmt::color::red),
-        //                          "Current superirrep: {}\n",
-        //                          superirrep);
         bag_idx = Bag::invalid_idx;
         static_assert(Bag::invalid_idx == -1);
     }

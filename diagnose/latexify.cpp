@@ -453,10 +453,10 @@ std::string latexify_super_to_sub(const diagnose2::SpectrumData &data) {
     }
 
     return fmt::format(R"(\begin{{array}}{{c}}
-  \bm{{a}}\rightarrow {0},\quad
-  \bm{{b}}\rightarrow {1},{4}
-  \bm{{c}}\rightarrow {2},{5}
-  \bm{{o}}\rightarrow \bm{{o}}{3}
+  \bm{{a}}'= {0},\quad
+  \bm{{b}}'= {1},{4}
+  \bm{{c}}'= {2},{5}
+  \bm{{o}}'= \bm{{o}}{3}
   \end{{array}})",
                        aprime,
                        bprime,
