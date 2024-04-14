@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <fstream>
 
 #include "boost/program_options.hpp"
@@ -9,25 +10,18 @@
 #include "diagnose2/search_result.pb.h"
 #include "google/protobuf/text_format.h"
 
-namespace po = boost::program_options;
+struct Args {
+    Args(const int argc, const char *const argv[]);
+
+    std::string input_filename{};
+    std::string output_filename{};
+};
 
 constexpr double TIMEOUT_S = 1.0e+10;
 int main(const int argc, const char *const argv[]) {
-    po::options_description desc{};
-    desc.add_options()("input", po::value<std::string>(), "Perturbed struction filename")(
-        "output", po::value<std::string>(), "Search result output filename");
-    po::variables_map vm{};
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
-
-    assert(vm.count("input") == 1);
-    assert(vm.count("output") == 1);
-
-    const std::string input_filename = vm["input"].as<std::string>();
-    const std::string output_filename = vm["output"].as<std::string>();
-
+    const Args args{argc, argv};
     magnon::diagnose2::PerturbedBandStructures perturbed_structures{};
-    magnon::common::proto::read_from_text_file(input_filename, perturbed_structures);
+    magnon::common::proto::read_from_text_file(args.input_filename, perturbed_structures);
     magnon::diagnose2::SearchResults results{};
 
     for (const auto &perturbed_structure : perturbed_structures.structure()) {
@@ -53,6 +47,31 @@ int main(const int argc, const char *const argv[]) {
 
         *results.add_search_result() = result;
     }
-    std::ofstream out(output_filename);
+    std::ofstream out(args.output_filename);
     out << magnon::common::proto::to_text_format(results);
+}
+
+Args::Args(const int argc, const char *const argv[]) {
+    namespace po = boost::program_options;
+
+    po::options_description desc{};
+    // clang-format off
+    desc.add_options()
+        ("help", "Print help message.")
+        ("input_file", po::value(&input_filename)->required(), "Perturbations filename")
+        ("output_file", po::value(&output_filename)->required(), "Search result output filename");
+    // clang-format on
+
+    try {
+        po::variables_map vm{};
+        po::store(po::parse_command_line(argc, argv, desc), vm);
+        if (vm.count("help")) {
+            std::cout << desc;
+            std::exit(EXIT_SUCCESS);
+        }
+        po::notify(vm);
+    } catch (const po::error &e) {
+        std::cerr << "Error: " << e.what() << '\n';
+        std::exit(EXIT_SUCCESS);
+    }
 }
