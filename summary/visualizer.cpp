@@ -791,8 +791,6 @@ void Visualizer::visualize_superlines(int x1_idx, int x2_idx, std::ostringstream
     const std::string superk1 = data.super_msg.ks[superk1_idx];
     const std::string superk2 = data.super_msg.ks[superk2_idx];
 
-    std::cerr << " ((( " << superk1 << " ))) \n";
-    std::cerr << " ((( " << superk2 << " ))) \n";
     const auto &superirrep_to_lineirreps =
         data.super_msg.k1_to_k2_to_irrep_to_lineirreps.at(superk1).at(superk2);
 
@@ -803,20 +801,12 @@ void Visualizer::visualize_superlines(int x1_idx, int x2_idx, std::ostringstream
     const auto &irrep_points2 = x_idx_to_superirrep_points.at(x2_idx);
 
     for (const auto &irrep_point1 : irrep_points1) {
-        for (const auto &p_to_ls : superirrep_to_lineirreps) {
-            std::cerr << "--- " << p_to_ls.first << "\n";
-            for (const auto &ls : p_to_ls.second) {
-                std::cerr << "       " << ls << "\n";
-            }
-        }
-        std::cerr << " *** " << irrep_point1.irrep << " ***\n";
         for (const auto &lineirrep : superirrep_to_lineirreps.at(irrep_point1.irrep)) {
             lineirrep_to_left_and_right_queues[lineirrep].first.push(irrep_point1);
         }
     }
 
     for (const auto &irrep_point2 : irrep_points2) {
-        std::cerr << " *** " << irrep_point2.irrep << " ***\n";
         for (const auto &lineirrep : superirrep_to_lineirreps.at(irrep_point2.irrep)) {
             lineirrep_to_left_and_right_queues[lineirrep].second.push(irrep_point2);
         }
@@ -824,11 +814,9 @@ void Visualizer::visualize_superlines(int x1_idx, int x2_idx, std::ostringstream
 
     std::vector<LineMode> line_modes;
 
-    std::cerr << "AAA\n";
     for (auto &[lineirrep, left_and_right_queues] : lineirrep_to_left_and_right_queues) {
 
         auto &[left_queue, right_queue] = left_and_right_queues;
-        std::cerr << left_queue.size() << " " << right_queue.size() << "\n";
         assert(left_queue.size() == right_queue.size());
         while (!left_queue.empty()) {
 
@@ -841,7 +829,6 @@ void Visualizer::visualize_superlines(int x1_idx, int x2_idx, std::ostringstream
                 LineMode{.left = left_irrep_point, .right = right_irrep_point, .irrep = lineirrep});
         }
     }
-    std::cerr << "BBB\n";
     std::sort(line_modes.begin(), line_modes.end());
 
     // int line_mode_idx = -1;

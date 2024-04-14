@@ -8,7 +8,6 @@
 #include "diagnose2/spectrum_data.hpp"
 #include "summary/visualizer.hpp"
 
-
 struct Args {
     Args(const int argc, const char *const argv[]);
 
@@ -27,13 +26,14 @@ int main(const int argc, const char *const argv[]) {
     }();
 
     for (const diagnose2::PerturbedBandStructure &perturbation : perturbations.structure()) {
+        if (perturbation.subgroup().is_trivial_symmetry_indicator_group()) {
+            continue;
+        }
+
         const diagnose2::SpectrumData data(perturbation);
         const diagnose2::Superband superband(data.pos_neg_magnonirreps.first, data);
         const diagnose2::Subband subband = superband.make_subband();
 
-        if (perturbation.subgroup().is_trivial_symmetry_indicator_group()) {
-            continue;
-        }
         Visualizer({0, 1, 2, 3, 4, 5, 6, 7}, superband, subband, data, {}, {})
             .dump("/home/mohammed/magnon/tmp/out.tex");
     }
