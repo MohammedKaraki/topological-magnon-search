@@ -4,8 +4,8 @@ from magnon.common.logger import create_root_logger
 
 def main():
     args = CommandLineArgs()
+    result = process_tables(args.msg, args.wps)
     with open(args.output_filename, "w") as f:
-        result = process_tables(args.msg, args.wps)
         print(result, file=f)
 
 

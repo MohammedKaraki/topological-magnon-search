@@ -1,3 +1,5 @@
+#include "spectrum_data.hpp"
+
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -14,7 +16,6 @@
 #include "fmt/core.h"
 
 #include "common/matrix_converter.hpp"
-#include "spectrum_data.hpp"
 #include "utility.hpp"
 
 namespace magnon::diagnose2 {
@@ -125,6 +126,13 @@ MatrixInt construct_matrix(const std::vector<std::vector<int>> &rows) {
 }
 
 SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
+    for (const auto &orbital : spectrum.unperturbed_band_structure().atomic_orbital()) {
+        const std::string s = orbital.wyckoff_position().label();
+        if (!wp.empty()) {
+            wp += '+';
+        }
+        wp += s;
+    }
     for (const auto &irrep_proto :
          spectrum.unperturbed_band_structure().supergroup_little_irrep()) {
         pos_neg_magnonirreps.first.push_back(irrep_proto.label());
