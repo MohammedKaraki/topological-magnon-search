@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <set>
 
 #include "boost/program_options.hpp"
 #include "fmt/core.h"
@@ -25,6 +26,7 @@ int main(const int argc, const char *const argv[]) {
         return result;
     }();
 
+    std::multiset<std::string> filename_bases{};
     for (const diagnose2::PerturbedBandStructure &perturbation : perturbations.structure()) {
         if (perturbation.subgroup().is_trivial_symmetry_indicator_group()) {
             continue;
@@ -41,11 +43,13 @@ int main(const int argc, const char *const argv[]) {
             }
             return result;
         }();
-        const std::string output_filename = fmt::format("{}/{}_{}_{}_fig.tex",
-                                                        args.output_dir,
-                                                        perturbation.supergroup().number(),
-                                                        perturbation.subgroup().number(),
-                                                        wps);
+        const std::string filename_base = fmt::format(
+            "{}_{}_{}", perturbation.supergroup().number(), perturbation.subgroup().number(), wps);
+        filename_bases.insert(filename_base);
+        const int filename_base_count = filename_bases.count(filename_base);
+        const std::string output_filename =
+            fmt::format("{}/{}_{}_fig.tex", args.output_dir, filename_base, filename_base_count);
+
         Visualizer({0, 1, 2, 3, 4, 1, 3, 0}, superband, subband, data, {}, {})
             .dump(output_filename);
     }
