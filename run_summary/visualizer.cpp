@@ -1,4 +1,4 @@
-#include "summary/visualizer.hpp"
+#include "run_summary/visualizer.hpp"
 
 #include <array>
 #include <cassert>
@@ -16,9 +16,9 @@
 
 #include "fmt/core.h"
 
-#include "utils/proto_text_format.hpp"
 #include "config/visualize_config.pb.h"
 #include "diagnose/latexify.hpp"
+#include "utils/proto_text_format.hpp"
 
 namespace magnon {
 

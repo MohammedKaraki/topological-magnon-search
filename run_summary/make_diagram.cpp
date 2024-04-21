@@ -3,10 +3,10 @@
 #include "boost/program_options.hpp"
 #include "fmt/core.h"
 
-#include "utils/proto_text_format.hpp"
 #include "diagnose2/perturbed_band_structure.pb.h"
 #include "diagnose2/spectrum_data.hpp"
-#include "summary/visualizer.hpp"
+#include "run_summary/visualizer.hpp"
+#include "utils/proto_text_format.hpp"
 
 struct Args {
     Args(const int argc, const char *const argv[]);
