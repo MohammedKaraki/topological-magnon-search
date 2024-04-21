@@ -1,8 +1,8 @@
-#include "common/matrix_converter.hpp"
+#include "utils/matrix_converter.hpp"
 
 #include "gtest/gtest.h"
 
-namespace magnon::common {
+namespace magnon::utils {
 
 TEST(MatrixXiAsProtoTest, RoundTripTest) {
     // clang-format off
@@ -70,4 +70,4 @@ TEST(Vector4dAsProtoTest, RoundTripTest) {
     EXPECT_EQ(vector_original, vector_converted);
 }
 
-}  // namespace magnon::common
+}  // namespace magnon::utils

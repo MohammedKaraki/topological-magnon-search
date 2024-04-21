@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "common/proto_text_format.hpp"
+#include "utils/proto_text_format.hpp"
 #include "diagnose2/perturbed_band_structure.pb.h"
 
 constexpr const char *PROCESSED_TABLES_PATH =
@@ -10,8 +10,8 @@ constexpr const char *PROCESSED_TABLES_PATH =
 
 int main() {
     magnon::diagnose2::PerturbedBandStructure structure{};
-    magnon::common::proto::read_from_text_file(PROCESSED_TABLES_PATH, structure);
+    magnon::utils::proto::read_from_text_file(PROCESSED_TABLES_PATH, structure);
 
-    std::cout << magnon::common::proto::to_text_format(
+    std::cout << magnon::utils::proto::to_text_format(
         magnon::diagnose2::analyze_perturbation(structure));
 }

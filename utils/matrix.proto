@@ -1,8 +1,8 @@
 syntax = "proto2";
 
-import "common/complex_number.proto";
+import "utils/complex_number.proto";
 
-package magnon.common;
+package magnon.utils;
 
 message MatrixXd {
     optional uint32 num_rows = 1;

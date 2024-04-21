@@ -3,13 +3,13 @@ from magnon.fetch.utility.scrape_utility import (
     contents_as_str,
     find_unique_subtag,
 )
-from magnon.common.logger import create_logger
+from magnon.utils.logger import create_logger
 from magnon.fetch.utility.general_position_utility import is_valid_transform
 from magnon.groups.magnetic_space_group_pb2 import (
     MagneticSpaceGroup as MagneticSpaceGroupProto,
     GeneralPositions as GeneralPositionsProto,
 )
-from magnon.common.matrix_converter_py import matrix4d_to_proto
+from magnon.utils.matrix_converter_py import matrix4d_to_proto
 
 from bs4 import BeautifulSoup as bs
 from fractions import Fraction

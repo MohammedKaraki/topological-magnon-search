@@ -1,10 +1,10 @@
-#include "common/smith_normal_form.hpp"
+#include "utils/smith_normal_form.hpp"
 
 #include "Eigen/Dense"
 
 #include "gtest/gtest.h"
 
-namespace magnon::common {
+namespace magnon::utils {
 
 #define RUN_TEST_CASE(m, a_expected)                                         \
     {                                                                        \
@@ -32,4 +32,4 @@ TEST(SmithNormalFormTest, TestArbitraryCases) {
     }
 }
 
-}  // namespace magnon::common
+}  // namespace magnon::utils

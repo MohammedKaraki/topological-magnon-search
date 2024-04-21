@@ -1,11 +1,11 @@
-#include "common/smith_normal_form.hpp"
+#include "utils/smith_normal_form.hpp"
 
 #include <algorithm>
 #include <iostream>
 #include <numeric>
 #include <tuple>
 
-namespace magnon::common {
+namespace magnon::utils {
 
 namespace {
 
@@ -147,4 +147,4 @@ std::tuple<Matrix, Matrix, Matrix> compute_smith_normal_form(const Matrix &matri
     return std::tuple{s, a, t};
 }
 
-}  // namespace magnon::common
+}  // namespace magnon::utils

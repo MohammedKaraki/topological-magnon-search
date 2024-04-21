@@ -49,7 +49,7 @@ from magnon.diagnose2.utility.smith_normal_form import snf, intinv
 from magnon.diagnose2.utility.character_table import CharTable
 from magnon.diagnose2.utility.primitive_vectors import find_primvecsmat
 
-from magnon.common.logger import create_logger
+from magnon.utils.logger import create_logger
 
 from re import fullmatch
 from itertools import accumulate
@@ -363,7 +363,7 @@ class Msg:
             self._comp_rels_at_ksymbol[ksymbol] = comp_rels(self.number, ksymbol)
         return self._comp_rels_at_ksymbol[ksymbol]
 
-    def common_comp_rels_dict(self, ksymbol1, ksymbol2):
+    def utils_comp_rels_dict(self, ksymbol1, ksymbol2):
         comp_rels1 = self.comp_rels_at_ksymbol(ksymbol1)
         comp_rels2 = self.comp_rels_at_ksymbol(ksymbol2)
 

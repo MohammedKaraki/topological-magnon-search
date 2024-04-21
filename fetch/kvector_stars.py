@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup as bs
 from magnon.groups.kvector_pb2 import KStar
 from magnon.fetch.utility.cached_requests import cached_post
 from magnon.fetch.utility.scrape_utility import contents_as_str
-from magnon.common.logger import create_logger
+from magnon.utils.logger import create_logger
 
 logger = create_logger(__name__)
 

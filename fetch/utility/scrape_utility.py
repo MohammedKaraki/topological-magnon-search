@@ -1,4 +1,4 @@
-from magnon.common.logger import create_logger
+from magnon.utils.logger import create_logger
 
 logger = create_logger(__name__)
 

@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "common/comparable.hpp"
+#include "utils/comparable.hpp"
 
 namespace magnon {
 

@@ -13,7 +13,7 @@ from magnon.fetch.utility.scrape_utility import (
 from magnon.fetch.utility.cached_requests import cached_post
 from magnon.fetch.utility.kvector import KVector
 from magnon.fetch.utility.br import LittleIrrep, Br
-from magnon.common.logger import create_logger
+from magnon.utils.logger import create_logger
 from magnon.groups.wyckoff_position_pb2 import WyckoffPosition as WyckoffPositionProto
 from magnon.groups.atomic_orbital_pb2 import AtomicOrbital as AtomicOrbitalProto
 from magnon.groups.irrep_pb2 import Irrep as IrrepProto

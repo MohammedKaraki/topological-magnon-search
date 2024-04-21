@@ -2,12 +2,12 @@
 
 #include <complex>
 
-#include "common/complex_number.pb.h"
+#include "utils/complex_number.pb.h"
 
-namespace magnon::common {
+namespace magnon::utils {
 
 std::complex<double> from_proto(const ComplexNumber &complex);
 
 ComplexNumber to_proto(const std::complex<double> &complex);
 
-}  // namespace magnon::common
+}  // namespace magnon::utils

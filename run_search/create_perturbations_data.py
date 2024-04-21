@@ -1,5 +1,5 @@
 from magnon.diagnose2.process_tables import process_tables
-from magnon.common.logger import create_root_logger
+from magnon.utils.logger import create_root_logger
 
 
 def main():

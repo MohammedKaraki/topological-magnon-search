@@ -7,7 +7,7 @@ from magnon.diagnose2.perturbed_band_structure_pb2 import (
     PerturbedBandStructures,
     PerturbedBandStructure,
 )
-from magnon.common.matrix_converter_py import (
+from magnon.utils.matrix_converter_py import (
     matrixxi_from_proto,
     matrixxi_to_proto,
     matrix4d_to_proto,

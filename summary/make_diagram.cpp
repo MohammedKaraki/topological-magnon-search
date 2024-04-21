@@ -3,7 +3,7 @@
 #include "boost/program_options.hpp"
 #include "fmt/core.h"
 
-#include "common/proto_text_format.hpp"
+#include "utils/proto_text_format.hpp"
 #include "diagnose2/perturbed_band_structure.pb.h"
 #include "diagnose2/spectrum_data.hpp"
 #include "summary/visualizer.hpp"
@@ -21,7 +21,7 @@ int main(const int argc, const char *const argv[]) {
     const Args args{argc, argv};
     const auto perturbations = [&]() {
         diagnose2::PerturbedBandStructures result{};
-        common::proto::read_from_text_file(args.input_filename, result);
+        utils::proto::read_from_text_file(args.input_filename, result);
         return result;
     }();
 

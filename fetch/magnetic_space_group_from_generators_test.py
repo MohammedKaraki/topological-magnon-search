@@ -5,7 +5,7 @@ from magnon.fetch.magnetic_space_group_from_generators import (
 )
 
 import numpy as np
-from magnon.common.matrix_converter_py import matrix4d_from_proto
+from magnon.utils.matrix_converter_py import matrix4d_from_proto
 
 """Warning: these tests are not hermetic and require internet access (when no cached data is
 available). Thus, they may break for external reasons (e.g. changes to the BCS data online).

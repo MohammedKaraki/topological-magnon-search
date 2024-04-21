@@ -10,7 +10,7 @@ magnon_py_library(
     name = "cached_requests",
     srcs = ["cached_requests.py"],
     deps = [
-        "//common:logger",
+        "//utils:logger",
         "//config:read_global_config_python",
         requirement("requests"),
     ],
@@ -28,7 +28,7 @@ magnon_py_library(
     name = "band",
     srcs = ["band.py"],
     deps = [
-        "//common:logger",
+        "//utils:logger",
     ],
 )
 
@@ -36,7 +36,7 @@ magnon_py_library(
     name = "kvector",
     srcs = ["kvector.py"],
     deps = [
-        "//common:logger",
+        "//utils:logger",
         requirement("numpy"),
     ],
 )
@@ -46,7 +46,7 @@ magnon_py_library(
     srcs = ["br.py"],
     deps = [
         ":band",
-        "//common:logger",
+        "//utils:logger",
     ],
 )
 

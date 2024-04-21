@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-import "common/matrix.proto";
+import "utils/matrix.proto";
 import "groups/magnetic_space_group.proto";
 import "groups/kvector.proto";
 import "groups/irrep.proto";
@@ -21,7 +21,7 @@ message GroupSubgroupRelation {
 
     // In general, the standard translations and origin of the subgroup do not match
     // those of the supergroup. The two standard bases are related by this field.
-    optional magnon.common.Matrix4d supergroup_from_subgroup_standard_basis = 3;
+    optional magnon.utils.Matrix4d supergroup_from_subgroup_standard_basis = 3;
 
     // A human-readable description of perturbations that induce the subgroup
     // from supergroup.

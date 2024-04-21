@@ -1,7 +1,7 @@
 import unittest
 
 from magnon.fetch.character_table import fetch_single_valued_unitary_character_table
-from magnon.common.matrix_converter_py import matrixxcd_from_proto
+from magnon.utils.matrix_converter_py import matrixxcd_from_proto
 
 import numpy as np
 

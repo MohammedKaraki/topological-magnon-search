@@ -3,9 +3,9 @@ from magnon.fetch.utility.general_position_utility import UnitaryGenpos
 from magnon.fetch.magnetic_space_group_from_generators import (
     fetch_msg_from_generators,
 )
-from magnon.common.matrix_converter_py import matrix4d_from_proto
+from magnon.utils.matrix_converter_py import matrix4d_from_proto
 
-from magnon.common.logger import create_logger
+from magnon.utils.logger import create_logger
 
 _logger = create_logger(__name__)
 
@@ -22,7 +22,7 @@ def identify_group(gstrs):
 
 from magnon.fetch.utility.br import LittleIrrep
 
-from magnon.common.logger import create_logger
+from magnon.utils.logger import create_logger
 
 logger = create_logger(__name__)
 

@@ -1,7 +1,7 @@
 #include "fmt/color.h"
 #include "fmt/core.h"
 
-#include "common/proto_text_format.hpp"
+#include "utils/proto_text_format.hpp"
 #include "diagnose2/analyze_perturbation.hpp"
 #include "diagnose2/search_result.pb.h"
 #include "google/protobuf/text_format.h"
@@ -11,7 +11,7 @@ constexpr double TIMEOUT_S = 1.0;
 int main(int argc, const char **argv) {
     assert(argc == 2);
     magnon::diagnose2::PerturbedBandStructures structures{};
-    magnon::common::proto::read_from_text_file(argv[1], structures);
+    magnon::utils::proto::read_from_text_file(argv[1], structures);
 
     for (const auto &structure : structures.structure()) {
         std::string wp_labels{};

@@ -1,6 +1,6 @@
 #include "Eigen/Core"
 
-namespace magnon::common {
+namespace magnon::utils {
 
 using MatrixXl = Eigen::Matrix<long, Eigen::Dynamic, Eigen::Dynamic>;
 
@@ -10,4 +10,4 @@ using MatrixXl = Eigen::Matrix<long, Eigen::Dynamic, Eigen::Dynamic>;
 // matrix. These matrices satisfy the equation P*A*T = `matrix`.
 std::tuple<MatrixXl, MatrixXl, MatrixXl> compute_smith_normal_form(const MatrixXl &MatrixXl);
 
-}  // namespace magnon::common
+}  // namespace magnon::utils

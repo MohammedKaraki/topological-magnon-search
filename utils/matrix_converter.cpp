@@ -1,10 +1,10 @@
-#include "common/matrix_converter.hpp"
+#include "utils/matrix_converter.hpp"
 
 #include <cstddef>
 
-#include "common/complex_converter.hpp"
+#include "utils/complex_converter.hpp"
 
-namespace magnon::common {
+namespace magnon::utils {
 
 Eigen::MatrixXi from_proto(const MatrixXi &matrix_proto) {
     const std::size_t num_rows = matrix_proto.num_rows();
@@ -142,4 +142,4 @@ MatrixXi to_proto(const Eigen::MatrixXi &matrix) {
     return result;
 }
 
-}  // namespace magnon::common
+}  // namespace magnon::utils

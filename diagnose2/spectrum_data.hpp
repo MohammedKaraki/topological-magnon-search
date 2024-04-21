@@ -9,7 +9,7 @@
 
 #include "Eigen/Core"
 
-#include "common/comparable.hpp"
+#include "utils/comparable.hpp"
 #include "diagnose2/perturbed_band_structure.pb.h"
 #include "diagnose2/utility.hpp"
 

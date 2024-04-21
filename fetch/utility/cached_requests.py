@@ -4,7 +4,7 @@ from os import path
 from pathlib import Path
 from hashlib import sha256
 
-from magnon.common.logger import create_logger
+from magnon.utils.logger import create_logger
 from magnon.config.read_global_config_python import read_global_config
 
 _logger = create_logger(__name__)

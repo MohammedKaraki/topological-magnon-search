@@ -6,7 +6,7 @@ magnon_cc_binary(
     name = "main",
     srcs = ["main.cpp"],
     deps = [
-        "//common:proto_text_format",
+        "//utils:proto_text_format",
         "//diagnose2:analyze_perturbation",
         "@fmt",
     ],
@@ -16,7 +16,7 @@ magnon_cc_binary(
     name = "analyze_perturbation_for_material",
     srcs = ["analyze_perturbation_for_material.cpp"],
     deps = [
-        "//common:proto_text_format",
+        "//utils:proto_text_format",
         "//diagnose2:analyze_perturbation",
         "@fmt",
     ],
@@ -29,7 +29,7 @@ magnon_cc_binary(
         "//diagnose2/test_data",
     ],
     deps = [
-        "//common:proto_text_format",
+        "//utils:proto_text_format",
         "//diagnose2:analyze_perturbation",
         "//diagnose2:perturbed_band_structure_proto_cc",
         "@fmt",

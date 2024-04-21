@@ -466,6 +466,24 @@ std::string latexify_super_to_sub(const diagnose2::SpectrumData &data) {
                        breakornot2);
 }
 
+std::string latexify_super_to_sub_v2(const SpectrumData &data) {
+    std::string aprime = latexify_super_to_sub_axis(data, 0);
+    std::string bprime = latexify_super_to_sub_axis(data, 1);
+    std::string cprime = latexify_super_to_sub_axis(data, 2);
+    std::string dorigin = latexify_super_to_sub_axis(data, 3);
+
+    return fmt::format(R"(\begin{{align}}
+  \bm{{a}}&\rightarrow\bm{{a}}'={}\\
+  \bm{{b}}&\rightarrow\bm{{b}}'={}\\
+  \bm{{c}}&\rightarrow\bm{{c}}'={}\\
+  \bm{{o}}&\rightarrow\bm{{o}}'=\bm{{o}}{}
+  \end{{align}})",
+                       aprime,
+                       bprime,
+                       cprime,
+                       dorigin);
+}
+
 std::string latexify_super_to_sub_v2(const diagnose2::SpectrumData &data) {
     std::string aprime = latexify_super_to_sub_axis(data, 0);
     std::string bprime = latexify_super_to_sub_axis(data, 1);

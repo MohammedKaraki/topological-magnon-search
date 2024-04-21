@@ -13,7 +13,7 @@ magnon_cc_binary(
     srcs = ["make_diagram.cpp"],
     deps = [
         ":visualizer",
-        "//common:proto_text_format",
+        "//utils:proto_text_format",
         "//diagnose2:perturbed_band_structure_proto_cc",
         "//diagnose2:spectrum_data",
         "@boost//:program_options",
@@ -32,7 +32,7 @@ magnon_cc_library(
         "//diagnose:entities",
         "//diagnose:latexify",
         "//diagnose2:spectrum_data",
-        "//common:proto_text_format",
+        "//utils:proto_text_format",
         "//config:visualize_config_proto_cc",
         "@fmt",
     ],

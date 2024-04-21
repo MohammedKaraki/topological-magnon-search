@@ -5,7 +5,7 @@
 #include "fmt/color.h"
 #include "fmt/core.h"
 
-#include "common/proto_text_format.hpp"
+#include "utils/proto_text_format.hpp"
 #include "diagnose2/analyze_perturbation.hpp"
 #include "diagnose2/search_result.pb.h"
 #include "google/protobuf/text_format.h"
@@ -21,7 +21,7 @@ constexpr double TIMEOUT_S = 1.0e+10;
 int main(const int argc, const char *const argv[]) {
     const Args args{argc, argv};
     magnon::diagnose2::PerturbedBandStructures perturbed_structures{};
-    magnon::common::proto::read_from_text_file(args.input_filename, perturbed_structures);
+    magnon::utils::proto::read_from_text_file(args.input_filename, perturbed_structures);
     magnon::diagnose2::SearchResults results{};
 
     for (const auto &perturbed_structure : perturbed_structures.structure()) {
@@ -48,7 +48,7 @@ int main(const int argc, const char *const argv[]) {
         *results.add_search_result() = result;
     }
     std::ofstream out(args.output_filename);
-    out << magnon::common::proto::to_text_format(results);
+    out << magnon::utils::proto::to_text_format(results);
 }
 
 Args::Args(const int argc, const char *const argv[]) {

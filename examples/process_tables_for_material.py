@@ -3,7 +3,7 @@ import json
 import sys
 import os
 
-from magnon.common.logger import create_root_logger, create_logger
+from magnon.utils.logger import create_root_logger, create_logger
 
 _logger = create_logger(__name__)
 

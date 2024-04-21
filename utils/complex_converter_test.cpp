@@ -1,8 +1,8 @@
-#include "common/complex_converter.hpp"
+#include "utils/complex_converter.hpp"
 
 #include "gtest/gtest.h"
 
-namespace magnon::common {
+namespace magnon::utils {
 
 TEST(MatrixXiAsProtoTest, RoundTripTest) {
     const std::complex<double> original{1.5, 2.5};
@@ -11,4 +11,4 @@ TEST(MatrixXiAsProtoTest, RoundTripTest) {
     EXPECT_EQ(original, converted);
 }
 
-}  // namespace magnon::common
+}  // namespace magnon::utils

@@ -2,9 +2,9 @@
 
 #include "Eigen/Core"
 
-#include "common/matrix.pb.h"
+#include "utils/matrix.pb.h"
 
-namespace magnon::common {
+namespace magnon::utils {
 
 Eigen::MatrixXi from_proto(const MatrixXi &matrix_proto);
 Eigen::MatrixXd from_proto(const MatrixXd &matrix_proto);
@@ -18,4 +18,4 @@ MatrixXcd to_proto(const Eigen::MatrixXcd &matrix);
 Matrix4d to_proto(const Eigen::Matrix4d &matrix);
 Vector4d to_proto(const Eigen::Vector4d &matrix);
 
-}  // namespace magnon::common
+}  // namespace magnon::utils

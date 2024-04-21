@@ -14,7 +14,7 @@ magnon_proto_library(
     name = "search_result_proto",
     srcs = ["search_result.proto"],
     deps = [
-        "//common:matrix_proto",
+        "//utils:matrix_proto",
         "//groups:atomic_orbital_proto",
     ],
 )
@@ -23,7 +23,7 @@ magnon_proto_library(
     name = "perturbed_band_structure_proto",
     srcs = ["perturbed_band_structure.proto"],
     deps = [
-        "//common:matrix_proto",
+        "//utils:matrix_proto",
         "//groups:atomic_orbital_proto",
         "//groups:group_subgroup_relation_proto",
         "//groups:irrep_proto",
@@ -79,7 +79,7 @@ magnon_cc_test(
     ],
     deps = [
         ":analyze_perturbation",
-        "//common:proto_text_format",
+        "//utils:proto_text_format",
         "@gtest//:gtest_main",
     ],
 )
@@ -99,8 +99,8 @@ magnon_cc_library(
     deps = [
         ":perturbed_band_structure_proto_cc",
         ":utility",
-        "//common:comparable",
-        "//common:matrix_converter",
+        "//utils:comparable",
+        "//utils:matrix_converter",
         "@eigen",
         "@fmt",
     ],

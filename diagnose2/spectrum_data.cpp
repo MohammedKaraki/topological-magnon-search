@@ -15,7 +15,7 @@
 #include "Eigen/Dense"
 #include "fmt/core.h"
 
-#include "common/matrix_converter.hpp"
+#include "utils/matrix_converter.hpp"
 #include "utility.hpp"
 
 namespace magnon::diagnose2 {
@@ -234,11 +234,11 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
         };
         if (group.has_symmetry_indicator_matrix()) {
             result.si_matrix =
-                transformed_matrix(common::from_proto(group.symmetry_indicator_matrix()));
+                transformed_matrix(utils::from_proto(group.symmetry_indicator_matrix()));
         }
         if (group.has_compatibility_relations_matrix()) {
             result.comp_rels_matrix =
-                transformed_matrix(common::from_proto(group.compatibility_relations_matrix()));
+                transformed_matrix(utils::from_proto(group.compatibility_relations_matrix()));
         }
         for (const auto order : group.symmetry_indicator_order()) {
             result.si_orders.push_back(order);

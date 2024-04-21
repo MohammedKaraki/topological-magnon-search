@@ -1,8 +1,8 @@
-#include "common/complex_converter.hpp"
+#include "utils/complex_converter.hpp"
 
 #include <cstddef>
 
-namespace magnon::common {
+namespace magnon::utils {
 
 std::complex<double> from_proto(const ComplexNumber &complex) {
     assert(complex.has_real());
@@ -16,4 +16,4 @@ ComplexNumber to_proto(const std::complex<double> &complex) {
     return result;
 }
 
-}  // namespace magnon::common
+}  // namespace magnon::utils

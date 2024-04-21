@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package magnon.common;
+package magnon.utils;
 
 message ComplexNumber {
     optional double real = 1;

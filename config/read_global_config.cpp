@@ -1,6 +1,6 @@
 #include "read_global_config.hpp"
 
-#include "common/proto_text_format.hpp"
+#include "utils/proto_text_format.hpp"
 
 namespace magnon {
 
@@ -12,7 +12,7 @@ const char *const CONFIG_PATH = "config/config.cfg";
 
 magnon::config::GlobalConfig read_global_config() {
     magnon::config::GlobalConfig config;
-    magnon::common::proto::read_from_text_file(CONFIG_PATH, config);
+    magnon::utils::proto::read_from_text_file(CONFIG_PATH, config);
     return config;
 }
 

@@ -40,7 +40,7 @@ magnon_proto_library(
         ":irrep_proto",
         ":kvector_proto",
         ":wyckoff_position_proto",
-        "//common:matrix_proto",
+        "//utils:matrix_proto",
     ],
 )
 
@@ -52,7 +52,7 @@ magnon_proto_library(
         ":irrep_proto",
         ":kvector_proto",
         ":magnetic_space_group_proto",
-        "//common:matrix_proto",
+        "//utils:matrix_proto",
     ],
 )
 
@@ -68,7 +68,7 @@ magnon_proto_library(
     srcs = ["character_table.proto"],
     deps = [
         ":irrep_proto",
-        "//common:matrix_proto",
+        "//utils:matrix_proto",
     ],
 )
 
@@ -90,7 +90,7 @@ magnon_cc_library(
     ],
     deps = [
         ":magnetic_space_group_proto_cc",
-        "//common:proto_text_format",
+        "//utils:proto_text_format",
     ],
 )
 

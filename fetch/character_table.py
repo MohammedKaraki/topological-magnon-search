@@ -4,7 +4,7 @@ from magnon.fetch.utility.general_position_utility import (
     mat3x4_to_unitary_gstr,
     UnitaryGenpos,
 )
-from magnon.common.matrix_converter_py import matrixxcd_to_proto
+from magnon.utils.matrix_converter_py import matrixxcd_to_proto
 from magnon.groups.character_table_pb2 import CharacterTable as CharacterTableProto
 from magnon.groups.irrep_pb2 import Irrep as IrrepProto
 

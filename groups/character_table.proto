@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-import "common/matrix.proto";
+import "utils/matrix.proto";
 import "groups/irrep.proto";
 
 package magnon.groups;
@@ -13,5 +13,5 @@ message CharacterTable {
     repeated Irrep irrep = 2;
 
     // The table content.
-    optional magnon.common.MatrixXcd matrix = 3;
+    optional magnon.utils.MatrixXcd matrix = 3;
 }

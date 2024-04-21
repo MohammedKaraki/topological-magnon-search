@@ -2,11 +2,11 @@
 
 #include <cassert>
 
-#include "common/proto_text_format.hpp"
+#include "utils/proto_text_format.hpp"
 #include "google/protobuf/util/message_differencer.h"
 #include "gtest/gtest.h"
 
-namespace magnon::common {
+namespace magnon::utils {
 
 constexpr const char *RESULT_PATH =
     "diagnose2/test_data/analyze_perturbation_result_205_33_4a_2_4.txtpb";
@@ -16,12 +16,12 @@ constexpr const char *PROCESSED_TABLES_PATH =
 TEST(AnalyzePerturbationTest, RegressionTestCase) {
     const auto structure = []() {
         magnon::diagnose2::PerturbedBandStructure structure{};
-        assert(magnon::common::proto::read_from_text_file(PROCESSED_TABLES_PATH, structure));
+        assert(magnon::utils::proto::read_from_text_file(PROCESSED_TABLES_PATH, structure));
         return structure;
     }();
     const auto expected_result = []() {
         magnon::diagnose2::PerturbedStructureSearchResult result{};
-        assert(magnon::common::proto::read_from_text_file(RESULT_PATH, result));
+        assert(magnon::utils::proto::read_from_text_file(RESULT_PATH, result));
         return result;
     }();
 
@@ -38,4 +38,4 @@ TEST(AnalyzePerturbationTest, RegressionTestCase) {
     EXPECT_TRUE(::google::protobuf::util::MessageDifferencer::Equals(result, expected_result));
 }
 
-}  // namespace magnon::common
+}  // namespace magnon::utils
