@@ -16,11 +16,11 @@
 
 #include "fmt/core.h"
 
-#include "utils/proto_text_format.hpp"
 #include "config/visualize_config.pb.h"
 #include "entities.hpp"
 #include "latexify.hpp"
 #include "spectrum_data.hpp"
+#include "utils/proto_text_format.hpp"
 
 namespace magnon {
 

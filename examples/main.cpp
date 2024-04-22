@@ -1,10 +1,10 @@
 #include "fmt/color.h"
 #include "fmt/core.h"
 
-#include "utils/proto_text_format.hpp"
 #include "diagnose2/analyze_perturbation.hpp"
 #include "diagnose2/search_result.pb.h"
 #include "google/protobuf/text_format.h"
+#include "utils/proto_text_format.hpp"
 
 constexpr double TIMEOUT_S = 1.0;
 

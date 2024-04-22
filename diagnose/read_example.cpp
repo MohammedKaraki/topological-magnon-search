@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "utils/proto_text_format.hpp"
 #include "config/config.pb.h"
+#include "utils/proto_text_format.hpp"
 
 int main() {
     magnon::config::GlobalConfig config{};

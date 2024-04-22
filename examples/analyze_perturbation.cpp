@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "utils/proto_text_format.hpp"
 #include "diagnose2/perturbed_band_structure.pb.h"
+#include "utils/proto_text_format.hpp"
 
 constexpr const char *PROCESSED_TABLES_PATH =
     "diagnose2/test_data/processed_tables_205_33_4a_2_4.txtpb";
