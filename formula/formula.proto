@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package magnon.formula;
+
+message Formulas {
+    repeated string formula = 1;
+}
+
+message MsgToFormulas {
+    map<string, Formulas> msg_to_formulas = 1;
+}
