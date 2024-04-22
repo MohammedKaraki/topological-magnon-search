@@ -14,8 +14,8 @@ magnon_proto_library(
     name = "search_result_proto",
     srcs = ["search_result.proto"],
     deps = [
-        "//utils:matrix_proto",
         "//groups:atomic_orbital_proto",
+        "//utils:matrix_proto",
     ],
 )
 
@@ -23,11 +23,11 @@ magnon_proto_library(
     name = "perturbed_band_structure_proto",
     srcs = ["perturbed_band_structure.proto"],
     deps = [
-        "//utils:matrix_proto",
         "//groups:atomic_orbital_proto",
         "//groups:group_subgroup_relation_proto",
         "//groups:irrep_proto",
         "//groups:magnetic_space_group_proto",
+        "//utils:matrix_proto",
     ],
 )
 

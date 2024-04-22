@@ -124,11 +124,11 @@ magnon_py_library(
     name = "group_subgroup_relation",
     srcs = ["group_subgroup_relation.py"],
     deps = [
-        "//utils:logger",
         "//diagnose2/utility:magnetic_space_group",
         "//fetch:magnetic_space_group_from_generators",
         "//fetch/utility:br",
         "//fetch/utility:general_position_utility",
+        "//utils:logger",
     ],
 )
 

@@ -18,8 +18,8 @@ magnon_cc_binary(
         "//config",
     ],
     deps = [
-        "//utils:proto_text_format",
         "//config:config_proto_cc",
+        "//utils:proto_text_format",
     ],
 )
 
@@ -117,8 +117,8 @@ magnon_cc_library(
         ":entities",
         ":latexify",
         ":spectrum_data",
-        "//utils:proto_text_format",
         "//config:visualize_config_proto_cc",
+        "//utils:proto_text_format",
         "@fmt",
     ],
 )
