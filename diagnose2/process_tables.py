@@ -273,7 +273,8 @@ def process_tables(msg_number, wp_labels, debug_index=None):
             _process_tables_for_subgroup(
                 msg_number,
                 wp_labels,
-                *gstrs_and_presc_of_subgroups(msg_number)[debug_index]
+                *gstrs_and_presc_of_subgroups(msg_number)[debug_index],
+                False
             )
         ]
 
