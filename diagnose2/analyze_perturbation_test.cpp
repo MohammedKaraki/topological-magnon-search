@@ -2,9 +2,9 @@
 
 #include <cassert>
 
-#include "utils/proto_text_format.hpp"
 #include "google/protobuf/util/message_differencer.h"
 #include "gtest/gtest.h"
+#include "utils/proto_text_format.hpp"
 
 namespace magnon::utils {
 

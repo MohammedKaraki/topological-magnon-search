@@ -15,8 +15,8 @@
 #include "Eigen/Dense"
 #include "fmt/core.h"
 
-#include "utils/matrix_converter.hpp"
 #include "utility.hpp"
+#include "utils/matrix_converter.hpp"
 
 namespace magnon::diagnose2 {
 
@@ -126,13 +126,28 @@ MatrixInt construct_matrix(const std::vector<std::vector<int>> &rows) {
 }
 
 SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
+    std::multiset<std::string> wps{};
     for (const auto &orbital : spectrum.unperturbed_band_structure().atomic_orbital()) {
-        const std::string s = orbital.wyckoff_position().label();
+        wps.insert(orbital.wyckoff_position().label());
+    }
+    for (auto it = wps.begin(); it != wps.end(); ++it) {
         if (!wp.empty()) {
             wp += '+';
         }
-        wp += s;
+        wp += *it;
     }
+    for (auto it = wps.begin(); it != wps.end();) {
+        if (!wp_compressed.empty()) {
+            wp_compressed += '+';
+        }
+        const int count = wps.count(*it);
+        if (count > 1) {
+            wp_compressed += fmt::format("{}\\times ", count);
+        }
+        wp_compressed += *it;
+        std::advance(it, count);
+    }
+
     for (const auto &irrep_proto :
          spectrum.unperturbed_band_structure().supergroup_little_irrep()) {
         pos_neg_magnonirreps.first.push_back(irrep_proto.label());

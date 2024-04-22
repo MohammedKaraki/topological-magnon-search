@@ -9,9 +9,9 @@
 
 #include "Eigen/Core"
 
-#include "utils/comparable.hpp"
 #include "diagnose2/perturbed_band_structure.pb.h"
 #include "diagnose2/utility.hpp"
+#include "utils/comparable.hpp"
 
 namespace magnon::diagnose2 {
 
@@ -53,6 +53,7 @@ struct SpectrumData {
     } super_msg, sub_msg;
 
     std::string wp;
+    std::string wp_compressed;
     std::pair<std::string, std::string> magnon_site_irreps;
     std::pair<std::vector<std::string>, std::vector<std::string>> pos_neg_magnonirreps;
 

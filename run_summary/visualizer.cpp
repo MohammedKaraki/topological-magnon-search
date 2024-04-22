@@ -481,7 +481,7 @@ void Visualizer::visualize_separation(std::ostringstream &out) {
     std::string label1 = fmt::format(
         R"({{$\underset{{\textrm{{WP: }}{}}}{{{}~\scriptstyle{{({})}}}})"
         R"(\rightarrow\underset{{\textrm{{SI: }}{}}}{{{}~\scriptstyle{{({})}}}}\;\;$}})",
-        data.wp,
+        data.wp_compressed,
         data.super_msg.label,
         data.super_msg.number,
         data.sub_msg.si_orders_to_latex(),
