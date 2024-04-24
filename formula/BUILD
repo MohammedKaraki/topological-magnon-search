@@ -14,12 +14,16 @@ magnon_proto_library(
 )
 
 magnon_cc_library(
-    name = "load_formulas",
-    srcs = ["load_formulas.cpp"],
-    hdrs = ["load_formulas.hpp"],
+    name = "replace_formulas",
+    srcs = ["replace_formulas.cpp"],
+    hdrs = ["replace_formulas.hpp"],
     deps = [
+        "//utils:proto_text_format",
+        "//utils:matrix_converter",
+        ":parse",
         ":formula_proto_cc",
         "//groups:magnetic_space_group_proto_cc",
+        "@eigen",
     ],
 )
 
