@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <iostream>
 #include <set>
 
 #include "boost/program_options.hpp"
@@ -6,6 +7,8 @@
 
 #include "diagnose2/perturbed_band_structure.pb.h"
 #include "diagnose2/spectrum_data.hpp"
+#include "formula/replace_formulas.hpp"
+#include "run_summary/kpath.hpp"
 #include "run_summary/visualizer.hpp"
 #include "utils/proto_text_format.hpp"
 
@@ -23,6 +26,9 @@ int main(const int argc, const char *const argv[]) {
     const auto perturbations = [&]() {
         diagnose2::PerturbedBandStructures result{};
         utils::proto::read_from_text_file(args.input_filename, result);
+        for (auto &perturbation : *result.mutable_structure()) {
+            formula::maybe_replace_formula(*perturbation.mutable_subgroup());
+        }
         return result;
     }();
 
@@ -49,9 +55,11 @@ int main(const int argc, const char *const argv[]) {
         const int filename_base_count = filename_bases.count(filename_base);
         const std::string output_filename =
             fmt::format("{}/{}_{}_fig.tex", args.output_dir, filename_base, filename_base_count);
-
-        Visualizer({0, 1, 2, 3, 4, 1, 3, 0}, superband, subband, data, {}, {})
-            .dump(output_filename);
+        constexpr bool ALL_EDGES = true;
+        std::vector kpath_indices = make_kpath_indices(data.sub_msg, !ALL_EDGES);
+        complement_kpath_indices(kpath_indices, data.sub_msg);
+        Visualizer(kpath_indices, superband, subband, data, {}, {}).dump(output_filename);
+        std::cerr << fmt::format("Output: {}\n", output_filename);
     }
 }
 

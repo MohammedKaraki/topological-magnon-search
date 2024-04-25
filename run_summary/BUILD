@@ -12,9 +12,11 @@ magnon_cc_binary(
     name = "make_diagram",
     srcs = ["make_diagram.cpp"],
     deps = [
+        ":kpath",
         ":visualizer",
         "//diagnose2:perturbed_band_structure_proto_cc",
         "//diagnose2:spectrum_data",
+        "//formula:replace_formulas",
         "//utils:proto_text_format",
         "@boost//:program_options",
         "@fmt",
@@ -35,5 +37,14 @@ magnon_cc_library(
         "//diagnose2:spectrum_data",
         "//utils:proto_text_format",
         "@fmt",
+    ],
+)
+
+magnon_cc_library(
+    name = "kpath",
+    srcs = ["kpath.cpp"],
+    hdrs = ["kpath.hpp"],
+    deps = [
+        "//diagnose2:spectrum_data",
     ],
 )

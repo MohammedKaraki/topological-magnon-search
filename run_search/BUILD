@@ -15,8 +15,8 @@ magnon_cc_binary(
     name = "search_perturbations_data",
     srcs = ["search_perturbations_data.cpp"],
     deps = [
-        "//formula:replace_formulas",
         "//diagnose2:analyze_perturbation",
+        "//formula:replace_formulas",
         "//utils:proto_text_format",
         "@boost//:program_options",
         "@fmt",

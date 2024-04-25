@@ -17,17 +17,17 @@ magnon_cc_library(
     name = "replace_formulas",
     srcs = ["replace_formulas.cpp"],
     hdrs = ["replace_formulas.hpp"],
-    data =[":alternative_formulas.pb.txt"],
+    data = [":alternative_formulas.pb.txt"],
+    visibility = ["//visibility:public"],
     deps = [
-        "//diagnose2:perturbed_band_structure_proto_cc",
-        "//utils:proto_text_format",
-        "//utils:matrix_converter",
-        ":parse",
         ":formula_proto_cc",
+        ":parse",
+        "//diagnose2:perturbed_band_structure_proto_cc",
         "//groups:magnetic_space_group_proto_cc",
+        "//utils:matrix_converter",
+        "//utils:proto_text_format",
         "@eigen",
     ],
-    visibility=["//visibility:public"],
 )
 
 magnon_cc_library(
