@@ -7,6 +7,7 @@
 
 #include "diagnose2/analyze_perturbation.hpp"
 #include "diagnose2/search_result.pb.h"
+#include "formula/replace_formulas.hpp"
 #include "google/protobuf/text_format.h"
 #include "utils/proto_text_format.hpp"
 
@@ -19,10 +20,11 @@ struct Args {
 
 constexpr double TIMEOUT_S = 1.0e+10;
 int main(const int argc, const char *const argv[]) {
+    using namespace magnon;
     const Args args{argc, argv};
-    magnon::diagnose2::PerturbedBandStructures perturbed_structures{};
-    magnon::utils::proto::read_from_text_file(args.input_filename, perturbed_structures);
-    magnon::diagnose2::SearchResults results{};
+    diagnose2::PerturbedBandStructures perturbed_structures{};
+    utils::proto::read_from_text_file(args.input_filename, perturbed_structures);
+    diagnose2::SearchResults results{};
 
     for (const auto &perturbed_structure : perturbed_structures.structure()) {
         std::string wp_labels{};
@@ -36,7 +38,8 @@ int main(const int argc, const char *const argv[]) {
                                  wp_labels,
                                  perturbed_structure.subgroup().label(),
                                  perturbed_structure.subgroup().number());
-        const auto result = magnon::diagnose2::analyze_perturbation(perturbed_structure, TIMEOUT_S);
+        const auto result = diagnose2::analyze_perturbation(
+            formula::maybe_with_alternative_si_formulas(perturbed_structure), TIMEOUT_S);
         if (result.is_timeout()) {
             std::cerr << fmt::format(fmt::bg(fmt::color::blue), "Timeout!") << '\n';
         } else if (result.is_negative_diagnosis()) {
@@ -48,7 +51,7 @@ int main(const int argc, const char *const argv[]) {
         *results.add_search_result() = result;
     }
     std::ofstream out(args.output_filename);
-    out << magnon::utils::proto::to_text_format(results);
+    out << utils::proto::to_text_format(results);
 }
 
 Args::Args(const int argc, const char *const argv[]) {

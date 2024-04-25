@@ -17,7 +17,9 @@ magnon_cc_library(
     name = "replace_formulas",
     srcs = ["replace_formulas.cpp"],
     hdrs = ["replace_formulas.hpp"],
+    data =[":alternative_formulas.pb.txt"],
     deps = [
+        "//diagnose2:perturbed_band_structure_proto_cc",
         "//utils:proto_text_format",
         "//utils:matrix_converter",
         ":parse",
@@ -25,6 +27,7 @@ magnon_cc_library(
         "//groups:magnetic_space_group_proto_cc",
         "@eigen",
     ],
+    visibility=["//visibility:public"],
 )
 
 magnon_cc_library(

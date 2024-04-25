@@ -7,7 +7,7 @@
 
 namespace magnon::formula {
 
-constexpr char ALTERNATIVE_FORMULAS_FILENAME[] = "formulas/alternative_formulas.pb.txt";
+constexpr char ALTERNATIVE_FORMULAS_FILENAME[] = "formula/alternative_formulas.pb.txt";
 
 using VecX = Eigen::VectorXi;
 
@@ -71,6 +71,17 @@ bool maybe_replace_formula(groups::MagneticSpaceGroup &group) {
         throw std::runtime_error("Couldn't read formulas file!");
     }
     return maybe_replace_formula(group, msg_to_formulas);
+}
+
+groups::MagneticSpaceGroup maybe_with_alternative_si_formulas(groups::MagneticSpaceGroup group) {
+    maybe_replace_formula(group);
+    return group;
+}
+
+diagnose2::PerturbedBandStructure maybe_with_alternative_si_formulas(
+    diagnose2::PerturbedBandStructure perturbation) {
+    maybe_replace_formula(*perturbation.mutable_subgroup());
+    return perturbation;
 }
 
 }  // namespace magnon::formula
