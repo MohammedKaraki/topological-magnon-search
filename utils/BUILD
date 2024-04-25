@@ -111,3 +111,8 @@ magnon_cc_test(
         "@gtest//:gtest_main",
     ],
 )
+
+sh_binary(
+    name = "evince_tex",
+    srcs = ["evince_tex.sh"],
+)
