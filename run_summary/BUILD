@@ -24,6 +24,22 @@ magnon_cc_binary(
     ],
 )
 
+magnon_cc_binary(
+    name = "make_msg_summary",
+    srcs = ["make_msg_summary.cpp"],
+    data = ["//data:summary_data"],
+    deps = [
+        ":msg_summary_proto_cc",
+        ":visualizer",
+        "//diagnose2:analyze_perturbation",
+        "//formula:replace_formulas",
+        "//utils:proto_text_format",
+        "@boost//:program_options",
+        "@fmt",
+        "@range-v3",
+    ],
+)
+
 magnon_cc_library(
     name = "visualizer",
     srcs = ["visualizer.cpp"],

@@ -30,7 +30,7 @@ class StrictErrorCollector : public google::protobuf::io::ErrorCollector {
 bool read_from_text_file(const std::string &path, ::google::protobuf::Message &message) {
     auto text_file = std::ifstream(path);
     if (!text_file.is_open()) {
-        throw std::runtime_error("Cannot open file.");
+        throw std::runtime_error(fmt::format("Cannot open file! Pathname: {}.", path));
     }
     const std::string text_file_content(std::istreambuf_iterator<char>(text_file),
                                         std::istreambuf_iterator<char>{});

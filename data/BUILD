@@ -24,3 +24,8 @@ filegroup(
     name = "material",
     srcs = ["material.json"],
 )
+
+filegroup(
+    name = "summary_data",
+    srcs = [":msgs_summary.pb.txt"] + glob(["perturbations/*.pb.txt"]),
+)

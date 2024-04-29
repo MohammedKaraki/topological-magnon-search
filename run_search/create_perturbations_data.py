@@ -20,7 +20,7 @@ def main():
 
 def make_filename(msg, wps):
     wps_encoding = "+".join(sorted(list(wps)))
-    return "{}_{}".format(msg, wps_encoding)
+    return "{}_{}.pb.txt".format(msg, wps_encoding)
 
 
 class CommandLineArgs:

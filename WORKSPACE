@@ -66,7 +66,7 @@ http_archive(
 )
 
 http_archive(
-    name = "range_v3",
+    name = "range-v3",
     sha256 = "cbcb96beda464e71d293c07dec89ef5c0790ca83d37b0e199890893019441044",
     strip_prefix = "range-v3-0.12.0",
     url = "https://github.com/ericniebler/range-v3/archive/refs/tags/0.12.0.zip",
