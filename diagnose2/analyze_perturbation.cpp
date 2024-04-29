@@ -150,7 +150,7 @@ summarize(const std::vector<std::pair<GapRange, SisSet>> &gap_range_sis_set_pair
 }  // namespace
 
 PerturbedStructureSearchResult analyze_perturbation(const PerturbedBandStructure &structure,
-                                                    double timeout) {
+                                                    double timeout_s) {
     const auto start_time = now();
     SpectrumData data(structure);
     PerturbedStructureSearchResult result{};
@@ -194,8 +194,8 @@ PerturbedStructureSearchResult analyze_perturbation(const PerturbedBandStructure
         do {
             ++counter;
             if (counter % 1000 == 0) {
-                if (timeout > 0.0) {
-                    if (as_seconds(now() - start_time) > timeout) {
+                if (timeout_s > 0.0) {
+                    if (as_seconds(now() - start_time) > timeout_s) {
                         result.set_is_timeout(true);
                         type_i_excluded = true;
                         break;

@@ -14,6 +14,7 @@
 
 constexpr char MSGS_SUMMARY_PATHNAME[] = "data/msgs_summary.pb.txt";
 constexpr char PERTURBATIONS_DIR[] = "data/perturbations";
+constexpr double SEARCH_TIMEOUT_S = 10.0;
 
 struct Args {
     Args(const int argc, const char *const argv[]);
@@ -72,7 +73,7 @@ MsgSummary make_msg_summary(MsgSummary unpopulated_summary) {
             auto &perturbation_summary = *wps_summary.add_perturbation_summary();
             perturbation_summary.mutable_perturbation()->CopyFrom(perturbation);
             perturbation_summary.mutable_search_result()->CopyFrom(diagnose2::analyze_perturbation(
-                formula::maybe_with_alternative_si_formulas(perturbation)));
+                formula::maybe_with_alternative_si_formulas(perturbation), SEARCH_TIMEOUT_S));
         }
     }
     return unpopulated_summary;
