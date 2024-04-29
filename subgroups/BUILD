@@ -11,6 +11,6 @@ magnon_cc_binary(
     deps = [
         "@eigen",
         "@fmt",
-        "@range_v3//:range-v3",
+        "@range-v3",
     ],
 )

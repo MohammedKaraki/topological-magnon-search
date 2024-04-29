@@ -103,7 +103,7 @@ magnon_cc_library(
         ":read_standard_magnetic_space_groups",
         "@eigen",
         "@fmt",
-        "@range_v3//:range-v3",
+        "@range-v3",
     ],
 )
 
