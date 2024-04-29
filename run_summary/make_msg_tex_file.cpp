@@ -49,6 +49,22 @@ class MsgTexGenerator {
                            make_wps_encoding(wps_summary.wp_label()),
                            extension);
     }
+    std::string make_gap_table_pathname(const MsgSummary::WpsSummary &wps_summary,
+                                        const Msg &subgroup) {
+        // TODO: consider duplicate subgroup numbers.
+        return fmt::format("gap_tables/{}_{}_{}_table.tex",
+                           super_msg_number_,
+                           subgroup.number(),
+                           make_wps_encoding(wps_summary.wp_label()));
+    }
+    std::string make_si_table_pathname(const MsgSummary::WpsSummary &wps_summary,
+                                       const Msg &subgroup) {
+        // TODO: consider duplicate subgroup numbers.
+        return fmt::format("si_tables/{}_{}_{}_table.tex",
+                           super_msg_number_,
+                           subgroup.number(),
+                           make_wps_encoding(wps_summary.wp_label()));
+    }
     const auto &supergroup() const {
         return msg_summary_.wps_summary(0).perturbation_summary(0).perturbation().supergroup();
     }
@@ -60,7 +76,7 @@ class MsgTexGenerator {
                ranges::to_vector;
     }
     static std::string human_readable_msg_label(const auto &msg) {
-        return fmt::format("{}~(#{})", msg.label(), msg.number());
+        return fmt::format("{}~({})", msg.label(), msg.number());
     }
 
  private:
@@ -73,6 +89,10 @@ class MsgTexGenerator {
 int main(const int argc, const char *const argv[]) {
     using namespace magnon;
     const Args args{argc, argv};
+    const std::string output_filename = fmt::format("{}.tex", args.msg);
+    const std::string output_filepath = fmt::format("{}/{}", args.output_dir, output_filename);
+    std::ofstream out(output_filepath);
+    MsgTexGenerator(args.msg, args.output_dir, out).generate();
     MsgTexGenerator(args.msg, args.output_dir, std::cout).generate();
 }
 
@@ -88,10 +108,10 @@ void MsgTexGenerator::generate() {
         const auto join_view = ranges::views::transform([](const Msg *msg) {
                                    return "$" + human_readable_msg_label(*msg) + "$";
                                }) |
-                               ranges::views::join(", ");
+                               ranges::views::join(std::string(", "));
         out_ << fmt::format(
-            "Nontrivial-SI Subgroups: {}\\\\\n"
-            "Trivial-SI Subgroups: {}\\\\\n",
+            "Nontrivial-SI Subgroups: {}.\\\\\n"
+            "Trivial-SI Subgroups: {}.\\\\\n",
             subgroups | nontrivial_view | join_view | ranges::to<std::string>,
             subgroups | trivial_view | join_view | ranges::to<std::string>);
     }
@@ -106,21 +126,28 @@ void MsgTexGenerator::generate() {
                 }
                 return result;
             }) |
-            ranges::views::join(", ") | ranges::to<std::string>;
+            ranges::views::join(std::string(", ")) | ranges::to<std::string>;
         out_ << fmt::format("BCS Materials: {}\n", materials);
 
         for (const auto &pert_summary : wps_summary.perturbation_summary()) {
             const auto &pert = pert_summary.perturbation();
             const auto &result = pert_summary.search_result();
-            assert(result.has_is_negative_diagnosis());
+            if (pert.subgroup().is_trivial_symmetry_indicator_group()) {
+                continue;
+            }
+            result.has_is_negative_diagnosis();
             if (result.is_negative_diagnosis()) {
                 continue;
             }
 
             out_ << fmt::format("\\subsubsection{{Topological bands in subgroup ${}$}}\n",
                                 human_readable_msg_label(pert.subgroup()));
-            const std::string fig_pathname = make_fig_filepath(wps_summary, pert.subgroup(), "pdf");
-            out_ << fmt::format("\\includegraphics[scale=0.6]{{{}}}\n", fig_pathname);
+            out_ << fmt::format("\\includegraphics[scale=0.6]{{{}}}\n",
+                                make_fig_filepath(wps_summary, pert.subgroup(), "pdf"));
+            out_ << fmt::format("\\input{{{}}}\n",
+                                make_gap_table_pathname(wps_summary, pert.subgroup()));
+            out_ << fmt::format("\\input{{{}}}\n",
+                                make_si_table_pathname(wps_summary, pert.subgroup()));
         }
     }
 }

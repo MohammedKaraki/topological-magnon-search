@@ -9,57 +9,76 @@
 #include "diagnose2/spectrum_data.hpp"
 #include "formula/replace_formulas.hpp"
 #include "run_summary/kpath.hpp"
+#include "run_summary/msg_summary.pb.h"
 #include "run_summary/visualizer.hpp"
 #include "utils/proto_text_format.hpp"
 
 struct Args {
     Args(const int argc, const char *const argv[]);
 
-    std::string input_filename{};
+    std::string msg{};
     std::string output_dir{};
 };
+
+constexpr char MSG_SUMMARY_DIR[] = "data/msg_summary";
 
 int main(const int argc, const char *const argv[]) {
     using namespace magnon;
 
     const Args args{argc, argv};
-    const auto perturbations = [&]() {
-        diagnose2::PerturbedBandStructures result{};
-        utils::proto::read_from_text_file(args.input_filename, result);
-        for (auto &perturbation : *result.mutable_structure()) {
-            formula::maybe_replace_formula(*perturbation.mutable_subgroup());
+    const std::string msg_summary_filepath = fmt::format("{}/{}.pb.txt", MSG_SUMMARY_DIR, args.msg);
+    const auto msg_summary = [&]() {
+        summary::MsgsSummary::MsgSummary result{};
+        utils::proto::read_from_text_file(msg_summary_filepath, result);
+        for (auto &wps_summary : *result.mutable_wps_summary()) {
+            for (auto &pert_summary : *wps_summary.mutable_perturbation_summary()) {
+                formula::maybe_replace_formula(
+                    *pert_summary.mutable_perturbation()->mutable_subgroup());
+            }
         }
         return result;
     }();
 
     std::multiset<std::string> filename_bases{};
-    for (const diagnose2::PerturbedBandStructure &perturbation : perturbations.structure()) {
-        if (perturbation.subgroup().is_trivial_symmetry_indicator_group()) {
-            continue;
-        }
-
-        const diagnose2::SpectrumData data(perturbation);
-        const diagnose2::Superband superband(data.pos_neg_magnonirreps.first, data);
-        const diagnose2::Subband subband = superband.make_subband();
-
-        const std::string wps = [&]() {
-            std::string result{};
-            for (const auto &orbital : perturbation.unperturbed_band_structure().atomic_orbital()) {
-                result += orbital.wyckoff_position().label();
+    for (const auto &wps_summary : msg_summary.wps_summary()) {
+        for (auto &pert_summary : wps_summary.perturbation_summary()) {
+            const auto &perturbation = pert_summary.perturbation();
+            if (perturbation.subgroup().is_trivial_symmetry_indicator_group()) {
+                continue;
             }
-            return result;
-        }();
-        const std::string filename_base = fmt::format(
-            "{}_{}_{}", perturbation.supergroup().number(), perturbation.subgroup().number(), wps);
-        filename_bases.insert(filename_base);
-        const int filename_base_count = filename_bases.count(filename_base);
-        const std::string output_filename =
-            fmt::format("{}/{}_{}_fig.tex", args.output_dir, filename_base, filename_base_count);
-        constexpr bool ALL_EDGES = true;
-        std::vector kpath_indices = make_kpath_indices(data.sub_msg, !ALL_EDGES);
-        complement_kpath_indices(kpath_indices, data.sub_msg);
-        Visualizer(kpath_indices, superband, subband, data, {}, {}).dump(output_filename);
-        std::cerr << fmt::format("Output: {}\n", output_filename);
+            if (pert_summary.search_result().is_negative_diagnosis()) {
+                continue;
+            }
+
+            const diagnose2::SpectrumData data(perturbation);
+            const diagnose2::Superband superband(data.pos_neg_magnonirreps.first, data);
+            const diagnose2::Subband subband = superband.make_subband();
+
+            const std::string wps = [&]() {
+                std::string result{};
+                for (const auto &orbital :
+                     perturbation.unperturbed_band_structure().atomic_orbital()) {
+                    if (!result.empty()) {
+                        result += '+';
+                    }
+                    result += orbital.wyckoff_position().label();
+                }
+                return result;
+            }();
+
+            const std::string filename = fmt::format("{}_{}_{}_fig.tex",
+                                                     perturbation.supergroup().number(),
+                                                     perturbation.subgroup().number(),
+                                                     wps);
+            filename_bases.insert(filename);
+            // const int filename_base_count = filename_bases.count(filename);
+            const std::string output_filepath = fmt::format("{}/{}", args.output_dir, filename);
+            constexpr bool ALL_EDGES = true;
+            std::vector kpath_indices = make_kpath_indices(data.sub_msg, !ALL_EDGES);
+            complement_kpath_indices(kpath_indices, data.sub_msg);
+            Visualizer(kpath_indices, superband, subband, data, {}, {}).dump(output_filepath);
+            std::cerr << fmt::format("Output: {}\n", output_filepath);
+        }
     }
 }
 
@@ -70,7 +89,7 @@ Args::Args(const int argc, const char *const argv[]) {
     // clang-format off
     desc.add_options()
         ("help", "Print help message.")
-        ("input_file", po::value(&input_filename)->required(), "Perturbations filename")
+        ("msg", po::value(&msg)->required(), "MSG number")
         ("output_dir", po::value(&output_dir)->required(), "Directory for output TeX files");
     // clang-format on
 

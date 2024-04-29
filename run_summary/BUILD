@@ -12,8 +12,10 @@ load(
 magnon_cc_binary(
     name = "make_diagram",
     srcs = ["make_diagram.cpp"],
+    data = ["//data:summary_data"],
     deps = [
         ":kpath",
+        ":msg_summary_proto_cc",
         ":visualizer",
         "//diagnose2:perturbed_band_structure_proto_cc",
         "//diagnose2:spectrum_data",
@@ -21,6 +23,7 @@ magnon_cc_binary(
         "//utils:proto_text_format",
         "@boost//:program_options",
         "@fmt",
+        "@range-v3",
     ],
 )
 
@@ -94,5 +97,17 @@ magnon_py_binary(
     main = "materials_to_msgs_summary.py",
     deps = [
         ":msg_summary_proto_py",
+    ],
+)
+
+magnon_py_binary(
+    name = "make_tables",
+    srcs = ["make_tables.py"],
+    data = ["//data:summary_data"],
+    main = "make_tables.py",
+    deps = [
+        "//diagnose2:perturbed_band_structure_proto_py",
+        "//latexify:latexify_result",
+        "//run_summary:msg_summary_proto_py",
     ],
 )
