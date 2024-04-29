@@ -14,7 +14,7 @@
 
 constexpr char MSGS_SUMMARY_PATHNAME[] = "data/msgs_summary.pb.txt";
 constexpr char PERTURBATIONS_DIR[] = "data/perturbations";
-constexpr double SEARCH_TIMEOUT_S = 10.0;
+constexpr double SEARCH_TIMEOUT_S = 60.0;
 
 struct Args {
     Args(const int argc, const char *const argv[]);

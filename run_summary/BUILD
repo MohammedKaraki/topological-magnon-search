@@ -30,9 +30,22 @@ magnon_cc_binary(
     data = ["//data:summary_data"],
     deps = [
         ":msg_summary_proto_cc",
-        ":visualizer",
         "//diagnose2:analyze_perturbation",
         "//formula:replace_formulas",
+        "//utils:proto_text_format",
+        "@boost//:program_options",
+        "@fmt",
+        "@range-v3",
+    ],
+)
+
+magnon_cc_binary(
+    name = "make_msg_tex_file",
+    srcs = ["make_msg_tex_file.cpp"],
+    data = ["//data:summary_data"],
+    deps = [
+        ":msg_summary_proto_cc",
+        ":visualizer",
         "//utils:proto_text_format",
         "@boost//:program_options",
         "@fmt",

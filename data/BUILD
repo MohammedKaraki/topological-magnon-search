@@ -27,5 +27,5 @@ filegroup(
 
 filegroup(
     name = "summary_data",
-    srcs = [":msgs_summary.pb.txt"] + glob(["perturbations/*.pb.txt"]),
+    srcs = [":msgs_summary.pb.txt"] + glob(["perturbations/*.pb.txt"]) + glob(["msg_summary/*.pb.txt"]),
 )
