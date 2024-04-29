@@ -1,0 +1,33 @@
+syntax = "proto2";
+
+import "diagnose2/perturbed_band_structure.proto";
+import "diagnose2/search_result.proto";
+
+package magnon.summary;
+
+message MsgsSummary {
+    message MsgSummary {
+        optional string msg_label = 1;
+        optional string msg_number = 2;
+
+        message WpsSummary {
+            repeated string wp_label = 1;
+
+            message PerturbationSummary {
+                optional magnon.diagnose2.PerturbedBandStructure perturbation = 1;
+                optional magnon.diagnose2.PerturbedStructureSearchResult search_result = 2;
+            }
+            repeated PerturbationSummary perturbation_summary = 2;
+
+            message Material {
+                optional string formula = 1;
+                optional string temperature_k = 2;
+                repeated string reference = 3;
+            }
+            repeated Material example_material = 3;
+        }
+        repeated WpsSummary wps_summary = 3;
+    }
+
+    repeated MsgSummary msg_summary = 1;
+}

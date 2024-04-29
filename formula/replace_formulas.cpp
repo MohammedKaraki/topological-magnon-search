@@ -1,7 +1,8 @@
+#include "formula/replace_formulas.hpp"
+
 #include "Eigen/Core"
 
 #include "formula/parse.hpp"
-#include "formula/replace_formulas.hpp"
 #include "utils/matrix_converter.hpp"
 #include "utils/proto_text_format.hpp"
 
