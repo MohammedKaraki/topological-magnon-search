@@ -1,10 +1,15 @@
-from run_summary.msg_summary_pb2 import MsgsSummary
+from summary.msg_summary_pb2 import MsgsSummary
+from config.output_dirs_python import get_output_dirs
 import json
 
 
+def get_msgs_summary_pathname():
+    return "{}/msgs_summary.pb.txt".format(get_output_dirs()["output_base_dir"])
+
+
 def main():
-    args = CommandLineArgs()
-    materials = json.load(open(args.input, "r"))
+    MATERIALS_JSON_FILE = "data/materials.json"
+    materials = json.load(open(MATERIALS_JSON_FILE, "r"))
 
     def wps_tuple(material):
         return tuple(sorted(list(material["wp_labels"])))
@@ -37,28 +42,9 @@ def main():
                 example_material.reference.append(material["link"])
                 if material["tc"] != "-":
                     example_material.temperature_k = material["tc"]
-
-    print(msgs_summary, file=open(args.output, "w"))
-
-
-class CommandLineArgs:
-    def __init__(self):
-        import argparse
-
-        parser = argparse.ArgumentParser(allow_abbrev=False)
-        parser.add_argument(
-            "--input", required=True, type=str, help="Materials JSON file  path"
-        )
-        parser.add_argument(
-            "--output",
-            required=True,
-            type=str,
-            help="MSG summary proto output filepath",
-        )
-        args = parser.parse_args()
-
-        self.input = args.input
-        self.output = args.output
+    msgs_summary_pathname = get_msgs_summary_pathname()
+    print(msgs_summary, file=open(msgs_summary_pathname, "w"))
+    print("Output: {}".format(msgs_summary_pathname))
 
 
 if __name__ == "__main__":

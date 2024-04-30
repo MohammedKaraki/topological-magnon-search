@@ -93,15 +93,6 @@ magnon_proto_library(
 )
 
 magnon_py_binary(
-    name = "materials_to_msgs_summary",
-    data = ["//data:materials.json"],
-    main = "materials_to_msgs_summary.py",
-    deps = [
-        ":msg_summary_proto_py",
-    ],
-)
-
-magnon_py_binary(
     name = "make_tables",
     srcs = ["make_tables.py"],
     data = ["//data:summary_data"],
