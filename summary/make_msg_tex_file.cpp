@@ -7,7 +7,7 @@
 #include "fmt/core.h"
 
 #include "range/v3/all.hpp"
-#include "run_summary/msg_summary.pb.h"
+#include "summary/msg_summary.pb.h"
 #include "utils/proto_text_format.hpp"
 
 constexpr char MSG_SUMMARY_DIR[] = "data/msg_summary";

@@ -14,6 +14,7 @@ magnon_cc_binary(
     srcs = ["make_diagram.cpp"],
     data = ["//data:summary_data"],
     deps = [
+        "//config:read_global_config",
         ":kpath",
         ":msg_summary_proto_cc",
         ":visualizer",
@@ -108,6 +109,6 @@ magnon_py_binary(
     deps = [
         "//diagnose2:perturbed_band_structure_proto_py",
         "//latexify:latexify_result",
-        "//run_summary:msg_summary_proto_py",
+        "//summary:msg_summary_proto_py",
     ],
 )

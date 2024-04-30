@@ -1,4 +1,4 @@
-#include "run_summary/kpath.hpp"
+#include "summary/kpath.hpp"
 
 #include <algorithm>
 #include <cassert>

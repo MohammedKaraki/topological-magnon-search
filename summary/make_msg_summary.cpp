@@ -9,7 +9,7 @@
 #include "diagnose2/analyze_perturbation.hpp"
 #include "formula/replace_formulas.hpp"
 #include "range/v3/all.hpp"
-#include "run_summary/msg_summary.pb.h"
+#include "summary/msg_summary.pb.h"
 #include "utils/proto_text_format.hpp"
 
 constexpr char MSGS_SUMMARY_PATHNAME[] = "data/msgs_summary.pb.txt";

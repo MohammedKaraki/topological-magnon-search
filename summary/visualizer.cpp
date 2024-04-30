@@ -1,4 +1,4 @@
-#include "run_summary/visualizer.hpp"
+#include "summary/visualizer.hpp"
 
 #include <array>
 #include <cassert>

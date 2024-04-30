@@ -8,10 +8,11 @@
 #include "diagnose2/perturbed_band_structure.pb.h"
 #include "diagnose2/spectrum_data.hpp"
 #include "formula/replace_formulas.hpp"
-#include "run_summary/kpath.hpp"
-#include "run_summary/msg_summary.pb.h"
-#include "run_summary/visualizer.hpp"
+#include "summary/kpath.hpp"
+#include "summary/msg_summary.pb.h"
+#include "summary/visualizer.hpp"
 #include "utils/proto_text_format.hpp"
+#include "config/read_global_config.hpp"
 
 struct Args {
     Args(const int argc, const char *const argv[]);
@@ -20,13 +21,15 @@ struct Args {
     std::string output_dir{};
 };
 
-constexpr char MSG_SUMMARY_DIR[] = "data/msg_summary";
+const std::string output_dir = magnon::read_global_config().output_dir();
+const std::string msg_summary_dir = output_dir + "/msg_summary";
+const std::string figures_dir = output_dir + "/figures";
 
 int main(const int argc, const char *const argv[]) {
     using namespace magnon;
 
     const Args args{argc, argv};
-    const std::string msg_summary_filepath = fmt::format("{}/{}.pb.txt", MSG_SUMMARY_DIR, args.msg);
+    const std::string msg_summary_filepath = fmt::format("{}/{}.pb.txt", msg_summary_dir, args.msg);
     const auto msg_summary = [&]() {
         summary::MsgsSummary::MsgSummary result{};
         utils::proto::read_from_text_file(msg_summary_filepath, result);
@@ -72,12 +75,12 @@ int main(const int argc, const char *const argv[]) {
                                                      wps);
             filename_bases.insert(filename);
             // const int filename_base_count = filename_bases.count(filename);
-            const std::string output_filepath = fmt::format("{}/{}", args.output_dir, filename);
+            const std::string figure_filepath = fmt::format("{}/{}", figures_dir, filename);
             constexpr bool ALL_EDGES = true;
             std::vector kpath_indices = make_kpath_indices(data.sub_msg, !ALL_EDGES);
             complement_kpath_indices(kpath_indices, data.sub_msg);
-            Visualizer(kpath_indices, superband, subband, data, {}, {}).dump(output_filepath);
-            std::cerr << fmt::format("Output: {}\n", output_filepath);
+            Visualizer(kpath_indices, superband, subband, data, {}, {}).dump(figure_filepath);
+            std::cerr << fmt::format("Output: {}\n", figure_filepath);
         }
     }
 }
@@ -89,8 +92,7 @@ Args::Args(const int argc, const char *const argv[]) {
     // clang-format off
     desc.add_options()
         ("help", "Print help message.")
-        ("msg", po::value(&msg)->required(), "MSG number")
-        ("output_dir", po::value(&output_dir)->required(), "Directory for output TeX files");
+        ("msg", po::value(&msg)->required(), "MSG number");
     // clang-format on
 
     try {
