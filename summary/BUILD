@@ -14,10 +14,10 @@ magnon_cc_binary(
     srcs = ["make_diagram.cpp"],
     data = ["//data:summary_data"],
     deps = [
-        "//config:read_global_config",
         ":kpath",
         ":msg_summary_proto_cc",
         ":visualizer",
+        "//config:read_global_config",
         "//diagnose2:perturbed_band_structure_proto_cc",
         "//diagnose2:spectrum_data",
         "//formula:replace_formulas",

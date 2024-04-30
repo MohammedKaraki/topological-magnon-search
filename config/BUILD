@@ -42,6 +42,20 @@ magnon_cc_library(
     ],
 )
 
+magnon_cc_library(
+    name = "output_dirs",
+    srcs = ["output_dirs.cpp"],
+    hdrs = ["output_dirs.hpp"],
+    data = [
+        "//config",
+    ],
+    deps = [
+        ":read_global_config",
+        "@boost//:filesystem",
+        "@fmt",
+    ],
+)
+
 magnon_pybind_library(
     name = "read_global_config_python",
     srcs = ["read_global_config_python.cpp"],

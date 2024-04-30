@@ -5,6 +5,7 @@
 #include "boost/program_options.hpp"
 #include "fmt/core.h"
 
+#include "config/read_global_config.hpp"
 #include "diagnose2/perturbed_band_structure.pb.h"
 #include "diagnose2/spectrum_data.hpp"
 #include "formula/replace_formulas.hpp"
@@ -12,7 +13,6 @@
 #include "summary/msg_summary.pb.h"
 #include "summary/visualizer.hpp"
 #include "utils/proto_text_format.hpp"
-#include "config/read_global_config.hpp"
 
 struct Args {
     Args(const int argc, const char *const argv[]);
