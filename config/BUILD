@@ -67,3 +67,12 @@ magnon_pybind_library(
         "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
     ],
 )
+
+magnon_pybind_library(
+    name = "output_dirs_python",
+    srcs = ["output_dirs_python.cpp"],
+    deps = [
+        ":output_dirs",
+        "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
+    ],
+)

@@ -7,6 +7,27 @@
 
 namespace magnon {
 
+namespace {
+
+void create_dir_if_not_exist(const std::string &path) {
+    if (!boost::filesystem::exists(path)) {
+        boost::filesystem::create_directory(path);
+    }
+    if (!boost::filesystem::exists(path)) {
+        throw std::runtime_error(fmt::format("Failed to create directory \"{}\"", path));
+    }
+}
+
+void create_directories_if_not_exist(const std::map<std::string, std::string> &dir_map) {
+    create_dir_if_not_exist(dir_map.at("output_base_dir"));
+
+    for (const auto &[key, dir] : dir_map) {
+        create_dir_if_not_exist(dir);
+    }
+}
+
+}  // namespace
+
 std::map<std::string, std::string> get_output_dirs() {
     const std::string output_base_dir = read_global_config().output_base_dir();
     if (output_base_dir.empty()) {
@@ -27,6 +48,7 @@ std::map<std::string, std::string> get_output_dirs() {
     result["msg_dir"] = fmt::format("{}/msg_tex", output_base_dir);
     result["msg_summary_dir"] = fmt::format("{}/msg_summary_pb", output_base_dir);
 
+    create_directories_if_not_exist(result);
     return result;
 }
 
