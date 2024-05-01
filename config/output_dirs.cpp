@@ -64,9 +64,14 @@ std::map<std::string, std::string> get_output_dirs() {
 
     std::map<std::string, std::string> result;
     result["output_base_dir"] = output_base_dir;
-    result["figures_dir"] = fmt::format("{}/figures_pdf_tex", output_base_dir);
-    result["si_tables_dir"] = fmt::format("{}/si_tables_tex", output_base_dir);
-    result["gap_tables_dir"] = fmt::format("{}/gap_tables_tex", output_base_dir);
+    result["si_tables_relative_dir"] = "si_tables_tex";
+    result["gap_tables_relative_dir"] = "gap_tables_tex";
+    result["figures_relative_dir"] = "figures_pdf_tex";
+    result["si_tables_dir"] =
+        fmt::format("{}/{}", output_base_dir, result["si_tables_relative_dir"]);
+    result["gap_tables_dir"] =
+        fmt::format("{}/{}", output_base_dir, result["gap_tables_relative_dir"]);
+    result["figures_dir"] = fmt::format("{}/{}", output_base_dir, result["figures_relative_dir"]);
     result["perturbations_dir"] = fmt::format("{}/perturbations_pb", output_base_dir);
     result["msg_tex_dir"] = fmt::format("{}/msg_tex", output_base_dir);
     result["msg_summary_dir"] = fmt::format("{}/msg_summary_pb", output_base_dir);

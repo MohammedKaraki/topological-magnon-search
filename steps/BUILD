@@ -81,3 +81,14 @@ magnon_py_binary(
         "//summary:msg_summary_proto_py",
     ],
 )
+
+sh_binary(
+    name = "steps_2_3_4_5",
+    srcs = ["steps_2_3_4_5.sh"],
+    data = [
+        ":step_2_make_msg_summary",
+        ":step_3_make_msg_diagrams",
+        ":step_4_make_msg_tex_file",
+        ":step_5_make_msg_tables",
+    ],
+)

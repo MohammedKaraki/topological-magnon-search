@@ -13,6 +13,9 @@
 const std::map<std::string, std::string> output_dirs = magnon::get_output_dirs();
 const std::string msg_summary_dir = output_dirs.at("msg_summary_dir");
 const std::string msg_tex_dir = output_dirs.at("msg_tex_dir");
+const std::string si_tables_relative_dir = output_dirs.at("si_tables_relative_dir");
+const std::string gap_tables_relative_dir = output_dirs.at("gap_tables_relative_dir");
+const std::string figures_relative_dir = output_dirs.at("figures_relative_dir");
 
 struct Args {
     Args(const int argc, const char *const argv[]);
@@ -41,7 +44,8 @@ class MsgTexGenerator {
                                   const Msg &subgroup,
                                   const std::string extension) {
         // TODO: consider duplicate subgroup numbers.
-        return fmt::format("figures/{}_{}_{}_fig.{}",
+        return fmt::format("{}/{}_{}_{}_fig.{}",
+                           figures_relative_dir,
                            super_msg_number_,
                            subgroup.number(),
                            make_wps_encoding(wps_summary.wp_label()),
@@ -50,7 +54,8 @@ class MsgTexGenerator {
     std::string make_gap_table_pathname(const MsgSummary::WpsSummary &wps_summary,
                                         const Msg &subgroup) {
         // TODO: consider duplicate subgroup numbers.
-        return fmt::format("gap_tables/{}_{}_{}_table.tex",
+        return fmt::format("{}/{}_{}_{}_table.tex",
+                           gap_tables_relative_dir,
                            super_msg_number_,
                            subgroup.number(),
                            make_wps_encoding(wps_summary.wp_label()));
@@ -58,7 +63,8 @@ class MsgTexGenerator {
     std::string make_si_table_pathname(const MsgSummary::WpsSummary &wps_summary,
                                        const Msg &subgroup) {
         // TODO: consider duplicate subgroup numbers.
-        return fmt::format("si_tables/{}_{}_{}_table.tex",
+        return fmt::format("{}/{}_{}_{}_table.tex",
+                           si_tables_relative_dir,
                            super_msg_number_,
                            subgroup.number(),
                            make_wps_encoding(wps_summary.wp_label()));
