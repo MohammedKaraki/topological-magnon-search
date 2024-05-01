@@ -1,8 +1,9 @@
-#include "config/output_dirs.hpp"
+#include <cstdlib>
 
 #include "boost/filesystem.hpp"
 #include "fmt/core.h"
 
+#include "config/output_dirs.hpp"
 #include "config/read_global_config.hpp"
 
 namespace magnon {
@@ -26,10 +27,31 @@ void create_directories_if_not_exist(const std::map<std::string, std::string> &d
     }
 }
 
+// Expand "~" in a pathname into home directory.
+//
+// Copied from:
+// https://stackoverflow.com/questions/4891006/how-to-create-a-folder-in-the-home-directory
+//
+std::string expand_user(std::string path) {
+    if (not path.empty() and path[0] == '~') {
+        assert(path.size() == 1 or path[1] == '/');  // or other error handling
+        char const *home = getenv("HOME");
+        if (home or ((home = getenv("USERPROFILE")))) {
+            path.replace(0, 1, home);
+        } else {
+            char const *hdrive = getenv("HOMEDRIVE"), *hpath = getenv("HOMEPATH");
+            assert(hdrive);
+            assert(hpath);
+            path.replace(0, 1, std::string(hdrive) + hpath);
+        }
+    }
+    return path;
+}
+
 }  // namespace
 
 std::map<std::string, std::string> get_output_dirs() {
-    const std::string output_base_dir = read_global_config().output_base_dir();
+    const std::string output_base_dir = expand_user(read_global_config().output_base_dir());
     if (output_base_dir.empty()) {
         throw std::runtime_error("No output directory path specified!");
     }
@@ -44,7 +66,7 @@ std::map<std::string, std::string> get_output_dirs() {
     result["figures_dir"] = fmt::format("{}/figures_pdf_tex", output_base_dir);
     result["si_tables_dir"] = fmt::format("{}/si_tables_tex", output_base_dir);
     result["gap_tables_dir"] = fmt::format("{}/gap_tables_tex", output_base_dir);
-    result["perturbations_table_dir"] = fmt::format("{}/perturbations_table_pb", output_base_dir);
+    result["perturbations_dir"] = fmt::format("{}/perturbations_pb", output_base_dir);
     result["msg_dir"] = fmt::format("{}/msg_tex", output_base_dir);
     result["msg_summary_dir"] = fmt::format("{}/msg_summary_pb", output_base_dir);
 
