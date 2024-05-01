@@ -57,7 +57,9 @@ int main(const int argc, const char *const argv[]) {
                                                      perturbation.subgroup().number(),
                                                      wps);
             const std::string command =
-                fmt::format("cd {} && pdflatex {} 1>/dev/null", figures_dir, filename);
+                fmt::format("cd {0} && pdflatex {1} 1>/dev/null && pdflatex {1} 1>/dev/null",
+                            figures_dir,
+                            filename);
             std::cerr << fmt::format("Result: {}, Command: {}\n", system(command.c_str()), command);
         }
     }
