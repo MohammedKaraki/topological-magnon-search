@@ -1,4 +1,3 @@
-#pragma clang diagnostic ignored "-Wunused"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -6,17 +5,19 @@
 #include "boost/program_options.hpp"
 #include "fmt/core.h"
 
+#include "config/output_dirs.hpp"
 #include "range/v3/all.hpp"
 #include "summary/msg_summary.pb.h"
 #include "utils/proto_text_format.hpp"
 
-constexpr char MSG_SUMMARY_DIR[] = "data/msg_summary";
+const std::map<std::string, std::string> output_dirs = magnon::get_output_dirs();
+const std::string msg_summary_dir = output_dirs.at("msg_summary_dir");
+const std::string msg_tex_dir = output_dirs.at("msg_tex_dir");
 
 struct Args {
     Args(const int argc, const char *const argv[]);
 
     std::string msg{};
-    std::string output_dir{};
 };
 
 using MsgsSummary = magnon::summary::MsgsSummary;
@@ -25,11 +26,8 @@ using Msg = magnon::groups::MagneticSpaceGroup;
 
 class MsgTexGenerator {
  public:
-    MsgTexGenerator(const std::string &msg, const std::string &output_dir, std::ostream &out)
-        : super_msg_number_{msg},
-          output_dir_{output_dir},
-          msg_summary_{load_summary(msg)},
-          out_{out} {}
+    MsgTexGenerator(const std::string &msg, std::ostream &out)
+        : super_msg_number_{msg}, msg_summary_{load_summary(msg)}, out_{out} {}
 
     void generate();
 
@@ -81,7 +79,6 @@ class MsgTexGenerator {
 
  private:
     const std::string super_msg_number_;
-    const std::string output_dir_;
     const MsgSummary msg_summary_;
     std::ostream &out_;
 };
@@ -90,10 +87,10 @@ int main(const int argc, const char *const argv[]) {
     using namespace magnon;
     const Args args{argc, argv};
     const std::string output_filename = fmt::format("{}.tex", args.msg);
-    const std::string output_filepath = fmt::format("{}/{}", args.output_dir, output_filename);
+    const std::string output_filepath = fmt::format("{}/{}", msg_tex_dir, output_filename);
     std::ofstream out(output_filepath);
-    MsgTexGenerator(args.msg, args.output_dir, out).generate();
-    MsgTexGenerator(args.msg, args.output_dir, std::cout).generate();
+    MsgTexGenerator(args.msg, out).generate();
+    std::cerr << fmt::format("Output: {}\n", output_filepath);
 }
 
 void MsgTexGenerator::generate() {
@@ -154,7 +151,7 @@ void MsgTexGenerator::generate() {
 
 MsgSummary MsgTexGenerator::load_summary(const std::string &msg) {
     MsgSummary result{};
-    const std::string msg_summary_pathname = fmt::format("{}/{}.pb.txt", MSG_SUMMARY_DIR, msg);
+    const std::string msg_summary_pathname = fmt::format("{}/{}.pb.txt", msg_summary_dir, msg);
     if (!magnon::utils::proto::read_from_text_file(msg_summary_pathname, result)) {
         throw std::runtime_error(
             fmt::format("Unable to read proto file! Pathname: {}.", msg_summary_pathname));
@@ -169,8 +166,7 @@ Args::Args(const int argc, const char *const argv[]) {
     // clang-format off
     desc.add_options()
         ("help", "Print help message")
-        ("msg", po::value(&msg)->required(), "MSG number")
-        ("output_dir", po::value(&output_dir)->required(), "Directory for output msg tex file");
+        ("msg", po::value(&msg)->required(), "MSG number");
     // clang-format on
 
     try {

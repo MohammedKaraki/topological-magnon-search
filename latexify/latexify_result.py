@@ -1,4 +1,7 @@
-from magnon.diagnose2.result_pb2 import Results, SubgroupWyckoffPositionResult
+from magnon.diagnose2.search_result_pb2 import (
+    SearchResults,
+    PerturbedStructureSearchResult,
+)
 from typing import List
 
 _LONGTABLE_TEMPLATE_PATH = "latexify/longtable_template.tex"
@@ -45,7 +48,7 @@ def _partition(l: list, n: int):
     return [l[i : i + n] for i in range(0, len(l), n)]
 
 
-def _subgroup_wps_case_from_result(result: SubgroupWyckoffPositionResult):
+def _subgroup_wps_case_from_result(result: PerturbedStructureSearchResult):
     wp_labels = "+".join(
         [
             "${}$".format(atomic_orbital.wyckoff_position.label)
@@ -78,7 +81,7 @@ def _make_multirows_rows(column_index_to_cells: List[List[str]]):
     return rows
 
 
-def possible_gap_count_table_from_result(result: SubgroupWyckoffPositionResult):
+def possible_gap_count_table_from_result(result: PerturbedStructureSearchResult):
     rows = []
     for si in result.si_to_possible_gap_count:
         cell_1 = si.replace("undefined (gap closed)", "gapless").replace(
@@ -103,7 +106,7 @@ def possible_gap_count_table_from_result(result: SubgroupWyckoffPositionResult):
     )
 
 
-def possible_si_table_from_result(result: SubgroupWyckoffPositionResult):
+def possible_si_table_from_result(result: PerturbedStructureSearchResult):
     rows = []
     for gap in result.gap_to_possible_si_values:
         cells_1 = [str(gap)]
@@ -136,7 +139,7 @@ def possible_si_table_from_result(result: SubgroupWyckoffPositionResult):
     )
 
 
-def document_from_result(result: SubgroupWyckoffPositionResult):
+def document_from_result(result: PerturbedStructureSearchResult):
     table_1 = possible_gap_count_table_from_result(result)
     table_2 = possible_si_table_from_result(result)
 
@@ -144,7 +147,7 @@ def document_from_result(result: SubgroupWyckoffPositionResult):
     return tex_document_from_template(body=body)
 
 
-def document_from_results(results: Results):
+def document_from_results(results: SearchResults):
     sections = []
     for result in results.result:
         if result.is_timeout or result.is_negative_diagnosis:

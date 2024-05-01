@@ -5,7 +5,7 @@
 #include "boost/program_options.hpp"
 #include "fmt/core.h"
 
-#include "config/read_global_config.hpp"
+#include "config/output_dirs.hpp"
 #include "diagnose2/perturbed_band_structure.pb.h"
 #include "diagnose2/spectrum_data.hpp"
 #include "formula/replace_formulas.hpp"
@@ -21,9 +21,9 @@ struct Args {
     std::string output_dir{};
 };
 
-const std::string output_dir = magnon::read_global_config().output_dir();
-const std::string msg_summary_dir = output_dir + "/msg_summary";
-const std::string figures_dir = output_dir + "/figures";
+const std::map<std::string, std::string> output_dirs = magnon::get_output_dirs();
+const std::string msg_summary_dir = output_dirs.at("msg_summary_dir");
+const std::string figures_dir = output_dirs.at("figures_dir");
 
 int main(const int argc, const char *const argv[]) {
     using namespace magnon;

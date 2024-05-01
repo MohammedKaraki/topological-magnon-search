@@ -9,14 +9,75 @@ load(
     "magnon_py_library",
 )
 
-
 magnon_py_binary(
     name = "step_1_create_incomplete_msgs_summary",
-    main = "step_1_create_incomplete_msgs_summary.py",
     data = ["//data:materials.json"],
+    main = "step_1_create_incomplete_msgs_summary.py",
     deps = [
         "//config:output_dirs_python",
         "//summary:msg_summary_proto_py",
     ],
 )
 
+magnon_cc_binary(
+    name = "step_2_make_msg_summary",
+    srcs = ["step_2_make_msg_summary.cpp"],
+    data = ["//data:summary_data"],
+    deps = [
+        "//config:output_dirs",
+        "//diagnose2:analyze_perturbation",
+        "//formula:replace_formulas",
+        "//summary:msg_summary_proto_cc",
+        "//utils:proto_text_format",
+        "@boost//:program_options",
+        "@fmt",
+        "@range-v3",
+    ],
+)
+
+magnon_cc_binary(
+    name = "step_3_make_msg_diagrams",
+    srcs = ["step_3_make_msg_diagrams.cpp"],
+    data = ["//data:summary_data"],
+    deps = [
+        "//config:output_dirs",
+        "//diagnose2:perturbed_band_structure_proto_cc",
+        "//diagnose2:spectrum_data",
+        "//formula:replace_formulas",
+        "//summary:kpath",
+        "//summary:msg_summary_proto_cc",
+        "//summary:visualizer",
+        "//utils:proto_text_format",
+        "@boost//:program_options",
+        "@fmt",
+        "@range-v3",
+    ],
+)
+
+magnon_cc_binary(
+    name = "step_4_make_msg_tex_file",
+    srcs = ["step_4_make_msg_tex_file.cpp"],
+    data = ["//data:summary_data"],
+    deps = [
+        "//config:output_dirs",
+        "//summary:msg_summary_proto_cc",
+        "//summary:visualizer",
+        "//utils:proto_text_format",
+        "@boost//:program_options",
+        "@fmt",
+        "@range-v3",
+    ],
+)
+
+magnon_py_binary(
+    name = "step_5_make_msg_tables",
+    srcs = ["step_5_make_msg_tables.py"],
+    data = ["//data:summary_data"],
+    main = "step_5_make_msg_tables.py",
+    deps = [
+        "//config:output_dirs_python",
+        "//diagnose2:perturbed_band_structure_proto_py",
+        "//latexify:latexify_result",
+        "//summary:msg_summary_proto_py",
+    ],
+)

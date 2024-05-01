@@ -1,9 +1,10 @@
+#include "config/output_dirs.hpp"
+
 #include <cstdlib>
 
 #include "boost/filesystem.hpp"
 #include "fmt/core.h"
 
-#include "config/output_dirs.hpp"
 #include "config/read_global_config.hpp"
 
 namespace magnon {
@@ -67,7 +68,7 @@ std::map<std::string, std::string> get_output_dirs() {
     result["si_tables_dir"] = fmt::format("{}/si_tables_tex", output_base_dir);
     result["gap_tables_dir"] = fmt::format("{}/gap_tables_tex", output_base_dir);
     result["perturbations_dir"] = fmt::format("{}/perturbations_pb", output_base_dir);
-    result["msg_dir"] = fmt::format("{}/msg_tex", output_base_dir);
+    result["msg_tex_dir"] = fmt::format("{}/msg_tex", output_base_dir);
     result["msg_summary_dir"] = fmt::format("{}/msg_summary_pb", output_base_dir);
 
     create_directories_if_not_exist(result);

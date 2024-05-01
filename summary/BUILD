@@ -9,54 +9,6 @@ load(
     "magnon_py_library",
 )
 
-magnon_cc_binary(
-    name = "make_diagram",
-    srcs = ["make_diagram.cpp"],
-    data = ["//data:summary_data"],
-    deps = [
-        ":kpath",
-        ":msg_summary_proto_cc",
-        ":visualizer",
-        "//config:read_global_config",
-        "//diagnose2:perturbed_band_structure_proto_cc",
-        "//diagnose2:spectrum_data",
-        "//formula:replace_formulas",
-        "//utils:proto_text_format",
-        "@boost//:program_options",
-        "@fmt",
-        "@range-v3",
-    ],
-)
-
-magnon_cc_binary(
-    name = "make_msg_summary",
-    srcs = ["make_msg_summary.cpp"],
-    data = ["//data:summary_data"],
-    deps = [
-        ":msg_summary_proto_cc",
-        "//diagnose2:analyze_perturbation",
-        "//formula:replace_formulas",
-        "//utils:proto_text_format",
-        "@boost//:program_options",
-        "@fmt",
-        "@range-v3",
-    ],
-)
-
-magnon_cc_binary(
-    name = "make_msg_tex_file",
-    srcs = ["make_msg_tex_file.cpp"],
-    data = ["//data:summary_data"],
-    deps = [
-        ":msg_summary_proto_cc",
-        ":visualizer",
-        "//utils:proto_text_format",
-        "@boost//:program_options",
-        "@fmt",
-        "@range-v3",
-    ],
-)
-
 magnon_cc_library(
     name = "visualizer",
     srcs = ["visualizer.cpp"],
@@ -89,17 +41,5 @@ magnon_proto_library(
     deps = [
         "//diagnose2:perturbed_band_structure_proto",
         "//diagnose2:search_result_proto",
-    ],
-)
-
-magnon_py_binary(
-    name = "make_tables",
-    srcs = ["make_tables.py"],
-    data = ["//data:summary_data"],
-    main = "make_tables.py",
-    deps = [
-        "//diagnose2:perturbed_band_structure_proto_py",
-        "//latexify:latexify_result",
-        "//summary:msg_summary_proto_py",
     ],
 )
