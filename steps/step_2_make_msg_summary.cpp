@@ -17,7 +17,7 @@ const std::string msgs_summary_pathname =
     fmt::format("{}/msgs_summary.pb.txt", output_dirs.at("output_base_dir"));
 const std::string msg_summary_dir = output_dirs.at("msg_summary_dir");
 const std::string perturbations_dir = output_dirs.at("perturbations_dir");
-constexpr double SEARCH_TIMEOUT_S = 60.0;
+constexpr double SEARCH_TIMEOUT_S = 10.0;
 
 struct Args {
     Args(const int argc, const char *const argv[]);
