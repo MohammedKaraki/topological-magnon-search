@@ -91,4 +91,26 @@ sh_binary(
         ":step_4_make_msg_tex_file",
         ":step_5_make_msg_tables",
     ],
+    deps = [
+        "@bazel_tools//tools/bash/runfiles",
+    ],
+)
+
+magnon_cc_binary(
+    name = "step_6_compile_msg_figures",
+    srcs = ["step_6_compile_msg_figures.cpp"],
+    data = ["//data:summary_data"],
+    deps = [
+        "//config:output_dirs",
+        "//diagnose2:perturbed_band_structure_proto_cc",
+        "//diagnose2:spectrum_data",
+        "//formula:replace_formulas",
+        "//summary:kpath",
+        "//summary:msg_summary_proto_cc",
+        "//summary:visualizer",
+        "//utils:proto_text_format",
+        "@boost//:program_options",
+        "@fmt",
+        "@range-v3",
+    ],
 )
