@@ -27,6 +27,47 @@ using MsgsSummary = magnon::summary::MsgsSummary;
 using MsgSummary = MsgsSummary::MsgSummary;
 using Msg = magnon::groups::MagneticSpaceGroup;
 
+namespace magnon {
+
+bool is_positive(const diagnose2::SearchResult &search_result) {
+    assert(search_result.has_is_negative_diagnosis());
+    return !search_result.is_negative_diagnosis();
+}
+
+bool is_positive(
+    const MsgsSummary::MsgSummary::WpsSummary::PerturbationSummary &perturbation_summary) {
+    assert(
+        perturbation_summary.has_perturbation() &&
+        perturbation_summary.perturbation().has_subgroup() &&
+        perturbation_summary.perturbation().subgroup().has_is_trivial_symmetry_indicator_group());
+    if (perturbation_summary.perturbation().subgroup().is_trivial_symmetry_indicator_group()) {
+        return false;
+    }
+    return is_positive(perturbation_summary.search_result());
+}
+
+bool is_positive(const MsgsSummary::MsgSummary::WpsSummary &wps_summary) {
+    assert(wps_summary.perturbation_summary_size() > 0);
+    for (const auto &perturbation_summary : wps_summary.perturbation_summary()) {
+        if (is_positive(perturbation_summary)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool is_positive(const MsgsSummary::MsgSummary &msg_summary) {
+    assert(msg_summary.wps_summary_size() > 0);
+    for (const auto &wps_summary : msg_summary.wps_summary()) {
+        if (is_positive(wps_summary)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+}  // namespace magnon
+
 class MsgTexGenerator {
  public:
     MsgTexGenerator(const std::string &msg, std::ostream &out)
@@ -138,7 +179,7 @@ void MsgTexGenerator::generate() {
             if (pert.subgroup().is_trivial_symmetry_indicator_group()) {
                 continue;
             }
-            result.has_is_negative_diagnosis();
+            assert(result.has_is_negative_diagnosis());
             if (result.is_negative_diagnosis()) {
                 continue;
             }

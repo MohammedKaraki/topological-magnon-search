@@ -15,7 +15,7 @@ message MsgsSummary {
 
             message PerturbationSummary {
                 optional magnon.diagnose2.PerturbedBandStructure perturbation = 1;
-                optional magnon.diagnose2.PerturbedStructureSearchResult search_result = 2;
+                optional magnon.diagnose2.SearchResult search_result = 2;
             }
             repeated PerturbationSummary perturbation_summary = 2;
 

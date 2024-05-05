@@ -149,11 +149,10 @@ summarize(const std::vector<std::pair<GapRange, SisSet>> &gap_range_sis_set_pair
 
 }  // namespace
 
-PerturbedStructureSearchResult analyze_perturbation(const PerturbedBandStructure &structure,
-                                                    double timeout_s) {
+SearchResult analyze_perturbation(const PerturbedBandStructure &structure, double timeout_s) {
     const auto start_time = now();
     SpectrumData data(structure);
-    PerturbedStructureSearchResult result{};
+    SearchResult result{};
     result.set_supergroup_label(structure.supergroup().label());
     result.set_supergroup_number(structure.supergroup().number());
     result.set_subgroup_label(structure.subgroup().label());
@@ -297,7 +296,7 @@ PerturbedStructureSearchResult analyze_perturbation(const PerturbedBandStructure
             summarize(gap_range_and_sis_set_pairs, subband.get_num_bands());
 
         for (const auto &[si, possible_counts] : si_to_possible_counts) {
-            PerturbedStructureSearchResult::GapCounts gap_counts{};
+            SearchResult::GapCounts gap_counts{};
             for (const auto &gap_count : possible_counts) {
                 gap_counts.add_gap_count(gap_count);
             }
@@ -305,7 +304,7 @@ PerturbedStructureSearchResult analyze_perturbation(const PerturbedBandStructure
         }
 
         for (const auto &[gap, possible_sis] : gap_to_possibsis) {
-            PerturbedStructureSearchResult::SIs sis_proto{};
+            SearchResult::SIs sis_proto{};
             for (const auto &si : possible_sis) {
                 *sis_proto.add_si() = si;
             }

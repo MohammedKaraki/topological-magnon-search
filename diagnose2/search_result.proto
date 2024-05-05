@@ -5,7 +5,7 @@ import "utils/matrix.proto";
 
 package magnon.diagnose2;
 
-message PerturbedStructureSearchResult {
+message SearchResult {
     optional string supergroup_number = 1;
     optional string supergroup_label = 2;
     repeated magnon.groups.AtomicOrbital atomic_orbital = 3;
@@ -33,5 +33,5 @@ message PerturbedStructureSearchResult {
 }
 
 message SearchResults {
-    repeated PerturbedStructureSearchResult search_result = 1;
+    repeated SearchResult search_result = 1;
 }
