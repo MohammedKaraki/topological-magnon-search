@@ -1,0 +1,35 @@
+syntax = "proto2";
+
+package magnon.config;
+
+message VisualizationConfig {
+    enum Mode {
+        MODE_UNSET = 0;
+        NORMAL = 1;
+        COMPACT = 2;
+    }
+
+    optional Mode mode = 1;
+    optional double band_band_separation = 2;
+    optional double subk_min_dist = 3;
+    optional double broken_min_dist = 4;
+    optional double subband_superband_ratio = 5;
+    optional double supermode_separation = 6;
+    optional int32 skip_color = 7;
+}
+
+message VisualizationConfigs {
+    optional VisualizationConfig default_config = 1;
+
+    message CustomConfig {
+        message Key {
+            optional string supergroup_number = 1;
+            optional string subgroup_number = 2;
+            optional string wps_label = 3;
+        }
+        repeated Key key = 1;
+        optional VisualizationConfig value = 2;
+    }
+
+    repeated CustomConfig custom_config = 2;
+}

@@ -16,7 +16,6 @@
 
 #include "fmt/core.h"
 
-#include "config/visualize_config.pb.h"
 #include "diagnose/latexify.hpp"
 #include "utils/proto_text_format.hpp"
 
@@ -88,7 +87,9 @@ constexpr std::array palette = {
     // Rgb{255, 100, 0},
 };
 
-Rgb Visualizer::idx_to_rgb(int idx) { return palette[(idx + spec.skip_color) % palette.size()]; }
+Rgb Visualizer::idx_to_rgb(int idx) {
+    return palette[(idx + vis_config_.skip_color) % palette.size()];
+}
 
 Rgb Visualizer::idxs_to_rgb(const std::vector<int> &idxs) {
     int N = idxs.size();
@@ -234,7 +235,7 @@ void Visualizer::draw_subirrep(double x,
                           R"(at ({:3.3f}cm, {:3.3f}cm) {{}};)"
                           "\n",
                           label_position_code,
-                          mode == VisMode::Normal ? R"(\huge)" : R"(\huge)",
+                          vis_config_.mode == VisualizationMode::Normal ? R"(\huge)" : R"(\huge)",
                           label,
                           x,
                           y);
@@ -276,7 +277,7 @@ void Visualizer::draw_superirrep(double x,
         "\n",
         label_position_code == "above" ? -1 : 0,
         label_position_code,
-        mode == VisMode::Normal ? R"(\huge)" : R"(\huge)",
+        vis_config_.mode == VisualizationMode::Normal ? R"(\huge)" : R"(\huge)",
         show_irrep_label ? label : "",
         idxs_to_rgb(subirrep_idxs).to_latex(),
         Rgb({240, 245, 250}).to_latex(),
@@ -322,25 +323,53 @@ std::vector<BrokenSupermode> make_broken_supermodes(
     return result;
 }
 
+VisualizationConfig load_config_from_file(const std::string &supergroup_number,
+                                          const std::string &subgroup_number,
+                                          const std::string &wps_label) {
+    constexpr char config_filename[] = "config/visualization_config.cfg";
+    config::VisualizationConfigs configs{};
+    if (!utils::proto::read_from_text_file(config_filename, configs)) {
+        throw std::runtime_error(fmt::format("Failed to load config file '{}'", config_filename));
+    }
+    for (const auto &custom_config : configs.custom_config()) {
+        for (const auto &key : custom_config.key()) {
+            if (key.has_supergroup_number() && key.supergroup_number() != supergroup_number) {
+                continue;
+            }
+            if (key.has_subgroup_number() && key.subgroup_number() != subgroup_number) {
+                continue;
+            }
+            if (key.has_wps_label() && key.wps_label() != wps_label) {
+                continue;
+            }
+            if (!custom_config.has_value()) {
+                throw std::runtime_error("Custom config missing value!");
+            }
+            return VisualizationConfig(custom_config.value());
+        }
+    }
+    if (!configs.has_default_config()) {
+        throw std::runtime_error("Configs file missing default config!");
+    }
+    return VisualizationConfig(configs.default_config());
+}
+
 Visualizer::Visualizer(const std::vector<int> &drawn_subk_idxs,
                        const diagnose2::Superband &superband,
                        const diagnose2::Subband &subband,
-                       const diagnose2::SpectrumData &data,
-                       VisMode mode,
-                       VisSpec spec)
+                       const diagnose2::SpectrumData &data)
     : drawn_subk_idxs{std::move(drawn_subk_idxs)},
       superband{superband},
       subband{subband},
       data{data},
-      mode{mode},
-      spec{spec} {
+      vis_config_{load_config_from_file(data.super_msg.number, data.sub_msg.number, data.wp)} {
     const int max_superirreps_at_fixed_k = std::accumulate(
         superband.k_idx_to_e_idx_to_supermode.begin(),
         superband.k_idx_to_e_idx_to_supermode.end(),
         0,
         [](const auto &l, const auto &r) { return std::max(l, static_cast<int>(r.size())); });
-    superband_height = spec.supermode_separation * (max_superirreps_at_fixed_k - 1);
-    subband_height = spec.subband_superband_ratio * superband_height;
+    superband_height = vis_config_.supermode_separation * (max_superirreps_at_fixed_k - 1);
+    subband_height = vis_config_.subband_superband_ratio * superband_height;
 }
 
 void Visualizer::dump(const std::string &filename) {
@@ -363,7 +392,7 @@ void Visualizer::dump(const std::string &filename) {
     visualize_separation(line_code);
 
     for (int x_idx = 1; x_idx < static_cast<int>(drawn_subk_idxs.size()); ++x_idx) {
-        if (mode != VisMode::Compact) {
+        if (vis_config_.mode != VisualizationMode::Compact) {
             visualize_superlines(x_idx - 1, x_idx, line_code);
         }
         visualize_sublines(x_idx - 1, x_idx, line_code);
@@ -371,8 +400,8 @@ void Visualizer::dump(const std::string &filename) {
 
     if (!superband.satisfies_antiunit_rels()) {
         const auto left = 0.0;
-        const auto right = left + spec.subk_min_dist * (drawn_subk_idxs.size() - 1);
-        const auto bottom = subband_y_max + spec.band_band_separation;
+        const auto right = left + vis_config_.subk_min_dist * (drawn_subk_idxs.size() - 1);
+        const auto bottom = subband_y_max + vis_config_.band_band_separation;
         const auto top = bottom + superband_height;
 
         node_code << fmt::format(R"(\draw [line width=4, red] ({0}cm,{1}cm) -- ({2}cm, {3}cm);)"
@@ -387,7 +416,7 @@ void Visualizer::dump(const std::string &filename) {
 
     if (!subband.satisfies_antiunit_rels()) {
         const auto left = 0.0;
-        const auto right = left + spec.subk_min_dist * (drawn_subk_idxs.size() - 1);
+        const auto right = left + vis_config_.subk_min_dist * (drawn_subk_idxs.size() - 1);
         const auto bottom = 0.0;
         const auto top = bottom + subband_height;
 
@@ -471,10 +500,10 @@ void Visualizer::dump(const std::string &filename) {
 
 void Visualizer::visualize_separation(std::ostringstream &out) {
 
-    const double xmax = spec.subk_min_dist * (drawn_subk_idxs.size() - 1);
-    double ycenter = subband_y_max + 0.45 * spec.band_band_separation;
+    const double xmax = vis_config_.subk_min_dist * (drawn_subk_idxs.size() - 1);
+    double ycenter = subband_y_max + 0.45 * vis_config_.band_band_separation;
 
-    if (mode == VisMode::Compact) {
+    if (vis_config_.mode == VisualizationMode::Compact) {
         ycenter = subband_y_max + 3.25;
     }
 
@@ -489,8 +518,8 @@ void Visualizer::visualize_separation(std::ostringstream &out) {
         data.sub_msg.number);
     std::string label2 = fmt::format(R"({{${}$}})", latexify_super_to_sub(data));
 
-    double y1 = ycenter + 0.35 * spec.band_band_separation;
-    double y2 = ycenter - 0.3 * spec.band_band_separation;
+    double y1 = ycenter + 0.35 * vis_config_.band_band_separation;
+    double y2 = ycenter - 0.3 * vis_config_.band_band_separation;
 
     std::string size1 = "huge";
     std::string size2 = "Large";
@@ -517,10 +546,10 @@ void Visualizer::visualize_separation(std::ostringstream &out) {
 
     double downarrow_x = xmax / 2.0;
     if (drawn_subk_idxs.size() % 2 == 1) {
-        downarrow_x += 0.5 * spec.subk_min_dist;
+        downarrow_x += 0.5 * vis_config_.subk_min_dist;
     }
 
-    if (mode == VisMode::Normal) {
+    if (vis_config_.mode == VisualizationMode::Normal) {
         out << fmt::format(R"(\draw [line width=4pt,arrows={{-Latex[width=20pt,length=20pt]}}])"
                            R"(({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)"
                            "\n",
@@ -560,20 +589,21 @@ void Visualizer::annotate(int x_idx, std::ostringstream &output) {
             latexify_korirrep(superk));
     }
 
-    if (mode == VisMode::Normal) {
-        output << fmt::format(R"(\node[]at({:3.3f}cm,{:3.3f}cm){{{}}};)"
-                              "\n",
-                              x_from_x_idx(x_idx),
-                              subband_y_max + superband_height + spec.band_band_separation + 1.95,
-                              gk_code);
+    if (vis_config_.mode == VisualizationMode::Normal) {
+        output << fmt::format(
+            R"(\node[]at({:3.3f}cm,{:3.3f}cm){{{}}};)"
+            "\n",
+            x_from_x_idx(x_idx),
+            subband_y_max + superband_height + vis_config_.band_band_separation + 1.95,
+            gk_code);
         if (x_idx == 0) {
             output << fmt::format(
                 R"(\draw[]({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)"
                 "\n",
                 -1.0,
-                subband_y_max + superband_height + spec.band_band_separation + 1.95 - 0.4,
+                subband_y_max + superband_height + vis_config_.band_band_separation + 1.95 - 0.4,
                 +1.0 + x_from_x_idx(drawn_subk_idxs.size() - 1),
-                subband_y_max + superband_height + spec.band_band_separation + 1.95 - 0.4);
+                subband_y_max + superband_height + vis_config_.band_band_separation + 1.95 - 0.4);
             output << fmt::format(R"(\draw[]({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)"
                                   "\n",
                                   -1.0,
@@ -581,7 +611,7 @@ void Visualizer::annotate(int x_idx, std::ostringstream &output) {
                                   +1.0 + x_from_x_idx(drawn_subk_idxs.size() - 1),
                                   subband_y_min - 0.8 + 0.4);
         }
-    } else if (mode == VisMode::Compact) {
+    } else if (vis_config_.mode == VisualizationMode::Compact) {
         output << fmt::format(R"(\node[]at({:3.3f}cm,{:3.3f}cm){{{}}};)"
                               "\n",
                               x_from_x_idx(x_idx),
@@ -634,7 +664,7 @@ void Visualizer::supervisualize_at_x_idx(int x_idx, std::ostringstream &output) 
         const auto &broken_supermode = broken_supermodes[e_idx];
 
         auto calc_y = [this, &supermode_weights](int idx) {
-            return subband_y_max + spec.band_band_separation +
+            return subband_y_max + vis_config_.band_band_separation +
                    superband_height * scale_idx(idx, supermode_weights);
         };
         const double supermode_x = x_from_x_idx(x_idx);
@@ -654,7 +684,7 @@ void Visualizer::supervisualize_at_x_idx(int x_idx, std::ostringstream &output) 
             }
         }
 
-        if (mode == VisMode::Compact) {
+        if (vis_config_.mode == VisualizationMode::Compact) {
             continue;
         }
 
@@ -734,14 +764,15 @@ void Visualizer::subvisualize_at_x_idx(int x_idx, std::ostringstream &output) {
                 supermode_x,
                 supermode_y,
                 0.60,
-                spec.broken_min_dist * (num_subirreps - 1 + 1.5) * 0.5);
+                vis_config_.broken_min_dist * (num_subirreps - 1 + 1.5) * 0.5);
         }
 
         for (int sub_e_idx = 0; sub_e_idx < num_subirreps; ++sub_e_idx) {
             const int subirrep_idx = broken_supermode.subirrep_idxs[sub_e_idx];
 
             auto calc_y = [this, supermode_y, num_subirreps](int sub_e_idx) {
-                return supermode_y + spec.broken_min_dist * (sub_e_idx - (num_subirreps - 1) * 0.5);
+                return supermode_y +
+                       vis_config_.broken_min_dist * (sub_e_idx - (num_subirreps - 1) * 0.5);
             };
             const double submode_x{supermode_x};
             const double submode_y{calc_y(sub_e_idx)};
@@ -754,7 +785,7 @@ void Visualizer::subvisualize_at_x_idx(int x_idx, std::ostringstream &output) {
                     : 0.5 * (calc_supery(e_idx + 1) - calc_supery(e_idx) -
                              (broken_supermodes[e_idx + 1].subirrep_idxs.size() - 1 +
                               num_subirreps - 1) *
-                                 0.5 * spec.broken_min_dist);
+                                 0.5 * vis_config_.broken_min_dist);
 
             auto label_pos = sublabel_position(sub_e_idx, num_subirreps);
             subband_y_max = std::max(subband_y_max, submode_y);
@@ -941,47 +972,37 @@ int Visualizer::x_idx_to_superk_idx(int x_idx) {
     return superk_idx;
 }
 
-double Visualizer::x_from_x_idx(int x_idx) { return x_idx * spec.subk_min_dist; }
+double Visualizer::x_from_x_idx(int x_idx) { return x_idx * vis_config_.subk_min_dist; }
 
-std::pair<VisMode, VisSpec> mode_spec_pair_from_file(const std::optional<std::string> filename) {
-    const std::string VISUALIZE_CONFIG_DEFAULT_PATH = "config/visualize_config_base.cfg";
-    const std::string actual_filename =
-        filename.has_value() ? filename.value() : VISUALIZE_CONFIG_DEFAULT_PATH;
-    VisMode mode{VisMode::Normal};
-    VisSpec spec{};
-
-    magnon::config::VisualizeConfig visualize_config{};
-    magnon::utils::proto::read_from_text_file(actual_filename, visualize_config);
-
+VisualizationConfig::VisualizationConfig(
+    const magnon::config::VisualizationConfig &visualize_config) {
     if (visualize_config.has_mode()) {
         switch (visualize_config.mode()) {
-            case magnon::config::VisualizeConfig::NORMAL:
-                mode = VisMode::Normal;
+            case magnon::config::VisualizationConfig::NORMAL:
+                mode = VisualizationMode::Normal;
                 break;
-            case magnon::config::VisualizeConfig::COMPACT:
-                mode = VisMode::Compact;
+            case magnon::config::VisualizationConfig::COMPACT:
+                mode = VisualizationMode::Compact;
                 break;
             default:
                 assert(false);
         }
     }
     if (visualize_config.has_band_band_separation()) {
-        spec.band_band_separation = visualize_config.band_band_separation();
+        band_band_separation = visualize_config.band_band_separation();
     }
     if (visualize_config.has_subk_min_dist()) {
-        spec.subk_min_dist = visualize_config.subk_min_dist();
+        subk_min_dist = visualize_config.subk_min_dist();
     }
     if (visualize_config.has_subband_superband_ratio()) {
-        spec.subband_superband_ratio = visualize_config.subband_superband_ratio();
+        subband_superband_ratio = visualize_config.subband_superband_ratio();
     }
     if (visualize_config.has_supermode_separation()) {
-        spec.supermode_separation = visualize_config.supermode_separation();
+        supermode_separation = visualize_config.supermode_separation();
     }
     if (visualize_config.has_skip_color()) {
-        spec.skip_color = visualize_config.skip_color();
+        skip_color = visualize_config.skip_color();
     }
-
-    return std::pair(mode, spec);
 }
 
 }  // namespace magnon

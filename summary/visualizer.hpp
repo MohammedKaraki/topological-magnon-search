@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "config/visualization_config.pb.h"
 #include "diagnose2/spectrum_data.hpp"
 
 namespace magnon {
@@ -23,27 +24,28 @@ struct IrrepPoint {
 };
 
 enum class LabelPosition { NoLabel, Above, Right, Below, Left };
-enum class VisMode { Normal, Compact };
+enum class VisualizationMode { Normal, Compact };
 
-struct VisSpec {
+struct VisualizationConfig {
+    VisualizationConfig() = default;
+    VisualizationConfig(const magnon::config::VisualizationConfig &visualize_config);
+
     double band_band_separation = 4.5;
     double subk_min_dist = 2.9;
     double broken_min_dist = 0.9;
     double subband_superband_ratio = 1.0;
     double supermode_separation = 3.5;
     int skip_color = 0;
-};
 
-std::pair<VisMode, VisSpec> mode_spec_pair_from_file(std::optional<std::string> filename);
+    VisualizationMode mode = VisualizationMode::Normal;
+};
 
 class Visualizer {
  public:
     Visualizer(const std::vector<int> &drawn_subk_idxs,
                const diagnose2::Superband &superband,
                const diagnose2::Subband &subband,
-               const diagnose2::SpectrumData &data,
-               VisMode mode,
-               VisSpec spec);
+               const diagnose2::SpectrumData &data);
 
     void dump(const std::string &filename);
 
@@ -99,8 +101,7 @@ class Visualizer {
     double superband_height;
     double subband_height;
 
-    VisMode mode;
-    VisSpec spec;
+    VisualizationConfig vis_config_;
 };
 
 }  // namespace magnon

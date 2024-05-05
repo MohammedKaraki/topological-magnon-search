@@ -14,10 +14,10 @@ magnon_cc_library(
     srcs = ["visualizer.cpp"],
     hdrs = ["visualizer.hpp"],
     data = [
-        "//config:visualize_config_base_cfg",
+        "//config:visualization_config",
     ],
     deps = [
-        "//config:visualize_config_proto_cc",
+        "//config:visualization_config_proto_cc",
         "//diagnose:entities",
         "//diagnose:latexify",
         "//diagnose2:spectrum_data",

@@ -78,7 +78,7 @@ int main(const int argc, const char *const argv[]) {
             constexpr bool ALL_EDGES = true;
             std::vector kpath_indices = make_kpath_indices(data.sub_msg, !ALL_EDGES);
             complement_kpath_indices(kpath_indices, data.sub_msg);
-            Visualizer(kpath_indices, superband, subband, data, {}, {}).dump(figure_filepath);
+            Visualizer(kpath_indices, superband, subband, data).dump(figure_filepath);
             std::cerr << fmt::format("Output: {}\n", figure_filepath);
         }
     }

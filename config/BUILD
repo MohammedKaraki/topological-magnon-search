@@ -15,8 +15,8 @@ filegroup(
 )
 
 filegroup(
-    name = "visualize_config_base_cfg",
-    srcs = ["visualize_config_base.cfg"],
+    name = "visualization_config",
+    srcs = ["visualization_config.cfg"],
 )
 
 magnon_proto_library(
@@ -25,8 +25,8 @@ magnon_proto_library(
 )
 
 magnon_proto_library(
-    name = "visualize_config_proto",
-    srcs = ["visualize_config.proto"],
+    name = "visualization_config_proto",
+    srcs = ["visualization_config.proto"],
 )
 
 magnon_cc_library(

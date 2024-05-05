@@ -163,8 +163,8 @@ void MsgTexGenerator::generate() {
                                }) |
                                ranges::views::join(std::string(", "));
         out_ << fmt::format(
-            "Nontrivial-SI Subgroups: {}.\\\\\n"
-            "Trivial-SI Subgroups: {}.\\\\\n",
+            "\\textbf{{Nontrivial-SI Subgroups:}} {}.\\\\\n"
+            "\\textbf{{Trivial-SI Subgroups:}} {}.\\\\\n",
             subgroups | nontrivial_view | join_view | ranges::to<std::string>,
             subgroups | trivial_view | join_view | ranges::to<std::string>);
     }
@@ -185,7 +185,7 @@ void MsgTexGenerator::generate() {
                 return result;
             }) |
             ranges::views::join(std::string(", ")) | ranges::to<std::string>;
-        out_ << fmt::format("BCS Materials: {}\n", materials);
+        out_ << fmt::format("\\textbf{{BCS Materials:}} {}.\n", materials);
 
         for (const auto &pert_summary : wps_summary.perturbation_summary()) {
             if (!is_diagnosed_positive(pert_summary)) {

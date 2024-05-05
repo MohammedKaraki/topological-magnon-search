@@ -27,7 +27,7 @@ def main():
                 continue
 
             si_table = possible_si_table_from_result(result)
-            gap_table = possible_si_table_from_result(result)
+            gap_table = possible_gap_count_table_from_result(result)
 
             wps = [str(orb.wyckoff_position.label) for orb in result.atomic_orbital]
 
