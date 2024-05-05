@@ -42,8 +42,7 @@ struct VisualizationConfig {
 
 class Visualizer {
  public:
-    Visualizer(const std::vector<int> &drawn_subk_idxs,
-               const diagnose2::Superband &superband,
+    Visualizer(const diagnose2::Superband &superband,
                const diagnose2::Subband &subband,
                const diagnose2::SpectrumData &data);
 

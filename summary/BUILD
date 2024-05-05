@@ -21,6 +21,7 @@ magnon_cc_library(
         "//diagnose:entities",
         "//diagnose:latexify",
         "//diagnose2:spectrum_data",
+        "//summary:kpath",
         "//utils:proto_text_format",
         "@fmt",
     ],
@@ -41,5 +42,15 @@ magnon_proto_library(
     deps = [
         "//diagnose2:perturbed_band_structure_proto",
         "//diagnose2:search_result_proto",
+    ],
+)
+
+magnon_cc_library(
+    name = "is_positive",
+    srcs = ["is_positive.cpp"],
+    hdrs = ["is_positive.hpp"],
+    deps = [
+        ":msg_summary_proto_cc",
+        "//diagnose2:search_result_proto_cc",
     ],
 )

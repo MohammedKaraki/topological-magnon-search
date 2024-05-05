@@ -17,6 +17,7 @@
 #include "fmt/core.h"
 
 #include "diagnose/latexify.hpp"
+#include "summary/kpath.hpp"
 #include "utils/proto_text_format.hpp"
 
 namespace magnon {
@@ -354,15 +355,18 @@ VisualizationConfig load_config_from_file(const std::string &supergroup_number,
     return VisualizationConfig(configs.default_config());
 }
 
-Visualizer::Visualizer(const std::vector<int> &drawn_subk_idxs,
-                       const diagnose2::Superband &superband,
+Visualizer::Visualizer(const diagnose2::Superband &superband,
                        const diagnose2::Subband &subband,
                        const diagnose2::SpectrumData &data)
-    : drawn_subk_idxs{std::move(drawn_subk_idxs)},
-      superband{superband},
+    : superband{superband},
       subband{subband},
       data{data},
       vis_config_{load_config_from_file(data.super_msg.number, data.sub_msg.number, data.wp)} {
+    constexpr bool ALL_EDGES = true;
+    std::vector kpath_indices = make_kpath_indices(data.sub_msg, !ALL_EDGES);
+    complement_kpath_indices(kpath_indices, data.sub_msg);
+    drawn_subk_idxs = kpath_indices;
+
     const int max_superirreps_at_fixed_k = std::accumulate(
         superband.k_idx_to_e_idx_to_supermode.begin(),
         superband.k_idx_to_e_idx_to_supermode.end(),

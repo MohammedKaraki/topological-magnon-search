@@ -9,7 +9,7 @@
 #include "diagnose2/perturbed_band_structure.pb.h"
 #include "diagnose2/spectrum_data.hpp"
 #include "formula/replace_formulas.hpp"
-#include "summary/kpath.hpp"
+#include "summary/is_positive.hpp"
 #include "summary/msg_summary.pb.h"
 #include "summary/visualizer.hpp"
 #include "utils/proto_text_format.hpp"
@@ -45,10 +45,7 @@ int main(const int argc, const char *const argv[]) {
     for (const auto &wps_summary : msg_summary.wps_summary()) {
         for (auto &pert_summary : wps_summary.perturbation_summary()) {
             const auto &perturbation = pert_summary.perturbation();
-            if (perturbation.subgroup().is_trivial_symmetry_indicator_group()) {
-                continue;
-            }
-            if (pert_summary.search_result().is_negative_diagnosis()) {
+            if (!is_diagnosed_positive(pert_summary)) {
                 continue;
             }
 
@@ -75,10 +72,7 @@ int main(const int argc, const char *const argv[]) {
             filename_bases.insert(filename);
             // const int filename_base_count = filename_bases.count(filename);
             const std::string figure_filepath = fmt::format("{}/{}", figures_dir, filename);
-            constexpr bool ALL_EDGES = true;
-            std::vector kpath_indices = make_kpath_indices(data.sub_msg, !ALL_EDGES);
-            complement_kpath_indices(kpath_indices, data.sub_msg);
-            Visualizer(kpath_indices, superband, subband, data).dump(figure_filepath);
+            Visualizer(superband, subband, data).dump(figure_filepath);
             std::cerr << fmt::format("Output: {}\n", figure_filepath);
         }
     }
