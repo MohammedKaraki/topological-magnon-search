@@ -29,37 +29,38 @@ using Msg = magnon::groups::MagneticSpaceGroup;
 
 namespace magnon {
 
-bool is_positive(const diagnose2::SearchResult &search_result) {
+// Note: `diagnosed_positive` is different from `positive`. The distinction is due to the cases
+// where timeout prevents a resolution on the case.
+bool is_diagnosed_positive(const diagnose2::SearchResult &search_result) {
+    if (search_result.is_timeout()) {
+        return false;
+    }
     assert(search_result.has_is_negative_diagnosis());
     return !search_result.is_negative_diagnosis();
 }
 
-bool is_positive(
+bool is_diagnosed_positive(
     const MsgsSummary::MsgSummary::WpsSummary::PerturbationSummary &perturbation_summary) {
-    assert(
-        perturbation_summary.has_perturbation() &&
-        perturbation_summary.perturbation().has_subgroup() &&
-        perturbation_summary.perturbation().subgroup().has_is_trivial_symmetry_indicator_group());
     if (perturbation_summary.perturbation().subgroup().is_trivial_symmetry_indicator_group()) {
         return false;
     }
-    return is_positive(perturbation_summary.search_result());
+    return is_diagnosed_positive(perturbation_summary.search_result());
 }
 
-bool is_positive(const MsgsSummary::MsgSummary::WpsSummary &wps_summary) {
+bool is_diagnosed_positive(const MsgsSummary::MsgSummary::WpsSummary &wps_summary) {
     assert(wps_summary.perturbation_summary_size() > 0);
     for (const auto &perturbation_summary : wps_summary.perturbation_summary()) {
-        if (is_positive(perturbation_summary)) {
+        if (is_diagnosed_positive(perturbation_summary)) {
             return true;
         }
     }
     return false;
 }
 
-bool is_positive(const MsgsSummary::MsgSummary &msg_summary) {
+bool is_diagnosed_positive(const MsgsSummary::MsgSummary &msg_summary) {
     assert(msg_summary.wps_summary_size() > 0);
     for (const auto &wps_summary : msg_summary.wps_summary()) {
-        if (is_positive(wps_summary)) {
+        if (is_diagnosed_positive(wps_summary)) {
             return true;
         }
     }
@@ -141,6 +142,14 @@ int main(const int argc, const char *const argv[]) {
 }
 
 void MsgTexGenerator::generate() {
+    using namespace magnon;
+
+    if (!is_diagnosed_positive(msg_summary_)) {
+        std::cerr << fmt::format("Skipping MSG {}: is_diagnosed_positive() evaluates to false!\n",
+                                 human_readable_msg_label(supergroup()));
+        return;
+    }
+
     { out_ << fmt::format("\\section{{MSG ${}$}}\n", human_readable_msg_label(supergroup())); }
 
     {
@@ -160,6 +169,11 @@ void MsgTexGenerator::generate() {
             subgroups | trivial_view | join_view | ranges::to<std::string>);
     }
     for (const auto &wps_summary : msg_summary_.wps_summary()) {
+        if (!is_diagnosed_positive(wps_summary)) {
+            // Skipping trivial WPs result.
+            continue;
+        }
+
         out_ << fmt::format("\\subsection{{WP: ${}$}}\n",
                             make_wps_encoding(wps_summary.wp_label()));
         const std::string materials =
@@ -174,15 +188,12 @@ void MsgTexGenerator::generate() {
         out_ << fmt::format("BCS Materials: {}\n", materials);
 
         for (const auto &pert_summary : wps_summary.perturbation_summary()) {
+            if (!is_diagnosed_positive(pert_summary)) {
+                // Skipping trivial perturbation.
+                continue;
+            }
+
             const auto &pert = pert_summary.perturbation();
-            const auto &result = pert_summary.search_result();
-            if (pert.subgroup().is_trivial_symmetry_indicator_group()) {
-                continue;
-            }
-            assert(result.has_is_negative_diagnosis());
-            if (result.is_negative_diagnosis()) {
-                continue;
-            }
 
             out_ << fmt::format("\\subsubsection{{Topological bands in subgroup ${}$}}\n",
                                 human_readable_msg_label(pert.subgroup()));
