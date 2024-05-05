@@ -363,9 +363,11 @@ Visualizer::Visualizer(const diagnose2::Superband &superband,
       data{data},
       vis_config_{load_config_from_file(data.super_msg.number, data.sub_msg.number, data.wp)} {
     constexpr bool ALL_EDGES = true;
-    std::vector kpath_indices = make_kpath_indices(data.sub_msg, !ALL_EDGES);
-    complement_kpath_indices(kpath_indices, data.sub_msg);
-    drawn_subk_idxs = kpath_indices;
+    drawn_subk_idxs = make_kpath_indices(data.sub_msg, !ALL_EDGES);
+    for (const auto &kpoint : vis_config_.additional_kpath_points) {
+        drawn_subk_idxs.push_back(data.sub_msg.k_to_idx(kpoint));
+    }
+    complement_kpath_indices(drawn_subk_idxs, data.sub_msg);
 
     const int max_superirreps_at_fixed_k = std::accumulate(
         superband.k_idx_to_e_idx_to_supermode.begin(),
@@ -978,10 +980,9 @@ int Visualizer::x_idx_to_superk_idx(int x_idx) {
 
 double Visualizer::x_from_x_idx(int x_idx) { return x_idx * vis_config_.subk_min_dist; }
 
-VisualizationConfig::VisualizationConfig(
-    const magnon::config::VisualizationConfig &visualize_config) {
-    if (visualize_config.has_mode()) {
-        switch (visualize_config.mode()) {
+VisualizationConfig::VisualizationConfig(const magnon::config::VisualizationConfig &vis_config) {
+    if (vis_config.has_mode()) {
+        switch (vis_config.mode()) {
             case magnon::config::VisualizationConfig::NORMAL:
                 mode = VisualizationMode::Normal;
                 break;
@@ -992,20 +993,23 @@ VisualizationConfig::VisualizationConfig(
                 assert(false);
         }
     }
-    if (visualize_config.has_band_band_separation()) {
-        band_band_separation = visualize_config.band_band_separation();
+    if (vis_config.has_band_band_separation()) {
+        band_band_separation = vis_config.band_band_separation();
     }
-    if (visualize_config.has_subk_min_dist()) {
-        subk_min_dist = visualize_config.subk_min_dist();
+    if (vis_config.has_subk_min_dist()) {
+        subk_min_dist = vis_config.subk_min_dist();
     }
-    if (visualize_config.has_subband_superband_ratio()) {
-        subband_superband_ratio = visualize_config.subband_superband_ratio();
+    if (vis_config.has_subband_superband_ratio()) {
+        subband_superband_ratio = vis_config.subband_superband_ratio();
     }
-    if (visualize_config.has_supermode_separation()) {
-        supermode_separation = visualize_config.supermode_separation();
+    if (vis_config.has_supermode_separation()) {
+        supermode_separation = vis_config.supermode_separation();
     }
-    if (visualize_config.has_skip_color()) {
-        skip_color = visualize_config.skip_color();
+    if (vis_config.has_skip_color()) {
+        skip_color = vis_config.skip_color();
+    }
+    for (const auto &kpath_point : vis_config.kpath_point()) {
+        additional_kpath_points.push_back(kpath_point);
     }
 }
 

@@ -37,6 +37,8 @@ struct VisualizationConfig {
     double supermode_separation = 3.5;
     int skip_color = 0;
 
+    std::vector<std::string> additional_kpath_points{};
+
     VisualizationMode mode = VisualizationMode::Normal;
 };
 

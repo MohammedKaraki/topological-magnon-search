@@ -103,13 +103,8 @@ magnon_cc_binary(
     data = ["//data:summary_data"],
     deps = [
         "//config:output_dirs",
-        "//diagnose2:perturbed_band_structure_proto_cc",
-        "//diagnose2:spectrum_data",
-        "//formula:replace_formulas",
         "//summary:is_positive",
-        "//summary:kpath",
         "//summary:msg_summary_proto_cc",
-        "//summary:visualizer",
         "//utils:proto_text_format",
         "@boost//:program_options",
         "@fmt",

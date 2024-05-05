@@ -16,6 +16,7 @@ message VisualizationConfig {
     optional double subband_superband_ratio = 5;
     optional double supermode_separation = 6;
     optional int32 skip_color = 7;
+    repeated string kpath_point = 8;
 }
 
 message VisualizationConfigs {
