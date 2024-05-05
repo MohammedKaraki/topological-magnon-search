@@ -197,8 +197,11 @@ void MsgTexGenerator::generate() {
 
             out_ << fmt::format("\\subsubsection{{Topological bands in subgroup ${}$}}\n",
                                 human_readable_msg_label(pert.subgroup()));
-            out_ << fmt::format("\\includegraphics[scale=0.6]{{{}}}\n",
-                                make_fig_filepath(wps_summary, pert.subgroup(), "pdf"));
+            out_ << fmt::format(
+                "\\begin{{center}}\n"
+                "\\includegraphics[scale=0.6]{{{}}}\n"
+                "\\end{{center}}\n",
+                make_fig_filepath(wps_summary, pert.subgroup(), "pdf"));
             out_ << fmt::format("\\input{{{}}}\n",
                                 make_gap_table_pathname(wps_summary, pert.subgroup()));
             out_ << fmt::format("\\input{{{}}}\n",
