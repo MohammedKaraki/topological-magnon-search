@@ -15,6 +15,7 @@
 #include "Eigen/Dense"
 #include "fmt/core.h"
 
+#include "range/v3/all.hpp"
 #include "utility.hpp"
 #include "utils/matrix_converter.hpp"
 
@@ -835,6 +836,11 @@ std::string SpectrumData::Msg::si_orders_to_latex() const {
     }
 
     return result.str();
+}
+
+int Superband::num_supermodes() const {
+    return ranges::max(k_idx_to_e_idx_to_supermode |
+                       ranges::views::transform([](const auto &vec) { return vec.size(); }));
 }
 
 }  // namespace magnon::diagnose2

@@ -174,6 +174,8 @@ class Superband {
     bool satisfies_antiunit_rels() const;
     void fix_antiunit_rels();
 
+    int num_supermodes() const;
+
     Subband make_subband() const;
 
  public:

@@ -20,17 +20,16 @@ message VisualizationConfig {
 }
 
 message VisualizationConfigs {
-    optional VisualizationConfig default_config = 1;
-
-    message CustomConfig {
-        message Key {
+    message ConditionalConfig {
+        message Condition {
             optional string supergroup_number = 1;
             optional string subgroup_number = 2;
             optional string wps_label = 3;
+            optional int32 num_supermodes = 4;
         }
-        repeated Key key = 1;
+        repeated Condition condition = 1;
         optional VisualizationConfig value = 2;
     }
 
-    repeated CustomConfig custom_config = 2;
+    repeated ConditionalConfig conditional_config = 1;
 }

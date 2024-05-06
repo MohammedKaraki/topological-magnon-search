@@ -111,3 +111,15 @@ magnon_cc_binary(
         "@range-v3",
     ],
 )
+
+sh_binary(
+    name = "steps_3_6",
+    srcs = ["steps_3_6.sh"],
+    data = [
+        ":step_3_make_msg_diagrams",
+        ":step_6_compile_msg_figures",
+    ],
+    deps = [
+        "@bazel_tools//tools/bash/runfiles",
+    ],
+)

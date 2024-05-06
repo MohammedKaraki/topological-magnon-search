@@ -103,6 +103,7 @@ magnon_cc_library(
         "//utils:matrix_converter",
         "@eigen",
         "@fmt",
+        "@range-v3",
     ],
 )
 

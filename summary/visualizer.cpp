@@ -326,33 +326,35 @@ std::vector<BrokenSupermode> make_broken_supermodes(
 
 VisualizationConfig load_config_from_file(const std::string &supergroup_number,
                                           const std::string &subgroup_number,
-                                          const std::string &wps_label) {
+                                          const std::string &wps_label,
+                                          const int num_supermodes) {
     constexpr char config_filename[] = "config/visualization_config.cfg";
     config::VisualizationConfigs configs{};
     if (!utils::proto::read_from_text_file(config_filename, configs)) {
         throw std::runtime_error(fmt::format("Failed to load config file '{}'", config_filename));
     }
-    for (const auto &custom_config : configs.custom_config()) {
-        for (const auto &key : custom_config.key()) {
-            if (key.has_supergroup_number() && key.supergroup_number() != supergroup_number) {
+    for (const auto &conditional_config : configs.conditional_config()) {
+        for (const auto &condition : conditional_config.condition()) {
+            if (condition.has_supergroup_number() &&
+                condition.supergroup_number() != supergroup_number) {
                 continue;
             }
-            if (key.has_subgroup_number() && key.subgroup_number() != subgroup_number) {
+            if (condition.has_subgroup_number() && condition.subgroup_number() != subgroup_number) {
                 continue;
             }
-            if (key.has_wps_label() && key.wps_label() != wps_label) {
+            if (condition.has_wps_label() && condition.wps_label() != wps_label) {
                 continue;
             }
-            if (!custom_config.has_value()) {
-                throw std::runtime_error("Custom config missing value!");
+            if (condition.has_num_supermodes() && condition.num_supermodes() != num_supermodes) {
+                continue;
             }
-            return VisualizationConfig(custom_config.value());
+            if (!conditional_config.has_value()) {
+                throw std::runtime_error("Conditional config missing value!");
+            }
+            return VisualizationConfig(conditional_config.value());
         }
     }
-    if (!configs.has_default_config()) {
-        throw std::runtime_error("Configs file missing default config!");
-    }
-    return VisualizationConfig(configs.default_config());
+    throw std::runtime_error("Unable to find any visualization config!");
 }
 
 Visualizer::Visualizer(const diagnose2::Superband &superband,
@@ -361,7 +363,8 @@ Visualizer::Visualizer(const diagnose2::Superband &superband,
     : superband{superband},
       subband{subband},
       data{data},
-      vis_config_{load_config_from_file(data.super_msg.number, data.sub_msg.number, data.wp)} {
+      vis_config_{load_config_from_file(
+          data.super_msg.number, data.sub_msg.number, data.wp, superband.num_supermodes())} {
     constexpr bool ALL_EDGES = true;
     drawn_subk_idxs = make_kpath_indices(data.sub_msg, !ALL_EDGES);
     for (const auto &kpoint : vis_config_.additional_kpath_points) {
