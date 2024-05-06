@@ -60,6 +60,7 @@ magnon_cc_binary(
     data = ["//data:summary_data"],
     deps = [
         "//config:output_dirs",
+        "//diagnose:latexify",
         "//summary:is_positive",
         "//summary:msg_summary_proto_cc",
         "//summary:visualizer",
@@ -121,5 +122,23 @@ sh_binary(
     ],
     deps = [
         "@bazel_tools//tools/bash/runfiles",
+    ],
+)
+
+magnon_cc_binary(
+    name = "step_7_si_formulas",
+    srcs = ["step_7_si_formulas.cpp"],
+    data = ["//data:summary_data"],
+    deps = [
+        "//config:output_dirs",
+        "//diagnose:latexify",
+        "//formula:replace_formulas",
+        "//summary:is_positive",
+        "//summary:msg_summary_proto_cc",
+        "//summary:visualizer",
+        "//utils:proto_text_format",
+        "@boost//:program_options",
+        "@fmt",
+        "@range-v3",
     ],
 )

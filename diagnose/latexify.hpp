@@ -12,6 +12,7 @@ namespace magnon {
 std::string latexify_greeks(const std::string &label);
 std::string latexify_sis(const SpectrumData &data);
 std::string latexify_comp_rels(const SpectrumData &data);
+std::string latexify_row(const IntMatrix &ints, const std::vector<std::string> &strs);
 std::string latexify_super_to_sub_axis(const SpectrumData &data, int axis_idx);
 
 std::string latexify_super_to_sub(const SpectrumData &data);

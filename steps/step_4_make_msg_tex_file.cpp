@@ -122,7 +122,9 @@ void MsgTexGenerator::generate() {
                                ranges::views::join(std::string(", "));
         out_ << fmt::format(
             "\\textbf{{Nontrivial-SI Subgroups:}} {}.\\\\\n"
-            "\\textbf{{Trivial-SI Subgroups:}} {}.\\\\\n",
+            "\n"
+            "\\textbf{{Trivial-SI Subgroups:}} {}.\\\\\n"
+            "\n",
             subgroups | nontrivial_view | join_view | ranges::to<std::string>,
             subgroups | trivial_view | join_view | ranges::to<std::string>);
     }
@@ -140,26 +142,62 @@ void MsgTexGenerator::generate() {
                 if (material.has_temperature_k()) {
                     result = fmt::format("{}~({} K)", result, material.temperature_k());
                 }
+                if (material.reference_size() > 0) {
+                    // #TODO: Handle more than one reference.
+                    assert(material.reference_size() == 1);
+                    const std::string with_escaped_underscore =
+                        material.reference(0) | ranges::views::split('_') |
+                        ranges::views::join(std::string("\\_")) | ranges::to<std::string>;
+                    result = fmt::format(
+                        "{{{0}}}\\footnote{{BCS web page: \\texttt{{\\href{{{1}}} {{{1}}}}}}}",
+                        result,
+                        with_escaped_underscore);
+                }
                 return result;
             }) |
             ranges::views::join(std::string(", ")) | ranges::to<std::string>;
-        out_ << fmt::format("\\textbf{{BCS Materials:}} {}.\n", materials);
+        out_ << fmt::format("\\textbf{{BCS Materials:}} {}.\\\\\n", materials);
 
         for (const auto &pert_summary : wps_summary.perturbation_summary()) {
             if (!is_diagnosed_positive(pert_summary)) {
                 // Skipping trivial perturbation.
                 continue;
             }
-
             const auto &pert = pert_summary.perturbation();
-
             out_ << fmt::format("\\subsubsection{{Topological bands in subgroup ${}$}}\n",
                                 human_readable_msg_label(pert.subgroup()));
+
             out_ << fmt::format(
-                "\\begin{{center}}\n"
+                "\\textbf{{Perturbation{}:}}\n"
+                "\\begin{{itemize}}\n"
+                "{}.\n"
+                "\\end{{itemize}}\n",
+                pert.group_subgroup_relation().perturbation_prescription_size() > 1 ? "s" : "",
+                pert.group_subgroup_relation().perturbation_prescription() |
+                    ranges::views::transform([](const std::string &presc) {
+                        const std::string replacement_1 =
+                            presc | ranges::views::split(std::string("perp")) |
+                            ranges::views::join(std::string("$\\perp$")) | ranges::to<std::string>;
+                        const std::string replacement_2 =
+                            replacement_1 | ranges::views::split(std::string("parallel")) |
+                            ranges::views::join(std::string("$\\parallel$")) |
+                            ranges::to<std::string>;
+                        return fmt::format("\\item {}", replacement_2);
+                    }) |
+                    ranges::views::join(std::string(",\n")) | ranges::to<std::string>);
+
+            out_ << fmt::format(
+                "\\begin{{figure}}[H]\n"
+                "\\centering\n"
                 "\\includegraphics[scale=0.6]{{{}}}\n"
-                "\\end{{center}}\n",
-                make_fig_filepath(wps_summary, pert.subgroup(), "pdf"));
+                "\\caption{{Topological magnon bands in subgroup ${}$ for magnetic moments on "
+                "Wyckoff position{} ${}$ of supergroup ${}$.}}\n"
+                "\\end{{figure}}\n",
+                make_fig_filepath(wps_summary, pert.subgroup(), "pdf"),
+                human_readable_msg_label(pert.subgroup()),
+                wps_summary.wp_label_size() > 1 ? "s" : "",
+                make_wps_encoding(wps_summary.wp_label()),
+                human_readable_msg_label(pert.supergroup()));
             out_ << fmt::format("\\input{{{}}}\n",
                                 make_gap_table_pathname(wps_summary, pert.subgroup()));
             out_ << fmt::format("\\input{{{}}}\n",

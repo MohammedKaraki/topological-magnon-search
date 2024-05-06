@@ -1,4 +1,4 @@
-#include "latexify.hpp"
+#include "diagnose/latexify.hpp"
 
 #include <cassert>
 #include <fstream>
@@ -103,7 +103,7 @@ std::string latexify_greeks(const std::string &label) {
     return std::regex_replace(label, std::regex(R"(GM)"), R"(\Gamma)");
 }
 
-static std::string latexify_row(const IntMatrix &ints, const std::vector<std::string> &strs) {
+std::string latexify_row(const IntMatrix &ints, const std::vector<std::string> &strs) {
     assert(ints.size() == static_cast<int>(strs.size()));
     assert(ints.size() > 0);
 
