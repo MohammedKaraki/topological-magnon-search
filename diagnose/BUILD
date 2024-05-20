@@ -111,13 +111,13 @@ magnon_cc_library(
     srcs = ["visualize.cpp"],
     hdrs = ["visualize.hpp"],
     data = [
-        "//config:visualize_config_base_cfg",
+        "//config:visualization_config_proto_cc",
     ],
     deps = [
         ":entities",
         ":latexify",
         ":spectrum_data",
-        "//config:visualize_config_proto_cc",
+        "//config:visualization_config_proto_cc",
         "//utils:proto_text_format",
         "@fmt",
     ],

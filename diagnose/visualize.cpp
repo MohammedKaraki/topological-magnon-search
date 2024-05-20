@@ -16,7 +16,7 @@
 
 #include "fmt/core.h"
 
-#include "config/visualize_config.pb.h"
+#include "config/visualization_config.pb.h"
 #include "entities.hpp"
 #include "latexify.hpp"
 #include "spectrum_data.hpp"
@@ -949,15 +949,15 @@ std::pair<VisMode, VisSpec> mode_spec_pair_from_file(const std::optional<std::st
     VisMode mode{VisMode::Normal};
     VisSpec spec{};
 
-    magnon::config::VisualizeConfig visualize_config{};
+    magnon::config::VisualizationConfig visualize_config{};
     magnon::utils::proto::read_from_text_file(actual_filename, visualize_config);
 
     if (visualize_config.has_mode()) {
         switch (visualize_config.mode()) {
-            case magnon::config::VisualizeConfig::NORMAL:
+            case magnon::config::VisualizationConfig::NORMAL:
                 mode = VisMode::Normal;
                 break;
-            case magnon::config::VisualizeConfig::COMPACT:
+            case magnon::config::VisualizationConfig::COMPACT:
                 mode = VisMode::Compact;
                 break;
             default:
