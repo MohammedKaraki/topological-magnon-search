@@ -189,15 +189,17 @@ void MsgTexGenerator::generate() {
             out_ << fmt::format(
                 "\\begin{{figure}}[H]\n"
                 "\\centering\n"
-                "\\includegraphics[scale=0.6]{{{}}}\n"
-                "\\caption{{Topological magnon bands in subgroup ${}$ for magnetic moments on "
-                "Wyckoff position{} ${}$ of supergroup ${}$.}}\n"
+                "\\includegraphics[scale=0.6]{{{0}}}\n"
+                "\\caption{{Topological magnon bands in subgroup ${1}$ for magnetic moments on "
+                "Wyckoff position{2} ${3}$ of supergroup ${4}$.\\label{{fig_{5}_{6}_{3}}}}}\n"
                 "\\end{{figure}}\n",
                 make_fig_filepath(wps_summary, pert.subgroup(), "pdf"),
                 human_readable_msg_label(pert.subgroup()),
                 wps_summary.wp_label_size() > 1 ? "s" : "",
                 make_wps_encoding(wps_summary.wp_label()),
-                human_readable_msg_label(pert.supergroup()));
+                human_readable_msg_label(pert.supergroup()),
+                std::string(pert.supergroup().number()),
+                std::string(pert.subgroup().number()));
             out_ << fmt::format("\\input{{{}}}\n",
                                 make_gap_table_pathname(wps_summary, pert.subgroup()));
             out_ << fmt::format("\\input{{{}}}\n",

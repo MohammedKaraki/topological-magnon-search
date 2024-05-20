@@ -624,7 +624,7 @@ void Visualizer::annotate(int x_idx, std::ostringstream &output) {
         output << fmt::format(R"(\node[]at({:3.3f}cm,{:3.3f}cm){{{}}};)"
                               "\n",
                               x_from_x_idx(x_idx),
-                              subband_y_max + 1.0,
+                              subband_y_max + 1.85,
                               gk_code);
         if (x_idx == 0) {
             // output << fmt::format(
@@ -634,9 +634,9 @@ void Visualizer::annotate(int x_idx, std::ostringstream &output) {
             output << fmt::format(R"(\draw[]({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)"
                                   "\n",
                                   -1.0,
-                                  subband_y_max + 1.5 - 0.4,
+                                  subband_y_max + 1.85 - 0.4,
                                   +1.0 + x_from_x_idx(drawn_subk_idxs.size() - 1),
-                                  subband_y_max + 1.5 - 0.4);
+                                  subband_y_max + 1.85 - 0.4);
             output << fmt::format(R"(\draw[]({:3.3f}cm,{:3.3f}cm)--({:3.3f}cm,{:3.3f}cm);)"
                                   "\n",
                                   -1.0,

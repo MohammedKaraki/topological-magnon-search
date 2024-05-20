@@ -8,6 +8,30 @@ _LONGTABLE_TEMPLATE_PATH = "latexify/longtable_template.tex"
 _DOCUMENT_TEMPLATE_PATH = "latexify/document_template.tex"
 
 
+def encode_wps_latex(result):
+    return "+".join(
+        [
+            "${}$".format(atomic_orbital.wyckoff_position.label)
+            for atomic_orbital in result.atomic_orbital
+        ]
+    )
+
+
+def encode_wps(result):
+    return "+".join(
+        [
+            "{}".format(atomic_orbital.wyckoff_position.label)
+            for atomic_orbital in result.atomic_orbital
+        ]
+    )
+
+
+def make_result_key(result: SearchResult):
+    return "{}_{}_{}".format(
+        result.supergroup_number, result.subgroup_number, encode_wps(result)
+    )
+
+
 def tex_document_from_template(body: str, extra_packages: str = ""):
     template = open(_DOCUMENT_TEMPLATE_PATH, "r").read()
     return template.replace("{BODY}", body).replace("{EXTRA_PACKAGES}", extra_packages)
@@ -49,16 +73,10 @@ def _partition(l: list, n: int):
 
 
 def _subgroup_wps_case_from_result(result: SearchResult):
-    wp_labels = "+".join(
-        [
-            "${}$".format(atomic_orbital.wyckoff_position.label)
-            for atomic_orbital in result.atomic_orbital
-        ]
-    )
     return "Supergroup: ${}~({})$, WP: {}, Subgroup: ${}~({})$".format(
         result.supergroup_label,
         result.supergroup_number,
-        wp_labels,
+        encode_wps_latex(result),
         result.subgroup_label,
         result.subgroup_number,
     )
@@ -99,7 +117,7 @@ def possible_gap_count_table_from_result(result: SearchResult):
     )
     return _tex_longtable_from_template(
         caption=caption,
-        label="lablllll",
+        label="gap_table_{}".format(make_result_key(result)),
         num_columns=2,
         header="SI&Possible \#Gaps",
         rows=rows,
@@ -131,7 +149,7 @@ def possible_si_table_from_result(result: SearchResult):
     )
     return _tex_longtable_from_template(
         caption=caption,
-        label="lablllll",
+        label="si_table_{}".format(make_result_key(result)),
         num_columns=2,
         header="Gap\#& Possible SI Values",
         rows=rows,
