@@ -181,6 +181,14 @@ SpectrumData::SpectrumData(const PerturbedBandStructure &spectrum) {
                     continue;
                 }
                 const auto point_irrep = cr2.decomposition().supergroup_irrep();
+                if (result.k1_to_k2_to_irrep_to_lineirreps.contains(k1_star_label) &&
+                    result.k1_to_k2_to_irrep_to_lineirreps.at(k1_star_label)
+                        .contains(k2_star_label) &&
+                    result.k1_to_k2_to_irrep_to_lineirreps.at(k1_star_label)
+                        .at(k2_star_label)
+                        .contains(point_irrep.label())) {
+                    continue;
+                }
                 result
                     .k1_to_k2_to_irrep_to_lineirreps[k1_star_label][k2_star_label]
                                                     [point_irrep.label()]
