@@ -28,6 +28,16 @@ using MsgsSummary = magnon::summary::MsgsSummary;
 using MsgSummary = MsgsSummary::MsgSummary;
 using Msg = magnon::groups::MagneticSpaceGroup;
 
+std::string filter_alnum(const std::string &presc) {
+    std::string result;
+    for (const char c : presc) {
+        if (std::isalnum(c)) {
+            result += c;
+        }
+    }
+    return result;
+}
+
 class MsgTexGenerator {
  public:
     MsgTexGenerator(const std::string &msg, std::ostream &out)
@@ -43,31 +53,34 @@ class MsgTexGenerator {
     }
     std::string make_fig_filepath(const MsgSummary::WpsSummary &wps_summary,
                                   const Msg &subgroup,
+                                  const std::string pert_presc,
                                   const std::string extension) {
-        // TODO: consider duplicate subgroup numbers.
-        return fmt::format("{}/{}_{}_{}_fig.{}",
+        return fmt::format("{}/{}_{}_{}_{}_fig.{}",
                            figures_relative_dir,
                            super_msg_number_,
                            subgroup.number(),
+                           filter_alnum(pert_presc),
                            make_wps_encoding(wps_summary.wp_label()),
                            extension);
     }
     std::string make_gap_table_pathname(const MsgSummary::WpsSummary &wps_summary,
-                                        const Msg &subgroup) {
-        // TODO: consider duplicate subgroup numbers.
-        return fmt::format("{}/{}_{}_{}_table.tex",
+                                        const Msg &subgroup,
+                                        const std::string pert_presc) {
+        return fmt::format("{}/{}_{}_{}_{}_table.tex",
                            gap_tables_relative_dir,
                            super_msg_number_,
                            subgroup.number(),
+                           filter_alnum(pert_presc),
                            make_wps_encoding(wps_summary.wp_label()));
     }
     std::string make_si_table_pathname(const MsgSummary::WpsSummary &wps_summary,
-                                       const Msg &subgroup) {
-        // TODO: consider duplicate subgroup numbers.
-        return fmt::format("{}/{}_{}_{}_table.tex",
+                                       const Msg &subgroup,
+                                       const std::string pert_presc) {
+        return fmt::format("{}/{}_{}_{}_{}_table.tex",
                            si_tables_relative_dir,
                            super_msg_number_,
                            subgroup.number(),
+                           filter_alnum(pert_presc),
                            make_wps_encoding(wps_summary.wp_label()));
     }
     const auto &supergroup() const {
@@ -186,24 +199,26 @@ void MsgTexGenerator::generate() {
                     }) |
                     ranges::views::join(std::string(",\n")) | ranges::to<std::string>);
 
+            const std::string presc = pert.group_subgroup_relation().perturbation_prescription(0);
             out_ << fmt::format(
                 "\\begin{{figure}}[H]\n"
                 "\\centering\n"
                 "\\includegraphics[scale=0.6]{{{0}}}\n"
                 "\\caption{{Topological magnon bands in subgroup ${1}$ for magnetic moments on "
-                "Wyckoff position{2} ${3}$ of supergroup ${4}$.\\label{{fig_{5}_{6}_{3}}}}}\n"
+                "Wyckoff position{2} ${3}$ of supergroup ${4}$.\\label{{fig_{5}_{6}_{7}_{3}}}}}\n"
                 "\\end{{figure}}\n",
-                make_fig_filepath(wps_summary, pert.subgroup(), "pdf"),
+                make_fig_filepath(wps_summary, pert.subgroup(), presc, "pdf"),
                 human_readable_msg_label(pert.subgroup()),
                 wps_summary.wp_label_size() > 1 ? "s" : "",
                 make_wps_encoding(wps_summary.wp_label()),
                 human_readable_msg_label(pert.supergroup()),
                 std::string(pert.supergroup().number()),
-                std::string(pert.subgroup().number()));
+                std::string(pert.subgroup().number()),
+                filter_alnum(presc));
             out_ << fmt::format("\\input{{{}}}\n",
-                                make_gap_table_pathname(wps_summary, pert.subgroup()));
+                                make_gap_table_pathname(wps_summary, pert.subgroup(), presc));
             out_ << fmt::format("\\input{{{}}}\n",
-                                make_si_table_pathname(wps_summary, pert.subgroup()));
+                                make_si_table_pathname(wps_summary, pert.subgroup(), presc));
         }
     }
 }

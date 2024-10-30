@@ -99,7 +99,7 @@ def _make_multirows_rows(column_index_to_cells: List[List[str]]):
     return rows
 
 
-def possible_gap_count_table_from_result(result: SearchResult):
+def possible_gap_count_table_from_result(result: SearchResult, presc_for_label):
     rows = []
     for si in result.si_to_possible_gap_count:
         cell_1 = si.replace("undefined (gap closed)", "gapless").replace(
@@ -117,14 +117,14 @@ def possible_gap_count_table_from_result(result: SearchResult):
     )
     return _tex_longtable_from_template(
         caption=caption,
-        label="gap_table_{}".format(make_result_key(result)),
+        label="gap_table_{}_{}".format(make_result_key(result), presc_for_label),
         num_columns=2,
         header="SI&Possible \#Gaps",
         rows=rows,
     )
 
 
-def possible_si_table_from_result(result: SearchResult):
+def possible_si_table_from_result(result: SearchResult, presc_for_label):
     rows = []
     for gap in result.gap_to_possible_si_values:
         cells_1 = [str(gap)]
@@ -149,7 +149,7 @@ def possible_si_table_from_result(result: SearchResult):
     )
     return _tex_longtable_from_template(
         caption=caption,
-        label="si_table_{}".format(make_result_key(result)),
+        label="si_table_{}_{}".format(make_result_key(result), presc_for_label),
         num_columns=2,
         header="Gap\#& Possible SI Values",
         rows=rows,

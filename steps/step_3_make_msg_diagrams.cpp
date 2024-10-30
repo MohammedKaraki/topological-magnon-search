@@ -41,7 +41,6 @@ int main(const int argc, const char *const argv[]) {
         return result;
     }();
 
-    std::multiset<std::string> filename_bases{};
     for (const auto &wps_summary : msg_summary.wps_summary()) {
         for (auto &pert_summary : wps_summary.perturbation_summary()) {
             const auto &perturbation = pert_summary.perturbation();
@@ -65,12 +64,21 @@ int main(const int argc, const char *const argv[]) {
                 return result;
             }();
 
-            const std::string filename = fmt::format("{}_{}_{}_fig.tex",
-                                                     perturbation.supergroup().number(),
-                                                     perturbation.subgroup().number(),
-                                                     wps);
-            filename_bases.insert(filename);
-            // const int filename_base_count = filename_bases.count(filename);
+            auto filter_alnum = [](const std::string &presc) {
+                std::string result;
+                for (const char c : presc) {
+                    if (std::isalnum(c)) {
+                        result += c;
+                    }
+                }
+                return result;
+            };
+            const std::string filename = fmt::format(
+                "{}_{}_{}_{}_fig.tex",
+                perturbation.supergroup().number(),
+                perturbation.subgroup().number(),
+                filter_alnum(perturbation.group_subgroup_relation().perturbation_prescription(0)),
+                wps);
             const std::string figure_filepath = fmt::format("{}/{}", figures_dir, filename);
             Visualizer(superband, subband, data).dump(figure_filepath);
             std::cerr << fmt::format("Output: {}\n", figure_filepath);

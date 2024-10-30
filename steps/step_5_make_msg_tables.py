@@ -6,6 +6,7 @@ from magnon.latexify.latexify_result import (
 )
 from google.protobuf import text_format
 from config.output_dirs_python import get_output_dirs
+import re
 
 output_dirs = get_output_dirs()
 msg_summary_dir = output_dirs["msg_summary_dir"]
@@ -26,21 +27,23 @@ def main():
             if result.is_negative_diagnosis:
                 continue
 
-            si_table = possible_si_table_from_result(result)
-            gap_table = possible_gap_count_table_from_result(result)
+            presc = pert_summary.perturbation.group_subgroup_relation.perturbation_prescription[0]
+
+            si_table = possible_si_table_from_result(result, filter_alnum(presc))
+            gap_table = possible_gap_count_table_from_result(result, filter_alnum(presc))
 
             wps = [str(orb.wyckoff_position.label) for orb in result.atomic_orbital]
 
             def write_to_file(text, pathname):
                 print(text, file=open(pathname, "w"))
                 print("Output: {}".format(pathname))
-
             write_to_file(
                 si_table,
                 make_table_filepath(
                     si_tables_dir,
                     result.supergroup_number,
                     result.subgroup_number,
+                    presc,
                     wps,
                 ),
             )
@@ -50,16 +53,21 @@ def main():
                     gap_tables_dir,
                     result.supergroup_number,
                     result.subgroup_number,
+                    presc,
                     wps,
                 ),
             )
 
 
-def make_table_filepath(tables_dir, supergroup_number, subgroup_number, wps):
+def make_table_filepath(tables_dir, supergroup_number, subgroup_number, presc, wps):
     wps_encoding = "+".join(sorted(list(wps)))
-    return "{}/{}_{}_{}_table.tex".format(
-        tables_dir, supergroup_number, subgroup_number, wps_encoding
+    return "{}/{}_{}_{}_{}_table.tex".format(
+        tables_dir, supergroup_number, subgroup_number, filter_alnum(presc), wps_encoding
     )
+
+def filter_alnum(s):
+    return re.sub(r'[^A-Za-z0-9]+', '', s)
+
 
 
 class CommandLineArgs:

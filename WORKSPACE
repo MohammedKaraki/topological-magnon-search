@@ -6,13 +6,14 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 BAZEL_TOOLCHAIN_TAG = "0.8.2"
 
-BAZEL_TOOLCHAIN_SHA = "0fc3a2b0c9c929920f4bed8f2b446a8274cad41f5ee823fd3faa0d7641f20db0"
+BAZEL_TOOLCHAIN_SHA = "3e251524b3e8f3b9ec93848e5267c168424f43b7b554efc983a5291c33d78cde"
+
 
 http_archive(
     name = "com_grail_bazel_toolchain",
     canonical_id = BAZEL_TOOLCHAIN_TAG,
     sha256 = BAZEL_TOOLCHAIN_SHA,
-    strip_prefix = "bazel-toolchain-{tag}".format(tag = BAZEL_TOOLCHAIN_TAG),
+    strip_prefix = "toolchains_llvm-{tag}".format(tag = BAZEL_TOOLCHAIN_TAG),
     url = "https://github.com/grailbio/bazel-toolchain/archive/refs/tags/{tag}.tar.gz".format(tag = BAZEL_TOOLCHAIN_TAG),
 )
 
@@ -174,7 +175,7 @@ http_archive(
 http_archive(
     name = "pybind11",
     build_file = "@pybind11_bazel//:pybind11.BUILD",
-    sha256 = "b3e8c9dcc58356b92dbe5ce7fbc159130be937e754717e21e8a3eef86b583c45",
+    sha256 = "fd234e17d99db1d21bf0db1890f9e2d761b733566b1779eb4834fa6144ad1d33",
     strip_prefix = "pybind11-2.11",
     urls = ["https://github.com/pybind/pybind11/archive/v2.11.tar.gz"],
 )

@@ -57,10 +57,21 @@ int main(const int argc, const char *const argv[]) {
                 return result;
             }();
 
-            const std::string filename = fmt::format("{}_{}_{}_fig.tex",
-                                                     perturbation.supergroup().number(),
-                                                     perturbation.subgroup().number(),
-                                                     wps);
+            auto filter_alnum = [](const std::string &presc) {
+                std::string result;
+                for (const char c : presc) {
+                    if (std::isalnum(c)) {
+                        result += c;
+                    }
+                }
+                return result;
+            };
+            const std::string filename = fmt::format(
+                "{}_{}_{}_{}_fig.tex",
+                perturbation.supergroup().number(),
+                perturbation.subgroup().number(),
+                filter_alnum(perturbation.group_subgroup_relation().perturbation_prescription(0)),
+                wps);
             const std::string command =
                 fmt::format("cd {0} && pdflatex {1} 1>/dev/null && pdflatex {1} 1>/dev/null",
                             figures_dir,
