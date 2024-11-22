@@ -41,4 +41,5 @@ results in the following figure:
 
 
 # References
-TBD
+Results: https://doi.org/10.48550/arXiv.2410.18873
+
